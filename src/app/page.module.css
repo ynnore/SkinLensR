@@ -1,0 +1,46 @@
+.mainPageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.chatContainer {
+  width: 100%;
+  max-width: 900px;
+  height: 85vh;
+  max-height: 800px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.pageHeader { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
+.headerLeft { display: flex; align-items: center; gap: 0.75rem; }
+.headerLeft span { font-size: 0.9rem; color: var(--text-secondary); }
+.headerLeft h1 { font-size: 1rem; font-weight: 500; margin: 0; }
+.headerRight { display: flex; align-items: center; gap: 0.5rem; }
+.moreButton, .shareButton { background-color: var(--button-primary-bg); color: var(--button-primary-text); border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.moreButton { padding: 0.5rem; }
+
+.messagesArea { flex-grow: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+.messageBubble { display: flex; gap: 1rem; max-width: 85%; }
+.userMessage { align-self: flex-end; flex-direction: row-reverse; }
+.assistantMessage { align-self: flex-start; }
+.avatar { width: 32px; height: 32px; border-radius: 50%; background-color: var(--hover-bg); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.robotAvatar { background-color: var(--text-primary); color: var(--bg-main); font-weight: bold; }
+.messageContent { margin: 0; line-height: 1.6; }
+
+.pageFooter { padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); flex-shrink: 0; }
+.inputWrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem; }
+.inputWrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 0.5rem; color: var(--text-primary); }
+.footerActions { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-secondary); }
+.moderateDropdown { margin-left: auto; cursor: pointer; display: flex; align-items: center; gap: 0.25rem; }
+.sendButton { background-color: var(--button-primary-bg); color: var(--button-primary-text); border: none; border-radius: 6px; width: 32px; height: 32px; cursor: pointer; font-size: 1.2rem; }
+.iconButton { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0.5rem; font-size: 1.1rem; }

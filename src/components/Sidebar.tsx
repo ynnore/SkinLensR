@@ -1,127 +1,76 @@
-// src/components/Sidebar.tsx
-'use client';
+"use client";
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  FaTachometerAlt, FaSearch, FaFolder, FaLink, FaCreditCard, FaBoxOpen,
-  FaHistory, FaLaptopCode, FaCog, FaFileContract, FaShieldAlt
-} from 'react-icons/fa';
-import { HiOutlineSparkles } from "react-icons/hi"; // Logo alternatif
+import styles from './Sidebar.module.css';
+import { useState, useCallback } from 'react';
+import UserDropdown from './UserDropdown';
+import { FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaWrench, FaCog, FaFileContract, FaKey, FaSun, FaMoon, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
-import styles from './Sidebar.module.css'; // Importez le CSS Module
+const navLinks = [
+  { href: '#', label: 'Scan', icon: FaFire },
+  { href: '#', label: 'Dashboard', icon: FaCompass },
+  { href: '#', label: 'Files', icon: FaFileAlt },
+  { href: '#', label: 'Connections', icon: FaLink },
+  { href: '#', label: 'Pay', icon: FaCoins },
+];
+const footerLinks = [
+  { href: '#', label: 'Settings', icon: FaCog },
+  { href: '#', label: 'Terms', icon: FaFileContract },
+  { href: '#', label: 'Privacy Policy', icon: FaKey },
+];
 
 interface SidebarProps {
   isOpen: boolean;
+  toggleSidebar: () => void;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
 }
 
-const menuItems = [
-  { href: '/run', label: 'Run', icon: FaTachometerAlt },
-  { href: '/discover', label: 'Discover', icon: FaSearch },
-  { href: '/files', label: 'Files', icon: FaFolder },
-  { href: '/connections', label: 'Connections', icon: FaLink },
-  { href: '/pay', label: 'Pay', icon: FaCreditCard },
-  { href: '#', label: 'Coming Soon', icon: FaBoxOpen, disabled: true },
-  { href: '/recent-runs', label: 'Recent Runs', icon: FaHistory },
-  { href: '/app-development', label: 'App Development', icon: FaLaptopCode },
-];
-
-const bottomMenuItems = [
-  { href: '/settings', label: 'Settings', icon: FaCog },
-  { href: '/terms', label: 'Terms', icon: FaFileContract },
-  { href: '/privacy-policy', label: 'Privacy Policy', icon: FaShieldAlt },
-];
-
-interface MenuItemLayoutProps {
-  href: string;
-  label: string;
-  icon: React.ElementType;
-  isOpen: boolean;
-  disabled?: boolean;
-  currentPathname: string;
-}
-
-function MenuItemLayout({ href, label, icon: Icon, isOpen, disabled, currentPathname }: MenuItemLayoutProps) {
-  const isActive = !disabled && currentPathname === href;
-
-  let linkClassName = styles.menuItemLink;
-  if (isActive && !disabled) { // S'assurer que disabled n'est pas actif pour le style 'active'
-    linkClassName += ` ${styles.active}`;
-  }
-  if (disabled) {
-    linkClassName += ` ${styles.disabled}`;
-  }
-
-  let iconClassName = styles.menuItemIcon;
-  if (isOpen) {
-    iconClassName += ` ${styles.menuItemIconOpen}`;
-  } else {
-    iconClassName += ` ${styles.menuItemIconClosed}`;
-  }
-
-  let labelClassName = styles.menuItemLabel;
-  if (isOpen) {
-    labelClassName += ` ${styles.menuItemLabelOpen}`;
-  } else {
-    labelClassName += ` ${styles.menuItemLabelClosed}`;
-  }
+export default function Sidebar({ isOpen, toggleSidebar, isDarkMode, toggleTheme }: SidebarProps) {
+  const [isMenuOpen, setMenuOpen] = useState(false);
+  const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
 
   return (
-    <Link
-      href={disabled ? '#' : href}
-      className={linkClassName}
-      aria-disabled={disabled}
-      onClick={(e) => disabled && e.preventDefault()}
-    >
-      <Icon className={iconClassName} />
-      <span className={labelClassName}>
-        {label}
-      </span>
-    </Link>
-  );
-}
+    <aside className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
+      <button onClick={toggleSidebar} className={styles.collapseButton}>
+        {isOpen ? <FaAngleLeft /> : <FaAngleRight />}
+      </button>
 
-export default function Sidebar({ isOpen }: SidebarProps) {
-  const currentPathname = usePathname();
-
-  const sidebarClassName = `${styles.sidebar} ${isOpen ? styles.sidebarOpen : styles.sidebarClosed}`;
-
-  return (
-    <div className={sidebarClassName}>
-      <div className={styles.sidebarHeader}>
-        <Link href="/" className={styles.logoLink}>
-          {isOpen ? (
-            'SkinLensr' // Texte lorsque la sidebar est ouverte
-          ) : (
-            <HiOutlineSparkles className={styles.logoIconSL} /> // Icône lorsque la sidebar est fermée
-          )}
-        </Link>
+      <div className={styles.header}>
+        <button onClick={toggleMenu} className={styles.logoButton}>
+          <div className={styles.logo}>S</div>
+        </button>
+        <span className={styles.headerTitle}>Beta </span>
+        <button onClick={toggleTheme} className={styles.themeToggle}>
+          {isDarkMode ? <FaSun /> : <FaMoon />}
+        </button>
+        {isMenuOpen && <UserDropdown />}
       </div>
 
       <nav className={styles.nav}>
-        {menuItems.map((item) => (
-          <MenuItemLayout
-            key={item.label}
-            {...item}
-            isOpen={isOpen}
-            currentPathname={currentPathname}
-          />
-        ))}
+        <ul>
+          {navLinks.map((link) => (
+            <li key={link.label}>
+              <Link href={link.href} className={styles.navLink}>
+                <link.icon className={styles.navIcon} />
+                <span className={styles.navLabel}>{link.label}</span>
+                {link.isComingSoon && <span className={styles.comingSoon}>Coming Soon</span>}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </nav>
 
-      {/* Section pour les items du bas de la sidebar */}
-      <div className={styles.sidebarFooter}>
-        {bottomMenuItems.map((item) => (
-          <MenuItemLayout
-            key={item.label}
-            {...item}
-            isOpen={isOpen}
-            currentPathname={currentPathname}
-            
-          />
-        ))}
-        
+      <div className={styles.footer}>
+        <ul>
+          {footerLinks.map((link) => (
+            <li key={link.label}>
+              <Link href={link.href} className={styles.navLink}><link.icon className={styles.navIcon} />
+              <span className={styles.navLabel}>{link.label}</span></Link>
+            </li>
+          ))}
+        </ul>
       </div>
-    </div>
+    </aside>
   );
 }

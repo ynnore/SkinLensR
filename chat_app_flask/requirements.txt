@@ -1,3 +1,14 @@
-google-cloud-aiplatform >= 1.31.0
-flask
-google-cloud-logging
+Flask
+Flask-Cors
+google-cloud-aiplatform
+protobuf<5.0.0
+openai
+langchain==0.1.19
+langchain-core==0.3.60
+langchain-community
+langdetect
+googletrans==4.0.0rc1
+opencv-python
+Pillow
+python-dotenv
+requests

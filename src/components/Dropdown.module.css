@@ -1,0 +1,61 @@
+/* Fichier: src/components/UserDropdown.module.css */
+
+.dropdown {
+  position: absolute; /* Élément clé : sort du flux normal de la page */
+  top: calc(var(--header-height) + 5px); /* Se positionne juste sous le header, avec un petit espace */
+  right: 2rem; /* S'aligne avec le padding droit du header */
+  width: 280px;
+  background-color: var(--sidebar-bg); /* Utilise les variables de thème */
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 0.75rem;
+  z-index: 50; /* Doit être au-dessus de tout le reste */
+  animation: fadeIn 0.1s ease-out; /* Petite animation d'apparition */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profileSection {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.menuItem:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--text-primary);
+}
+
+.menuItem svg {
+  font-size: 1rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 0.75rem 0;
+}
