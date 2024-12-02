@@ -1,8 +1,8 @@
 <div style="display: flex; align-items: center;">
-  <h1><img src="/static/images/icon.png" alt="App Icon" width="25" height="25"> MedAI</h1>
+  <h1><img src="/static/images/icon.png" alt="App Icon" width="25" height="25"> SkinLens</h1>
 </div>
 
-MedAI is a Flask application that utilizes AI algorithms to detect skin diseases and provide treatment susceptibility for patients. It offers an intelligent system that analyzes patient data and provides valuable insights for effective disease diagnosis and treatment planning.
+SkinLens is a Flask application that utilizes AI algorithms to detect skin diseases and provide treatment susceptibility for patients. It offers an intelligent system that analyzes patient data and provides valuable insights for effective disease diagnosis and treatment planning.
 
 ## Preview
 
@@ -10,10 +10,10 @@ MedAI is a Flask application that utilizes AI algorithms to detect skin diseases
 
 ## Features
 
-- Skin Disease Detection: MedAI leverages advanced AI algorithms to analyze patient symptoms and data to accurately detect various diseases.
-- Treatment Susceptibility: Based on the detected disease, MedAI provides valuable information on treatment susceptibility, assisting healthcare professionals in making informed decisions.
-- User-Friendly Interface: MedAI offers an intuitive and easy-to-use interface, making it accessible for both medical professionals and patients.
-- Data Privacy and Security: MedAI prioritizes data privacy and security, ensuring that patient information is handled with the utmost confidentiality and adheres to industry standards.
+- Skin Disease Detection: SkinLens leverages advanced AI algorithms to analyze patient symptoms and data to accurately detect various diseases.
+- Treatment Susceptibility: Based on the detected disease, SkinLens provides valuable information on treatment susceptibility, assisting healthcare professionals in making informed decisions.
+- User-Friendly Interface: SkinLens offers an intuitive and easy-to-use interface, making it accessible for both medical professionals and patients.
+- Data Privacy and Security: SkinLens prioritizes data privacy and security, ensuring that patient information is handled with the utmost confidentiality and adheres to industry standards.
 
 
 <!--h1 without bottom border-->
@@ -55,12 +55,12 @@ Make sure you have the following dependencies installed before running the proje
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/MedAI.git
+   git clone https://github.com/your-username/SkinLens.git
 
 2. Navigate to the project directory:
 
    ```bash
-   cd MedAI
+   cd SkinLens
 
 3. Install the required dependencies:
 
@@ -81,8 +81,8 @@ Make sure you have the following dependencies installed before running the proje
 For any inquiries or feedback, please contact us at dev.younes.ammari@gmail.com.
 
 ## Website
-Visit the MedAI website for more information and live demos.
+Visit the SkinLens website for more information and live demos.
 
-Check out the live demo of the application [https://medai.onrender.com](https://medai.onrender.com).
+Check out the live demo of the application [https://SkinLens.onrender.com](https://SkinLens.onrender.com).
 
 
