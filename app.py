@@ -39,6 +39,11 @@ def signup():
 def dashboard():
     return render_template('dashboard.html')
 
+ # Extract Imperfection best photo
+ # Call Google Lens API for image correspondance. 
+ # Call Chat GPT API for medecin recomendation. 
+ # Call google API 
+  
 def findMedicine(pred):
     if pred == 0:
         return "fluorouracil"

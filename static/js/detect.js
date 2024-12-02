@@ -43,19 +43,16 @@ function displayResponse(response) {
   // Create the disease element
   var diseaseElement = document.createElement('p');
   diseaseElement.textContent = 'Disease: ' + response.disease;
-  diseaseElement.style.color = 'white';
   diseaseElement.style.marginTop = '7px';
 
   // Create the accuracy element
   var accuracyElement = document.createElement('p');
   accuracyElement.textContent = 'Accuracy: ' + response.accuracy + " %";
-  accuracyElement.style.color = 'white';
   accuracyElement.style.marginTop = '7px';
 
   // Create the medicine element
   var medicineElement = document.createElement('p');
   medicineElement.textContent = 'Medicine: ' + response.medicine;
-  medicineElement.style.color = 'white';
   medicineElement.style.marginTop = '7px';
 
   // Append the elements to the container

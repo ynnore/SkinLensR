@@ -1,47 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    <title>MedicineAI</title>
-    <meta name="description" content="Skin Disease detection and treatment management susceptibility by AI">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="keywords" content="medicine, AI, disease detection, treatment management">
-    <meta name="author" content="MedAI">
-    <meta name="robots" content="index, follow">
-    
-    <!-- OpenGraph Meta Tags -->
-    <meta property="og:title" content="MedicineAI">
-    <meta property="og:description" content="Skin Disease detection and treatment management susceptibility by AI">
-    <meta property="og:image" content="/static/images/og-image.jpg">
-    <meta property="og:url" content="https://medai.onrender.com">
-    <meta property="og:type" content="website">
+        <!-- SEO Meta Tags -->
+        <meta name="description" content="Skin Lens is a mobile application for Skin imperfection diagnosis " />
+        <meta name="author" content="Your name" />
 
-    <!-- CSS Stylesheets -->
-    <link rel="stylesheet" href="/static/css/index.css">
-    <link rel="stylesheet" href="/static/css/styles.css">
+        <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
+        <meta property="og:site_name" content="" /> <!-- website name -->
+        <meta property="og:site" content="" /> <!-- website link -->
+        <meta property="og:title" content="" /> <!-- title shown in the actual shared post -->
+        <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
+        <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
+        <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
+        <meta name="twitter:card" content="summary_large_image" /> <!-- to have large image post format in Twitter -->
 
-    <!-- JavaScript -->
-    <script src="/static/js/main.js"></script>
-</head>
+        <!-- Webpage Title -->
+        <title>Skin Lens</title>
+
+        <!-- Styles -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+        <link href="/static/css/fontawesome-all.css" rel="stylesheet" />
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+        <link href="/static/css/swiper.css" rel="stylesheet" />
+        <link href="/static/css/magnific-popup.css" rel="stylesheet" />
+        <link href="/static/css/styles.css" rel="stylesheet" />
+
+        <!-- Favicon  -->
+        <link rel="icon" href="/static/images/favicon.png" />
+    </head>
+    <body data-spy="scroll" data-target=".fixed-top">
+
+        <!-- Navigation -->
+        <nav class="navbar fixed-top">
+            <div class="container sm:px-4 lg:px-8 flex flex-wrap items-center justify-between lg:flex-nowrap">
+                
+                <!-- Text Logo - Use this if you don't have a graphic logo -->
+                <!-- <a class="text-gray-800 font-semibold text-3xl leading-4 no-underline page-scroll" href="index.html">Skin Lens</a> -->
+
+                <!-- Image Logo -->
+                <a class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline" href="index.html">
+                    <img src="/static/images/logo.svg" alt="alternative" class="h-8" />
+                </a>
+
+                <button class="background-transparent rounded text-xl leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400" type="button" data-toggle="offcanvas">
+                    <span class="navbar-toggler-icon inline-block w-8 h-8 align-middle"></span>
+                </button>
+
+                <div class="navbar-collapse offcanvas-collapse lg:flex lg:flex-grow lg:items-center" id="navbarsExampleDefault">
+                    <ul class="pl-0 mt-3 mb-2 ml-auto flex flex-col list-none lg:mt-0 lg:mb-0 lg:flex-row">
+                        <li>
+                            <a class="nav-link page-scroll" href="index.html#header">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li>
+                            <a class="nav-link page-scroll" href="index.html#features">Offres</a>
+                        </li>
+                        <li>
+                            <a class="nav-link page-scroll" href="index.html#details">Conseils</a>
+                        </li>
+                        <li>
+                            <a class="nav-link page-scroll" href="index.html#pricing">Espace PRO</a>
+                        </li>
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Nous</a>
+                            <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                <a class="dropdown-item page-scroll" href="article.html">BLOG</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item page-scroll" href="terms.html">Terms Conditions</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item page-scroll" href="privacy.html">Privacy Policy</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="nav-link page-scroll" href="#download">Download</a>
+                        </li>
+                    </ul>
+                    <span class="block lg:ml-3.5">
+                        <a class="no-underline" href="#your-link">
+                            <i class="fab fa-apple text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200 mr-1.5"></i>
+                        </a>
+                        <a class="no-underline" href="#your-link">
+                            <i class="fab fa-android text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200"></i>
+                        </a>
+                    </span>
+                </div> <!-- end of navbar-collapse -->
+            </div> <!-- end of container -->
+        </nav> <!-- end of navbar -->
+        <!-- end of navigation -->
+
+        <!-- Header -->
+        <header id="header" class="header py-28 text-center md:pt-36 lg:text-left xl:pt-44 xl:pb-32">
+            <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
+                <div class="mb-16 lg:mt-32 xl:mt-40 xl:mr-12">
+                    <h1 class="h1-large mb-5">Analysons votre peau en 3 sec</h1>
+                    <p class="p-large mb-8">Votre peau est unique. Notre analyse personnalisée évalue ses besoins et ses carences uniques afin de vous aider à choisir les produits les plus adaptés, pour prendre les bonnes décisions pour votre peau.</p>
+                    <a class="btn-solid-lg" href="#your-link" onclick="location.href='detect';"><i class="fab fa-google-play"></i>Tester</a>
+                </div>
+                <div class="xl:text-right"> 
+                    <img class="inline" src="/static/images/HP_Screen1.png" alt="alternative" />
+                </div>
+            </div> <!-- end of container -->
+        </header> <!-- end of header -->
+        <!-- end of header -->
 
 
-
-<body>
-    <div class="upper">
-        <!-- <img src="/static/images/medAi_2.png"> -->
-        <img src="/static/images/logo.png">
-        <p>Skin Disease detection and treatment management susceptibility by AI</p>
-    </div>
-
-    <div>
-        <button onclick="location.href='/signin';"> Get started</button>
-    </div>
+        <!-- Introduction -->
+        <div class="pt-4 pb-14 text-center">
+            <div class="container px-4 sm:px-8 xl:px-4">
+                <p class="mb-4 text-gray-800 text-3xl leading-10 lg:max-w-5xl lg:mx-auto"> Skin Venus analyse 8 attributs clés de la peau</p>
+            </div> <!-- end of container -->
+        </div>
+        <!-- end of introduction -->
 
 
-</body>
+        <!-- Features -->
+        <div id="features" class="cards-1">
+            <div class="container px-2 sm:px-12 xl:px-2">
 
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-1.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Ridules</h5>
+                        <p class="mb-3">L’outil d’analyse de la peau se concentre sur les zones délicates autour des yeux et de la bouche où les lignes de déshydratation ont tendance à apparaître. Dites adieu aux devinettes et bonjour aux soins de la peau ciblés. Révélez le véritable potentiel de votre peau avec précision et simplicité.
+                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-2.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Rides des yeux</h5>
+                        <p class="mb-3">Chaque jour, votre peau fait face à plus de 10 000 clignements, ce qui peut entraîner une perte progressive de sa fermeté et de sa souplesse naturelles. Fabriqué avec une technologie de pointe, cet outil d’analyse de la peau en ligne nourrit doucement votre peau, améliorant son élasticité et sa souplesse.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-3.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Rides</h5>
+                        <p class="mb-3">Notre outil d’analyse de la peau plonge profondément dans les subtilités du vieillissement, en examinant la proéminence de cinq rides, ridules et plis distincts qui émergent au fil du temps. Il s’agit notamment des rides du front, des lignes glabellaires, des lignes périorbitaires, des plis nasogéniens et des rides de marionnette. Avec précision et soin, Skin Lens analyse la gravité de ces marqueurs et vous guide vers un parcours personnalisé vers le rajeunissement.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-4.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Rides profondes</h5>
+                        <p class="mb-3">L’outil Skin Lens se concentre sur les zones sujettes aux tensions musculaires : le front, les pattes d’oie délicates et les contours de la bouche. L’approche de cet outil d’analyse de la peau est ancrée dans des soins de la peau intelligents, conçus pour vous aider à maintenir une apparence naturelle et jeune.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-5.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Fermeté</h5>
+                        <p class="mb-4">L’outil Skin Lens se concentre sur la résilience de votre peau dans deux zones clés qui succombent souvent aux effets du vieillissement : le haut des joues et les contours inférieurs. Ces zones, sujettes à un relâchement progressif, font l’objet d’une évaluation approfondie par l’outil d’analyse de la peau en ligne pour vous fournir des informations qui répondent à vos besoins uniques.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-6.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Qualité des pores</h5>
+                        <p class="mb-4">L’outil Skin Lens vous aide à identifier les pores dilatés qui flanquent les deux côtés de votre nez. Ces pores dilatés peuvent provenir de facteurs tels qu’une peau grasse, des régions desséchées ou la présence de points noirs.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-6.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Pigmentation</h5>
+                        <p class="mb-4">Le processus de l’outil d’analyse de la peau en ligne implique une évaluation approfondie de l’uniformité de la peau, où nous analysons méticuleusement la pigmentation naturelle et identifions tout cas de décoloration sur vos joues. Cette zone spécifique est très sensible aux dommages environnementaux et au développement de taches brunes.                        </p>
+                    </div>
+                </div>
+                <!-- end of card -->
+
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/static/images/features-icon-6.svg" alt="alternative" />
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Éclat</h5>
+                        <p class="mb-4">En plongeant dans l’univers de la beauté éclatante, notre outil Skin Lens vous dévoile les secrets de l’éclat. Il analyse méticuleusement la façon dont la lumière se reflète sur vos joues. Cet éclat vital peut souvent être affecté par une peau déshydratée, la présence de rides, de pores dilatés, de reflets rouges et de marques subtiles de taches visibles. Avec un œil vif, cet outil d’analyse de la peau en ligne déchiffre ces reflets complexes, offrant des informations pour restaurer l’éclat naturel de votre peau.</p>
+                    </div>
+                </div>
+                <!-- end of card -->
+            </div> <!-- end of container -->
+        </div> <!-- end of cards-1 -->
+        <!-- end of features -->
+
+
+        <!-- Details 1 -->
+        <div id="details" class="pt-12 pb-16 lg:pt-16">
+            <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-12 lg:gap-x-12">
+                <div class="lg:col-span-5">
+                    <div class="mb-16 lg:mb-0 xl:mt-16">
+                        <h2 class="mb-6">Comment utiliser cet outil d’analyse de peau ?</h2>
+                        <p class="mb-4">1- Enlevez vos lunettes et votre maquillage, et attachez vos cheveux pour les garder hors de votre visage. Maintenant, cliquez sur un selfie sous un éclairage naturel bien éclairé pour obtenir l’analyse de peau la plus précise. Évitez de faire la moue, de froncer les sourcils ou de sourire en cliquant sur l’image, maintenez une expression faciale neutre.</p>
+                        <p class="mb-4">2- Une fois la qualité de votre selfie vérifiée, sélectionnez votre âge, votre type de peau (sèche, normale, mixte ou grasse), et précisez la sensibilité de votre peau. À l’aide de ces informations, l’outil d’analyse de la peau peut créer une routine de soins de la peau personnalisée rien que pour vous.</p>
+                        <p class="mb-4">3- Une fois que Skin Lens aura calculé vos résultats, vous obtiendrez non seulement une recommandation de routine de soins de la peau sur mesure, mais vous obtiendrez également des informations sur les forces de votre peau et les zones d’intérêt spécifiques pour chacune des 8 caractéristiques de la peau. Veuillez noter que nous ne conservons pas votre selfie – il sera rapidement supprimé une fois l’analyse de peau en ligne terminée.</p>
+                        <p class="mb-4">4- Après avoir terminé Skin Genius, vous avez la possibilité de télécharger vos routines individuelles dans le portefeuille de votre téléphone. Cela vous permet d’avoir votre ordonnance de soins de la peau personnalisée disponible où que vous alliez.</p>
+
+                    </div>
+                </div> <!-- end of col -->
+                <div class="lg:col-span-7">
+                    <div class="xl:ml-14">
+                        <img class="inline" src="/static/images/HP_Screen2.png" alt="alternative" />
+                    </div>
+                </div> <!-- end of col -->
+            </div> <!-- end of container -->
+        </div>
+        <!-- end of details 1 -->
+
+
+        <!-- Statistics -->
+        <div class="counter">
+            <div class="container px-4 sm:px-8">
+                
+                <!-- Counter -->
+                <div id="counter">
+                    <div class="cell">
+                        <div class="counter-value number-count" data-count="231">1</div>
+                        <p class="counter-info">Happy Users</p>
+                    </div>
+                    <div class="cell">
+                        <div class="counter-value number-count" data-count="385">1</div>
+                        <p class="counter-info">Issues Solved</p>
+                    </div>
+                    <div class="cell">
+                        <div class="counter-value number-count" data-count="159">1</div>
+                        <p class="counter-info">Good Reviews</p>
+                    </div>
+                    <div class="cell">
+                        <div class="counter-value number-count" data-count="127">1</div>
+                        <p class="counter-info">Case Studies</p>
+                    </div>
+                    <div class="cell">
+                        <div class="counter-value number-count" data-count="211">1</div>
+                        <p class="counter-info">Orders Received</p>
+                    </div>
+                </div>
+                <!-- end of counter -->
+
+            </div> <!-- end of container -->
+        </div> <!-- end of counter -->
+        <!-- end of statistics -->
+        <!-- Footer -->
+        <div class="footer">
+            <div class="container px-4 sm:px-8">
+                <h4 class="mb-8 lg:max-w-3xl lg:mx-auto">Skin Lens is a mobile application for Skin imperfection diagnosis and you can reach the team at <a class="text-indigo-600 hover:text-gray-500" href="mailto:support@clipeus.info">support@clipeus.info</a></h4>
+                <div class="social-container">
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-facebook-f fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-twitter fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-pinterest-p fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-instagram fa-stack-1x"></i>
+                        </a>
+                    </span>
+                    <span class="fa-stack">
+                        <a href="#your-link">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-youtube fa-stack-1x"></i>
+                        </a>
+                    </span>
+                </div> <!-- end of social-container -->
+            </div> <!-- end of container -->
+        </div> <!-- end of footer -->
+        <!-- end of footer -->
+
+
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-3">
+                <ul class="mb-4 list-unstyled p-small">
+                    <li class="mb-2"><a href="article.html">Article Details</a></li>
+                    <li class="mb-2"><a href="terms.html">Terms & Conditions</a></li>
+                    <li class="mb-2"><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+                <p class="pb-2 p-small statement">Copyright © <a href="#your-link" class="no-underline">Your name</a></p>
+
+                <p class="pb-2 p-small statement">Distributed by :<a href="https://themewagon.com/" class="no-underline">Themewagon</a></p>
+            </div> 
+
+        <!-- end of container -->
+        </div> <!-- end of copyright -->
+        <!-- end of copyright -->
+
+
+        <!-- Scripts -->
+        <script src="/static/js/jquery.min.js"></script> <!-- jQuery for JavaScript plugins -->
+        <script src="/static/js/jquery.easing.min.js"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
+        <script src="/static/js/swiper.min.js"></script> <!-- Swiper for image and text sliders -->
+        <script src="/static/js/jquery.magnific-popup.js"></script> <!-- Magnific Popup for lightboxes -->
+        <script src="/static/js/scriptsCss.js"></script> <!-- Custom scripts -->
+    </body>
 </html>
