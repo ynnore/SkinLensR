@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Skin Lens - Votre Jumeau Numérique</title>
+
+    <!-- Styles (vous pouvez réutiliser ceux de vos autres pages ou ajouter des styles spécifiques) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/fontawesome-all.css') }}" rel="stylesheet" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+    <!-- Si vous avez un CSS spécifique pour cette page -->
+    <!-- <link href="{{ url_for('static', filename='css/render_skin.css') }}" rel="stylesheet" /> -->
+
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
+
+    <style>
+        /* Styles rapides pour centrer et styliser un peu */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f4f8; /* Un fond léger comme dans votre screenshot */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 80px; /* Pour le navbar fixe */
+        }
+        .content-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 900px; /* Limiter la largeur */
+            width: 90%;
+        }
+        .rendered-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .action-links a {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .link-primary {
+            background-color: #4F46E5; /* Couleur indigo-600 de Tailwind */
+            color: white;
+        }
+        .link-primary:hover {
+            background-color: #4338CA; /* indigo-700 */
+        }
+        .link-secondary {
+            background-color: #E5E7EB; /* gray-200 */
+            color: #374151; /* gray-700 */
+        }
+        .link-secondary:hover {
+            background-color: #D1D5DB; /* gray-300 */
+        }
+        h1 {
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1F2937; /* gray-800 */
+        }
+        .error-message {
+            color: #EF4444; /* red-500 */
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation (vous pouvez inclure votre navbar ici si elle est commune) -->
+    <nav class="navbar fixed-top">
+        <div class="container sm:px-4 lg:px-8 flex flex-wrap items-center justify-between lg:flex-nowrap">
+            <a class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline" href="{{ url_for('index') }}">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Skin Lens Logo" class="h-8" />
+            </a>
+            <!-- Ajouter d'autres éléments de nav si besoin, ou un lien retour simple -->
+            <a href="{{ url_for('detect_route') }}" class="nav-link">Nouvelle Analyse</a>
+        </div>
+    </nav>
+
+    <div class="content-container">
+        <h1>Votre Jumeau Numérique</h1>
+
+        {% if rendered_image_url %}
+            <p>Voici le rendu de votre jumeau numérique personnalisé :</p>
+            <img src="{{ rendered_image_url }}" alt="Jumeau Numérique Rendu" class="rendered-image">
+            
+            <div class="action-links">
+                <a href="{{ rendered_image_url }}" download class="link-primary">
+                    <i class="fas fa-download"></i> Télécharger l'Image
+                </a>
+                <a href="{{ url_for('detect_route') }}" class="link-secondary">
+                    <i class="fas fa-undo"></i> Analyser une autre image
+                </a>
+            </div>
+        {% else %}
+            <p class="error-message">
+                Désolé, une erreur s'est produite lors de la génération de votre jumeau numérique, ou aucune image n'a été générée.
+            </p>
+            <div class="action-links">
+                <a href="{{ url_for('detect_route') }}" class="link-secondary">
+                    <i class="fas fa-undo"></i> Réessayer
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer et Copyright (simplifié, à adapter de votre index.html si besoin) -->
+    <div class="footer mt-auto py-8 text-center text-sm text-gray-600">
+        <p>© {{ now.year }} Skin Lens. Tous droits réservés.</p> <!-- 'now.year' nécessite de passer 'now' depuis Flask ou d'utiliser JS -->
+    </div>
+
+    <!-- Scripts (si vous en avez besoin spécifiquement pour cette page) -->
+    <!-- <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script> -->
+
+</body>
+</html>

@@ -5,203 +5,204 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
         <!-- SEO Meta Tags -->
-        <meta name="description" content="Pavo is a mobile app Tailwind CSS HTML template created to help you present benefits, features and information about mobile apps in order to convince visitors to download them" />
-        <meta name="author" content="Your name" />
+        <meta name="description" content="Skin Lens - Page de diagnostic d'imperfections de la peau." />
+        <meta name="author" content="Your name" /> <!-- Remplacez Your name -->
 
-        <!-- OG Meta Tags to improve the way the post looks when you share the page on Facebook, Twitter, LinkedIn -->
-        <meta property="og:site_name" content="" /> <!-- website name -->
-        <meta property="og:site" content="" /> <!-- website link -->
-        <meta property="og:title" content="" /> <!-- title shown in the actual shared post -->
-        <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
-        <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
-        <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
-        <meta name="twitter:card" content="summary_large_image" /> <!-- to have large image post format in Twitter -->
+        <!-- OG Meta Tags -->
+        <meta property="og:site_name" content="Skin Lens" />
+        <meta property="og:site" content="{{ url_for('index', _external=True) }}" /> <!-- Lien vers votre site -->
+        <meta property="og:title" content="Skin Lens - Diagnostic de Peau" />
+        <meta property="og:description" content="Uploadez une photo pour analyser votre peau et obtenir des recommandations." />
+        <meta property="og:image" content="{{ url_for('static', filename='images/og-image-detect.jpg') }}" /> <!-- Créez une image og pour cette page -->
+        <meta property="og:url" content="{{ url_for('detect_route', _external=True) }}" />
+        <meta name="twitter:card" content="summary_large_image" />
 
         <!-- Webpage Title -->
-        <title>Pavo Webpage Title</title>
+        <title>Skin Lens - Diagnostic</title>
 
         <!-- Styles -->
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
-        <link href="/static/css/fontawesome-all.css" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/fontawesome-all.css') }}" rel="stylesheet" />
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-        <link href="/static/css/swiper.css" rel="stylesheet" />
-        <link href="/static/css/magnific-popup.css" rel="stylesheet" />
-        <link href="/static/css/styles.css" rel="stylesheet" />
-        <link rel="stylesheet" href="/static/css/detect.css">
+        <link href="{{ url_for('static', filename='css/swiper.css') }}" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/magnific-popup.css') }}" rel="stylesheet" />
+        <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/detect.css') }}"> <!-- Assurez-vous que ce fichier existe -->
+        
         <!-- Favicon  -->
-        <link rel="icon" href="/static/images/favicon.png" />
+        <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" />
     </head>
     <body data-spy="scroll" data-target=".fixed-top">
 
         <!-- Navigation -->
         <nav class="navbar fixed-top">
             <div class="container sm:px-4 lg:px-8 flex flex-wrap items-center justify-between lg:flex-nowrap">
-                
-                <!-- Text Logo - Use this if you don't have a graphic logo -->
-                <!-- <a class="text-gray-800 font-semibold text-3xl leading-4 no-underline page-scroll" href="index.html">Pavo</a> -->
-
-                <!-- Image Logo -->
-                <a class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline" href="index.html">
-                    <img src="/static/images/logo.svg" alt="alternative" class="h-8" />
+                <a class="inline-block mr-4 py-0.5 text-xl whitespace-nowrap hover:no-underline focus:no-underline" href="{{ url_for('index') }}">
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="alternative" class="h-8" />
                 </a>
-
                 <button class="background-transparent rounded text-xl leading-none hover:no-underline focus:no-underline lg:hidden lg:text-gray-400" type="button" data-toggle="offcanvas">
                     <span class="navbar-toggler-icon inline-block w-8 h-8 align-middle"></span>
                 </button>
-
                 <div class="navbar-collapse offcanvas-collapse lg:flex lg:flex-grow lg:items-center" id="navbarsExampleDefault">
                     <ul class="pl-0 mt-3 mb-2 ml-auto flex flex-col list-none lg:mt-0 lg:mb-0 lg:flex-row">
-                        <li>
-                            <a class="nav-link page-scroll" href="index.html#header">Home <span class="sr-only">(current)</span></a>
-                        </li>
-                        <li>
-                            <a class="nav-link page-scroll" href="index.html#features">Offres</a>
-                        </li>
-                        <li>
-                            <a class="nav-link page-scroll" href="index.html#details">Conseils</a>
-                        </li>
-                        <li>
-                            <a class="nav-link page-scroll" href="index.html#pricing">Espace PRO</a>
-                        </li>
-                        <li class="dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Nous</a>
-                            <div class="dropdown-menu" aria-labelledby="dropdown01">
-                                <a class="dropdown-item page-scroll" href="article.html">BLOG</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item page-scroll" href="terms.html">Terms Conditions</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item page-scroll" href="privacy.html">Privacy Policy</a>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="nav-link page-scroll" href="#download">Download</a>
-                        </li>
+                        <li><a class="nav-link page-scroll" href="{{ url_for('index') }}#header">Home</a></li>
+                        <!-- ... autres liens de navigation ... -->
+                        <li><a class="nav-link page-scroll" href="{{ url_for('detect_route') }}">Diagnostic</a></li>
                     </ul>
-                    <span class="block lg:ml-3.5">
-                        <a class="no-underline" href="#your-link">
-                            <i class="fab fa-apple text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200 mr-1.5"></i>
-                        </a>
-                        <a class="no-underline" href="#your-link">
-                            <i class="fab fa-android text-indigo-600 hover:text-pink-500 text-xl transition-all duration-200"></i>
-                        </a>
-                    </span>
-                </div> <!-- end of navbar-collapse -->
-            </div> <!-- end of container -->
-        </nav> <!-- end of navbar -->
+                </div> 
+            </div> 
+        </nav>
         <!-- end of navigation -->
 
         <!-- Header -->
         <header id="header" class="header py-28 text-center md:pt-36 lg:text-left xl:pt-44 xl:pb-32">
-            <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-2 lg:gap-x-8">
-              <div class="center">
-                <div class="container-photo">
-            
+            <div class="container px-4 sm:px-8">
+              <div class="max-w-2xl mx-auto">
+                <h1 class="h1-large mb-5">Analysez Votre Peau</h1>
+                <p class="p-large mb-8">Uploadez une photo claire de la zone concernée pour obtenir une analyse et des recommandations.</p>
+                
+                <div class="container-photo mb-6">
                   <figure class="image-container">
-                    <img id="chosen-image" src="">
-            
+                    <img id="chosen-image" src="#" alt="Image choisie" style="display:none; max-width: 100%; height: auto; margin-bottom: 1rem; border: 1px solid #ddd; padding: 5px;">
                   </figure>
-                  <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="file" name="file" id="upload" accept="image/*">
-                    <label for="upload"> choisir une Photo</label>
-                    
+                  <!-- Le formulaire n'a plus besoin d'ID spécifique si on ne le soumet pas directement -->
+                  <form enctype="multipart/form-data">
+                    <input type="file" name="file" id="upload-button" accept="image/*" class="hidden" required> <!-- 'required' pour validation HTML5 -->
+                    <label for="upload-button" class="btn-solid-lg cursor-pointer mb-4 inline-block">
+                        <i class="fas fa-camera"></i> Choisir une Photo
+                    </label>
                   </form>
                 </div>
             
-                <div id="loading-spinner" class="spinner">
+                <!-- Bouton Analyser -->
+                <button id="analyze-button" class="btn-solid-lg" style="display:none;"> <!-- Caché initialement -->
+                    <i class="fas fa-search"></i> Analyser
+                </button>
+
+                <div id="loading-spinner" class="spinner" style="display:none; margin-top: 1rem; font-size: 1.5rem;">
                   <i class="fas fa-spinner fa-spin"></i>
-                  <p>detecting ...</p>
+                  <p>Analyse en cours...</p>
                 </div>
             
-                <!-- Add a container for the result -->
-                <div id="result-container"></div>
-            
-                <!-- Add a container for the error message -->
-                <div id="error-container"></div>
+                <div id="result-container" class="mt-8 p-4 border rounded bg-gray-50" style="display:none; text-align: left;"></div>
               </div>
-              <button id="results" onclick="detectFunction()"> Analyser
-                <span class="material-symbols-outlined">
-                  
-                </span></button>
-            
-            
-              <div>
-                <h4 class="mb-8 lg:max-w-3xl lg:mx-auto">
-                <p>{{ json_response }}</p>
-                </h4>
-              </div>
-            
-            
-            
-              <script src="/static/js/detect.js"></script>
-            </div> <!-- end of container -->
-        </header> <!-- end of header -->
-        <!-- end of header -->
+            </div> 
+        </header>
 
-        <!-- Footer -->
+        <!-- Footer et Copyright comme avant -->
         <div class="footer">
             <div class="container px-4 sm:px-8">
               <h4 class="mb-8 lg:max-w-3xl lg:mx-auto">Skin Lens is a mobile application for Skin imperfection diagnosis and you can reach the team at <a class="text-indigo-600 hover:text-gray-500" href="mailto:support@clipeus.info">support@clipeus.info</a></h4>
               <div class="social-container">
                     <span class="fa-stack">
-                        <a href="#your-link">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-facebook-f fa-stack-1x"></i>
-                        </a>
+                        <a href="#your-link"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-facebook-f fa-stack-1x"></i></a>
                     </span>
                     <span class="fa-stack">
-                        <a href="#your-link">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-twitter fa-stack-1x"></i>
-                        </a>
+                        <a href="#your-link"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x"></i></a>
                     </span>
                     <span class="fa-stack">
-                        <a href="#your-link">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-pinterest-p fa-stack-1x"></i>
-                        </a>
+                        <a href="#your-link"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-pinterest-p fa-stack-1x"></i></a>
                     </span>
                     <span class="fa-stack">
-                        <a href="#your-link">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-instagram fa-stack-1x"></i>
-                        </a>
+                        <a href="#your-link"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-instagram fa-stack-1x"></i></a>
                     </span>
                     <span class="fa-stack">
-                        <a href="#your-link">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-youtube fa-stack-1x"></i>
-                        </a>
+                        <a href="#your-link"><i class="fas fa-circle fa-stack-2x"></i><i class="fab fa-youtube fa-stack-1x"></i></a>
                     </span>
-                </div> <!-- end of social-container -->
-            </div> <!-- end of container -->
-        </div> <!-- end of footer -->
-        <!-- end of footer -->
+                </div>
+            </div>
+        </div>
 
-
-        <!-- Copyright -->
         <div class="copyright">
             <div class="container px-4 sm:px-8 lg:grid lg:grid-cols-3">
                 <ul class="mb-4 list-unstyled p-small">
-                    <li class="mb-2"><a href="article.html">Article Details</a></li>
-                    <li class="mb-2"><a href="terms.html">Terms & Conditions</a></li>
-                    <li class="mb-2"><a href="privacy.html">Privacy Policy</a></li>
+                    <li class="mb-2"><a href="{{ url_for('static', filename='article.html') }}">Article Details</a></li>
+                    <li class="mb-2"><a href="{{ url_for('static', filename='terms.html') }}">Terms & Conditions</a></li>
+                    <li class="mb-2"><a href="{{ url_for('static', filename='privacy.html') }}">Privacy Policy</a></li>
                 </ul>
                 <p class="pb-2 p-small statement">Copyright © <a href="#your-link" class="no-underline">Your name</a></p>
-
                 <p class="pb-2 p-small statement">Distributed by :<a href="https://themewagon.com/" class="no-underline">Themewagon</a></p>
             </div> 
-
-        <!-- end of container -->
-        </div> <!-- end of copyright -->
-        <!-- end of copyright -->
-
+        </div>
 
         <!-- Scripts -->
-        <script src="/static/js/jquery.min.js"></script> <!-- jQuery for JavaScript plugins -->
-        <script src="/static/js/jquery.easing.min.js"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
-        <script src="/static/js/swiper.min.js"></script> <!-- Swiper for image and text sliders -->
-        <script src="/static/js/jquery.magnific-popup.js"></script> <!-- Magnific Popup for lightboxes -->
-        <script src="/static/js/scriptsCss.js"></script> <!-- Custom scripts -->
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/scriptsCss.js') }}"></script> 
+
+        <script>
+            const uploadInput = document.getElementById('upload-button'); // Renommé pour clarté
+            const chosenImage = document.getElementById('chosen-image');
+            const analyzeButton = document.getElementById('analyze-button');
+            const resultContainer = document.getElementById('result-container');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            let currentFile = null; // Pour stocker le fichier sélectionné
+
+            uploadInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    currentFile = file; // Stocker le fichier
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        chosenImage.src = e.target.result;
+                        chosenImage.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                    analyzeButton.style.display = 'inline-block'; // Afficher le bouton Analyser
+                    resultContainer.innerHTML = ''; // Cacher les anciens résultats
+                    resultContainer.style.display = 'none';
+                } else {
+                    currentFile = null;
+                    chosenImage.style.display = 'none';
+                    analyzeButton.style.display = 'none';
+                }
+            });
+
+            analyzeButton.addEventListener('click', async () => {
+                if (!currentFile) {
+                    alert("Veuillez d'abord choisir une photo.");
+                    return;
+                }
+
+                resultContainer.innerHTML = ''; // Nettoyer les anciens résultats
+                resultContainer.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+                analyzeButton.disabled = true; // Désactiver le bouton pendant l'analyse
+
+                const formData = new FormData();
+                formData.append('file', currentFile);
+
+                try {
+                    const response = await fetch("{{ url_for('detect_route') }}", {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        let html = '<h2>Résultats de la Détection:</h2>';
+                        html += `<p><strong>Maladie/Condition:</strong> ${data.disease || 'N/A'}</p>`;
+                        html += `<p><strong>Précision:</strong> ${data.accuracy || 'N/A'}%</p>`;
+                        html += `<p><strong>Suggestion:</strong> ${data.medicine || 'N/A'}</p>`;
+                        resultContainer.innerHTML = html;
+
+                        if (data.render_page_url) {
+                            resultContainer.innerHTML += `<p class="mt-4"><a href="${data.render_page_url}" target="_blank" class="btn-outline-lg">Voir le Jumeau Numérique</a></p>`;
+                        } else if (data.render_error) {
+                            resultContainer.innerHTML += `<p class="mt-4 text-red-500">Jumeau Numérique: ${data.render_error}</p>`;
+                        }
+                    } else {
+                        resultContainer.innerHTML = `<p class="text-red-600">Erreur d'analyse: ${data.error || 'Une erreur inconnue est survenue.'}</p>`;
+                    }
+                } catch (error) {
+                    resultContainer.innerHTML = `<p class="text-red-600">Erreur de communication avec le serveur: ${error}. Veuillez vérifier votre connexion et réessayer.</p>`;
+                } finally {
+                    loadingSpinner.style.display = 'none';
+                    resultContainer.style.display = 'block';
+                    analyzeButton.disabled = false; // Réactiver le bouton
+                }
+            });
+        </script>
     </body>
 </html>
