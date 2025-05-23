@@ -1,0 +1,22 @@
+# Ignorer l'environnement virtuel Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignorer les fichiers Git
+.git/
+.gitignore
+.gitattributes
+
+# Ignorer les fichiers VS Code
+.vscode/
+
+# Dossiers spécifiques à votre projet que vous ne voulez pas dans le worker Blender
+# Par exemple, si le worker Blender n'a pas besoin des templates web
+# templates/
+# static/
+
+# Fichiers de log ou temporaires
+*.log
