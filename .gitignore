@@ -1,0 +1,54 @@
+*.zip
+venv/O
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.Python
+pip-wheel-metadata/
+.installed.cfg
+*.egg
+*.whl
+
+# Environnement virtuel
+venv/
+env/
+.venv/
+.env/
+
+# Fichiers IDE / Éditeur
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+# Ajoutez Skinlens.code-workspace si c'est spécifique à votre machine
+# Skinlens.code-workspace
+
+# Fichiers générés par Blender
+*.blend1
+*.blend2
+# Ajoutez d'autres sauvegardes auto de Blender si besoin
+
+# Fichiers temporaires / Uploads / Renders locaux
+uploads/
+output/
+output_renders/ # Si vous ne voulez pas commiter les exemples de rendus
+# skinlensr-blender-worker:latest # Ceci n'est pas un fichier mais un nom d'image Docker
+
+# Fichiers de modèle volumineux (considérez Git LFS si vous devez les versionner)
+model.h5
+model.json # Si très gros ou généré, sinon vous pouvez le garder
+
+# Captures d'écran de test ou fichiers temporaires personnels
+Screenshot Try.png
+screenshot.png
+
+# Fichiers liés au build Docker qui ne sont pas le Dockerfile lui-même
+# (par exemple, les images exportées, mais vous ne devriez pas commiter d'images Docker)
+
+# Fichiers système
+.DS_Store
+Thumbs.db
