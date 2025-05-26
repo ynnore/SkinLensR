@@ -106,6 +106,8 @@
         <button id="mic-btn" title="Microphone">🎤</button>
         <button id="speaker-btn" title="Speaker">🔊</button>
         <button id="render-3d-btn" title="3D Rendering">🧊</button>
+        <button id="thumbs-up-btn" title="Pouce vert">👍</button>
+        <button id="thumbs-down-btn" title="Pouce rouge">👎</button>
       </div>
       <div id="result"></div>
     </div>
@@ -127,11 +129,57 @@
                 let content = data.content;
                 let resultDiv = document.getElementById("result");
                 resultDiv.innerHTML = content;
+
+                // Analyse de sentiment de la réponse du bot
+                let sentiment = analyserSentiment(content);
+                console.log("Sentiment analysé de la réponse :", sentiment);
+                // Ici, vous pourriez utiliser le 'sentiment' pour, par exemple,
+                // mettre à jour l'interface utilisateur ou envoyer des données analytiques.
               })
               .catch((error) => {
                 console.error("Error fetching Gemini response:", error);
+                document.getElementById("result").innerHTML = "Erreur lors de la récupération de la réponse.";
               });
           });
+
+        document.getElementById("thumbs-up-btn").addEventListener("click", function() {
+            let responseContent = document.getElementById("result").innerText;
+            console.log("Feedback positif donné pour la réponse :", responseContent);
+            // Ici, vous pouvez ajouter du code pour envoyer ce feedback à votre backend
+        });
+
+        document.getElementById("thumbs-down-btn").addEventListener("click", function() {
+            let responseContent = document.getElementById("result").innerText;
+            console.log("Feedback négatif donné pour la réponse :", responseContent);
+            // Ici, vous pouvez ajouter du code pour envoyer ce feedback à votre backend
+        });
+
+        /**
+         * Analyse de sentiment basique d'un texte.
+         * Ceci est un exemple très simplifié et ne doit pas être utilisé en production
+         * pour une analyse de sentiment fiable.
+         * Pour des besoins réels, utilisez des bibliothèques NLP dédiées ou des APIs.
+         * @param {string} texte Le texte à analyser.
+         * @returns {string} Le sentiment détecté ("positif", "négatif", "neutre").
+         */
+        function analyserSentiment(texte) {
+            if (!texte) return "neutre";
+            const texteLower = texte.toLowerCase();
+            
+            // Mots-clés très basiques
+            const motsPositifs = ["bien", "super", "génial", "excellent", "merci", "bon", "parfait", "heureux", "joie"];
+            const motsNegatifs = ["mal", "mauvais", "terrible", "problème", "pas bien", "triste", "erreur", "difficile"];
+
+            let scorePositif = motsPositifs.filter(mot => texteLower.includes(mot)).length;
+            let scoreNegatif = motsNegatifs.filter(mot => texteLower.includes(mot)).length;
+
+            if (scorePositif > scoreNegatif) {
+                return "positif";
+            } else if (scoreNegatif > scorePositif) {
+                return "négatif";
+            }
+            return "neutre";
+        }
       };
     </script>
   </body>
