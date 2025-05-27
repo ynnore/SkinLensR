@@ -1,186 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vertex AI PaLM API Chat Demo</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-
-      .chat-container {
-        background-color: #ffffff;
-        border-radius: 5px;
-        padding: 20px;
-        width: 80%;
-        max-width: 600px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      }
-
-      h1 {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-
-      #chat-form {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-      }
-
-      #user-input {
-        flex-grow: 1;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-      }
-
-      #submitBtn {
-        background-color: #4caf50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 15px;
-        margin-left: 10px;
-        cursor: pointer;
-      }
-
-      #submitBtn:hover {
-        background-color: #45a049;
-      }
-
-      #result {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 20px;
-        background-color: #f8f8f8;
-        min-height: 100px;
-        overflow-wrap: break-word;
-      }
-
-      #input-toolbar {
-        display: flex;
-        justify-content: flex-start; /* Aligns items to the start */
-        gap: 10px; /* Space between buttons */
-        margin-bottom: 20px; /* Space before the result div */
-        /* chat-form already has margin-bottom: 20px, creating space above */
-      }
-
-      #input-toolbar button {
-        background-color: #f0f0f0;
-        color: #333;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 6px 10px;
-        cursor: pointer;
-        font-size: 1.2em; /* Adjust icon size */
-        line-height: 1; /* Better vertical alignment for text/icons */
-      }
-    </style>
+    <title>SkinGPT - Votre Assistant Cutané</title>
+    
+    <!-- Lier le fichier CSS externe -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   </head>
   <body>
-    <div class="chat-container">
-      <h1>Deep Skin Gpt</h1>
-      <form id="chat-form">
-        <input
-          type="text"
-          id="user-input"
-          name="user_input"
-          placeholder="Your query..."
-        />
-        <button type="submit" id="submitBtn">Send</button>
-      </form>
-      <div id="input-toolbar">
-        <button id="add-files-btn" title="Add files, camera, photos">+</button>
-        <button id="tools-btn" title="Tools">🔧</button>
-        <button id="mic-btn" title="Microphone">🎤</button>
-        <button id="speaker-btn" title="Speaker">🔊</button>
-        <button id="render-3d-btn" title="3D Rendering">🧊</button>
-        <button id="thumbs-up-btn" title="Pouce vert">👍</button>
-        <button id="thumbs-down-btn" title="Pouce rouge">👎</button>
-      </div>
-      <div id="result"></div>
+    <div class="sidebar">
+        <div class="sidebar-brand-container">
+            <div class="sidebar-brand-logo">SG</div>
+            <span class="sidebar-brand-name">SkinGPT</span>
+        </div>
+        <button class="new-chat-btn" id="newChatButton">
+            <span class="new-chat-plus-icon">+</span>
+            Nouveau chat
+        </button>
+        <div id="chat-history-sidebar"></div>
     </div>
 
-    <script>
-      window.onload = function () {
-        document
-          .getElementById("chat-form")
-          .addEventListener("submit", function (event) {
-            // Prevent the form from submitting and refreshing the page
-            event.preventDefault();
+    <div class="user-avatar">R</div>
 
-            let userInput = document.getElementById("user-input").value;
-            let url = `/gemini?user_input=${encodeURIComponent(userInput)}`;
+    <div class="chat-container">
+      <h1>Que peux t-on faire pour vous aujourd'hui ?</h1>
+      
+      <div id="chatMessagesDisplayArea">
+          <!-- Le disclaimer sera ajouté ici par JS au début -->
+      </div>
+      
+      <form id="chat-form">
+        <div class="input-wrapper">
+          <svg class="prompt-icon" width="24" height="24" viewBox="0 0 24 24" fill="#555" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+          <input
+            type="text"
+            id="userInput"
+            name="user_input"
+            placeholder="Votre requête..."
+            autocomplete="off"
+          />
+        </div>
+        <button type="submit" id="sendButton">Envoyer</button>
+      </form>
 
-            fetch(url)
-              .then((response) => response.json())
-              .then((data) => {
-                let content = data.content;
-                let resultDiv = document.getElementById("result");
-                resultDiv.innerHTML = content;
+      <div id="input-toolbar">
+        <button id="uploadImageButton" title="Ajouter image pour 3D">+</button>
+        <button id="captureImageForChatButton" title="Prendre photo pour chat">📸</button>
+        <button id="recordAudioButton" title="Parler au micro">🎤</button>
+        <button id="thumbsUpButton" title="Pouce vert">👍</button>
+        <button id="thumbsDownButton" title="Pouce rouge">👎</button>
+      </div>
 
-                // Analyse de sentiment de la réponse du bot
-                let sentiment = analyserSentiment(content);
-                console.log("Sentiment analysé de la réponse :", sentiment);
-                // Ici, vous pourriez utiliser le 'sentiment' pour, par exemple,
-                // mettre à jour l'interface utilisateur ou envoyer des données analytiques.
-              })
-              .catch((error) => {
-                console.error("Error fetching Gemini response:", error);
-                document.getElementById("result").innerHTML = "Erreur lors de la récupération de la réponse.";
-              });
-          });
+      <div id="disclaimer-area" style="text-align: center; font-size: 0.8em; color: grey; margin-top: 20px;">
+          <p>{{ disclaimer }}</p> <!-- Sera rempli par Flask -->
+      </div>
+    </div>
 
-        document.getElementById("thumbs-up-btn").addEventListener("click", function() {
-            let responseContent = document.getElementById("result").innerText;
-            console.log("Feedback positif donné pour la réponse :", responseContent);
-            // Ici, vous pouvez ajouter du code pour envoyer ce feedback à votre backend
-        });
-
-        document.getElementById("thumbs-down-btn").addEventListener("click", function() {
-            let responseContent = document.getElementById("result").innerText;
-            console.log("Feedback négatif donné pour la réponse :", responseContent);
-            // Ici, vous pouvez ajouter du code pour envoyer ce feedback à votre backend
-        });
-
-        /**
-         * Analyse de sentiment basique d'un texte.
-         * Ceci est un exemple très simplifié et ne doit pas être utilisé en production
-         * pour une analyse de sentiment fiable.
-         * Pour des besoins réels, utilisez des bibliothèques NLP dédiées ou des APIs.
-         * @param {string} texte Le texte à analyser.
-         * @returns {string} Le sentiment détecté ("positif", "négatif", "neutre").
-         */
-        function analyserSentiment(texte) {
-            if (!texte) return "neutre";
-            const texteLower = texte.toLowerCase();
-            
-            // Mots-clés très basiques
-            const motsPositifs = ["bien", "super", "génial", "excellent", "merci", "bon", "parfait", "heureux", "joie"];
-            const motsNegatifs = ["mal", "mauvais", "terrible", "problème", "pas bien", "triste", "erreur", "difficile"];
-
-            let scorePositif = motsPositifs.filter(mot => texteLower.includes(mot)).length;
-            let scoreNegatif = motsNegatifs.filter(mot => texteLower.includes(mot)).length;
-
-            if (scorePositif > scoreNegatif) {
-                return "positif";
-            } else if (scoreNegatif > scorePositif) {
-                return "négatif";
-            }
-            return "neutre";
-        }
-      };
-    </script>
+    <!-- Lier le fichier JavaScript externe -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   </body>
-</html>
+</html>      

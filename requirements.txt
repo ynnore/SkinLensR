@@ -54,3 +54,9 @@ zipp>=3.17.0
 # Ajouter la nouvelle dépendance
 google-cloud-aiplatform
 google-cloud-logginggoogle-cloud-logging
+google-cloud-storage
+google-cloud-tasks
+google-generativeai
+python-dotenv # Si utilisé localement
+Pillow # Pour le traitement d'image dans /chat
+# Ajoutez d'autres dépendances si nécessaire
