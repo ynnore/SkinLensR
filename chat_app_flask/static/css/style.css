@@ -1,395 +1,353 @@
-/* static/css/style.css */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: #f7f7f8; /* Couleur de fond globale légèrement grise */
-    display: flex; /* Pour la disposition sidebar + contenu principal */
-    height: 100vh;
-    overflow: hidden; /* Empêcher le défilement sur le body */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: var(--chat-bg-color);
+  color: var(--text-color);
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Empêche le défilement du body */
 }
 
+.chat-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sidebar */
 .sidebar {
-    width: 260px;
-    background-color: #ffffff; /* Fond blanc pour la sidebar */
-    padding: 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #e0e0e0; /* Séparateur subtil */
-    color: #333; /* Couleur de texte principale pour la sidebar */
+  width: 260px;
+  background-color: var(--sidebar-bg-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
 }
 
-.sidebar-brand {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;/* static/css/style.css */
-    body {
-        font-family: sans-serif;
-        margin: 20px;
-        background-color: #f4f4f4;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    #chat-container { /* Vous pourriez envelopper votre contenu dans un conteneur principal */
-        max-width: 700px;
-        width: 100%;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    h1 {
-        text-align: center;
-        color: #333;
-    }
-    
-    #chatbox {
-        border: 1px solid #ccc;
-        padding: 10px;
-        height: 400px;
-        overflow-y: scroll;
-        margin-bottom: 15px;
-        background-color: #f9f9f9;
-        border-radius: 5px;
-    }
-    
-    .message {
-        margin-bottom: 10px;
-        padding: 8px 12px;
-        border-radius: 18px; /* Bords plus arrondis */
-        max-width: 80%;
-        word-wrap: break-word; /* S'assurer que les longs mots ne cassent pas le layout */
-        line-height: 1.4;
-    }
-    
-    .user-message {
-        background-color: #dcf8c6; /* Vert clair type WhatsApp */
-        align-self: flex-end; /* Aligner à droite */
-        margin-left: auto;
-        border-bottom-right-radius: 5px; /* Pour un effet de bulle */
-    }
-    
-    .bot-message {
-        background-color: #e9e9eb; /* Gris clair */
-        align-self: flex-start; /* Aligner à gauche */
-        margin-right: auto;
-        border-bottom-left-radius: 5px; /* Pour un effet de bulle */
-    }
-    
-    .bot-disclaimer { /* Style spécifique pour le disclaimer dans le chat si besoin */
-        background-color: #f0f8ff; /* Alice blue */
-        font-size: 0.9em;
-        color: #555;
-        border: 1px dashed #ccc;
-    }
-    
-    #toolbar {
-        margin-bottom: 10px;
-        display: flex;
-        gap: 10px; /* Espace entre les boutons */
-    }
-    
-    #toolbar button {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        background-color: #f0f0f0;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 1.1em; /* Agrandir un peu les icônes/boutons */
-    }
-    
-    #toolbar button:hover {
-        background-color: #e0e0e0;
-    }
-    
-    #input-area {
-        display: flex;
-        margin-bottom: 15px;
-    }
-    
-    #userInput {
-        flex-grow: 1;
-        padding: 10px 15px; /* Plus de padding */
-        border: 1px solid #ccc;
-        border-radius: 20px 0 0 20px; /* Bords arrondis */
-        font-size: 1em;
-    }
-    
-    #userInput:focus {
-        outline: none;
-        border-color: #007bff; /* Couleur au focus */
-    }
-    
-    #sendButton {
-        padding: 10px 20px;
-        background-color: #28a745; /* Vert plus vif */
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 0 20px 20px 0; /* Bords arrondis */
-        font-size: 1em;
-    }
-    
-    #sendButton:hover {
-        background-color: #218838; /* Vert plus foncé au survol */
-    }
-    
-    #disclaimer-area {
-        text-align: center;
-        font-size: 0.8em;
-        color: #666;
-        margin-top: 20px;
-        max-width: 700px;
-        width: 100%;
-    }
-    
-    /* Style pour les images dans le chat */
-    .message img {
-        max-width: 100%; /* Assure que l'image ne dépasse pas la bulle */
-        max-height: 250px; /* Limite la hauteur pour l'aperçu */
-        border-radius: 10px;
-        margin-top: 5px;
-        display: block; /* Pour que le margin-top fonctionne bien */
-    }
-    
-    /* Pour le model-viewer (si vous l'utilisez) */
-    model-viewer {
-        width: 100%;
-        height: 300px;
-        background-color: #eee;
-        border-radius: 8px;
-        margin-top: 10px;
-    }
-    padding: 10px 0;
+.sidebar-button {
+  background-color: transparent;
+  color: var(--sidebar-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
 }
 
-.sidebar-logo {
-    width: 32px;
+.sidebar-button svg {
+  margin-right: 10px;
+}
+
+.sidebar-button:hover {
+  background-color: var(--sidebar-button-hover-bg);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 0.8em;
+  color: #8e8ea0;
+}
+
+/* Main Chat Area */
+.chat-main-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* S'assurer qu'il prend toute la hauteur */
+  overflow: hidden; /* Empêche le défilement de cette zone, le scroll sera sur messages-area */
+  /* position: relative; /* Plus nécessaire pour le positionnement absolu de l'icône utilisateur ici */
+}
+
+/* Nouvel en-tête principal du Chat */
+.main-chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; /* Padding cohérent */
+  border-bottom: 1px solid var(--border-color);
+  gap: 15px; /* Espace entre les éléments de l'en-tête */
+  background-color: var(--chat-bg-color); /* Correspondre au fond */
+}
+
+.header-icon-button {
+  background: none;
+  border: none;
+  color: var(--sidebar-text-color); /* Correspondre à la couleur de l'icône de la sidebar */
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-icon-button:hover {
+  background-color: var(--button-hover-bg);
+  border-radius: 4px;
+}
+
+.header-brand-name {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color);
+  flex-grow: 1; /* Permet à cet élément de prendre tout l'espace disponible */
+  text-align: center; /* Centre le texte à l'intérieur de cet élément */
+}
+
+/* User Profile Icon (Top Right) */
+/* Conteneur pour l'icône utilisateur, positionné à droite dans l'en-tête */
+.user-profile-icon-container {
+  margin-left: auto; /* Pousse cet élément tout à droite dans le conteneur flex parent */
+  display: flex;       /* Utilise flexbox pour l'alignement interne (si besoin) */
+  align-items: center; /* Aligne verticalement l'icône au centre du conteneur */
+}
+
+.user-profile-icon {
+    width: 32px; /* Taille similaire aux avatars de message */
     height: 32px;
-    background-color: #000; /* Fond noir pour le logo SG */
-    color: #fff;
+    background-color: black;
+    color: white;
+    border-radius: 50%; /* Pour un cercle parfait */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 0.9em;
+    font-size: 1em; /* Ajuster la taille de la lettre "U" */
+    font-weight: 600; /* Un peu gras */
+    cursor: default; /* Ou 'pointer' si vous prévoyez une action au clic */
+    /* Plus besoin de contexte de positionnement absolu */
 }
 
-.sidebar-name {
-    font-size: 1.1em;
-    font-weight: 600;
+.chatgpt-messages-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espace entre les messages, s'appliquera quand il y a des messages */
 }
 
-.new-chat-button {
-    background-color: transparent;
-    border: 1px solid #ccc;
-    color: #333;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Espace entre l'icône et le texte */
-    font-size: 0.9em;
-    margin-bottom: 20px;
-    transition: background-color 0.2s;
+/* Conteneur pour l'état vide du chat, centré */
+.empty-chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre verticalement le contenu */
+  align-items: center;     /* Centre horizontalement le contenu */
+  flex-grow: 1;            /* Prend tout l'espace disponible dans chatMessagesDisplayArea */
+  text-align: center;      /* Centre le texte pour les éléments enfants */
+  padding: 20px;           /* Un peu d'espace autour du contenu */
+  color: var(--text-color);
 }
 
-.new-chat-button:hover {
-    background-color: #f0f0f0;
+.empty-chat-container h2 {
+  font-size: 1.6em;
+  font-weight: 500;
+  margin-bottom: 15px;
 }
 
-.plus-icon {
-    font-size: 1.2em;
+.empty-chat-container .disclaimer-text {
+  font-size: 0.9em;
+  color: var(--secondary-text-color, #a0a0a0); /* Couleur un peu plus discrète */
+  max-width: 500px; /* Limite la largeur pour une meilleure lisibilité */
+  line-height: 1.5;
 }
 
-.chat-history {
-    flex-grow: 1;
-    overflow-y: auto;
-    /* Styles pour les éléments d'historique */
+.chatgpt-message {
+  display: flex;
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 85%; /* Les messages ne prennent pas toute la largeur */
+  line-height: 1.6;
 }
 
-.user-avatar-top-right {
-    position: absolute; /* Positionné par rapport au body ou un parent positionné */
-    top: 15px;
-    right: 25px;
-    width: 36px;
-    height: 36px;
-    background-color: #333;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1em;
-    z-index: 10; /* Pour être au-dessus d'autres éléments si nécessaire */
+.chatgpt-message .avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  background-color: #707285; /* Couleur d'avatar par défaut */
+  flex-shrink: 0;
 }
 
-.main-chat-area {
-    flex-grow: 1; /* Prend le reste de la largeur */
-    display: flex;
-    flex-direction: column;
-    padding: 30px 40px; /* Plus de padding */
-    background-color: #fff; /* Fond blanc pour la zone de chat principale */
-    /* Centre la zone de chat si elle est plus petite que l'espace dispo (pas nécessaire avec flex-grow:1) */
-    /* max-width: 900px; */ /* Vous pouvez définir une largeur max si souhaité */
-    /* margin: auto; */
-    height: 100vh; /* Prend toute la hauteur */
-    box-sizing: border-box; /* Inclut padding et border dans la hauteur/largeur */
+.chatgpt-message.user-message {
+  background-color: var(--message-user-bg-color); /* Ou transparent si le fond global est déjà foncé */
+  align-self: flex-end; /* Messages utilisateur à droite */
+  margin-left: auto; /* Pousse le message à droite */
 }
 
-.chat-header h1 {
-    font-size: 1.6em; /* Taille du titre principal */
-    color: #333;
-    text-align: center;
-    margin-top: 20px; /* Espace au-dessus du titre */
-    margin-bottom: 30px; /* Espace en dessous */
+.chatgpt-message.bot-message,
+.chatgpt-message.system-message,
+.chatgpt-message.error-message {
+  background-color: var(--message-bot-bg-color);
+  align-self: flex-start; /* Messages bot à gauche */
+  margin-right: auto; /* Pousse le message à gauche */
 }
 
-.chat-messages-display {
-    flex-grow: 1; /* La zone des messages prend l'espace vertical disponible */
-    overflow-y: auto; /* Scroll si les messages dépassent */
-    padding: 15px;
-    border: 1px solid #e8e8e8;
-    background-color: #ffffff; /* Fond légèrement différent pour la zone de message */
-    border-radius: 8px;
-    margin-bottom: 20px; /* Espace avant la zone de saisie */
-    display: flex;
-    flex-direction: column;
+.chatgpt-message.bot-message .avatar {
+  background-color: #19c37d; /* Avatar vert pour le bot, style ChatGPT */
 }
 
-/* Styles pour les bulles de message */
-.message-bubble {
-    padding: 10px 15px;
-    border-radius: 18px;
-    margin-bottom: 10px;
-    max-width: 75%;
-    line-height: 1.5;
-    word-wrap: break-word;
-    font-size: 0.95em;
+.message-content {
+  padding-top: 3px; /* Petit ajustement pour aligner avec l'avatar */
 }
-.user-message-bubble {
-    background-color: #007bff; /* Bleu pour les messages utilisateur */
-    color: white;
-    align-self: flex-end;
-    border-bottom-right-radius: 5px;
+.message-content p {
+  margin: 0;
+  white-space: pre-wrap; /* Respecte les sauts de ligne et espaces */
 }
-.bot-message-bubble {
-    background-color: #f1f0f0; /* Gris très clair pour les messages du bot */
-    color: #333;
-    align-self: flex-start;
-    border-bottom-left-radius: 5px;
-}
-.bot-disclaimer-bubble {
-    background-color: #fff9c4; /* Jaune pâle pour le disclaimer */
-    color: #333;
-    font-size: 0.85em;
-    border: 1px dashed #ccc;
-    align-self: stretch; /* Prend toute la largeur */
-    max-width: 100%;
-    text-align: center;
-}
-.message-bubble img {
-    max-width: 100%;
-    max-height: 200px;
-    border-radius: 8px;
-    margin-top: 8px;
-}
-.message-bubble model-viewer {
-    width: 100%;
-    height: 250px;
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    margin-top: 10px;
+.message-content img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-top: 10px;
 }
 
-
-.chat-input-section {
-    /* Pas besoin de flex-shrink: 0 si .chat-messages-display a flex-grow: 1 */
+.error-message .message-content {
+  color: var(--error-color);
+}
+.system-message .message-content {
+  color: var(--system-message-color);
+  font-style: italic;
+  font-size: 0.9em;
 }
 
-#chatForm {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px; /* Espace avant la barre d'outils */
-    border: 1px solid #ccc;
-    border-radius: 8px; /* Bordure autour du champ et du bouton */
-    padding: 5px 5px 5px 15px; /* Padding pour l'icône et un peu autour */
-    background-color: #fff; /* Fond blanc pour le champ de saisie */
+/* Typing Indicator */
+.typing-indicator-message .typing-dots-container {
+  display: flex;
+  align-items: center;
+  padding: 5px 0; /* Ajustez au besoin */
 }
 
-.input-field-container {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
+.typing-indicator-message .typing-dots-container span {
+  height: 8px;
+  width: 8px;
+  margin: 0 3px;
+  background-color: #999; /* Ou une couleur plus en phase avec le thème */
+  border-radius: 50%;
+  display: inline-block;
+  animation: typing-dots-animation 1.4s infinite ease-in-out both;
 }
 
-.message-icon {
-    margin-right: 10px;
-    color: #555;
-    font-size: 1.2em;
+.typing-indicator-message .typing-dots-container span:nth-child(1) {
+  animation-delay: -0.32s;
 }
 
-#userInput {
-    flex-grow: 1;
-    border: none;
-    outline: none;
-    padding: 12px 0; /* Padding vertical */
-    font-size: 1em;
-    background-color: transparent;
+.typing-indicator-message .typing-dots-container span:nth-child(2) {
+  animation-delay: -0.16s;
 }
 
-#sendButton {
-    background-color: #007bff; /* Vert pour correspondre à votre image précédente (ou bleu) */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 18px;
-    cursor: pointer;
-    margin-left: 10px; /* Espace entre input et bouton */
-    font-size: 0.95em;
-    transition: background-color 0.2s;
-}
-#sendButton:hover {
-    background-color: #0056b3; /* Plus foncé au survol */
+@keyframes typing-dots-animation {
+  0%, 80%, 100% {
+      transform: scale(0);
+  }
+  40% {
+      transform: scale(1.0);
+  }
 }
 
+/* Input Area */
+.chat-input-area {
+  padding: 15px 20px;
+  background-color: var(--chat-bg-color); /* Même que le fond principal ou légèrement différent */
+  border-top: 1px solid var(--border-color);
+}
+
+.chat-form .input-wrapper {
+  display: flex;
+  align-items: flex-end; /* Aligne le bouton avec le bas du textarea si multiligne */
+  background-color: var(--chat-input-bg-color);
+  border-radius: 8px;
+  padding: 5px 10px 5px 15px;
+  border: 1px solid var(--border-color);
+}
+
+.chat-form textarea#userInput {
+  flex-grow: 1;
+  background-color: transparent;
+  color: var(--text-color);
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 1em;
+  padding: 10px 0;
+  max-height: 150px; /* Limite la hauteur maximale du textarea */
+  overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+  line-height: 1.5;
+}
+
+.chat-form button#sendButton {
+  background-color: transparent; /* Ou une couleur d'accentuation */
+  color: #8e8ea0; /* Couleur de l'icône par défaut */
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.chat-form button#sendButton:not(:disabled) {
+  color: var(--text-color); /* Couleur quand actif */
+}
+
+.chat-form button#sendButton:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+}
+
+.chat-form button#sendButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 
 .toolbar {
-    display: flex;
-    gap: 8px; /* Espace entre les boutons de la toolbar */
-    margin-bottom: 15px; /* Espace avant le disclaimer */
-    padding-left: 5px; /* Petit alignement avec le champ de saisie */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
 }
 
 .toolbar button {
-    background-color: transparent;
-    border: 1px solid transparent; /* Pour alignement, on peut le rendre visible au survol */
-    color: #555;
-    padding: 6px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.3em; /* Taille des icônes */
-    line-height: 1;
-    transition: background-color 0.2s, border-color 0.2s;
+  background: none;
+  border: none;
+  color: #8e8ea0;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 .toolbar button:hover {
-    background-color: #e9e9e9;
-    border-color: #ccc;
+  color: var(--text-color);
+  background-color: var(--button-hover-bg);
+}
+.toolbar button.recording {
+  color: var(--error-color); /* Indique l'enregistrement */
+}
+.feedback-buttons {
+  margin-left: auto; /* Pousse les boutons de feedback à droite */
 }
 
-.disclaimer-chat-area {
-    text-align: center;
-    font-size: 0.75em; /* Plus petit */
-    color: #777;
-    padding: 10px 0;
+/* Scrollbar styling (optionnel, pour un look plus intégré) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--chat-input-bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* model-viewer specific styling if needed */
+model-viewer {
+  width: 100%;
+  height: 300px; /* Ou une hauteur plus adaptée */
+  border-radius: 6px;
+  background-color: var(--message-bot-bg-color); /* Pour s'intégrer */
 }
