@@ -1,0 +1,6 @@
+# Si ton venv est à la racine de SkinLensR,
+# tu n'as pas besoin de mettre venv/ ici,
+# mais si tu créais un venv DANS chat_app_flask, tu le mettrais.
+__pycache__/
+*.pyc
+.env
