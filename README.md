@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -114,4 +113,4 @@ Visit the SkinLens website for more information and live demos.
 Check out the live demo of the application [https://SkinLens.onrender.com](https://SkinLens.onrender.com).
 
 
->>>>>>> 33202b4b8f1fec6d6c0d634babc421bbd6f7224e
+
