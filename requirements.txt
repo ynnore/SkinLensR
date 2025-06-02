@@ -1,0 +1,62 @@
+absl-py>=2.0.0
+astunparse>=1.6.3
+blinker>=1.7.0
+cachetools>=5.0.0
+certifi>=2024.0.0
+charset-normalizer>=3.0.0
+click>=8.0.0
+Flask>=3.0.0
+flatbuffers>=2.0.0
+gast>=0.4.0
+google-auth>=2.20.0
+google-auth-oauthlib>=1.0.0
+google-pasta>=0.2.0
+grpcio>=1.50.0
+h5py>=3.10.0
+idna>=3.0.0
+importlib_metadata>=7.0.0
+itsdangerous>=2.0.0
+Jinja2>=3.0.0
+# keras # On essaie toujours de l'omettre pour tf.keras
+libclang>=18.0.0
+Markdown>=3.5
+MarkupSafe>=2.1.0
+numpy>=1.23.0,<1.25.0 # TensorFlow 2.13 a des contraintes spécifiques sur numpy
+oauthlib>=3.2.0
+opencv-python>=4.10.0
+opt_einsum>=3.3.0
+packaging>=24.0(venv) manik@manik-HP-Laptop-15s-eq1xxx:~/SkinLensr/SkinLensR/chat_app_flask$ python app.py
+Traceback (most recent call last):
+  File "app.py", line 5, in <module>
+    import google.cloud.logging
+ModuleNotFoundError: No module named 'google.cloud.logging'
+(venv) manik@manik-HP-Laptop-15s-eq1xxx:~/SkinLensr/SkinLensR/chat_app_flask$ 
+pillow>=10.0.0
+# protobuf # Laisser pip choisir
+pyasn1>=0.5.0
+pyasn1_modules>=0.3.0
+requests>=2.30.0
+requests-oauthlib>=1.3.0
+rsa>=4.9
+six>=1.16.0
+tensorboard==2.13.0 # Version compatible avec TF 2.13 et Python 3.8
+tensorboard-data-server==0.7.1 # Version de Tensorboard 2.13.0 utilise tensorboard-data-server 0.7.1
+tensorflow==2.13.1 # Revenir à une version compatible Python 3.8
+tensorflow-estimator==2.13.0 # Synchroniser avec TF 2.13
+tensorflow-io-gcs-filesystem>=0.31.0,<0.35.0 # Vérifier la compatibilité avec TF 2.13
+termcolor>=2.4.0
+# typing_extensions # Laisser pip choisir
+urllib3>=2.0.0
+Werkzeug>=3.0.0
+wrapt>=1.16.0
+zipp>=3.17.0
+
+# Ajouter la nouvelle dépendance
+google-cloud-aiplatform
+google-cloud-logginggoogle-cloud-logging
+google-cloud-storage
+google-cloud-tasks
+google-generativeai
+python-dotenv # Si utilisé localement
+Pillow # Pour le traitement d'image dans /chat
+# Ajoutez d'autres dépendances si nécessaire

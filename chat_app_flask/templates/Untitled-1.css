@@ -1,0 +1,224 @@
+/* /full/path/to/agi_chat_style.css */
+
+/* Réinitialisation de base et police pour le composant de chat avec le skin AGI */
+.skin-agi *,
+.skin-agi *::before,
+.skin-agi *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.skin-agi {
+  /* Variables de thème pour le style AGI (inspiré des thèmes sombres modernes type IDE/GitHub) */
+  --agi-font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  --agi-background-main: #161b22;       /* Fond principal (ex: GitHub dark dimmed) */
+  --agi-background-header: #0d1117;    /* Fond de l'en-tête (ex: GitHub dark default) */
+  --agi-background-messages: #0d1117; /* Fond de la zone des messages */
+  --agi-background-footer: #0d1117;     /* Fond du pied de page */
+  --agi-background-input: #010409;      /* Fond de la zone de saisie (ex: GitHub dark darkest) */
+  --agi-text-primary: #c9d1d9;          /* Couleur de texte principale (ex: GitHub dark text) */
+  --agi-text-secondary: #8b949e;        /* Couleur de texte secondaire */
+  --agi-border-color: #30363d;          /* Couleur des bordures */
+  --agi-accent-primary: #58a6ff;        /* Couleur d'accentuation principale (ex: bleu GitHub) */
+  --agi-message-sent-bg: #1f6feb;       /* Fond des messages envoyés (bleu plus vif) */
+  --agi-message-sent-text: #ffffff;     /* Texte des messages envoyés */
+  --agi-message-received-bg: #22272e;   /* Fond des messages reçus */
+  --agi-message-received-text: var(--agi-text-primary);
+  --agi-shadow-color: rgba(0, 0, 0, 0.4);
+  --agi-scrollbar-thumb: #484f58;
+  --agi-scrollbar-track: var(--agi-background-input);
+  --agi-button-hover-bg: #388bfd;    /* Bleu GitHub au survol */
+
+  font-family: var(--agi-font-family);
+  color: var(--agi-text-primary);
+}
+
+.chat-container.skin-agi {
+  width: 380px; /* Largeur ajustée */
+  height: 600px; /* Hauteur ajustée */
+  background-color: var(--agi-background-main);
+  border: 1px solid var(--agi-border-color);
+  border-radius: 12px; /* Coins plus arrondis */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important pour que border-radius s'applique aux enfants */
+  box-shadow: 0 8px 24px var(--agi-shadow-color);
+}
+
+/* En-tête */
+.skin-agi .chat-header {
+  background-color: var(--agi-background-header);
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--agi-border-color);
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espace entre le logo et le titre */
+  flex-shrink: 0; /* Empêche le header de rétrécir */
+}
+
+.skin-agi .logo-sg {
+  height: 32px;
+  width: auto;
+  border-radius: 4px; /* Optionnel: arrondir le logo s'il est carré */
+}
+
+.skin-agi .chat-header .chat-title {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--agi-text-primary);
+}
+
+/* Zone des Messages */
+.skin-agi .chat-messages {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: var(--agi-background-messages);
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Espace entre les messages */
+}
+
+/* Style de la barre de défilement (pour Webkit et Firefox) */
+.skin-agi .chat-messages::-webkit-scrollbar { width: 8px; }
+.skin-agi .chat-messages::-webkit-scrollbar-track { background: var(--agi-scrollbar-track); border-radius: 4px; }
+.skin-agi .chat-messages::-webkit-scrollbar-thumb { background-color: var(--agi-scrollbar-thumb); border-radius: 4px; border: 2px solid var(--agi-scrollbar-track); }
+.skin-agi .chat-messages::-webkit-scrollbar-thumb:hover { background-color: var(--agi-accent-primary); }
+.skin-agi .chat-messages { scrollbar-width: thin; scrollbar-color: var(--agi-scrollbar-thumb) var(--agi-scrollbar-track); }
+
+/* Style des Messages Individuels */
+.skin-agi .message {
+  display: flex;
+  max-width: 80%;
+  align-items: flex-end; /* Aligne l'avatar avec le bas de la bulle de message */
+}
+
+.skin-agi .message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--agi-border-color);
+  color: var(--agi-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9em;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.skin-agi .message-content {
+  padding: 10px 14px;
+  border-radius: 18px; /* Bulles arrondies */
+  line-height: 1.5;
+}
+
+.skin-agi .message-content p {
+  margin-bottom: 4px; /* Espace entre le texte et l'horodatage */
+  word-wrap: break-word; /* Gestion des mots longs */
+}
+
+.skin-agi .message-timestamp {
+  font-size: 0.7em;
+  color: var(--agi-text-secondary);
+  display: block;
+  text-align: right;
+}
+
+.skin-agi .message.sent {
+  align-self: flex-end;
+  margin-left: auto;
+  /* Pour l'avatar à droite (optionnel) : flex-direction: row-reverse; */
+}
+/* Si vous voulez l'avatar à droite pour les messages envoyés :
+.skin-agi .message.sent .message-avatar { margin-right: 0; margin-left: 8px; }
+*/
+.skin-agi .message.sent .message-content {
+  background-color: var(--agi-message-sent-bg);
+  color: var(--agi-message-sent-text);
+  border-bottom-right-radius: 6px; /* Effet "queue" de bulle */
+}
+.skin-agi .message.sent .message-timestamp {
+  color: rgba(255, 255, 255, 0.75); /* Horodatage plus clair sur fond coloré */
+}
+
+.skin-agi .message.received {
+  align-self: flex-start;
+  margin-right: auto;
+}
+.skin-agi .message.received .message-content {
+  background-color: var(--agi-message-received-bg);
+  color: var(--agi-message-received-text);
+  border-bottom-left-radius: 6px; /* Effet "queue" de bulle */
+}
+
+/* Pied de Page (Zone de Saisie + Disclaimer) */
+.skin-agi .chat-footer {
+  background-color: var(--agi-background-footer);
+  border-top: 1px solid var(--agi-border-color);
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espace entre la zone de saisie et le disclaimer */
+  flex-shrink: 0; /* Empêche le footer de rétrécir */
+}
+
+.skin-agi .chat-input-area {
+  display: flex;
+  align-items: flex-end; /* Aligne le bouton avec le bas du textarea s'il grandit */
+  gap: 8px;
+  background-color: var(--agi-background-input);
+  padding: 8px;
+  border-radius: 22px; /* Conteneur arrondi pour input et bouton */
+  border: 1px solid var(--agi-border-color);
+}
+
+.skin-agi .chat-input { /* C'est un textarea */
+  flex-grow: 1;
+  background-color: transparent;
+  color: var(--agi-text-primary);
+  border: none;
+  padding: 10px;
+  font-size: 0.95em;
+  resize: none; /* Désactive le redimensionnement manuel */
+  font-family: var(--agi-font-family);
+  max-height: 100px; /* Limite la croissance automatique */
+  overflow-y: auto; /* Barre de défilement si le contenu dépasse max-height */
+  line-height: 1.4;
+  outline: none;
+}
+.skin-agi .chat-input::placeholder { color: var(--agi-text-secondary); opacity: 0.8; }
+
+.skin-agi .send-button {
+  background-color: var(--agi-accent-primary);
+  border: none;
+  border-radius: 50%; /* Bouton circulaire */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  flex-shrink: 0; /* Empêche le bouton de rétrécir */
+}
+.skin-agi .send-button:hover { background-color: var(--agi-button-hover-bg); }
+.skin-agi .send-button:active { transform: scale(0.95); }
+.skin-agi .send-button .send-icon { width: 20px; height: 20px; fill: var(--agi-message-sent-text); }
+
+/* Disclaimer */
+.skin-agi .chat-disclaimer {
+  padding-top: 4px; /* Un peu d'espace au-dessus */
+  text-align: center;
+}
+.skin-agi .chat-disclaimer p {
+  font-size: 0.75em;
+  color: var(--agi-text-secondary);
+  line-height: 1.4;
+}
+.skin-agi .chat-disclaimer strong {
+  color: var(--agi-text-primary); /* Met "Disclaimer:" un peu plus en évidence */
+  font-weight: 600;
+}

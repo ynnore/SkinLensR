@@ -1,0 +1,353 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: var(--chat-bg-color);
+  color: var(--text-color);
+  display: flex;
+  height: 100vh;
+  overflow: hidden; /* Empêche le défilement du body */
+}
+
+.chat-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: var(--sidebar-bg-color);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar-button {
+  background-color: transparent;
+  color: var(--sidebar-text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar-button svg {
+  margin-right: 10px;
+}
+
+.sidebar-button:hover {
+  background-color: var(--sidebar-button-hover-bg);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 0.8em;
+  color: #8e8ea0;
+}
+
+/* Main Chat Area */
+.chat-main-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* S'assurer qu'il prend toute la hauteur */
+  overflow: hidden; /* Empêche le défilement de cette zone, le scroll sera sur messages-area */
+  /* position: relative; /* Plus nécessaire pour le positionnement absolu de l'icône utilisateur ici */
+}
+
+/* Nouvel en-tête principal du Chat */
+.main-chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px; /* Padding cohérent */
+  border-bottom: 1px solid var(--border-color);
+  gap: 15px; /* Espace entre les éléments de l'en-tête */
+  background-color: var(--chat-bg-color); /* Correspondre au fond */
+}
+
+.header-icon-button {
+  background: none;
+  border: none;
+  color: var(--sidebar-text-color); /* Correspondre à la couleur de l'icône de la sidebar */
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header-icon-button:hover {
+  background-color: var(--button-hover-bg);
+  border-radius: 4px;
+}
+
+.header-brand-name {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: var(--text-color);
+  flex-grow: 1; /* Permet à cet élément de prendre tout l'espace disponible */
+  text-align: center; /* Centre le texte à l'intérieur de cet élément */
+}
+
+/* User Profile Icon (Top Right) */
+/* Conteneur pour l'icône utilisateur, positionné à droite dans l'en-tête */
+.user-profile-icon-container {
+  margin-left: auto; /* Pousse cet élément tout à droite dans le conteneur flex parent */
+  display: flex;       /* Utilise flexbox pour l'alignement interne (si besoin) */
+  align-items: center; /* Aligne verticalement l'icône au centre du conteneur */
+}
+
+.user-profile-icon {
+    width: 32px; /* Taille similaire aux avatars de message */
+    height: 32px;
+    background-color: black;
+    color: white;
+    border-radius: 50%; /* Pour un cercle parfait */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em; /* Ajuster la taille de la lettre "U" */
+    font-weight: 600; /* Un peu gras */
+    cursor: default; /* Ou 'pointer' si vous prévoyez une action au clic */
+    /* Plus besoin de contexte de positionnement absolu */
+}
+
+.chatgpt-messages-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espace entre les messages, s'appliquera quand il y a des messages */
+}
+
+/* Conteneur pour l'état vide du chat, centré */
+.empty-chat-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centre verticalement le contenu */
+  align-items: center;     /* Centre horizontalement le contenu */
+  flex-grow: 1;            /* Prend tout l'espace disponible dans chatMessagesDisplayArea */
+  text-align: center;      /* Centre le texte pour les éléments enfants */
+  padding: 20px;           /* Un peu d'espace autour du contenu */
+  color: var(--text-color);
+}
+
+.empty-chat-container h2 {
+  font-size: 1.6em;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.empty-chat-container .disclaimer-text {
+  font-size: 0.9em;
+  color: var(--secondary-text-color, #a0a0a0); /* Couleur un peu plus discrète */
+  max-width: 500px; /* Limite la largeur pour une meilleure lisibilité */
+  line-height: 1.5;
+}
+
+.chatgpt-message {
+  display: flex;
+  padding: 15px;
+  border-radius: 8px;
+  max-width: 85%; /* Les messages ne prennent pas toute la largeur */
+  line-height: 1.6;
+}
+
+.chatgpt-message .avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  background-color: #707285; /* Couleur d'avatar par défaut */
+  flex-shrink: 0;
+}
+
+.chatgpt-message.user-message {
+  background-color: var(--message-user-bg-color); /* Ou transparent si le fond global est déjà foncé */
+  align-self: flex-end; /* Messages utilisateur à droite */
+  margin-left: auto; /* Pousse le message à droite */
+}
+
+.chatgpt-message.bot-message,
+.chatgpt-message.system-message,
+.chatgpt-message.error-message {
+  background-color: var(--message-bot-bg-color);
+  align-self: flex-start; /* Messages bot à gauche */
+  margin-right: auto; /* Pousse le message à gauche */
+}
+
+.chatgpt-message.bot-message .avatar {
+  background-color: #19c37d; /* Avatar vert pour le bot, style ChatGPT */
+}
+
+.message-content {
+  padding-top: 3px; /* Petit ajustement pour aligner avec l'avatar */
+}
+.message-content p {
+  margin: 0;
+  white-space: pre-wrap; /* Respecte les sauts de ligne et espaces */
+}
+.message-content img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.error-message .message-content {
+  color: var(--error-color);
+}
+.system-message .message-content {
+  color: var(--system-message-color);
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* Typing Indicator */
+.typing-indicator-message .typing-dots-container {
+  display: flex;
+  align-items: center;
+  padding: 5px 0; /* Ajustez au besoin */
+}
+
+.typing-indicator-message .typing-dots-container span {
+  height: 8px;
+  width: 8px;
+  margin: 0 3px;
+  background-color: #999; /* Ou une couleur plus en phase avec le thème */
+  border-radius: 50%;
+  display: inline-block;
+  animation: typing-dots-animation 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator-message .typing-dots-container span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator-message .typing-dots-container span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing-dots-animation {
+  0%, 80%, 100% {
+      transform: scale(0);
+  }
+  40% {
+      transform: scale(1.0);
+  }
+}
+
+/* Input Area */
+.chat-input-area {
+  padding: 15px 20px;
+  background-color: var(--chat-bg-color); /* Même que le fond principal ou légèrement différent */
+  border-top: 1px solid var(--border-color);
+}
+
+.chat-form .input-wrapper {
+  display: flex;
+  align-items: flex-end; /* Aligne le bouton avec le bas du textarea si multiligne */
+  background-color: var(--chat-input-bg-color);
+  border-radius: 8px;
+  padding: 5px 10px 5px 15px;
+  border: 1px solid var(--border-color);
+}
+
+.chat-form textarea#userInput {
+  flex-grow: 1;
+  background-color: transparent;
+  color: var(--text-color);
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 1em;
+  padding: 10px 0;
+  max-height: 150px; /* Limite la hauteur maximale du textarea */
+  overflow-y: auto; /* Ajoute une barre de défilement si nécessaire */
+  line-height: 1.5;
+}
+
+.chat-form button#sendButton {
+  background-color: transparent; /* Ou une couleur d'accentuation */
+  color: #8e8ea0; /* Couleur de l'icône par défaut */
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.chat-form button#sendButton:not(:disabled) {
+  color: var(--text-color); /* Couleur quand actif */
+}
+
+.chat-form button#sendButton:hover:not(:disabled) {
+  background-color: var(--button-hover-bg);
+}
+
+.chat-form button#sendButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.toolbar button {
+  background: none;
+  border: none;
+  color: #8e8ea0;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.toolbar button:hover {
+  color: var(--text-color);
+  background-color: var(--button-hover-bg);
+}
+.toolbar button.recording {
+  color: var(--error-color); /* Indique l'enregistrement */
+}
+.feedback-buttons {
+  margin-left: auto; /* Pousse les boutons de feedback à droite */
+}
+
+/* Scrollbar styling (optionnel, pour un look plus intégré) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--chat-input-bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* model-viewer specific styling if needed */
+model-viewer {
+  width: 100%;
+  height: 300px; /* Ou une hauteur plus adaptée */
+  border-radius: 6px;
+  background-color: var(--message-bot-bg-color); /* Pour s'intégrer */
+}
