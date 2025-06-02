@@ -1,6 +1,5 @@
 # Python
 __pycache__/
-<<<<<<< HEAD
 *.py[cod]
 *.egg-info/
 *.egg
@@ -18,7 +17,7 @@ yarn-error.log*
 
 # VSCode
 .vscode/
-=======
+
 *.pyc
 *.pyo
 *.pyd
@@ -69,4 +68,4 @@ screenshot.png
 # Fichiers système
 .DS_Store
 Thumbs.db
->>>>>>> 33202b4b8f1fec6d6c0d634babc421bbd6f7224e
+
