@@ -1,0 +1,286 @@
+/* src/app/Page.module.css */
+
+/* --- Conteneur principal et layout du chat --- */
+.chatContainer {
+  display: flex;
+  height: 100vh; /* Prend toute la hauteur de la fenêtre */
+  overflow: hidden; /* Empêche le scroll sur le conteneur principal */
+  background-color: var(--bg-main); /* Fond général */
+  color: var(--text-primary);
+}
+
+/* --- Sidebar interne à la page de Chat (différente de la sidebar principale de l'app) --- */
+.sidebar {
+  width: var(--sidebar-width-open); /* Utilise la variable de globals.css, ex: 260px */
+  background-color: var(--bg-sidebar); /* Utilise la variable globale */
+  padding: 1rem; /* p-4 */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color); /* Ligne de séparation */
+  flex-shrink: 0;
+}
+
+.sidebarButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* space-x-3 */
+  padding: 0.75rem 1rem; /* p-3 px-4 */
+  margin-bottom: 1rem; /* mb-4 */
+  border-radius: 0.375rem; /* rounded-md */
+  background-color: var(--interactive-hover-bg); /* Un fond pour le distinguer */
+  color: var(--text-active-item);
+  font-weight: 500; /* font-medium */
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.875rem; /* text-sm */
+}
+.sidebarButton:hover {
+  background-color: var(--interactive-active-bg);
+}
+.sidebarButton svg {
+  flex-shrink: 0;
+}
+
+.sidebarFooter {
+  margin-top: auto; /* Pousse le footer en bas */
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* --- Zone principale du Chat --- */
+.chatMainArea {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Important pour que le scroll interne fonctionne */
+  background-color: var(--bg-content-container); /* Fond de la zone de chat */
+}
+
+.mainChatHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem; /* py-3 px-6 */
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+  background-color: var(--bg-main); /* Peut être le même que le fond général */
+  height: var(--header-height); /* Utilise la variable globale */
+}
+
+.headerBrandName {
+  font-weight: 600; /* font-semibold */
+  color: var(--text-primary);
+}
+
+.userProfileIconContainer {
+  /* Styles pour le conteneur de l'icône utilisateur */
+}
+
+.userProfileIcon {
+  width: 32px; /* w-8 */
+  height: 32px; /* h-8 */
+  border-radius: 9999px; /* rounded-full */
+  background-color: var(--interactive-active-bg); /* Couleur de fond pour l'icône */
+  color: var(--text-active-item);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+/* --- Zone d'affichage des messages --- */
+.chatgptMessagesArea { /* Correspond à #chatMessagesDisplayArea */
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1.5rem; /* p-6 */
+  display: flex;
+  flex-direction: column; /* Messages les uns en dessous des autres */
+}
+
+.emptyChatContainer { /* Correspond à #emptyChatPlaceholder */
+  text-align: center;
+  margin: auto; /* Centre verticalement et horizontalement dans son parent flexible */
+  color: var(--text-secondary);
+  max-width: 600px;
+  padding: 1rem; /* Un peu d'espace intérieur */
+}
+.emptyChatContainer h2 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 600;
+  margin-top: 0; /* Ajustement pour l'alignement vertical */
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+.disclaimerText {
+  font-size: 0.875rem; /* text-sm */
+  line-height: 1.6;
+}
+
+.messageBubble {
+  max-width: 80%;
+  padding: 0.625rem 1rem; /* py-2.5 px-4 */
+  border-radius: 0.75rem; /* rounded-xl */
+  margin-bottom: 0.75rem; /* mb-3 */
+  line-height: 1.6;
+  word-wrap: break-word; /* ou overflow-wrap: break-word; */
+}
+.messageBubble p, 
+.messageBubble h3 { /* Style de base pour le contenu HTML */
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+.messageBubble h3 { font-size: 1.1em; font-weight: 600; }
+/* Les classes pour le HTML injecté comme .link-style, .mt-4, .text-red-500
+   sont gérées par des classes globales dans globals.css (ex: .link-style-global) */
+
+
+.messageUser {
+  background-color: var(--interactive-active-bg); /* Couleur pour les messages utilisateur */
+  color: var(--text-active-item);
+  align-self: flex-end; /* Aligne à droite */
+  border-bottom-right-radius: 0.25rem; /* Petite "queue" */
+}
+
+.messageAi {
+  background-color: var(--bg-main); /* Fond pour l'IA */
+  color: var(--text-primary);
+  align-self: flex-start; /* Aligne à gauche */
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 0.25rem; /* Petite "queue" */
+}
+.messageAi strong { 
+  color: var(--text-primary); 
+  font-weight: 600; /* Rendre le gras plus distinct */
+}
+
+
+.messageSystem {
+  align-self: center; /* Centre les messages système */
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
+  padding: 0.25rem 0.5rem;
+  max-width: 90%;
+}
+
+/* Spinner pour le chargement (utilisé dans le JSX avec un div parent) */
+.spinner {
+  border: 3px solid var(--border-color); /* Couleur de fond de la "roue" */
+  border-top: 3px solid var(--text-primary); /* Couleur de la partie qui tourne */
+  border-radius: 50%;
+  width: 20px; /* Ajustez la taille si besoin */
+  height: 20px; /* Ajustez la taille si besoin */
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/* --- Zone de saisie du message --- */
+.chatInputArea {
+  padding: 1rem 1.5rem 1.5rem 1.5rem;
+  background-color: var(--bg-content-container);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.chatForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputWrapper { /* Conteneur du textarea et du bouton d'envoi */
+  display: flex;
+  align-items: center;
+  background-color: var(--chat-input-wrapper-bg);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.75rem;
+  min-height: 44px; /* Hauteur minimale pour l'input */
+  margin-bottom: 0.75rem; /* Espace avant la toolbar */
+}
+
+.inputWrapper textarea {
+  flex-grow: 1;
+  background-color: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  padding: 0.625rem 0.25rem;
+  resize: none;
+  outline: none;
+  min-height: 24px; /* Hauteur pour une ligne */
+  max-height: 120px; /* Limite pour éviter un textarea trop grand */
+  line-height: 1.5;
+  overflow-y: auto; /* Scroll si le texte dépasse max-height */
+}
+.inputWrapper textarea::placeholder {
+  color: var(--text-placeholder);
+}
+
+.inputWrapper button { /* Bouton d'envoi principal */
+  background-color: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+.inputWrapper button:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+.inputWrapper button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.inputWrapper button svg {
+  width: 20px;
+  height: 20px;
+}
+
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Espace entre les boutons de la toolbar */
+}
+.toolbar button { /* Style commun pour les boutons de la toolbar */
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.375rem; /* p-1.5 */
+  cursor: pointer;
+  border-radius: 0.25rem; /* rounded */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toolbar button:hover:not(:disabled) {
+  background-color: var(--interactive-hover-bg);
+  color: var(--text-primary);
+}
+.toolbar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.toolbar button svg {
+  width: 18px; /* Taille des icônes de la toolbar */
+  height: 18px;
+}
+
+.feedbackButtons { /* Conteneur pour les boutons de feedback (pouce haut/bas) */
+  margin-left: auto; /* Pousse ces boutons à l'extrême droite de la toolbar */
+  display: flex;
+  gap: 0.25rem;
+}

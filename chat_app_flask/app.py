@@ -9,7 +9,6 @@ import io     # Pour manipuler les bytes des images
 
 # Charger les variables d'environnement du fichier .env (si présent)
 # Ceci est utile pour le développement local. Sur Cloud Run, vous définirez les variables d'environnement directement.
-load_dotenv()
 
 # --- Configuration GCP ---
 PROJECT_ID = os.environ.get('GCP_PROJECT_ID')

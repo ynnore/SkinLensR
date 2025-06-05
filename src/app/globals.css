@@ -1,26 +1,165 @@
-@import "tailwindcss";
+/* src/app/globals.css */
+
+/* Supprimez ou commentez tout contenu Tailwind ici si vous en aviez */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* === Variables de base (similaires à votre première version) === */
+  --color-bg-light-original: #f3f4f6; /* gray-100 */
+  --color-text-light-original: #111827; /* gray-900 */
+  --color-bg-dark-original: #111827; /* gray-900 (body) */
+  --color-text-dark-original: #f3f4f6; /* gray-100 (body) */
+
+  --color-header-bg-light-original: #ffffff;
+  --color-header-text-light-original: #1f2937; /* gray-800 */
+  --color-header-bg-dark-original: #1f2937;   /* gray-800 (header dark bg) */
+  --color-header-text-dark-original: #e5e7eb; /* gray-200 */
+
+  --color-button-text-light-original: #374151; /* gray-700 */
+  --color-button-hover-bg-light-original: #e5e7eb; /* gray-200 */
+  --color-button-text-dark-original: #d1d5db; /* gray-300 */
+  --color-button-hover-bg-dark-original: #374151; /* gray-700 */
+
+  --color-focus-ring-original: #4f46e5; /* indigo-500 */
+
+  --sidebar-width-open-original: 256px;
+  --sidebar-width-closed-original: 80px;
+  --header-height-original: 64px;
+  --transition-duration-original: 0.3s;
+
+
+  /* === Thème Sombre par défaut (Style "HOI" - vous semblez vouloir utiliser celui-ci) === */
+  /* Si vous utilisez ce thème, assurez-vous que les fichiers .module.css utilisent ces variables */
+  --bg-main: #111827;                     /* Fond général de l'application (body, app-header) */
+  --bg-content-container: #1f2937;        /* Conteneur principal du chat, wrapper de l'input */
+  --bg-sidebar: #111827;                  /* Sidebar (HOI: même fond que le main, ou #0f172a pour un bleu nuit très sombre) */
+  
+  --text-primary: #d1d5db;                /* Texte principal (gris clair) */
+  --text-secondary: #9ca3af;              /* Texte secondaire, icônes inactives (gris moyen) */
+  --text-placeholder: #4b5563;            /* Placeholder "Type your message" (gris foncé) */
+  --text-on-primary-button: #1f2937;      /* Texte sur bouton "Share" (un gris foncé pour contraster avec le blanc) */
+  --text-active-item: #ffffff;            /* Texte pour un item de navigation actif et survol */
+  --text-beta-badge: #9ca3af;             /* Couleur du texte pour le badge Beta */
+
+  --border-color: #374151;                /* Bordures discrètes (gris foncé) */
+  --bg-beta-badge: #374151;               /* Fond pour le badge Beta */
+  
+  --interactive-hover-bg: #374151;        /* Fond au survol pour boutons sidebar, options */
+  --interactive-active-bg: #4b5563;       /* Fond pour item actif sidebar (comme "Run" ou "App Dev...") */
+  
+  --button-primary-bg: #ffffff;           /* Bouton "Share" (blanc) */
+  --button-primary-hover-bg: #f3f4f6;    /* Survol pour "Share" (gris très clair) */
+  
+  --chat-input-wrapper-bg: #0f172a;       /* Fond du wrapper de l'input (plus sombre que bg-content-container) */
+
+  --avatar-bot-bg: #10b981;               /* Vert pour l'avatar du bot (si vous en avez) */
+  --avatar-default-bg: #4b5563;           /* Fond par défaut pour les avatars */
+
+  --error-color: #f87171;                 /* Rouge pour erreurs */
+  --system-message-color: #93c5fd;        /* Bleu pour messages système */
+
+  --scrollbar-thumb-bg: var(--text-secondary);
+  --scrollbar-thumb-hover-bg: var(--text-primary);
+  --scrollbar-track-bg: var(--bg-main);
+
+  /* Dimensions pour le style "HOI" (si différentes des originales) */
+  --sidebar-width-open: 260px;  /* HOI: environ 260px */
+  --sidebar-width-closed: 72px; /* HOI: environ 72-80px */
+  --header-height: 56px;        /* HOI: header un peu moins haut, ex: h-14 */
+  --transition-duration: 0.25s; /* Transition plus rapide */
+
+
+  /* Variables pour les polices Geist (si vous les utilisez) */
+  /* Ces valeurs seront probablement fournies par les classes .variable de geist/font appliquées sur <html> */
+  /* Exemple: */
+  /* --font-geist-sans: '__GeistSans_abcdef', system-ui, sans-serif; */
+  /* --font-geist-mono: '__GeistMono_123456', monospace; */
+} /* FIN DU BLOC :root UNIQUE */
+
+
+/* --- Styles de Base Généraux --- */
+html {
+  height: 100%;
+  box-sizing: border-box;
+  /* Si vous utilisez Geist font via des variables CSS appliquées sur <html> : */
+  /* font-family: var(--font-geist-sans); */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Choisissez UNE approche pour la police: soit celle-ci, soit via --font-geist-sans sur html */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background-color: var(--bg-main); /* Utilise les variables du thème "HOI" */
+  color: var(--text-primary);   /* Utilise les variables du thème "HOI" */
+  display: flex; /* Important pour le layout si vous avez une sidebar + contenu principal */
+  height: 100%;
+  overflow: hidden; /* Empêche le scroll sur le body si le contenu interne le gère */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+code, kbd, samp, pre {
+  /* Choisissez UNE approche pour la police mono */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* ou font-family: var(--font-geist-mono); */
+}
+
+a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--text-primary);
+}
+
+/* --- Styles pour le Layout Principal (appliqués via CSS Modules dans les composants) --- */
+/* Les classes .sidebar, .main-content-wrapper, .app-header etc.
+   doivent être définies dans leurs fichiers .module.css respectifs (ex: Sidebar.module.css, layout.module.css)
+   et NON directement ici dans globals.css.
+   Ce fichier globals.css ne définit que les styles de base des balises (html, body, a, etc.)
+   et les variables globales :root.
+*/
+
+/* --- Styles pour le Contenu du Chat, Input Area, Modale Caméra, etc. --- */
+/* Si ces styles sont spécifiques à des composants, ils devraient être dans les .module.css de ces composants.
+   S'ils sont des styles réutilisables plus généraux mais pas assez pour être des classes utilitaires Tailwind,
+   vous pourriez les garder ici, mais c'est moins modulaire.
+   Pour l'instant, je vais supposer qu'ils sont globaux pour simplifier.
+*/
+
+/* Exemple: Si .chat-message-content-area est utilisé globalement */
+.chat-message-content-area {
+  color: var(--text-primary);
+}
+.chat-message-content-area h2 {
+  font-size: 1.125rem; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); display: flex; align-items: baseline;
+}
+.chat-message-content-area h2 code {
+  background-color: var(--bg-main); color: var(--text-secondary); padding: 2px 6px; border-radius: 4px;
+  font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; margin-left: 8px;
+}
+/* ... (continuez avec les autres styles spécifiques que vous aviez, comme .chat-message-content-area ul, li, p, etc.) ... */
+/* ... (et les styles pour .chat-input-area, .input-wrapper, etc.) ... */
+
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track-bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover-bg); }
+
+/* --- Modale Caméra --- */
+.camera-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.camera-modal-content { background-color: var(--bg-content-container); color: var(--text-primary); padding: 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); text-align: center; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
+.webcam-preview, .captured-image-preview { max-width: 100%; max-height: 60vh; border: 1px solid var(--border-color); margin-bottom: 15px; background-color: #000; }
+.camera-modal-actions button { margin: 8px; padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; font-weight: 500; transition: opacity 0.2s; color: white; }
+.camera-modal-actions button:hover { opacity: 0.85; }
+.btn-capture { background-color: #22c55e; }
+.btn-send-capture { background-color: #3b82f6; }
+.btn-close-modal { background-color: #ef4444; }
