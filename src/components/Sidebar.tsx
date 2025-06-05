@@ -117,8 +117,10 @@ export default function Sidebar({ isOpen }: SidebarProps) {
             {...item}
             isOpen={isOpen}
             currentPathname={currentPathname}
+            
           />
         ))}
+        
       </div>
     </div>
   );

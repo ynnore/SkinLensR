@@ -1,90 +1,183 @@
 /* src/app/globals.css */
 
-/* Supprimez ou commentez tout contenu Tailwind ici si vous en aviez */
+/* Directives Tailwind supprimées/commentées, c'est correct. */
 /* @tailwind base; */
 /* @tailwind components; */
 /* @tailwind utilities; */
 
 :root {
-  /* === Variables de base (similaires à votre première version) === */
-  --color-bg-light-original: #f3f4f6; /* gray-100 */
-  --color-text-light-original: #111827; /* gray-900 */
-  --color-bg-dark-original: #111827; /* gray-900 (body) */
-  --color-text-dark-original: #f3f4f6; /* gray-100 (body) */
+  /* === Thème Clair (Par Défaut) === */
 
-  --color-header-bg-light-original: #ffffff;
-  --color-header-text-light-original: #1f2937; /* gray-800 */
-  --color-header-bg-dark-original: #1f2937;   /* gray-800 (header dark bg) */
-  --color-header-text-dark-original: #e5e7eb; /* gray-200 */
-
-  --color-button-text-light-original: #374151; /* gray-700 */
-  --color-button-hover-bg-light-original: #e5e7eb; /* gray-200 */
-  --color-button-text-dark-original: #d1d5db; /* gray-300 */
-  --color-button-hover-bg-dark-original: #374151; /* gray-700 */
-
-  --color-focus-ring-original: #4f46e5; /* indigo-500 */
-
-  --sidebar-width-open-original: 256px;
-  --sidebar-width-closed-original: 80px;
-  --header-height-original: 64px;
-  --transition-duration-original: 0.3s;
+  /* Variables pour les bulles de chat (Mode Clair) */
+  /* Le premier ensemble a été supprimé car il était redondant. */
+  /* S'assure que ces valeurs sont celles que vous voulez pour le mode clair. */
+  --chat-bubble-user-bg: #004a7c; /* Bleu foncé pour utilisateur */
+  --chat-bubble-user-text: #cce5ff; /* Texte bleu très clair sur bleu foncé */
+  --chat-bubble-ai-bg: #253041;   /* Gris-bleu plus foncé pour IA */
+  /* --text-primary pour le mode clair est #111827. Est-ce la bonne couleur pour le texte AI ici ? */
+  /* Si vous voulez un texte plus clair sur --chat-bubble-ai-bg, ajustez. Par exemple: */
+  /* --chat-bubble-ai-text: #d1d5db; */
+  --chat-bubble-ai-text: var(--text-primary); /* Actuellement, ce sera un texte sombre sur fond sombre, à vérifier */
 
 
-  /* === Thème Sombre par défaut (Style "HOI" - vous semblez vouloir utiliser celui-ci) === */
-  /* Si vous utilisez ce thème, assurez-vous que les fichiers .module.css utilisent ces variables */
-  --bg-main: #111827;                     /* Fond général de l'application (body, app-header) */
-  --bg-content-container: #1f2937;        /* Conteneur principal du chat, wrapper de l'input */
-  --bg-sidebar: #111827;                  /* Sidebar (HOI: même fond que le main, ou #0f172a pour un bleu nuit très sombre) */
-  
-  --text-primary: #d1d5db;                /* Texte principal (gris clair) */
-  --text-secondary: #9ca3af;              /* Texte secondaire, icônes inactives (gris moyen) */
-  --text-placeholder: #4b5563;            /* Placeholder "Type your message" (gris foncé) */
-  --text-on-primary-button: #1f2937;      /* Texte sur bouton "Share" (un gris foncé pour contraster avec le blanc) */
-  --text-active-item: #ffffff;            /* Texte pour un item de navigation actif et survol */
-  --text-beta-badge: #9ca3af;             /* Couleur du texte pour le badge Beta */
+  /* Fonds */
+  --bg-main: #f3f4f6;
+  --bg-content-container: #ffffff;
+  --bg-sidebar: #e5e7eb;
+  --bg-header: #ffffff;
+  --bg-input-wrapper: #f9fafb;
+  --bg-beta-badge: #e5e7eb;
+  --bg-tooltip: #111827;
+  --bg-modal-overlay: rgba(0, 0, 0, 0.5);
 
-  --border-color: #374151;                /* Bordures discrètes (gris foncé) */
-  --bg-beta-badge: #374151;               /* Fond pour le badge Beta */
-  
-  --interactive-hover-bg: #374151;        /* Fond au survol pour boutons sidebar, options */
-  --interactive-active-bg: #4b5563;       /* Fond pour item actif sidebar (comme "Run" ou "App Dev...") */
-  
-  --button-primary-bg: #ffffff;           /* Bouton "Share" (blanc) */
-  --button-primary-hover-bg: #f3f4f6;    /* Survol pour "Share" (gris très clair) */
-  
-  --chat-input-wrapper-bg: #0f172a;       /* Fond du wrapper de l'input (plus sombre que bg-content-container) */
+  /* Textes */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-placeholder: #6b7280;
+  --text-accent: #4f46e5;
+  --text-on-accent-bg: #ffffff;
+  --text-on-primary-button: #ffffff; /* Utilisé pour le bouton Share/Primaire */
+  --text-active-item: var(--text-accent);
+  --text-beta-badge: #374151;
+  --text-tooltip: #f3f4f6;
+  --text-error: #ef4444;
+  --text-success: #22c55e;
+  --text-system-message: #3b82f6;
 
-  --avatar-bot-bg: #10b981;               /* Vert pour l'avatar du bot (si vous en avez) */
-  --avatar-default-bg: #4b5563;           /* Fond par défaut pour les avatars */
+  /* Bordures */
+  --border-color: #d1d5db;
+  --border-color-input: #9ca3af;
+  --border-focus-ring: var(--text-accent);
 
-  --error-color: #f87171;                 /* Rouge pour erreurs */
-  --system-message-color: #93c5fd;        /* Bleu pour messages système */
+  /* Interactions */
+  --interactive-hover-bg: #e5e7eb;
+  --interactive-active-bg: #d1d5db;
 
+  /* Boutons Généraux */
+  --button-primary-bg: var(--text-accent);
+  --button-primary-hover-bg: #4338ca;
+  --button-primary-text: var(--text-on-accent-bg);
+
+  --button-secondary-bg: #e5e7eb;
+  --button-secondary-hover-bg: #d1d5db;
+  --button-secondary-text: #374151;
+
+  --button-danger-bg: var(--text-error);
+  --button-danger-hover-bg: #dc2626;
+  --button-danger-text: #ffffff;
+
+  --button-success-bg: var(--text-success);
+  --button-success-hover-bg: #16a34a;
+  --button-success-text: #ffffff;
+
+  /* NOUVEAU: Variables pour le bouton de thème flottant (Mode Clair) */
+  --button-theme-bg: var(--bg-content-container); /* Fond blanc par défaut */
+  --button-theme-icon-color: var(--text-secondary); /* Icône gris foncé */
+  --button-theme-border-color: var(--border-color);
+  --button-theme-hover-bg: var(--interactive-hover-bg); /* Léger gris au survol */
+
+  /* Avatars */
+  --avatar-bot-bg: #10b981;
+  --avatar-default-bg: #d1d5db;
+  --avatar-text-color: #1f2937;
+
+  /* Scrollbar */
+  --scrollbar-thumb-bg: #9ca3af;
+  --scrollbar-thumb-hover-bg: #6b7280;
+  --scrollbar-track-bg: var(--bg-main);
+
+  /* Dimensions */
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 72px;
+  --header-height: 56px;
+  --transition-duration: 0.25s;
+}
+
+html.dark {
+  /* === Thème Sombre === */
+
+  /* Variables pour les bulles de chat (Mode Sombre) */
+  /* Décommentez et ajustez si vous voulez des couleurs différentes de :root pour le mode sombre */
+  --chat-bubble-user-bg: #005f99; /* Exemple de bleu différent pour le mode sombre */
+  --chat-bubble-user-text: #e0f2fe;
+  --chat-bubble-ai-bg: #3a4a5f;   /* Exemple de gris-bleu différent */
+  /* --text-primary en mode sombre est #d1d5db, ce qui devrait bien aller sur --chat-bubble-ai-bg sombre. */
+  --chat-bubble-ai-text: var(--text-primary);
+
+
+  /* Fonds */
+  --bg-main: #111827;
+  --bg-content-container: #1f2937;
+  --bg-sidebar: #111827;
+  --bg-header: #1f2937;
+  --bg-input-wrapper: #0f172a;
+  --bg-beta-badge: #374151;
+  --bg-tooltip: #f3f4f6;
+  --bg-modal-overlay: rgba(0, 0, 0, 0.8);
+
+  /* Textes */
+  --text-primary: #d1d5db;
+  --text-secondary: #9ca3af;
+  --text-placeholder: #4b5563;
+  --text-accent: #60a5fa;
+  --text-on-accent-bg: #111827;
+  --text-on-primary-button: #1f2937; /* Utilisé pour le bouton Share/Primaire */
+  --text-active-item: #ffffff;
+  --text-beta-badge: #9ca3af;
+  --text-tooltip: #111827;
+  --text-error: #f87171;
+  --text-success: #4ade80;
+  --text-system-message: #93c5fd;
+
+  /* Bordures */
+  --border-color: #374151;
+  --border-color-input: #4b5563;
+  --border-focus-ring: var(--text-accent);
+
+  /* Interactions */
+  --interactive-hover-bg: #374151;
+  --interactive-active-bg: #4b5563;
+
+  /* Boutons Généraux */
+  --button-primary-bg: #ffffff;
+  --button-primary-hover-bg: #f3f4f6;
+  --button-primary-text: var(--text-on-primary-button);
+
+  --button-secondary-bg: #374151;
+  --button-secondary-hover-bg: #4b5563;
+  --button-secondary-text: #d1d5db;
+
+  --button-danger-bg: var(--text-error);
+  --button-danger-hover-bg: #ef4444;
+  --button-danger-text: #ffffff;
+
+  --button-success-bg: var(--text-success);
+  --button-success-hover-bg: #22c55e;
+  --button-success-text: #111827;
+
+  /* NOUVEAU: Variables pour le bouton de thème flottant (Mode Sombre) */
+  --button-theme-bg: var(--bg-input-wrapper); /* Fond gris très foncé */
+  --button-theme-icon-color: var(--text-secondary); /* Icône gris clair */
+  --button-theme-border-color: var(--border-color-input);
+  --button-theme-hover-bg: var(--interactive-hover-bg); /* Léger gris plus clair au survol */
+
+  /* Avatars */
+  --avatar-bot-bg: #10b981;
+  --avatar-default-bg: #4b5563;
+  --avatar-text-color: #e5e7eb;
+
+  /* Scrollbar */
   --scrollbar-thumb-bg: var(--text-secondary);
   --scrollbar-thumb-hover-bg: var(--text-primary);
   --scrollbar-track-bg: var(--bg-main);
-
-  /* Dimensions pour le style "HOI" (si différentes des originales) */
-  --sidebar-width-open: 260px;  /* HOI: environ 260px */
-  --sidebar-width-closed: 72px; /* HOI: environ 72-80px */
-  --header-height: 56px;        /* HOI: header un peu moins haut, ex: h-14 */
-  --transition-duration: 0.25s; /* Transition plus rapide */
-
-
-  /* Variables pour les polices Geist (si vous les utilisez) */
-  /* Ces valeurs seront probablement fournies par les classes .variable de geist/font appliquées sur <html> */
-  /* Exemple: */
-  /* --font-geist-sans: '__GeistSans_abcdef', system-ui, sans-serif; */
-  /* --font-geist-mono: '__GeistMono_123456', monospace; */
-} /* FIN DU BLOC :root UNIQUE */
-
+}
 
 /* --- Styles de Base Généraux --- */
 html {
   height: 100%;
   box-sizing: border-box;
-  /* Si vous utilisez Geist font via des variables CSS appliquées sur <html> : */
   /* font-family: var(--font-geist-sans); */
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
 }
 
 *, *::before, *::after {
@@ -92,74 +185,194 @@ html {
 }
 
 body {
-  /* Choisissez UNE approche pour la police: soit celle-ci, soit via --font-geist-sans sur html */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Fallback font */
+  /* Si vous utilisez Geist via les classes sur <html> dans layout.tsx, vous pourriez faire : */
+  /* font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; */
   margin: 0;
-  background-color: var(--bg-main); /* Utilise les variables du thème "HOI" */
-  color: var(--text-primary);   /* Utilise les variables du thème "HOI" */
-  display: flex; /* Important pour le layout si vous avez une sidebar + contenu principal */
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  overflow: hidden; /* Empêche le scroll sur le body si le contenu interne le gère */
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ... (le reste de vos styles globaux pour code, a, h1-h6, button, input, etc. peuvent rester tels quels) ... */
+/* ... (styles pour .camera-modal-overlay, etc. peuvent rester tels quels) ... */
+
 code, kbd, samp, pre {
-  /* Choisissez UNE approche pour la police mono */
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  /* ou font-family: var(--font-geist-mono); */
+  background-color: var(--interactive-hover-bg);
+  color: var(--text-primary);
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+pre {
+  background-color: var(--bg-content-container);
+  padding: 1em;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
 }
 
 a {
-  color: var(--text-secondary);
+  color: var(--text-accent);
   text-decoration: none;
+  transition: color var(--transition-duration) ease;
 }
 a:hover {
+  text-decoration: underline;
   color: var(--text-primary);
 }
 
-/* --- Styles pour le Layout Principal (appliqués via CSS Modules dans les composants) --- */
-/* Les classes .sidebar, .main-content-wrapper, .app-header etc.
-   doivent être définies dans leurs fichiers .module.css respectifs (ex: Sidebar.module.css, layout.module.css)
-   et NON directement ici dans globals.css.
-   Ce fichier globals.css ne définit que les styles de base des balises (html, body, a, etc.)
-   et les variables globales :root.
-*/
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+}
 
-/* --- Styles pour le Contenu du Chat, Input Area, Modale Caméra, etc. --- */
-/* Si ces styles sont spécifiques à des composants, ils devraient être dans les .module.css de ces composants.
-   S'ils sont des styles réutilisables plus généraux mais pas assez pour être des classes utilitaires Tailwind,
-   vous pourriez les garder ici, mais c'est moins modulaire.
-   Pour l'instant, je vais supposer qu'ils sont globaux pour simplifier.
-*/
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease, border-color var(--transition-duration) ease;
+}
 
-/* Exemple: Si .chat-message-content-area est utilisé globalement */
-.chat-message-content-area {
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+textarea,
+select {
+  font-family: inherit;
+  background-color: var(--bg-input-wrapper);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color-input);
+  padding: 0.5em 0.75em;
+  border-radius: 6px;
+  transition: border-color var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--border-focus-ring);
+  box-shadow: 0 0 0 2px var(--border-focus-ring);
+}
+::placeholder {
+  color: var(--text-placeholder);
+  opacity: 1;
+}
+
+
+/* Modale Caméra */
+.camera-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-modal-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+.camera-modal-content {
+  background-color: var(--bg-content-container);
+  color: var(--text-primary);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Cette ombre est pour la modale, pas le halo général */
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.camera-modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
   color: var(--text-primary);
 }
-.chat-message-content-area h2 {
-  font-size: 1.125rem; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); display: flex; align-items: baseline;
+.webcam-preview, .captured-image-preview {
+  max-width: 100%;
+  max-height: 50vh;
+  border: 1px solid var(--border-color);
+  margin-bottom: 15px;
+  background-color: #000;
+  border-radius: 4px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-.chat-message-content-area h2 code {
-  background-color: var(--bg-main); color: var(--text-secondary); padding: 2px 6px; border-radius: 4px;
-  font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; margin-left: 8px;
+.camera-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 1rem;
 }
-/* ... (continuez avec les autres styles spécifiques que vous aviez, comme .chat-message-content-area ul, li, p, etc.) ... */
-/* ... (et les styles pour .chat-input-area, .input-wrapper, etc.) ... */
+.camera-modal-actions button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 500;
+  color: #ffffff;
+}
+.btn-capture { background-color: var(--button-success-bg); color: var(--button-success-text); }
+.btn-capture:hover { background-color: var(--button-success-hover-bg); }
+
+.btn-send-capture { background-color: var(--button-primary-bg); color: var(--button-primary-text); }
+.btn-send-capture:hover { background-color: var(--button-primary-hover-bg); }
+
+.btn-close-modal { background-color: var(--button-danger-bg); color: var(--button-danger-text); }
+.btn-close-modal:hover { background-color: var(--button-danger-hover-bg); }
 
 
-/* --- Scrollbar --- */
-::-webkit-scrollbar { width: 6px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: var(--scrollbar-track-bg); }
-::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-bg); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover-bg); }
 
-/* --- Modale Caméra --- */
-.camera-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.camera-modal-content { background-color: var(--bg-content-container); color: var(--text-primary); padding: 20px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); text-align: center; max-width: 90vw; max-height: 90vh; overflow-y: auto; }
-.webcam-preview, .captured-image-preview { max-width: 100%; max-height: 60vh; border: 1px solid var(--border-color); margin-bottom: 15px; background-color: #000; }
-.camera-modal-actions button { margin: 8px; padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; font-weight: 500; transition: opacity 0.2s; color: white; }
-.camera-modal-actions button:hover { opacity: 0.85; }
-.btn-capture { background-color: #22c55e; }
-.btn-send-capture { background-color: #3b82f6; }
-.btn-close-modal { background-color: #ef4444; }
+/* Classes utilitaires injectées */
+.mt-4-global { margin-top: 1rem !important; }
+.text-red-500-global { color: var(--text-error) !important; }
+.link-style-global {
+  color: var(--text-accent) !important;
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+.link-style-global:hover { text-decoration: none !important; }
+
+/* Styles pour le placeholder du chat */
+#emptyChatPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: var(--text-secondary);
+  height: 100%;
+}
+#emptyChatPlaceholder h2 {
+  color: var(--text-primary);
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+#emptyChatPlaceholder .disclaimerText,
+#emptyChatPlaceholder p {
+  font-size: 0.9em;
+  max-width: 450px;
+  line-height: 1.6;
+}
