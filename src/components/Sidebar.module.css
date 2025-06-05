@@ -1,93 +1,73 @@
-/* src/components/Sidebar.module.css */
-/* IMPORTANT: Toutes les variables CSS (ex: --color-bg-light) utilisées ici
-   doivent être définies dans votre fichier src/app/globals.css sous un bloc :root {} */
+/* ========================
+   Sidebar.module.css
+   ========================
+   Composant : Sidebar
+   Description : Style modulaire pour la barre latérale responsive.
+   ======================== */
 
-/* Styles de base pour la sidebar */
+/* === Base Sidebar === */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 40;
   height: 100vh;
-  background-color: var(--color-bg-light); /* Défini dans globals.css */
-  color: var(--color-text-light); /* Défini dans globals.css */
-  transition: width var(--transition-duration) ease-in-out; /* Défini dans globals.css */
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
   display: flex;
   flex-direction: column;
+
+  background-color: var(--bg-sidebar);
+  color: var(--text-primary);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+  transition: 
+    width var(--transition-duration) ease-in-out,
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease;
 }
 
 .sidebarOpen {
-  width: var(--sidebar-width-open); /* Défini dans globals.css */
+  width: var(--sidebar-width-open);
 }
 
 .sidebarClosed {
-  width: var(--sidebar-width-closed); /* Défini dans globals.css */
+  width: var(--sidebar-width-closed);
 }
 
-/* Dark mode (suppose une classe 'dark' sur <html>) */
-:global(html.dark) .sidebar {
-  background-color: var(--color-bg-dark); /* Défini dans globals.css */
-  color: var(--color-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .sidebarHeader,
-:global(html.dark) .sidebarFooter {
-  border-color: var(--color-border-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .menuItemLink:hover:not(.disabled) {
-  background-color: var(--color-item-hover-bg-dark); /* Défini dans globals.css */
-  color: var(--color-item-hover-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .menuItemLink:hover:not(.disabled) .menuItemIcon {
-  color: var(--color-item-hover-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .menuItemLink.active:not(.disabled) {
-  background-color: var(--color-item-active-bg-dark); /* Défini dans globals.css */
-  color: var(--color-item-active-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .menuItemLink.active:not(.disabled) .menuItemIcon {
-  color: var(--color-item-active-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .logoText { /* Note: .logoText n'est pas utilisé dans le TSX actuel, mais je le garde */
-  color: var(--color-text-dark); /* Défini dans globals.css */
-}
-:global(html.dark) .logoIconSL {
-  color: var(--color-accent-primary-light); /* Défini dans globals.css */
-}
-:global(html.dark) .menuItemLink.disabled {
-    color: #4b5563; /* gray-600, ou utilisez une variable si définie */
-    opacity: 0.6;
-}
-
-
-/* Header de la Sidebar */
+/* === Header === */
 .sidebarHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: var(--header-height);
   padding: 0 1rem;
-  height: var(--header-height); /* Défini dans globals.css */
-  border-bottom: 1px solid var(--color-border-light); /* Défini dans globals.css */
   flex-shrink: 0;
+  border-bottom: 1px solid var(--border-color);
+
+  transition: border-color var(--transition-duration) ease;
 }
 
 .logoLink {
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.5rem;
-  color: var(--color-text-light); /* Défini dans globals.css */
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text-primary);
+
+  transition: color var(--transition-duration) ease;
 }
 
 .logoIconSL {
-  color: var(--color-accent-primary); /* Défini dans globals.css */
-  font-size: 1.875rem;
+  font-size: 1.875rem; /* 30px */
+  color: var(--text-accent);
+  transition: color var(--transition-duration) ease;
 }
 
-/* Navigation principale */
+/* === Navigation principale === */
 .nav {
   flex-grow: 1;
   padding: 1rem 0.5rem;
@@ -96,58 +76,50 @@
 
 .nav > *:not(:last-child),
 .sidebarFooter > *:not(:last-child) {
-    margin-bottom: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
-
-/* Items de menu */
+/* === Menu Items === */
 .menuItemLink {
   display: flex;
   align-items: center;
   padding: 0.75rem;
   border-radius: 0.375rem;
   text-decoration: none;
-  color: var(--color-text-light); /* Défini dans globals.css */
-  transition: background-color 0.2s, color 0.2s;
+  color: var(--text-secondary);
+
+  transition: 
+    background-color var(--transition-duration) ease,
+    color var(--transition-duration) ease;
 }
 
 .menuItemLink:hover:not(.disabled) {
-  background-color: var(--color-item-hover-bg-light); /* Défini dans globals.css */
-  color: var(--color-item-hover-text-light); /* Défini dans globals.css */
+  background-color: var(--interactive-hover-bg);
+  color: var(--text-primary);
 }
-.menuItemLink:hover:not(.disabled) .menuItemIcon {
-  color: var(--color-item-hover-text-light); /* Défini dans globals.css */
-}
-
 
 .menuItemLink.active:not(.disabled) {
-  background-color: var(--color-item-active-bg-light); /* Défini dans globals.css */
-  color: var(--color-item-active-text-light); /* Défini dans globals.css */
+  background-color: var(--interactive-active-bg);
+  color: var(--text-active-item);
   font-weight: 500;
-}
-.menuItemLink.active:not(.disabled) .menuItemIcon {
-  color: var(--color-item-active-text-light); /* Défini dans globals.css */
 }
 
 .menuItemLink.disabled {
   cursor: not-allowed;
+  color: var(--text-placeholder);
   opacity: 0.6;
-  color: #6b7280; /* slate-400/500, ou utilisez une variable si définie */
 }
+
 .menuItemLink.disabled .menuItemIcon {
-  color: #6b7280; /* ou utilisez une variable si définie */
+  color: var(--text-placeholder);
 }
 
-
+/* === Icones de menu === */
 .menuItemIcon {
   font-size: 1.25rem;
-  transition: color 0.2s;
-  color: #6b7280; /* Default icon color (slate-500), ou utilisez une variable si définie */
+  color: var(--text-secondary);
+  transition: color var(--transition-duration) ease;
 }
-:global(html.dark) .menuItemIcon {
-  color: #9ca3af; /* Default icon color dark (gray-400), ou utilisez une variable si définie */
-}
-
 
 .menuItemIconOpen {
   margin-right: 0.75rem;
@@ -158,9 +130,12 @@
   margin-right: auto;
 }
 
+/* === Labels de menu === */
 .menuItemLabel {
   white-space: nowrap;
-  transition: opacity var(--transition-duration) ease-in-out, max-width var(--transition-duration) ease-in-out; /* Défini dans globals.css */
+  transition:
+    opacity var(--transition-duration) ease-in-out,
+    max-width var(--transition-duration) ease-in-out;
 }
 
 .menuItemLabelOpen {
@@ -174,10 +149,10 @@
   overflow: hidden;
 }
 
-/* Footer de la Sidebar */
+/* === Footer === */
 .sidebarFooter {
   padding: 1rem 0.5rem;
-  border-top: 1px solid var(--color-border-light); /* Défini dans globals.css */
   flex-shrink: 0;
+  border-top: 1px solid var(--border-color);
+  transition: border-color var(--transition-duration) ease;
 }
-/* Assurez-vous qu'il n'y a pas de texte non-CSS après cette ligne */

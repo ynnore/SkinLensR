@@ -1,13 +1,12 @@
-// src/app/layout.tsx
 "use client";
 
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
-import './globals.css'; // Contient probablement les définitions de :root ou des reset/normalize
+import './globals.css'; // Assurez-vous que ce fichier est à jour avec les variables de thème
 import { useState, ReactNode, useEffect } from 'react';
-import Sidebar from '@/components/Sidebar'; // Ce composant utilisera Sidebar.module.css
+import Sidebar from '@/components/Sidebar'; // Assurez-vous que Sidebar.module.css est à jour
 import { FaBars } from 'react-icons/fa';
-import styles from './layout.module.css'; // Importez les styles du layout
+import styles from './layout.module.css';
 
 export default function RootLayout({
   children,
@@ -15,14 +14,16 @@ export default function RootLayout({
   children: ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  // Pour gérer le dark mode (exemple simple, vous pourriez utiliser un contexte/zustand)
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false); // Thème clair par défaut
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Effet pour appliquer la classe 'dark' sur <html> et la police
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   useEffect(() => {
     const htmlElement = document.documentElement;
     if (isDarkMode) {
@@ -30,67 +31,49 @@ export default function RootLayout({
     } else {
       htmlElement.classList.remove('dark');
     }
-    // Appliquer les classes de police directement ici ou via globals.css
-    // Si GeistSans.className et GeistMono.className sont juste des noms de police,
-    // vous pouvez les assigner via CSS variables comme montré dans layout.module.css
-    // Si ce sont des classes qui injectent des <style>, c'est bon.
+
+    // Ajoute les classes de variables de police à l'élément HTML
+    // Assurez-vous que globals.css définit :root { --font-geist-sans: ...; --font-geist-mono: ...; }
+    // et applique font-family: var(--font-geist-sans); sur body ou html.
     htmlElement.classList.add(GeistSans.variable, GeistMono.variable);
-    // Ajoutez le style pour les variables de police dans globals.css
-    // :root { --font-geist-sans: ...; --font-geist-mono: ...;}
-    // html { font-family: var(--font-geist-sans); }
 
-    // Si vous préférez appliquer les classes directement :
-    // htmlElement.classList.add(GeistSans.className, GeistMono.className);
-
-    // Nettoyage si nécessaire
+    // Nettoyage au démontage (moins critique pour RootLayout mais bonne pratique)
     return () => {
-      htmlElement.classList.remove('dark', GeistSans.variable, GeistMono.variable);
-      // htmlElement.classList.remove('dark', GeistSans.className, GeistMono.className);
+      htmlElement.classList.remove(GeistSans.variable, GeistMono.variable);
+      // Ne pas retirer 'dark' ici pour que le choix de l'utilisateur persiste entre les navigations
     };
   }, [isDarkMode]);
 
 
-  // Déterminer la classe pour le wrapper du contenu principal
-  // La logique des media queries est maintenant dans le CSS
-  let mainContentWrapperClass = styles.mainContentWrapper;
-  if (isSidebarOpen) {
-    // Sur petits écrans, .mainContentWrapper a déjà le bon margin-left
-    // Sur grands écrans, .mainContentWrapperOpen (ou une logique @media dans .mainContentWrapper) s'appliquera
-    mainContentWrapperClass = `${styles.mainContentWrapper} ${styles.mainContentWrapperOpen}`;
-  } else {
-    mainContentWrapperClass = `${styles.mainContentWrapper} ${styles.mainContentWrapperClosed}`;
-  }
-
+  // Classes pour le wrapper du contenu principal
+  const mainContentWrapperClass = `${styles.mainContentWrapper} ${
+    isSidebarOpen ? styles.mainContentWrapperOpen : styles.mainContentWrapperClosed
+  }`;
 
   return (
-    // Les classes GeistSans et GeistMono sont souvent pour des variables CSS de police,
-    // assurez-vous qu'elles sont utilisées correctement avec votre globals.css
-    // ou appliquez directement les font-family dans .body du module.
-    // J'ai changé className en variable pour suivre une convention courante avec geist/font.
-    // Vous devrez peut-être ajuster `globals.css` pour utiliser `--font-geist-sans` etc.
+    // La classe `dark` sera appliquée ici dynamiquement par useEffect
+    // suppressHydrationWarning est utile quand on modifie des classes sur <html>/<body> côté client
     <html lang="fr" suppressHydrationWarning>
-      {/* La classe .body est appliquée ici depuis le module CSS */}
-      <body className={styles.body}>
+      <body className={styles.body}> {/* styles.body doit utiliser les variables de police */}
         <Sidebar isOpen={isSidebarOpen} />
 
         <div className={mainContentWrapperClass}>
           <header className={styles.appHeader}>
             <button
               onClick={toggleSidebar}
-              className={styles.toggleButton}
+              className={styles.toggleSidebarButton}
               aria-label="Toggle sidebar"
             >
-              <FaBars size={20} />
+              <FaBars /> {/* La taille de l'icône peut être gérée par CSS si besoin */}
             </button>
             <h1 className={styles.headerTitle}>
               SkinLensr
             </h1>
-            {/* Bouton de test pour le dark mode */}
             <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              style={{ marginLeft: 'auto', padding: '0.5rem', border:'1px solid' }}
+              onClick={toggleTheme}
+              className={styles.toggleThemeButton}
             >
-              Toggle Dark Mode
+              {isDarkMode ? 'Passer en Mode Clair' : 'Passer en Mode Sombre'}
             </button>
           </header>
 
