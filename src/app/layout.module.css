@@ -1,0 +1,125 @@
+/* src/app/layout.module.css */
+/* Les variables globales (comme --color-bg-light) sont définies dans src/app/globals.css */
+
+.body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  transition: background-color var(--transition-duration), color var(--transition-duration);
+  margin: 0; /* Réinitialisation du margin par défaut du body */
+  /* La font-family sera appliquée globalement ou par les classes de Geist sur <html> */
+  /* Si vous avez besoin de forcer la police Geist spécifiquement ici : */
+  /* font-family: var(--font-geist-sans); */
+}
+
+.mainContentWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left var(--transition-duration) ease-in-out;
+  /* Par défaut pour les petits écrans et sidebar ouverte */
+  margin-left: var(--sidebar-width-open);
+}
+
+.mainContentWrapperClosed {
+  margin-left: 0; /* Petits écrans, sidebar fermée */
+}
+
+/* Pour les écrans moyens et plus (md: breakpoint, typiquement 768px) */
+@media (min-width: 768px) {
+  .mainContentWrapperOpen { /* Renommé pour plus de clarté */
+    margin-left: var(--sidebar-width-open);
+  }
+  .mainContentWrapperClosed {
+    margin-left: var(--sidebar-width-closed);
+  }
+}
+
+.appHeader {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem; /* px-4 */
+  background-color: var(--color-header-bg-light);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+  color: var(--color-header-text-light);
+}
+
+@media (min-width: 768px) {
+  .appHeader {
+    padding-left: 1.5rem; /* md:px-6 */
+    padding-right: 1.5rem;
+  }
+}
+
+.toggleButton {
+  padding: 0.5rem; /* p-2 */
+  border-radius: 0.375rem; /* rounded-md */
+  color: var(--color-button-text-light);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex; /* Pour bien centrer l'icône si besoin */
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleButton:hover {
+  background-color: var(--color-button-hover-bg-light);
+}
+
+.toggleButton:focus {
+  outline: none;
+}
+/* Utiliser :focus-visible pour un meilleur style de focus accessible */
+.toggleButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-focus-ring); /* ring-2 ring-indigo-500 */
+}
+
+.headerTitle {
+  margin-left: 0.75rem; /* ml-3 */
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+  /* La couleur est héritée de .appHeader par défaut */
+}
+
+@media (min-width: 768px) {
+  .headerTitle {
+    font-size: 1.25rem; /* md:text-xl */
+  }
+}
+
+.mainArea {
+  flex-grow: 1;
+  padding: 1rem; /* p-4 */
+}
+
+@media (min-width: 768px) {
+  .mainArea {
+    padding: 1.5rem; /* md:p-6 */
+  }
+}
+
+/* Dark Mode Styles pour les éléments spécifiques à ce layout */
+:global(html.dark) .body { /* .body ici est la classe du module, appliquée à la balise <body> via le composant */
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+:global(html.dark) .appHeader {
+  background-color: var(--color-header-bg-dark);
+  color: var(--color-header-text-dark);
+}
+
+:global(html.dark) .toggleButton {
+  color: var(--color-button-text-dark);
+}
+
+:global(html.dark) .toggleButton:hover {
+  background-color: var(--color-button-hover-bg-dark);
+}
+/* Le headerTitle héritera de la couleur du .appHeader en mode sombre */
