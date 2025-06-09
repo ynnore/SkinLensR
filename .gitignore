@@ -69,3 +69,5 @@ screenshot.png
 .DS_Store
 Thumbs.db
 
+chat_app_flask/*.json
+chat_app_flask/*.json
