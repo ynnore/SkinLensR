@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import styles from './page.module.css';
-import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaRobot } from 'react-icons/fa';
+import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaRobot, FaPlayCircle } from 'react-icons/fa';
 
+// --- Sous-composant pour l'interface de CHAT ---
 const ChatInterface = () => {
   const mockMessages = [
     { role: 'user', content: 'test' },
@@ -49,10 +50,36 @@ const ChatInterface = () => {
   );
 };
 
+// --- Sous-composant pour l'interface de BIENVENUE ---
+const WelcomeInterface = () => (
+  <div className={styles.welcomeContainer}>
+    <div className={styles.welcomeLogo}>
+      <div className={styles.logoIcon}>H</div>
+      <h1>Automate anything</h1>
+    </div>
+    <div className={styles.welcomeCard}>
+      <div className={styles.videoThumbnail}><FaPlayCircle /></div>
+      <div className={styles.cardText}>
+        <p><strong>Watch</strong></p>
+        <p>Getting started with Runner H</p>
+      </div>
+      <button className={styles.closeCardButton}>×</button>
+    </div>
+    <div className={styles.inputBar}>
+      Type here to give a task to Runner H
+    </div>
+  </div>
+);
+
+
+// --- Composant Principal de la Page ---
 export default function HomePage() {
+  // SIMULATION : Mettez `true` pour voir le chat, `false` pour voir la page de bienvenue
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div className={styles.mainPageContainer}>
-      <ChatInterface />
+      {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
     </div>
   );
 }
