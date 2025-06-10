@@ -1,2 +1,6 @@
 backend-api/venv_chat/
 backend-api/venv_chat/
+# Forcer l'inclusion de TOUT le dossier backend pour le déploiement de l'API
+!backend-api/
+
+# ... (le reste de votre fichier peut rester tel quel) ...

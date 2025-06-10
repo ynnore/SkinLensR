@@ -20,3 +20,7 @@ __pycache__/
 
 # Fichiers de log ou temporaires
 *.log
+# Forcer l'inclusion de TOUT le dossier backend pour le build Docker
+!backend-api/
+
+# ... (le reste de votre fichier peut rester tel quel) ...
