@@ -6,24 +6,27 @@ import os
 import base64
 import logging
 
-# --- Configuration du Logging (Simplifié) ---
-# Dans Cloud Run, un simple print() ou logging.info() est automatiquement
-# capturé et envoyé à Google Cloud Logging. C'est plus simple et robuste.
+# --- Configuration du Logging ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# --- Initialisation Vertex AI (Simplifié) ---
-# Quand le code tourne sur Google Cloud (comme Cloud Run), il n'est pas nécessaire
-# de spécifier le projet et la location. La librairie les trouve automatiquement.
+# --- Initialisation Vertex AI (CORRIGÉ POUR LA RÉGION) ---
+# On lit la région depuis les variables d'environnement pour être sûr.
+# C'est la méthode professionnelle pour configurer des applications dans le cloud.
+LOCATION = os.environ.get('GCP_REGION')
+if not LOCATION:
+    # Si la variable n'est pas définie, on arrête l'application immédiatement
+    # pour éviter des erreurs plus tard.
+    raise ValueError("La variable d'environnement GCP_REGION est requise pour initialiser Vertex AI.")
+
 try:
-    vertexai.init()
-    logging.info("Vertex AI initialisé avec succès.")
+    # On initialise Vertex AI en spécifiant explicitement la localisation.
+    vertexai.init(location=LOCATION)
+    logging.info(f"Vertex AI initialisé avec succès dans la région : {LOCATION}")
 except Exception as e:
     logging.critical(f"Erreur critique lors de l'initialisation de Vertex AI : {e}", exc_info=True)
-    # Si Vertex AI ne peut pas démarrer, l'application ne peut pas fonctionner.
     raise
 
 # --- Configuration du Modèle Gemini ---
-# Prendre la variable d'environnement ou une valeur par défaut
 MODEL_NAME_VISION = os.environ.get("MODEL_NAME_VISION", "gemini-1.5-pro-vision")
 
 generation_config = {
@@ -60,9 +63,7 @@ MEDICAL_DISCLAIMER = (
 # --- Application Flask ---
 app = Flask(__name__)
 
-# --- Configuration CORS (Simplifié) ---
-# Active CORS pour toutes les routes et toutes les origines.
-# C'est plus simple pour le développement. On peut le restreindre plus tard si besoin.
+# --- Configuration CORS ---
 CORS(app)
 
 # Session utilisateur (simple en mémoire - Attention: ne fonctionne qu'avec 1 instance)
@@ -70,7 +71,6 @@ user_chat_sessions = {}
 
 def get_or_create_chat_session(user_id):
     if user_id not in user_chat_sessions:
-        # On ne stocke que les 100 dernières sessions pour éviter les fuites de mémoire
         if len(user_chat_sessions) > 100:
             user_chat_sessions.pop(next(iter(user_chat_sessions)))
         user_chat_sessions[user_id] = generative_model.start_chat(history=[])
@@ -90,7 +90,6 @@ def chat_with_gemini():
         data = request.get_json(force=True)
         user_message = data.get("message", "").strip()
         image_data_b64 = data.get("image_b64")
-        # Utiliser un header pour un ID utilisateur ou l'IP comme fallback
         user_id = request.headers.get('X-User-ID', request.remote_addr)
 
         if not user_message and not image_data_b64:
@@ -99,13 +98,12 @@ def chat_with_gemini():
         chat = get_or_create_chat_session(user_id)
         prompt_parts = []
 
-        # Ajouter l'instruction système au tout début d'une nouvelle conversation
         if not chat.history:
             instruction = (
                 f"Vous êtes SkinGPT, un assistant IA informatif pour les soins de la peau. "
                 f"Votre but est de fournir des informations générales et éducatives. "
                 f"{MEDICAL_DISCLAIMER} "
-                "Vous ne devez JAMAIS fournir de diagnostic, de probabilité de maladie, ou de conseil de traitement. "
+                "Vous ne devez JAMAIS fournir de diagnostic. "
                 "Si une image est fournie, décrivez-la de manière neutre et objective (ex: 'rougeur', 'tache brune', 'texture inégale') sans utiliser de terminologie médicale. "
                 "Répondez toujours en rappelant de consulter un professionnel de santé."
             )
@@ -121,14 +119,13 @@ def chat_with_gemini():
                     mime_type = header.split(';')[0].split(':')[1]
                 else:
                     encoded = image_data_b64
-                    mime_type = "image/jpeg" # On suppose JPEG par défaut
+                    mime_type = "image/jpeg"
                 
                 image_bytes = base64.b64decode(encoded)
                 image_part = Part.from_data(data=image_bytes, mime_type=mime_type)
                 prompt_parts.append(image_part)
             except Exception as e:
                 logging.error(f"Erreur de traitement de l'image : {e}", exc_info=True)
-                # Informer l'utilisateur que l'image n'a pas pu être traitée
                 return jsonify({"error": "L'image fournie est invalide ou corrompue."}), 400
 
         response = chat.send_message(prompt_parts)
@@ -139,8 +136,3 @@ def chat_with_gemini():
     except Exception as e:
         logging.error(f"Erreur serveur inattendue : {e}", exc_info=True)
         return jsonify({"error": "Une erreur interne est survenue. Notre équipe a été notifiée."}), 500
-
-# La condition if __name__ == '__main__': n'est pas utilisée par Gunicorn,
-# mais est une bonne pratique pour les tests locaux.
-
-
