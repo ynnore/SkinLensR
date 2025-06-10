@@ -1,4 +1,4 @@
-# Fichier : backend-api/Dockerfile
+# Fichier : backend-api/Dockerfile (VERSION DE PRODUCTION FINALE)
 
 # Étape 1: Utiliser une image Python officielle
 FROM python:3.10-slim
@@ -10,7 +10,7 @@ ENV BLENDER_VERSION=4.1.1
 ENV BLENDER_MAJOR_VERSION=4.1
 WORKDIR $APP_HOME
 
-# Étape 3: Installer les dépendances système pour Blender ET la décompression
+# Étape 3: Installer les dépendances système
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     xvfb \
