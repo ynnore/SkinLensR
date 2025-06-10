@@ -12,3 +12,4 @@ Pillow
 python-dotenv
 requests
 gunicorn
+google-cloud-logging
