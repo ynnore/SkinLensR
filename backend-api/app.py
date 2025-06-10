@@ -27,8 +27,7 @@ except Exception as e:
     raise
 
 # --- Configuration du Modèle Gemini ---
-MODEL_NAME_VISION = os.environ.get("MODEL_NAME_VISION", "gemini-1.5-pro-vision")
-
+MODEL_NAME_VISION = os.environ.get("MODEL_NAME_VISION", "gemini-1.0-pro-vision")
 generation_config = {
     "temperature": 0.7,
     "top_p": 0.95,
