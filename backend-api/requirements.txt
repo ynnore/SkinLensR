@@ -1,15 +1,15 @@
+# Fichier : backend-api/requirements.txt
+# VERSION NETTOYÉE
+
+# Framework web
 Flask
-Flask-Cors
-google-cloud-aiplatform
-protobuf<5.0.0
-openai
-langchain==0.1.19
-langchain-community
-langdetect
-googletrans==4.0.0rc1
-opencv-python
-Pillow
-python-dotenv
-requests
 gunicorn
-google-cloud-logging
+
+# Pour le modèle d'IA
+tensorflow
+numpy
+Pillow
+
+# Optionnel mais souvent utile avec Flask
+Flask-Cors
+python-dotenv

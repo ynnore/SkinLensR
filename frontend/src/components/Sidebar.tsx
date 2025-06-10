@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 import styles from './Sidebar.module.css';
 import { useState, useCallback } from 'react';
 import UserDropdown from './UserDropdown';
-import { FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaWrench, FaCog, FaFileContract, FaKey, FaSun, FaMoon, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-
-const navLinks = [
-  { href: '#', label: 'Scan', icon: FaFire },
-  { href: '#', label: 'Dashboard', icon: FaCompass },
-  { href: '#', label: 'Files', icon: FaFileAlt },
-  { href: '#', label: 'Connections', icon: FaLink },
-  { href: '#', label: 'Pay', icon: FaCoins },
-];
-const footerLinks = [
-  { href: '#', label: 'Settings', icon: FaCog },
-  { href: '#', label: 'Terms', icon: FaFileContract },
-  { href: '#', label: 'Privacy Policy', icon: FaKey },
-];
+import {
+  FaFire,
+  FaCompass,
+  FaFileAlt,
+  FaLink,
+  FaCoins,
+  FaCog,
+  FaFileContract,
+  FaKey,
+  FaSun,
+  FaMoon,
+  FaAngleLeft,
+  FaAngleRight,
+} from 'react-icons/fa';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,9 +26,38 @@ interface SidebarProps {
   toggleTheme: () => void;
 }
 
-export default function Sidebar({ isOpen, toggleSidebar, isDarkMode, toggleTheme }: SidebarProps) {
+interface NavLinkItem {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+  isComingSoon?: boolean;
+}
+
+const navLinks: NavLinkItem[] = [
+  { href: '#', label: 'Scan', icon: FaFire },
+  { href: '#', label: 'Dashboard', icon: FaCompass },
+  { href: '#', label: 'Files', icon: FaFileAlt },
+  { href: '#', label: 'Connections', icon: FaLink },
+  { href: '#', label: 'Pay', icon: FaCoins },
+];
+
+const footerLinks: NavLinkItem[] = [
+  { href: '#', label: 'Settings', icon: FaCog },
+  { href: '#', label: 'Terms', icon: FaFileContract },
+  { href: '#', label: 'Privacy Policy', icon: FaKey },
+];
+
+export default function Sidebar({
+  isOpen,
+  toggleSidebar,
+  isDarkMode,
+  toggleTheme,
+}: SidebarProps) {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
+
+  const toggleMenu = useCallback(() => {
+    setMenuOpen((prev) => !prev);
+  }, []);
 
   return (
     <aside className={`${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}>
@@ -40,7 +69,7 @@ export default function Sidebar({ isOpen, toggleSidebar, isDarkMode, toggleTheme
         <button onClick={toggleMenu} className={styles.logoButton}>
           <div className={styles.logo}>S</div>
         </button>
-        <span className={styles.headerTitle}>Beta </span>
+        <span className={styles.headerTitle}>Beta</span>
         <button onClick={toggleTheme} className={styles.themeToggle}>
           {isDarkMode ? <FaSun /> : <FaMoon />}
         </button>
@@ -49,12 +78,14 @@ export default function Sidebar({ isOpen, toggleSidebar, isDarkMode, toggleTheme
 
       <nav className={styles.nav}>
         <ul>
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              <Link href={link.href} className={styles.navLink}>
-                <link.icon className={styles.navIcon} />
-                <span className={styles.navLabel}>{link.label}</span>
-                {link.isComingSoon && <span className={styles.comingSoon}>Coming Soon</span>}
+          {navLinks.map(({ href, label, icon: Icon, isComingSoon }) => (
+            <li key={label}>
+              <Link href={href} className={styles.navLink}>
+                <Icon className={styles.navIcon} />
+                <span className={styles.navLabel}>{label}</span>
+                {isComingSoon && (
+                  <span className={styles.comingSoon}>Coming Soon</span>
+                )}
               </Link>
             </li>
           ))}
@@ -63,10 +94,12 @@ export default function Sidebar({ isOpen, toggleSidebar, isDarkMode, toggleTheme
 
       <div className={styles.footer}>
         <ul>
-          {footerLinks.map((link) => (
-            <li key={link.label}>
-              <Link href={link.href} className={styles.navLink}><link.icon className={styles.navIcon} />
-              <span className={styles.navLabel}>{link.label}</span></Link>
+          {footerLinks.map(({ href, label, icon: Icon }) => (
+            <li key={label}>
+              <Link href={href} className={styles.navLink}>
+                <Icon className={styles.navIcon} />
+                <span className={styles.navLabel}>{label}</span>
+              </Link>
             </li>
           ))}
         </ul>

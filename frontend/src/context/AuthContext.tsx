@@ -1,4 +1,3 @@
-// nextjs-frontend/src/context/AuthContext.tsx
 'use client'; // Important pour les composants utilisant des hooks React dans le App Router
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const storedEmail = localStorage.getItem('user_email');
     const storedName = localStorage.getItem('user_name');
 
-    if (storedToken && storedEmail) { // Le nom peut être null au début, l'email et le token sont cruciaux
+    if (storedToken && storedEmail) {
       setToken(storedToken);
       setUserEmail(storedEmail);
       setUserName(storedName); // Peut être null si non défini
@@ -60,20 +59,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUserEmail(null);
     setUserName(null);
     setIsLoggedIn(false);
-    router.push('/login'); // Redirige vers la page de connexion
+    router.push('/login');
   }, [router]);
-
 
   // Fonction utilitaire pour faire des requêtes fetch avec le token JWT
   const fetchWithAuth = useCallback(async (url: string, options?: RequestInit) => {
-    const headers = { ...options?.headers };
+    const headers: Record<string, string> = {
+      ...(options?.headers instanceof Headers
+        ? Object.fromEntries(options.headers.entries())
+        : (options?.headers as Record<string, string> ?? {}))
+    };
+
     if (token) {
-      // Ajoute le token d'authentification dans l'en-tête "Authorization"
       headers['Authorization'] = `Bearer ${token}`;
     }
-    // Effectue la requête fetch avec les en-têtes mis à jour
-    return fetch(url, { ...options, headers });
-  }, [token]); // Dépend du token, donc se recréera si le token change
+
+    return fetch(url, {
+      ...options,
+      headers,
+    });
+  }, [token]);
 
   // Valeurs fournies par le contexte à tous les composants enfants
   const contextValue = React.useMemo(() => ({
@@ -85,7 +90,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     logout,
     fetchWithAuth,
   }), [isLoggedIn, userEmail, userName, token, login, logout, fetchWithAuth]);
-
 
   return (
     <AuthContext.Provider value={contextValue}>

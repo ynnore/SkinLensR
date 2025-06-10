@@ -1,25 +1,39 @@
-# Utiliser une image de base Python 3.9
-FROM python:3.9-slim
+# Fichier : backend-api/Dockerfile
 
-# Définir le répertoire de travail dans le conteneur
-WORKDIR /app
+# Étape 1: Utiliser une image Python officielle
+FROM python:3.10-slim
 
-# Copier uniquement le fichier des dépendances pour profiter du cache Docker
-COPY requirements.txt requirements.txt
+# Étape 2: Définir les variables d'environnement
+ENV PYTHONUNBUFFERED=1
+ENV APP_HOME=/app
+ENV BLENDER_VERSION=4.1.1
+ENV BLENDER_MAJOR_VERSION=4.1
+WORKDIR $APP_HOME
 
-# Installer les dépendances
-# L'option --no-cache-dir est une bonne pratique pour des images plus légères
+# Étape 3: Installer les dépendances système pour Blender ET la décompression
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    xvfb \
+    libgl1 \
+    libxi6 \
+    libxrender1 \
+    xz-utils \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Étape 4: Télécharger et installer Blender
+RUN wget -qO blender.tar.xz https://download.blender.org/release/Blender${BLENDER_MAJOR_VERSION}/blender-${BLENDER_VERSION}-linux-x64.tar.xz \
+    && mkdir -p /opt/blender \
+    && tar -xf blender.tar.xz -C /opt/blender --strip-components=1 \
+    && rm blender.tar.xz
+ENV PATH="/opt/blender:${PATH}"
+
+# Étape 5: Installer les dépendances Python
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier tout le reste du code de l'application
+# Étape 6: Copier tout le code de notre API dans l'image
 COPY . .
 
-# La ligne EXPOSE est une bonne pratique pour la documentation,
-# mais n'est pas utilisée par Cloud Run.
-EXPOSE 8080
-
-# --- LA LIGNE CORRIGÉE ---
-# Démarrer le serveur Gunicorn.
-# Il écoutera sur le port fourni par Cloud Run via la variable $PORT.
-# Le nom de votre application Flask/FastAPI est "app" dans le fichier "app.py".
-CMD gunicorn --bind 0.0.0.0:$PORT app:app
+# Étape 7: Commande pour lancer le serveur de production Gunicorn
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app

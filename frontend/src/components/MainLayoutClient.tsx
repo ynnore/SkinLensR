@@ -4,7 +4,7 @@
 import { useState, useEffect, ReactNode } from 'react';
 import Sidebar from '@/components/Sidebar';
 import { FaBars, FaMoon, FaSun } from 'react-icons/fa';
-import styles from './MainLayoutClient.module.css'; // Importer le fichier CSS Module
+import styles from './MainLayoutClient.module.css';
 
 interface MainLayoutClientProps {
   children: ReactNode;
@@ -30,7 +30,7 @@ export default function MainLayoutClient({ children }: MainLayoutClientProps) {
   };
 
   const toggleTheme = () => {
-    setIsDarkMode(prevMode => {
+    setIsDarkMode((prevMode) => {
       const newMode = !prevMode;
       localStorage.setItem('theme', newMode ? 'dark' : 'light');
       return newMode;
@@ -53,23 +53,28 @@ export default function MainLayoutClient({ children }: MainLayoutClientProps) {
 
   return (
     <>
-      <div className={styles.pageWrapper}> {/* Utilisation de la classe du module */}
-        <Sidebar isOpen={isSidebarOpen} />
+      <div className={styles.pageWrapper}>
+        <Sidebar
+          isOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+          isDarkMode={isDarkMode}
+          toggleTheme={toggleTheme}
+        />
 
-        <div className={styles.contentWrapper}> {/* Utilisation de la classe du module */}
-          <header className={styles.header}> {/* Utilisation de la classe du module */}
-            <div className={styles.headerContent}> {/* Utilisation de la classe du module */}
+        <div className={styles.contentWrapper}>
+          <header className={styles.header}>
+            <div className={styles.headerContent}>
               <button
                 onClick={toggleSidebar}
-                className={styles.sidebarToggleButton} // Utilisation de la classe du module
+                className={styles.sidebarToggleButton}
               >
                 <FaBars size={24} />
               </button>
-              <h1 className={styles.headerTitle}>SkinLensr App</h1> {/* Utilisation de la classe du module */}
+              <h1 className={styles.headerTitle}>SkinLensr App</h1>
             </div>
           </header>
 
-          <main className={styles.mainContentArea}> {/* Utilisation de la classe du module */}
+          <main className={styles.mainContentArea}>
             {children}
           </main>
         </div>
@@ -77,9 +82,9 @@ export default function MainLayoutClient({ children }: MainLayoutClientProps) {
 
       <button
         onClick={toggleTheme}
-        className={styles.fixedThemeToggleButton} // Utilisation de la classe du module
-        aria-label={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
-        title={isDarkMode ? "Passer en mode clair" : "Passer en mode sombre"}
+        className={styles.fixedThemeToggleButton}
+        aria-label={isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
+        title={isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
       >
         {isDarkMode ? <FaSun size={20} /> : <FaMoon size={18} />}
       </button>

@@ -1,0 +1,42 @@
+# Fichier .gcloudignore pour un projet Python
+
+# === Python ===
+# Fichiers de cache et de compilation
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environnement virtuel (TRES IMPORTANT !)
+# Assurez-vous d'ajouter le nom de votre venv ici
+venv_chat/
+venv/
+.venv/
+env/
+
+# Fichiers de variables d'environnement locales (ne jamais les déployer)
+.env
+
+# Dépendances installées localement (pour certains gestionnaires de paquets)
+.eggs/
+*.egg-info/
+
+# === Outils courants ===
+# Fichiers de configuration de l'éditeur/IDE
+.vscode/
+.idea/
+*.swp
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Le fichier .gcloudignore lui-même n'a pas besoin d'être dans le build
+.gcloudignore
+
+# Cache de tests (si vous utilisez pytest par exemple)
+.pytest_cache/
+
+# === Git ===
+# Le dossier git ne doit jamais être inclus
+.git/
+.gitignore
