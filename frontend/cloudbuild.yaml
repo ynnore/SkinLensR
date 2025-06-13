@@ -16,20 +16,3 @@ steps:
 options:
   # Options de configuration globales pour les workers de Cloud Build.
   machineType: 'N1_HIGHCPU_8' # Ou N1_HIGHMEM_8 si nécessaire
-
-  # C'est ici que vous ajoutez l'option pour désactiver le cache pour TOUTES les étapes Docker dans ce build
-  no_cache: True # AJOUTEZ CETTE LIGNE# cloudbuild.yaml
-steps:
-  # Étape de construction de l'image Docker
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      - 'build'
-      - '-t'
-      - 'gcr.io/$PROJECT_ID/skinlensr-frontend'
-      - '.' # Ou le chemin relatif si votre Dockerfile est dans un sous-dossier
-    id: 'build-docker-image'
-
-options:
-  # Options de configuration globales pour les workers de Cloud Build.
-  machineType: 'N1_HIGHCPU_8' # Ou N1_HIGHMEM_8 si nécessaire
-  # RETIREZ ICI LA LIGNE 'no_cache: True'
