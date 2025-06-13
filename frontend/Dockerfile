@@ -1,24 +1,21 @@
-# Étape 1: Construire l'application
-FROM node:18-alpine AS builder
+# Étape 1: Construire l'application React/Next.js
+FROM node:18-alpine AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
 
-# Étape 2: Lancer l'application en production
-FROM node:18-alpine
-WORKDIR /app
-ENV NODE_ENV=production
-
-# Copier les fichiers depuis l'étape de build
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-
-EXPOSE 3000
-ENV PORT 3000
-
-# Lancer le serveur
-CMD ["npm", "start"]
+# Étape 2: Servir les fichiers construits avec un serveur léger
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+# Si vous utilisez Next.js, la ligne ci-dessus est différente.
+# Pour Next.js, utilisez les lignes suivantes à la place de celles de Nginx :
+# FROM node:18-alpine
+# WORKDIR /app
+# COPY --from=build /app/package*.json ./
+# RUN npm install --omit=dev
+# COPY --from=build /app/.next ./.next
+# COPY --from=build /app/public ./public
+# EXPOSE 3000
+# CMD ["npm", "start"]
