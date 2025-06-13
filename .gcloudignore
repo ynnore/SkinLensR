@@ -1,0 +1,20 @@
+# Ignorer les dépendances Node.js du front-end
+frontend/node_modules/
+
+# Ignorer l'environnement virtuel Python du back-end
+backend/venv/
+backend/*.venv
+
+# Ignorer les fichiers de cache Python
+backend/__pycache__/
+
+# Ignorer le dossier Git lui-même
+.git/
+
+# Ignorer les fichiers de configuration locaux
+.env
+.env.*
+*.env.local
+
+# Ignorer les fichiers de l'IDE
+.vscode/
