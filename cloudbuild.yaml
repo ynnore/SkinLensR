@@ -1,0 +1,72 @@
+# cloudbuild.yaml
+# Ce fichier sera à la racine de votre dépôt GitHub (ynnore/SkinLensR)
+
+steps:
+# -----------------------------------------------------------
+# SECTION BACKEND
+# Déploiement du Backend (dans le dossier 'backend')
+# -----------------------------------------------------------
+- id: 'Build Backend Image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/${_CLOUD_RUN_SERVICE_NAME}:${_SHORT_SHA}', '.']
+  dir: 'backend' # Le Dockerfile est dans le sous-dossier 'backend'
+
+- id: 'Push Backend Image to Artifact Registry'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/${_CLOUD_RUN_SERVICE_NAME}:${_SHORT_SHA}']
+
+- id: 'Deploy Backend to Cloud Run'
+  name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run', 'deploy', '${_CLOUD_RUN_SERVICE_NAME}',
+         '--image', '${_ARTIFACT_REGISTRY_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/${_CLOUD_RUN_SERVICE_NAME}:${_SHORT_SHA}',
+         '--platform', 'managed',
+         '--region', '${_DEPLOY_REGION}',
+         '--allow-unauthenticated'] # Laissez ceci car le Load Balancer va sécuriser
+  env:
+  - 'SERVICE_NAME=${_CLOUD_RUN_SERVICE_NAME}'
+  - 'REGION=${_DEPLOY_REGION}'
+
+# -----------------------------------------------------------
+# SECTION FRONTEND
+# Déploiement du Frontend (dans le dossier 'frontend')
+# -----------------------------------------------------------
+- id: 'Install Frontend Dependencies'
+  name: 'gcr.io/cloud-builders/npm' # Ou 'gcr.io/cloud-builders/yarn' si vous utilisez yarn
+  args: ['ci'] # 'ci' est mieux que 'install' pour les builds CI/CD
+  dir: 'frontend' # Le code frontend est dans le sous-dossier 'frontend'
+
+- id: 'Build Frontend'
+  name: 'gcr.io/cloud-builders/npm' # Ou 'gcr.io/cloud-builders/yarn'
+  args: ['run', 'build']
+  dir: 'frontend' # Le code frontend est dans le sous-dossier 'frontend'
+
+- id: 'Upload Frontend to GCS'
+  name: 'gcr.io/cloud-builders/gsutil'
+  args: ['rsync', '-d', '-r', './build', 'gs://${_FRONTEND_BUCKET_NAME}/']
+  dir: 'frontend' # Le dossier './build' est relatif au dossier 'frontend'
+  env:
+  - 'BUCKET_NAME=${_FRONTEND_BUCKET_NAME}'
+
+- id: 'Invalidate CDN Cache'
+  name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'url-maps', 'invalidate-cdn-cache', '${_URL_MAP_NAME}',
+         '--path', '/*',
+         '--global']
+  env:
+  - 'URL_MAP=${_URL_MAP_NAME}'
+
+# -----------------------------------------------------------
+# Variables de substitution (pour une meilleure gestion et réutilisation)
+# -----------------------------------------------------------
+substitutions:
+  _DEPLOY_REGION: europe-west1 # La région où tout est déployé
+  _FRONTEND_BUCKET_NAME: skinlens-new-test-frontend # Le nom de votre bucket GCS
+  _URL_MAP_NAME: skinlens-main-url-map # Le nom de votre URL Map du Load Balancer
+  _ARTIFACT_REGISTRY_REPO: skinlens-repo # Le nom de votre dépôt Artifact Registry
+  _ARTIFACT_REGISTRY_LOCATION: europe-west1 # La région de votre dépôt Artifact Registry
+  _CLOUD_RUN_SERVICE_NAME: skinlens-service # Le nom du service Cloud Run que vous voulez déployer
+
+# Options supplémentaires (facultatif)
+options:
+  machineType: 'UNSPECIFIED' # Ou 'N1_HIGHCPU_8' si vos builds sont lents
+  logging: CLOUD_LOGGING_ONLY # Pour réduire les coûts de stockage de logs
