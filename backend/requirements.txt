@@ -1,4 +1,7 @@
 Flask
-google-generativeai
+Flask-CORS
 gunicorn
 python-dotenv
+google-adk
+google-cloud-aiplatform 
+googletrans==4.0.0-rc1

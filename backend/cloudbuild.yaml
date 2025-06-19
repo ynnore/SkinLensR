@@ -1,0 +1,6 @@
+# cloudbuild.yaml (pour le backend SkinLensR Gemini API)
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'europe-west1-docker.pkg.dev/skinlens-new-test/skinlens-repo/skinlens-gemini-backend-service', '.']
+images:
+- 'europe-west1-docker.pkg.dev/skinlens-new-test/skinlens-repo/skinlens-gemini-backend-service'
