@@ -26,7 +26,8 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://skinlens-new.ew.r.appspot.com/agent', {
+      // === LA LIGNE CORRIGÉE EST ICI ===
+      const response = await fetch('http://192.168.1.20:8080/agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt: userMessage.content }),
@@ -34,17 +35,20 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => ({ error: 'Réponse invalide du serveur' }));
-        throw new Error(errorBody.error || `Erreur HTTP: ${response.status}`);
+        // Correction de la ligne suivante pour extraire le message d'erreur
+        const errorMessageText = (errorBody && errorBody.answer) ? errorBody.answer : (errorBody.error || `Erreur HTTP: ${response.status}`);
+        throw new Error(errorMessageText);
       }
 
       const data = await response.json();
-      const assistantMessage: Message = { role: 'assistant', content: data.response };
+      // On s'assure que la clé est bien 'answer' comme dans notre backend
+      const assistantMessage: Message = { role: 'assistant', content: data.answer }; 
       setMessages(prev => [...prev, assistantMessage]);
 
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Une erreur inconnue est survenue.';
       console.error(msg);
-      const errorMessage: Message = { role: 'assistant', content: language === 'fr' ? "Désolé, une erreur est survenue." : "Sorry, an error occurred." };
+      const errorMessage: Message = { role: 'assistant', content: language === 'fr' ? `Désolé, une erreur est survenue: ${msg}` : `Sorry, an error occurred: ${msg}` };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);

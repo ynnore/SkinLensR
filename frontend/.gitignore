@@ -1,0 +1,8 @@
+# Build output
+.next/
+
+# Logs
+*.log
+
+# Local env files
+.env*.local

@@ -1,11 +1,12 @@
-# main.py
+# main.py (version corrigée)
+
 from flask import Flask, request, jsonify
-from agent import chat_agent
+from flask_cors import CORS # N'oubliez pas CORS !
+from agent import chat_with_gemma # On importe notre fonction propre
 import logging
 
 app = Flask(__name__)
-
-# Logger Flask (utile si tu veux voir les requêtes HTTP aussi)
+CORS(app) # Très important pour que votre frontend puisse parler au backend
 logging.basicConfig(level=logging.DEBUG)
 
 @app.route("/", methods=["GET"])
@@ -20,14 +21,15 @@ def ask_agent():
     if not prompt:
         return jsonify({"error": "Missing 'prompt' in request."}), 400
     
-    if not chat_agent:
-        return jsonify({"error": "Agent not available"}), 500
-
     try:
-        result = chat_agent.run(prompt)
-        return jsonify(result)
+        # On appelle directement notre fonction
+        result = chat_with_gemma(prompt)
+        # On retourne le résultat dans le format attendu par le frontend
+        return jsonify({'answer': result}) 
     except Exception as e:
+        logging.error(f"Erreur dans la route /agent: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
+    # On lance le serveur sur le port 8080
     app.run(debug=True, host="0.0.0.0", port=8080)
