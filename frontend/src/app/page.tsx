@@ -20,34 +20,48 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
+    // Sécurité : Vérifier que l'URL de l'API est bien définie
+    if (!process.env.NEXT_PUBLIC_API_URL) {
+      console.error("Erreur critique: La variable d'environnement NEXT_PUBLIC_API_URL n'est pas définie.");
+      const errorMsg: Message = { role: 'assistant', content: "Configuration Error: API URL is not set." };
+      setMessages(prev => [...prev, errorMsg]);
+      return;
+    }
+
     const userMessage: Message = { role: 'user', content: inputValue };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
     try {
-      // === LA LIGNE CORRIGÉE EST ICI ===
-      const response = await fetch('http://192.168.1.20:8080/agent', {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agent`;
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          // === LA CORRECTION EST ICI ===
+          // Cet en-tête demande à Ngrok de ne pas afficher sa page d'avertissement,
+          // ce qui résout le problème de CORS avec le code 503.
+          'ngrok-skip-browser-warning': 'true'
+        },
         body: JSON.stringify({ prompt: userMessage.content }),
       });
 
       if (!response.ok) {
-        const errorBody = await response.json().catch(() => ({ error: 'Réponse invalide du serveur' }));
-        // Correction de la ligne suivante pour extraire le message d'erreur
+        // Tente de lire le corps de la réponse d'erreur, sinon utilise le statut HTTP
+        const errorBody = await response.json().catch(() => ({ error: `Erreur du serveur (sans JSON) : ${response.statusText}` }));
         const errorMessageText = (errorBody && errorBody.answer) ? errorBody.answer : (errorBody.error || `Erreur HTTP: ${response.status}`);
         throw new Error(errorMessageText);
       }
 
       const data = await response.json();
-      // On s'assure que la clé est bien 'answer' comme dans notre backend
       const assistantMessage: Message = { role: 'assistant', content: data.answer }; 
       setMessages(prev => [...prev, assistantMessage]);
 
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Une erreur inconnue est survenue.';
-      console.error(msg);
+      console.error("Erreur lors de l'appel API:", msg);
       const errorMessage: Message = { role: 'assistant', content: language === 'fr' ? `Désolé, une erreur est survenue: ${msg}` : `Sorry, an error occurred: ${msg}` };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
