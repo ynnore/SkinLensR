@@ -2,17 +2,64 @@
 
 import React, { useState, KeyboardEvent } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import styles from './page.module.css';
-import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaPlayCircle } from 'react-icons/fa';
+import {
+  FaPaperclip,
+  FaImage,
+  FaKeyboard,
+  FaMicrophone,
+  FaUser,
+  FaPlayCircle,
+} from 'react-icons/fa';
 
-// --- Définition des types ---
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-// === Composant de CHAT ===
-const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
+type LanguageCode = 'en' | 'fr' | 'mi';
+
+const languageConfig: Record<LanguageCode, { label: string; flag: string }> = {
+  en: { label: 'English', flag: '/flags/gb.png' },
+  fr: { label: 'Français', flag: '/flags/fr.png' },
+  mi: { label: 'Māori', flag: '/flags/maori.png' },
+};
+
+const translations = {
+  thinking: {
+    en: 'SkinLensR is thinking...',
+    fr: 'SkinLensR réfléchit...',
+    mi: 'Ke whakaaro a SkinLensR...',
+  },
+  placeholder: {
+    en: 'Type your message...',
+    fr: 'Tapez votre message...',
+    mi: 'Tēnā koa, tāpiri tō karere...',
+  },
+  welcomeHeadline: {
+    en: 'Automate anything',
+    fr: 'Automatisez tout',
+    mi: 'Rangatira katoa',
+  },
+  watch: {
+    en: 'Watch',
+    fr: 'Regarder',
+    mi: 'Mātakitaki',
+  },
+  intro: {
+    en: 'Getting started with SkinLensR',
+    fr: 'Bien démarrer avec SkinLensR',
+    mi: 'Kei te timata ki SkinLensR',
+  },
+  inputBar: {
+    en: 'Type here to give a task to SkinLensR',
+    fr: 'Tapez ici une tâche à confier à SkinLensR',
+    mi: 'Tāpaea tēnei ki SkinLensR',
+  },
+};
+
+const ChatInterface = ({ language }: { language: LanguageCode }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -20,11 +67,14 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
 
-    // Sécurité : Vérifier que l'URL de l'API est bien définie
     if (!process.env.NEXT_PUBLIC_API_URL) {
-      console.error("Erreur critique: La variable d'environnement NEXT_PUBLIC_API_URL n'est pas définie.");
-      const errorMsg: Message = { role: 'assistant', content: "Configuration Error: API URL is not set." };
-      setMessages(prev => [...prev, errorMsg]);
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Configuration Error: API URL is not set.',
+        },
+      ]);
       return;
     }
 
@@ -34,43 +84,39 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
     setIsLoading(true);
 
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agent`;
-      
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/agent`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          // === LA CORRECTION EST ICI ===
-          // Cet en-tête demande à Ngrok de ne pas afficher sa page d'avertissement,
-          // ce qui résout le problème de CORS avec le code 503.
-          'ngrok-skip-browser-warning': 'true'
+          'ngrok-skip-browser-warning': 'true',
         },
         body: JSON.stringify({ prompt: userMessage.content }),
       });
 
-      if (!response.ok) {
-        // Tente de lire le corps de la réponse d'erreur, sinon utilise le statut HTTP
-        const errorBody = await response.json().catch(() => ({ error: `Erreur du serveur (sans JSON) : ${response.statusText}` }));
-        const errorMessageText = (errorBody && errorBody.answer) ? errorBody.answer : (errorBody.error || `Erreur HTTP: ${response.status}`);
-        throw new Error(errorMessageText);
-      }
-
       const data = await response.json();
-      const assistantMessage: Message = { role: 'assistant', content: data.answer }; 
-      setMessages(prev => [...prev, assistantMessage]);
-
+      setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Une erreur inconnue est survenue.';
-      console.error("Erreur lors de l'appel API:", msg);
-      const errorMessage: Message = { role: 'assistant', content: language === 'fr' ? `Désolé, une erreur est survenue: ${msg}` : `Sorry, an error occurred: ${msg}` };
-      setMessages(prev => [...prev, errorMessage]);
+      const errorMsg =
+        err instanceof Error
+          ? err.message
+          : 'Une erreur inconnue est survenue.';
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            language === 'fr'
+              ? `Désolé, une erreur est survenue: ${errorMsg}`
+              : `Sorry, an error occurred: ${errorMsg}`,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && !isLoading) handleSendMessage();
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) handleSendMessage();
   };
 
   return (
@@ -81,14 +127,19 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
           <h1>App Development on Jetson Orin Nano</h1>
         </div>
         <div className={styles.headerRight}>
-          <button className={styles.moreButton} aria-label="More options">...</button>
-          <button className={styles.shareButton} aria-label="3D mode">3D</button>
+          <button className={styles.moreButton}>...</button>
+          <button className={styles.shareButton}>3D</button>
         </div>
       </header>
 
       <div className={styles.messagesArea}>
-        {messages.map((msg, index) => (
-          <div key={index} className={`${styles.messageBubble} ${msg.role === 'user' ? styles.userMessage : styles.assistantMessage}`}>
+        {messages.map((msg, i) => (
+          <div
+            key={i}
+            className={`${styles.messageBubble} ${
+              msg.role === 'user' ? styles.userMessage : styles.assistantMessage
+            }`}
+          >
             <div className={styles.avatar}>
               {msg.role === 'user' ? <FaUser /> : <div className={styles.robotAvatar}>H</div>}
             </div>
@@ -97,9 +148,11 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
         ))}
         {isLoading && (
           <div className={`${styles.messageBubble} ${styles.assistantMessage}`}>
-            <div className={styles.avatar}><div className={styles.robotAvatar}>H</div></div>
+            <div className={styles.avatar}>
+              <div className={styles.robotAvatar}>H</div>
+            </div>
             <p className={styles.messageContent}>
-              <i>{language === 'fr' ? "SkinLensR réfléchit..." : "SkinLensR is thinking..."}</i>
+              <i>{translations.thinking[language]}</i>
             </p>
           </div>
         )}
@@ -107,64 +160,68 @@ const ChatInterface = ({ language }: { language: 'en' | 'fr' }) => {
 
       <footer className={styles.pageFooter}>
         <div className={styles.inputWrapper}>
-          <button className={styles.iconButton} aria-label="Attach file"><FaPaperclip /></button>
+          <button className={styles.iconButton}>
+            <FaPaperclip />
+          </button>
           <input
             type="text"
-            placeholder={language === 'fr' ? "Tapez votre message..." : "Type your message..."}
+            placeholder={translations.placeholder[language]}
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={e => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isLoading}
           />
         </div>
         <div className={styles.footerActions}>
-          <button className={styles.iconButton} aria-label="Image upload"><FaImage /></button>
-          <button className={styles.iconButton} aria-label="Keyboard"><FaKeyboard /></button>
-          <button className={styles.iconButton} aria-label="Microphone"><FaMicrophone /></button>
-          <div className={styles.moderateDropdown}><span>Moderate</span><span>▼</span></div>
-          <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading} aria-label="Send">↑</button>
+          <button className={styles.iconButton}><FaImage /></button>
+          <button className={styles.iconButton}><FaKeyboard /></button>
+          <button className={styles.iconButton}><FaMicrophone /></button>
+          <div className={styles.moderateDropdown}><span>Moderate</span> <span>▼</span></div>
+          <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
+            ↑
+          </button>
         </div>
       </footer>
     </div>
   );
 };
 
-// === Interface de bienvenue ===
-const WelcomeInterface = ({ language }: { language: 'en' | 'fr' }) => (
+const WelcomeInterface = ({ language }: { language: LanguageCode }) => (
   <div className={styles.welcomeContainer}>
     <div className={styles.welcomeLogo}>
       <div className={styles.logoIcon}>H</div>
-      <h1>{language === 'fr' ? "Automatisez tout" : "Automate anything"}</h1>
+      <h1>{translations.welcomeHeadline[language]}</h1>
     </div>
     <div className={styles.welcomeCard}>
       <div className={styles.videoThumbnail}><FaPlayCircle /></div>
       <div className={styles.cardText}>
-        <p><strong>{language === 'fr' ? "Regarder" : "Watch"}</strong></p>
-        <p>{language === 'fr' ? "Bien démarrer avec SkinLensR" : "Getting started with SkinLensR"}</p>
+        <p><strong>{translations.watch[language]}</strong></p>
+        <p>{translations.intro[language]}</p>
       </div>
-      <button className={styles.closeCardButton} aria-label="Close">×</button>
+      <button className={styles.closeCardButton}>×</button>
     </div>
-    <div className={styles.inputBar}>
-      {language === 'fr' ? "Tapez ici une tâche à confier à SkinLensR" : "Type here to give a task to SkinLensR"}
-    </div>
+    <div className={styles.inputBar}>{translations.inputBar[language]}</div>
   </div>
 );
 
-// === Composant Principal ===
 export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [language, setLanguage] = useState<'en' | 'fr'>('en');
+  const [language, setLanguage] = useState<LanguageCode>('en');
 
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>SkinLensR</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className={styles.mainPageContainer}>
         <div className={styles.langSwitcher}>
-          <button onClick={() => setLanguage('en')} disabled={language === 'en'}>EN</button>
-          <button onClick={() => setLanguage('fr')} disabled={language === 'fr'}>FR</button>
+          {Object.entries(languageConfig).map(([code, { label, flag }]) => (
+            <button key={code} onClick={() => setLanguage(code as LanguageCode)} disabled={language === code}>
+              <Image src={flag} alt={label} width={24} height={16} style={{ marginRight: 6 }} />
+              {code.toUpperCase()}
+            </button>
+          ))}
         </div>
         {isLoggedIn ? <ChatInterface language={language} /> : <WelcomeInterface language={language} />}
       </main>
