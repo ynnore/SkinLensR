@@ -61,19 +61,33 @@
   gap: 0.5rem;
 }
 
+/* === CORRECTION ICI : UNIFICATION DU STYLE DES BOUTONS DU HEADER === */
+
 .moreButton,
 .shareButton {
-  background-color: var(--button-primary-bg);
-  color: var(--button-primary-text);
-  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.2s, border-color 0.2s;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .moreButton {
-  padding: 0.5rem;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.moreButton:hover,
+.shareButton:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--hover-bg);
 }
 
 /* ========================================================
