@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, KeyboardEvent } from 'react';
 import Head from 'next/head';
@@ -19,6 +19,8 @@ interface Message {
 }
 
 type LanguageCode = 'en' | 'fr' | 'mi';
+
+const languageOrder: LanguageCode[] = ['en', 'fr', 'mi'];
 
 const languageConfig: Record<LanguageCode, { label: string; flag: string }> = {
   en: { label: 'English', flag: '/flags/gb.png' },
@@ -59,60 +61,81 @@ const translations = {
   },
 };
 
-const ChatInterface = ({ language }: { language: LanguageCode }) => {
+const LanguageSpinner = ({
+  language,
+  setLanguage,
+}: {
+  language: LanguageCode;
+  setLanguage: (lang: LanguageCode) => void;
+}) => {
+  const ITEM_HEIGHT = 24;
+  const currentIndex = languageOrder.indexOf(language);
+
+  const handleClick = () => {
+    const nextIndex = (currentIndex + 1) % languageOrder.length;
+    setLanguage(languageOrder[nextIndex]);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
+  return (
+    <div
+      className={styles.languageSpinner}
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      aria-label="Changer de langue"
+    >
+      <div
+        className={styles.spinnerList}
+        style={{ transform: `translateY(-${currentIndex * ITEM_HEIGHT}px)` }}
+      >
+        {languageOrder.map((code) => (
+          <div className={styles.spinnerItem} key={code}>
+            <Image
+              src={languageConfig[code].flag}
+              alt={languageConfig[code].label}
+              width={24}
+              height={16}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ChatInterface = ({
+  language,
+  setLanguage,
+}: {
+  language: LanguageCode;
+  setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
-
-    if (!process.env.NEXT_PUBLIC_API_URL) {
-      setMessages(prev => [
-        ...prev,
-        {
-          role: 'assistant',
-          content: 'Configuration Error: API URL is not set.',
-        },
-      ]);
-      return;
-    }
-
+    if (!inputValue.trim()) return;
     const userMessage: Message = { role: 'user', content: inputValue };
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/agent`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
-        },
-        body: JSON.stringify({ prompt: userMessage.content }),
-      });
-
-      const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
-    } catch (err) {
-      const errorMsg =
-        err instanceof Error
-          ? err.message
-          : 'Une erreur inconnue est survenue.';
+    setTimeout(() => {
       setMessages(prev => [
         ...prev,
-        {
-          role: 'assistant',
-          content:
-            language === 'fr'
-              ? `Désolé, une erreur est survenue: ${errorMsg}`
-              : `Sorry, an error occurred: ${errorMsg}`,
-        },
+        { role: 'assistant', content: 'Here is a sample response from SkinLensR!' },
       ]);
-    } finally {
       setIsLoading(false);
-    }
+    }, 1000);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -160,9 +183,7 @@ const ChatInterface = ({ language }: { language: LanguageCode }) => {
 
       <footer className={styles.pageFooter}>
         <div className={styles.inputWrapper}>
-          <button className={styles.iconButton}>
-            <FaPaperclip />
-          </button>
+          <button className={styles.iconButton}><FaPaperclip /></button>
           <input
             type="text"
             placeholder={translations.placeholder[language]}
@@ -172,14 +193,20 @@ const ChatInterface = ({ language }: { language: LanguageCode }) => {
             disabled={isLoading}
           />
         </div>
+        
         <div className={styles.footerActions}>
-          <button className={styles.iconButton}><FaImage /></button>
-          <button className={styles.iconButton}><FaKeyboard /></button>
-          <button className={styles.iconButton}><FaMicrophone /></button>
-          <div className={styles.moderateDropdown}><span>Moderate</span> <span>▼</span></div>
-          <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
-            ↑
-          </button>
+          <div className={styles.footerActionsLeft}>
+            <button className={styles.iconButton}><FaImage /></button>
+            <button className={styles.iconButton}><FaKeyboard /></button>
+            <button className={styles.iconButton}><FaMicrophone /></button>
+          </div>
+          
+          <div className={styles.footerActionsRight}>
+            <LanguageSpinner language={language} setLanguage={setLanguage} />
+            <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
+              ↑
+            </button>
+          </div>
         </div>
       </footer>
     </div>
@@ -215,15 +242,9 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className={styles.mainPageContainer}>
-        <div className={styles.langSwitcher}>
-          {Object.entries(languageConfig).map(([code, { label, flag }]) => (
-            <button key={code} onClick={() => setLanguage(code as LanguageCode)} disabled={language === code}>
-              <Image src={flag} alt={label} width={24} height={16} style={{ marginRight: 6 }} />
-              {code.toUpperCase()}
-            </button>
-          ))}
-        </div>
-        {isLoggedIn ? <ChatInterface language={language} /> : <WelcomeInterface language={language} />}
+        {isLoggedIn
+          ? <ChatInterface language={language} setLanguage={setLanguage} />
+          : <WelcomeInterface language={language} />}
       </main>
     </>
   );

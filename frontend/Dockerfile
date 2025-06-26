@@ -22,6 +22,9 @@ RUN npm install --omit=dev
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 
-EXPOSE 3000
+# Utiliser le port 8080, comme requis par Cloud Run
+ENV PORT=8080
 
-CMD ["npm", "start"]
+EXPOSE 8080
+
+CMD ["npm", "run", "start"]
