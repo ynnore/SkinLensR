@@ -61,8 +61,6 @@
   gap: 0.5rem;
 }
 
-/* === CORRECTION ICI : UNIFICATION DU STYLE DES BOUTONS DU HEADER === */
-
 .moreButton,
 .shareButton {
   background: transparent;
@@ -130,12 +128,35 @@
   flex-shrink: 0;
 }
 
+/* dans page.module.css */
 .robotAvatar {
-  background-color: var(--text-primary);
-  color: var(--bg-main);
-  font-weight: bold;
+  /* ... autres styles de .avatar ... */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem; /* Vous pouvez ajuster la taille de l'emoji ici */
 }
 
+/* Dans votre fichier page.module.css, près des styles de .avatar */
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--hover-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden; /* Important pour que l'image ne dépasse pas */
+}
+
+/* NOUVELLE CLASSE POUR L'IMAGE DE L'AVATAR */
+.assistantAvatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Assure que l'image remplit l'espace sans se déformer */
+}
 .messageContent {
   margin: 0;
   line-height: 1.6;
@@ -229,42 +250,76 @@
 }
 
 /* ========================================================
-   LANGUAGE SPINNER (LA SOLUTION FINALE ET ROBUSTE)
+   SÉLECTEUR DE LANGUE AVEC EMBLÈMES
    ======================================================== */
 
-.languageSpinner {
-  width: 36px;
-  height: 24px;
-  overflow: hidden;
+.languageSelector {
+  position: relative; /* Contexte pour le positionnement du menu */
+  display: inline-block;
+}
+
+.languageButton {
+  /* Style unifié avec les autres boutons du footer */
+  background: none;
+  border: none;
+  color: var(--text-secondary);
   cursor: pointer;
+  padding: 0;
+  font-size: 1.5rem; /* Taille de l'emblème (légèrement plus grand pour la lisibilité) */
   border-radius: 6px;
-  outline: none;
-  /* On crée un contexte de positionnement pour l'animation */
-  position: relative;
-}
-
-.spinnerList {
-  /* La liste est positionnée en absolu par rapport à son parent */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transition: transform 0.4s ease-in-out;
-}
-
-.spinnerItem {
-  height: 24px; /* Hauteur de chaque "slot" */
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 36px;
+  height: 36px;
+  transition: background-color 0.2s;
 }
 
-.spinnerItem img {
-  width: 24px;
-  height: 16px;
-  object-fit: contain;
+.languageButton:hover {
+  background-color: var(--hover-bg);
 }
+
+.languageMenu {
+  position: absolute;
+  bottom: 100%; /* S'affiche au-dessus du bouton */
+  right: 0;
+  background-color: var(--bg-sidebar); /* Utilisation des variables CSS */
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: max-content; /* S'adapte à la longueur du texte */
+  margin-bottom: 8px; /* Espace entre le menu et la barre d'actions */
+}
+
+.languageMenuItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  padding: 10px 15px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.languageMenuItem:hover {
+  background-color: var(--hover-bg);
+}
+
+.languageMenuItem .emblem {
+  font-size: 1.2rem;
+  margin-right: 12px;
+}
+
+/* ========================================================
+   MEDIA QUERIES (ADAPTATION MOBILE)
+   ======================================================== */
 
 @media (max-width: 768px) {
   .chatContainer {

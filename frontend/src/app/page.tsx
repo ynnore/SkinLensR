@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, KeyboardEvent } from 'react';
+import React, { useState, KeyboardEvent, useEffect } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
+// import Image from 'next/image'; // On a bien supprimé cet import
 import styles from './page.module.css';
+import KiwiIcon from '@/components/icons/KiwiIcon'; 
+
 import {
   FaPaperclip,
   FaImage,
@@ -13,22 +15,27 @@ import {
   FaPlayCircle,
 } from 'react-icons/fa';
 
+// --- TYPES ET CONFIGURATIONS ---
+
+export type LanguageCode = 'en' | 'fr' | 'mi';
+
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
 
-type LanguageCode = 'en' | 'fr' | 'mi';
-
-const languageOrder: LanguageCode[] = ['en', 'fr', 'mi'];
-
-const languageConfig: Record<LanguageCode, { label: string; flag: string }> = {
-  en: { label: 'English', flag: '/flags/gb.png' },
-  fr: { label: 'Français', flag: '/flags/fr.png' },
-  mi: { label: 'Māori', flag: '/flags/maori.png' },
+const languageOptions = {
+  en: { name: 'English', emblem: '🌹' },
+  fr: { name: 'Français', emblem: '🐓' },
+  mi: { name: 'Te Reo Māori', emblem: '🌿' },
 };
 
 const translations = {
+  welcomeMessage: {
+    en: "Hello! I'm SkinLensR. How can I help you today?",
+    fr: "Bonjour ! Je suis SkinLensR. Comment puis-je vous aider ?",
+    mi: "Kia ora! Ko SkinLensR ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
+  },
   thinking: {
     en: 'SkinLensR is thinking...',
     fr: 'SkinLensR réfléchit...',
@@ -39,96 +46,77 @@ const translations = {
     fr: 'Tapez votre message...',
     mi: 'Tēnā koa, tāpiri tō karere...',
   },
-  welcomeHeadline: {
-    en: 'Automate anything',
-    fr: 'Automatisez tout',
-    mi: 'Rangatira katoa',
-  },
-  watch: {
-    en: 'Watch',
-    fr: 'Regarder',
-    mi: 'Mātakitaki',
-  },
-  intro: {
-    en: 'Getting started with SkinLensR',
-    fr: 'Bien démarrer avec SkinLensR',
-    mi: 'Kei te timata ki SkinLensR',
-  },
-  inputBar: {
-    en: 'Type here to give a task to SkinLensR',
-    fr: 'Tapez ici une tâche à confier à SkinLensR',
-    mi: 'Tāpaea tēnei ki SkinLensR',
-  },
+  welcomeHeadline: { en: 'Automate anything', fr: 'Automatisez tout', mi: 'Rangatira katoa' },
+  watch: { en: 'Watch', fr: 'Regarder', mi: 'Mātakitaki' },
+  intro: { en: 'Getting started with SkinLensR', fr: 'Bien démarrer avec SkinLensR', mi: 'Kei te timata ki SkinLensR' },
+  inputBar: { en: 'Type here to give a task to SkinLensR', fr: 'Tapez ici une tâche à confier à SkinLensR', mi: 'Tāpaea tēnei ki SkinLensR' },
 };
 
-const LanguageSpinner = ({
+// --- COMPOSANT SÉLECTEUR DE LANGUE ---
+
+const LanguageSelector = ({
   language,
   setLanguage,
 }: {
   language: LanguageCode;
   setLanguage: (lang: LanguageCode) => void;
 }) => {
-  const ITEM_HEIGHT = 24;
-  const currentIndex = languageOrder.indexOf(language);
-
-  const handleClick = () => {
-    const nextIndex = (currentIndex + 1) % languageOrder.length;
-    setLanguage(languageOrder[nextIndex]);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleSelect = (lang: LanguageCode) => {
+    setLanguage(lang);
+    setIsOpen(false);
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleClick();
-    }
-  };
-
   return (
-    <div
-      className={styles.languageSpinner}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={0}
-      aria-label="Changer de langue"
-    >
-      <div
-        className={styles.spinnerList}
-        style={{ transform: `translateY(-${currentIndex * ITEM_HEIGHT}px)` }}
-      >
-        {languageOrder.map((code) => (
-          <div className={styles.spinnerItem} key={code}>
-            <Image
-              src={languageConfig[code].flag}
-              alt={languageConfig[code].label}
-              width={24}
-              height={16}
-            />
-          </div>
-        ))}
-      </div>
+    <div className={styles.languageSelector}>
+      <button className={styles.languageButton} onClick={() => setIsOpen(!isOpen)}>
+        <span>{languageOptions[language].emblem}</span>
+      </button>
+      {isOpen && (
+        <div className={styles.languageMenu}>
+          {(Object.keys(languageOptions) as LanguageCode[]).map((langCode) => (
+            <button key={langCode} className={styles.languageMenuItem} onClick={() => handleSelect(langCode)}>
+              <span className={styles.emblem}>{languageOptions[langCode].emblem}</span>
+              <span>{languageOptions[langCode].name}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
+
+
+// --- COMPOSANT INTERFACE DE CHAT ---
 
 const ChatInterface = ({
   language,
   setLanguage,
 }: {
   language: LanguageCode;
-  setLanguage: React.Dispatch<React.SetStateAction<LanguageCode>>;
+  setLanguage: (lang: LanguageCode) => void;
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  useEffect(() => {
+    setMessages([{
+      role: 'assistant',
+      content: translations.welcomeMessage[language],
+    }]);
+  }, [language]);
 
-  const handleSendMessage = async () => {
+  const getAssistantAvatar = () => {
+    return (
+      <KiwiIcon className={styles.assistantAvatarIcon} />
+    );
+  };
+
+  const handleSendMessage = () => {
     if (!inputValue.trim()) return;
-    const userMessage: Message = { role: 'user', content: inputValue };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages(prev => [...prev, { role: 'user', content: inputValue }]);
     setInputValue('');
     setIsLoading(true);
-
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
@@ -154,17 +142,15 @@ const ChatInterface = ({
           <button className={styles.shareButton}>3D</button>
         </div>
       </header>
-
       <div className={styles.messagesArea}>
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`${styles.messageBubble} ${
-              msg.role === 'user' ? styles.userMessage : styles.assistantMessage
-            }`}
+            className={[ styles.messageBubble, msg.role === 'user' ? styles.userMessage : styles.assistantMessage ].join(' ')}
           >
             <div className={styles.avatar}>
-              {msg.role === 'user' ? <FaUser /> : <div className={styles.robotAvatar}>H</div>}
+              {/* ▼▼▼ C'EST CETTE LIGNE QUI EST CORRIGÉE ▼▼▼ */}
+              {msg.role === 'user' ? <FaUser /> : getAssistantAvatar()}
             </div>
             <p className={styles.messageContent}>{msg.content}</p>
           </div>
@@ -172,7 +158,7 @@ const ChatInterface = ({
         {isLoading && (
           <div className={`${styles.messageBubble} ${styles.assistantMessage}`}>
             <div className={styles.avatar}>
-              <div className={styles.robotAvatar}>H</div>
+              {getAssistantAvatar()}
             </div>
             <p className={styles.messageContent}>
               <i>{translations.thinking[language]}</i>
@@ -180,7 +166,6 @@ const ChatInterface = ({
           </div>
         )}
       </div>
-
       <footer className={styles.pageFooter}>
         <div className={styles.inputWrapper}>
           <button className={styles.iconButton}><FaPaperclip /></button>
@@ -193,17 +178,19 @@ const ChatInterface = ({
             disabled={isLoading}
           />
         </div>
-        
         <div className={styles.footerActions}>
           <div className={styles.footerActionsLeft}>
             <button className={styles.iconButton}><FaImage /></button>
             <button className={styles.iconButton}><FaKeyboard /></button>
             <button className={styles.iconButton}><FaMicrophone /></button>
           </div>
-          
           <div className={styles.footerActionsRight}>
-            <LanguageSpinner language={language} setLanguage={setLanguage} />
-            <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
+            <LanguageSelector language={language} setLanguage={setLanguage} />
+            <button
+              className={styles.sendButton}
+              onClick={handleSendMessage}
+              disabled={isLoading}
+            >
               ↑
             </button>
           </div>
@@ -213,6 +200,8 @@ const ChatInterface = ({
   );
 };
 
+
+// --- COMPOSANT WELCOME ---
 const WelcomeInterface = ({ language }: { language: LanguageCode }) => (
   <div className={styles.welcomeContainer}>
     <div className={styles.welcomeLogo}>
@@ -231,9 +220,11 @@ const WelcomeInterface = ({ language }: { language: LanguageCode }) => (
   </div>
 );
 
-export default function HomePage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+// --- COMPOSANT PRINCIPAL DE LA PAGE ---
+export default function Page() {
   const [language, setLanguage] = useState<LanguageCode>('en');
+  const [isLoggedIn] = useState(true);
 
   return (
     <>

@@ -146,3 +146,12 @@
   .logo { font-size: 1rem; height: 20px; width: 20px; }
   .headerTitle { font-size: 0.9rem; }
 }
+.languageSelector {
+  margin-top: 8px;
+  padding: 4px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: var(--background);
+  color: var(--text);
+}

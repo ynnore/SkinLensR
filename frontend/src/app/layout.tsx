@@ -1,24 +1,20 @@
-// src/app/layout.tsx
-import type { Metadata } from 'next';
 import './globals.css';
-import MainLayoutClient from '@/components/MainLayoutClient'; // On importe toujours notre layout client
+import MainLayoutClient from '@/components/MainLayoutClient';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'SkinLensR',
-  description: "Analyse d'images pour la dermatologie",
+  viewport: 'width=device-width, initial-scale=1',
 };
 
-// C'est un Composant Serveur. Il ne fait que définir la structure de base.
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    // La balise <html> avec la langue par défaut et suppressHydrationWarning
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="en">
       <body>
-        {/* On retire le <I18nProvider> qui n'est plus nécessaire */}
+        {/* On enveloppe toute l'app dans MainLayoutClient */}
         <MainLayoutClient>
           {children}
         </MainLayoutClient>
@@ -26,3 +22,4 @@ export default function RootLayout({
     </html>
   );
 }
+

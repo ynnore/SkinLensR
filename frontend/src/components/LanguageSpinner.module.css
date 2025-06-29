@@ -1,0 +1,19 @@
+.languageSpinner {
+  width: 30px;
+  height: 24px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.spinnerList {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+}
+
+.spinnerItem {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

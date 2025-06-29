@@ -1,18 +1,12 @@
-// src/components/Sidebar.tsx
 'use client';
 
-import Link from 'next/link';
-import { useState, useCallback } from 'react';
-import styles from './Sidebar.module.css';
+import React, { useState, useCallback } from 'react';
+import { FaSun, FaMoon, FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaCog, FaFileContract, FaKey } from 'react-icons/fa';
 import { MdWaves } from 'react-icons/md';
-import UserDropdown from './UserDropdown';
-import { LanguageCode } from './MainLayoutClient'; // On importe le type depuis le parent
-import {
-  FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaCog,
-  FaFileContract, FaKey, FaSun, FaMoon,
-} from 'react-icons/fa';
+import { LanguageCode } from './MainLayoutClient'; // Importer le type LanguageCode
+import styles from './Sidebar.module.css';
 
-// Le dictionnaire de traductions pour la Sidebar
+// Traductions multilingues
 const translations = {
   beta: { en: 'Beta', fr: 'Bêta', mi: 'Pēta' },
   scan: { en: 'Scan', fr: 'Scanner', mi: 'Matawai' },
@@ -25,13 +19,13 @@ const translations = {
   privacy: { en: 'Privacy Policy', fr: 'Confidentialité', mi: 'Tūmataitinga' },
 };
 
-// L'interface pour les props reçues
 interface SidebarProps {
   isOpen: boolean;
   toggleSidebar: () => void;
   isDarkMode: boolean;
   toggleTheme: () => void;
-  language: LanguageCode; // On attend la langue en prop
+  language: LanguageCode; // Recevoir la langue du parent
+  setLanguage: (lang: LanguageCode) => void; // Recevoir la fonction `setLanguage` du parent
 }
 
 export default function Sidebar({
@@ -40,11 +34,11 @@ export default function Sidebar({
   isDarkMode,
   toggleTheme,
   language,
+  setLanguage,
 }: SidebarProps) {
   const [isMenuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = useCallback(() => setMenuOpen((prev) => !prev), []);
+  const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
 
-  // On utilise la langue reçue pour créer les listes de liens
   const navLinks = [
     { href: '#', label: translations.scan[language], icon: FaFire },
     { href: '#', label: translations.dashboard[language], icon: FaCompass },
@@ -52,6 +46,7 @@ export default function Sidebar({
     { href: '#', label: translations.connections[language], icon: FaLink },
     { href: '#', label: translations.pay[language], icon: FaCoins },
   ];
+
   const footerLinks = [
     { href: '#', label: translations.settings[language], icon: FaCog },
     { href: '#', label: translations.terms[language], icon: FaFileContract },
@@ -69,23 +64,47 @@ export default function Sidebar({
           <div className={styles.logo}>S</div>
         </button>
         <span className={styles.headerTitle}>{translations.beta[language]}</span>
+
         <button onClick={toggleTheme} className={styles.themeToggle}>
           {isDarkMode ? <FaSun /> : <FaMoon />}
         </button>
-        {isMenuOpen && <UserDropdown />}
+
+        {isMenuOpen && <div>User Dropdown</div>}
+
+        {/* Sélecteur de langue */}
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value as LanguageCode)}
+          className={styles.languageSelector}
+        >
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="mi">🇳🇿 Māori</option>
+        </select>
       </div>
 
       <nav className={styles.nav}>
         <ul>
           {navLinks.map(({ href, label, icon: Icon }) => (
-            <li key={label}> <Link href={href} className={styles.navLink}> <Icon className={styles.navIcon} /> <span className={styles.navLabel}>{label}</span> </Link> </li>
+            <li key={label}>
+              <a href={href} className={styles.navLink}>
+                <Icon className={styles.navIcon} />
+                <span className={styles.navLabel}>{label}</span>
+              </a>
+            </li>
           ))}
         </ul>
       </nav>
+
       <div className={styles.footer}>
         <ul>
           {footerLinks.map(({ href, label, icon: Icon }) => (
-            <li key={label}> <Link href={href} className={styles.navLink}> <Icon className={styles.navIcon} /> <span className={styles.navLabel}>{label}</span> </Link> </li>
+            <li key={label}>
+              <a href={href} className={styles.navLink}>
+                <Icon className={styles.navIcon} />
+                <span className={styles.navLabel}>{label}</span>
+              </a>
+            </li>
           ))}
         </ul>
       </div>
