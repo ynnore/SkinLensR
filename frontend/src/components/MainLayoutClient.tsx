@@ -1,93 +1,58 @@
 // src/components/MainLayoutClient.tsx
-"use client";
+'use client';
 
-import { useState, useEffect, ReactNode } from 'react';
-import Sidebar from '@/components/Sidebar';
-import { FaBars, FaMoon, FaSun } from 'react-icons/fa';
+import React, { useState, useCallback, useEffect } from 'react';
+import Sidebar from './Sidebar';
 import styles from './MainLayoutClient.module.css';
 
-interface MainLayoutClientProps {
-  children: ReactNode;
-}
+// 1. On définit le type pour la langue ici.
+//    Cela garantit que tous les composants utilisent les mêmes codes ('en', 'fr', 'mi').
+export type LanguageCode = 'en' | 'fr' | 'mi';
 
-export default function MainLayoutClient({ children }: MainLayoutClientProps) {
-  const [isMounted, setIsMounted] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+export default function MainLayoutClient({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // Logique existante pour la sidebar et le thème
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isDarkMode, setDarkMode] = useState(true);
 
-  useEffect(() => {
-    setIsMounted(true);
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark') {
-      setIsDarkMode(true);
-    } else if (storedTheme === 'light') {
-      setIsDarkMode(false);
-    }
-  }, []);
+  // 2. ON AJOUTE L'ÉTAT DE LA LANGUE ICI.
+  //    C'est maintenant le "chef d'orchestre" de la langue pour toute l'application.
+  const [language, setLanguage] = useState<LanguageCode>('en'); // On démarre en anglais par défaut
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
-  const toggleTheme = () => {
-    setIsDarkMode((prevMode) => {
-      const newMode = !prevMode;
-      localStorage.setItem('theme', newMode ? 'dark' : 'light');
-      return newMode;
+  // Fonctions existantes
+  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
+  const toggleTheme = useCallback(() => {
+    setDarkMode(prev => {
+      const newIsDarkMode = !prev;
+      document.documentElement.classList.toggle('dark', newIsDarkMode);
+      return newIsDarkMode;
     });
-  };
-
+  }, []);
+  
+  // Effet pour le thème
   useEffect(() => {
-    if (!isMounted) return;
-    const htmlElement = document.documentElement;
-    if (isDarkMode) {
-      htmlElement.classList.add('dark');
-    } else {
-      htmlElement.classList.remove('dark');
-    }
-  }, [isDarkMode, isMounted]);
-
-  if (!isMounted) {
-    return null;
-  }
+    document.documentElement.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode]);
 
   return (
-    <>
-      <div className={styles.pageWrapper}>
-        <Sidebar
-          isOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-          isDarkMode={isDarkMode}
-          toggleTheme={toggleTheme}
-        />
-
-        <div className={styles.contentWrapper}>
-          <header className={styles.header}>
-            <div className={styles.headerContent}>
-              <button
-                onClick={toggleSidebar}
-                className={styles.sidebarToggleButton}
-              >
-                <FaBars size={24} />
-              </button>
-              <h1 className={styles.headerTitle}>SkinLensr App</h1>
-            </div>
-          </header>
-
-          <main className={styles.mainContentArea}>
-            {children}
-          </main>
-        </div>
-      </div>
-
-      <button
-        onClick={toggleTheme}
-        className={styles.fixedThemeToggleButton}
-        aria-label={isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
-        title={isDarkMode ? 'Passer en mode clair' : 'Passer en mode sombre'}
-      >
-        {isDarkMode ? <FaSun size={20} /> : <FaMoon size={18} />}
-      </button>
-    </>
+    <div className={styles.layoutContainer}>
+      {/* 3. ON PASSE LA LANGUE À LA SIDEBAR */}
+      {/*    Maintenant, la Sidebar saura toujours quelle langue afficher. */}
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        toggleSidebar={toggleSidebar}
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+        language={language} 
+      />
+      <main className={styles.mainContent}>
+        {/* 4. ON PASSE LA LANGUE ET LA FONCTION POUR LA CHANGER À LA PAGE DE CHAT */}
+        {/*    React.cloneElement est la magie qui permet de passer de nouvelles props aux enfants. */}
+        {React.cloneElement(children as React.ReactElement, { language, setLanguage })}
+      </main>
+    </div>
   );
 }

@@ -1,53 +1,27 @@
-'use client';
-
+// src/app/layout.tsx
+import type { Metadata } from 'next';
 import './globals.css';
-import styles from './layout.module.css';
-import { useState, ReactNode, useCallback, useEffect } from 'react';
-import Sidebar from '@/components/Sidebar';
-import { MyProvider } from '@/context/MyContext'; // ajuste le chemin si besoin
+import MainLayoutClient from '@/components/MainLayoutClient'; // On importe toujours notre layout client
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL!;
+export const metadata: Metadata = {
+  title: 'SkinLensR',
+  description: "Analyse d'images pour la dermatologie",
+};
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const toggleSidebar = useCallback(() => setIsSidebarOpen(prev => !prev), []);
-
-  const toggleTheme = useCallback(() => {
-    setIsDarkMode(prev => {
-      const newMode = !prev;
-      localStorage.setItem('theme', newMode ? 'dark' : 'light');
-      return newMode;
-    });
-  }, []);
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) {
-      setIsDarkMode(storedTheme === 'dark');
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle('dark', isDarkMode);
-    document.documentElement.classList.toggle('light', !isDarkMode);
-  }, [isDarkMode]);
-
+// C'est un Composant Serveur. Il ne fait que définir la structure de base.
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
+    // La balise <html> avec la langue par défaut et suppressHydrationWarning
     <html lang="fr" suppressHydrationWarning>
-      <body className={styles.body}>
-        <MyProvider backendUrl={BACKEND_URL}>
-          <Sidebar
-            isOpen={isSidebarOpen}
-            toggleSidebar={toggleSidebar}
-            isDarkMode={isDarkMode}
-            toggleTheme={toggleTheme}
-          />
-          <main className={styles.mainContent}>
-            {children}
-          </main>
-        </MyProvider>
+      <body>
+        {/* On retire le <I18nProvider> qui n'est plus nécessaire */}
+        <MainLayoutClient>
+          {children}
+        </MainLayoutClient>
       </body>
     </html>
   );

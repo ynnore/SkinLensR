@@ -106,3 +106,20 @@
 :global(html.dark) .toggleButton:hover {
   background-color: var(--color-button-hover-bg-dark);
 }
+/* src/components/MainLayoutClient.module.css */
+
+.layoutContainer {
+  display: flex; /* LA LIGNE LA PLUS IMPORTANTE : Corrige le menu "flottant" */
+  height: 100vh;
+  width: 100%;
+  background-color: var(--bg-main);
+  overflow: hidden;
+}
+
+.mainContent {
+  flex-grow: 1; /* Le contenu principal prend toute la place restante */
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
