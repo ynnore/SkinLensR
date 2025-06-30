@@ -4,8 +4,14 @@ import React, { useState, KeyboardEvent, useEffect } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
 import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaPlayCircle } from 'react-icons/fa';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types';
+import { LanguageCode } from '@/types'; // Import depuis le fichier central de types
+
+// --- CONFIGURATIONS ---
+
+interface Message {
+  role: 'user' | 'assistant';
+  content: string;
+}
 
 const languageOptions = {
   en: { name: 'English', emblem: '🌹' },
@@ -35,8 +41,12 @@ const translations = {
   inputBar: { en: 'Type here to give a task to SkinLensR', fr: 'Tapez ici une tâche à confier à SkinLensR', mi: 'Tāpaea tēnei ki SkinLensR' },
 };
 
-const ChatInterface = () => {
-  const { language } = useLanguage();
+// --- COMPOSANT INTERFACE DE CHAT ---
+const ChatInterface = ({
+  language,
+}: {
+  language: LanguageCode;
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -50,17 +60,30 @@ const ChatInterface = () => {
     return <div className={styles.robotAvatar}>{emblem}</div>;
   };
 
-  const handleSendMessage = () => { /* ... */ };
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => { /* ... */ };
+  const handleSendMessage = () => {
+    if (!inputValue.trim()) return;
+    setMessages(prev => [...prev, { role: 'user', content: inputValue }]);
+    setInputValue('');
+    setIsLoading(true);
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        { role: 'assistant', content: 'Here is a sample response from SkinLensR!' },
+      ]);
+      setIsLoading(false);
+    }, 1000);
+  };
 
-  const messageAreaClassName = (msgRole: string) => [styles.messageBubble, msgRole === 'user' ? styles.userMessage : styles.assistantMessage].join(' ');
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) handleSendMessage();
+  };
 
   return (
     <div className={styles.chatContainer}>
       <header className={styles.pageHeader}>
         <div className={styles.headerLeft}>
-          <span></span>
-          <h1></h1>
+          <span>Run</span>
+          <h1>App Development on Jetson Orin Nano</h1>
         </div>
         <div className={styles.headerRight}>
           <button className={styles.moreButton}>...</button>
@@ -69,7 +92,8 @@ const ChatInterface = () => {
       </header>
       <div className={styles.messagesArea}>
         {messages.map((msg, i) => (
-          <div key={i} className={messageAreaClassName(msg.role)}>
+          // J'ai utilisé .join(' ') au lieu de backticks pour plus de robustesse
+          <div key={i} className={[styles.messageBubble, msg.role === 'user' ? styles.userMessage : styles.assistantMessage].join(' ')}>
             <div className={styles.avatar}>
               {msg.role === 'user' ? <FaUser /> : getAssistantAvatar()}
             </div>
@@ -77,7 +101,7 @@ const ChatInterface = () => {
           </div>
         ))}
         {isLoading && (
-          <div className={messageAreaClassName('assistant')}>
+          <div className={[styles.messageBubble, styles.assistantMessage].join(' ')}>
             <div className={styles.avatar}>
               {getAssistantAvatar()}
             </div>
@@ -116,13 +140,8 @@ const ChatInterface = () => {
   );
 };
 
-interface Message {
-  role: string;
-  content: string;
-}
-
-const WelcomeInterface = () => {
-  const { language } = useLanguage();
+// --- COMPOSANT WELCOME ---
+const WelcomeInterface = ({ language }: { language: LanguageCode }) => {
   return (
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
@@ -142,7 +161,10 @@ const WelcomeInterface = () => {
   );
 };
 
-export default function Page() {
+
+// --- COMPOSANT PRINCIPAL DE LA PAGE ---
+// Ce composant reçoit les props du Layout parent et les passe à ses enfants.
+export default function Page({ language = 'en' }: { language?: LanguageCode }) {
   const isLoggedIn = true;
   return (
     <>
@@ -150,7 +172,9 @@ export default function Page() {
         <title>SkinLensR - Chat</title>
       </Head>
       <main className={styles.mainPageContainer}>
-        {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
+        {isLoggedIn
+          ? <ChatInterface language={language} />
+          : <WelcomeInterface language={language} />}
       </main>
     </>
   );

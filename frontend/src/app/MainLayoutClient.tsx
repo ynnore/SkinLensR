@@ -11,9 +11,9 @@ export default function MainLayoutClient({ children }: { children: React.ReactNo
   const [isDarkMode, setDarkMode] = useState(false);
   const { language, setLanguage } = useLanguage();
 
-  // Applique la classe de thème sur la balise <html>
+  // CORRECTION MAJEURE : On applique les classes sur <html>
   useEffect(() => {
-    const root = document.documentElement;
+    const root = document.documentElement; // Cible la balise <html>
     if (isDarkMode) {
       root.classList.add('dark');
       root.classList.remove('light');

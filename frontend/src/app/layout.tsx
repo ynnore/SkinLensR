@@ -1,25 +1,21 @@
+// Fichier : src/app/layout.tsx
 import './globals.css';
-import MainLayoutClient from '@/components/MainLayoutClient';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+import MainLayoutClient from './MainLayoutClient';
 
 export const metadata = {
-  title: 'SkinLensR',
-  viewport: 'width=device-width, initial-scale=1',
+  title: 'Mon Application',
+  description: 'Générée par SkinLensR',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body>
-        {/* On enveloppe toute l'app dans MainLayoutClient */}
-        <MainLayoutClient>
-          {children}
-        </MainLayoutClient>
+        <LanguageProvider>
+          <MainLayoutClient>{children}</MainLayoutClient>
+        </LanguageProvider>
       </body>
     </html>
   );
 }
-

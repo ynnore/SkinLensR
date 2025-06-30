@@ -1,0 +1,50 @@
+'use client';
+
+import React, { useState, useCallback, useEffect, cloneElement, ReactElement } from 'react';
+import Sidebar from './Sidebar';
+import styles from './MainLayoutClient.module.css';
+import { LanguageCode } from '@/types'; // CORRIGÉ : Import depuis le fichier central
+
+export default function MainLayoutClient({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isDarkMode, setDarkMode] = useState(true);
+  const [language, setLanguage] = useState<LanguageCode>('en');
+
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
+
+  const toggleTheme = useCallback(() => {
+    setDarkMode(prev => {
+      document.documentElement.classList.toggle('dark', !prev);
+      return !prev;
+    });
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDarkMode);
+  }, [isDarkMode]);
+
+  return (
+    <div className={styles.layoutContainer}>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+        language={language}
+        setLanguage={setLanguage}
+      />
+      <main className={styles.mainContent}>
+        {React.isValidElement(children)
+          ? cloneElement(children as ReactElement<{ language: LanguageCode; setLanguage: (lang: LanguageCode) => void; }>, {
+              language,
+              setLanguage,
+            })
+          : children}
+      </main>
+    </div>
+  );
+}

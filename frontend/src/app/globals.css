@@ -1,48 +1,44 @@
-:root {
-  --sidebar-width-open: 260px;
-  --sidebar-width-closed: 88px;
-  --transition-speed: 0.2s;
-  --header-height: 60px;
+/* Fichier : src/app/globals.css (Version Finale) */
 
-  /* --- Thème Clair --- */
+:root {
+  /* Variables de mise en page */
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 80px;
+  --transition-speed: 0.3s;
+
+  /* --- Définitions de couleurs pour le thème Clair --- */
   --clr-light-bg-sidebar: #ffffff;
   --clr-light-bg-main: #f9fafb;
   --clr-light-text-primary: #111827;
   --clr-light-text-secondary: #6b7280;
   --clr-light-border: #e5e7eb;
   --clr-light-hover-bg: #f3f4f6;
-  --clr-light-button-primary-bg: #111827;
-  --clr-light-button-primary-text: #ffffff;
 
-  /* --- Thème Sombre --- */
+  /* --- Définitions de couleurs pour le thème Sombre --- */
   --clr-dark-bg-sidebar: #1f2937;
   --clr-dark-bg-main: #111827;
   --clr-dark-text-primary: #f9fafb;
   --clr-dark-text-secondary: #9ca3af;
   --clr-dark-border: #374151;
   --clr-dark-hover-bg: #374151;
-  --clr-dark-button-primary-bg: #f9fafb;
-  --clr-dark-button-primary-text: #1f2937;
 }
 
-/* Thème clair */
-html.light {
+/* ========================================================
+   APPLICATION DES THÈMES
+   ======================================================== */
+
+/* Par défaut, ou quand la classe .light est présente sur <html> */
+html, html.light {
   --bg-sidebar: var(--clr-light-bg-sidebar);
   --bg-main: var(--clr-light-bg-main);
   --text-primary: var(--clr-light-text-primary);
   --text-secondary: var(--clr-light-text-secondary);
   --border-color: var(--clr-light-border);
   --hover-bg: var(--clr-light-hover-bg);
-  --button-primary-bg: var(--clr-light-button-primary-bg);
-  --button-primary-text: var(--clr-light-button-primary-text);
-  --content-box-bg: var(--clr-light-bg-sidebar);
-  --input-wrapper-bg: var(--clr-light-bg-main);
   --icon-color: var(--clr-light-text-secondary);
-  --icon-color-hover: var(--clr-light-text-primary);
-  --text-placeholder: var(--clr-light-text-secondary);
 }
 
-/* Thème sombre */
+/* Quand <html> a la classe .dark, on utilise les couleurs sombres */
 html.dark {
   --bg-sidebar: var(--clr-dark-bg-sidebar);
   --bg-main: var(--clr-dark-bg-main);
@@ -50,179 +46,26 @@ html.dark {
   --text-secondary: var(--clr-dark-text-secondary);
   --border-color: var(--clr-dark-border);
   --hover-bg: var(--clr-dark-hover-bg);
-  --button-primary-bg: var(--clr-dark-button-primary-bg);
-  --button-primary-text: var(--clr-dark-button-primary-text);
-  --content-box-bg: var(--clr-dark-bg-sidebar);
-  --input-wrapper-bg: var(--clr-dark-hover-bg);
   --icon-color: var(--clr-dark-text-secondary);
-  --icon-color-hover: var(--clr-dark-text-primary);
-  --text-placeholder: var(--clr-dark-text-secondary);
 }
 
-/* Thème auto selon les préférences système (optionnel) */
-@media (prefers-color-scheme: dark) {
-  html:not(.light):not(.dark) {
-    --bg-sidebar: var(--clr-dark-bg-sidebar);
-    --bg-main: var(--clr-dark-bg-main);
-    --text-primary: var(--clr-dark-text-primary);
-    --text-secondary: var(--clr-dark-text-secondary);
-    --border-color: var(--clr-dark-border);
-    --hover-bg: var(--clr-dark-hover-bg);
-    --button-primary-bg: var(--clr-dark-button-primary-bg);
-    --button-primary-text: var(--clr-dark-button-primary-text);
-    --content-box-bg: var(--clr-dark-bg-sidebar);
-    --input-wrapper-bg: var(--clr-dark-hover-bg);
-    --icon-color: var(--clr-dark-text-secondary);
-    --icon-color-hover: var(--clr-dark-text-primary);
-    --text-placeholder: var(--clr-dark-text-secondary);
-  }
-}
+/* ========================================================
+   STYLES DE BASE GLOBAUX
+   ======================================================== */
 
-/* Transition fluide sur tous les éléments */
-* {
-  transition: background-color var(--transition-speed) ease, 
-              color var(--transition-speed) ease, 
-              border-color var(--transition-speed) ease;
-}
-
-/* Transition de thème via classe (JS) */
-html.theme-transitioning * {
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Base */
 body {
   margin: 0;
   background-color: var(--bg-main);
   color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-/* Boutons */
-button {
-  background-color: var(--button-primary-bg);
-  color: var(--button-primary-text);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-/* Champs de texte / input */
-input, textarea, select {
-  background-color: var(--input-wrapper-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: 8px;
-  border-radius: 6px;
-  font-size: 14px;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-placeholder);
-}
-
-/* Mise en page responsive */
-@media (max-width: 768px) {
-  /* Sidebar */
-  :root {
-    --sidebar-width-open: 220px;
-    --sidebar-width-closed: 60px;
-  }
-
-  .sidebar {
-    width: var(--sidebar-width-closed);
-  }
-
-  .sidebar.open {
-    width: var(--sidebar-width-open);
-  }
-
-  /* Ajuster la taille du texte pour les petits écrans */
-  body {
-    font-size: 12px;
-  }
-
-  /* Cacher certains éléments sur les petits écrans */
-  .sidebar__title {
-    display: none;
-  }
-
-  /* Boutons et champs de texte */
-  button {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-  input, textarea, select {
-    padding: 6px;
-    font-size: 12px;
-  }
-
-  /* Modification du menu et de la navigation */
-  .navbar {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-  }
-
-  .navbar-item {
-    margin: 8px 0;
-  }
-}
-
-/* Sur les très petits écrans, comme les téléphones */
-@media (max-width: 480px) {
-  /* Réduire la largeur de la sidebar et les espaces */
-  :root {
-    --sidebar-width-open: 200px;
-    --sidebar-width-closed: 50px;
-  }
-
-  .sidebar {
-    width: var(--sidebar-width-closed);
-  }
-
-  .sidebar.open {
-    width: var(--sidebar-width-open);
-  }
-
-  /* Adaptation du corps */
-  body {
-    font-size: 11px;
-  }
-
-  /* Ajuster les tailles de bouton et les champs */
-  button {
-    padding: 4px 10px;
-    font-size: 11px;
-  }
-
-  input, textarea, select {
-    padding: 5px;
-    font-size: 11px;
-  }
-
-  /* Navigation mobile */
-  .navbar {
-    flex-direction: column;
-    padding: 8px;
-  }
-
-  .navbar-item {
-    margin: 6px 0;
-  }
-
-  /* Cacher certains éléments comme les titres longs */
-  .sidebar__title {
-    display: none;
-  }
 }
