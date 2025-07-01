@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Sgan",
+    "dashboard": "Deas-bhòrd",
+    "files": "Faidhlichean",
+    "connections": "Ceanglaichean",
+    "pay": "Pàigh",
+    "settings": "Roghainnean",
+    "terms": "Teirmean",
+    "privacy_policy": "Poileasaidh Dìomhaireachd"
+  },
+  "header": {
+    "beta": "Beta"
+  },
+  "chat": {
+    "placeholder": "Sgrìobh an teachdaireachd agad..."
+  }
+}

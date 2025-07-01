@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Skandeer",
+    "dashboard": "Paneelbord",
+    "files": "Lêers",
+    "connections": "Verbindings",
+    "pay": "Betaal",
+    "settings": "Instellings",
+    "terms": "Bepalings",
+    "privacy_policy": "Privaatheidsbeleid"
+  },
+  "header": {
+    "beta": "Beta"
+  },
+  "chat": {
+    "placeholder": "Tik jou boodskap..."
+  }
+}

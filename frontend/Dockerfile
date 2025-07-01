@@ -1,30 +1,24 @@
-# Étape 1: Construire l'application Next.js
-FROM node:18-alpine AS build
+# Étape 1 : build de l'app
+FROM node:18-alpine AS builder
 WORKDIR /app
 
-# Copie package.json et package-lock.json du répertoire courant.
 COPY package*.json ./
+RUN npm install
 
-RUN npm ci
-
-# Copie tout le code source du répertoire courant.
 COPY . .
-
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build
 
-# Étape 2: Servir l'application Next.js avec un serveur Node.js léger
+# Étape 2 : image de production
 FROM node:18-alpine
 WORKDIR /app
 
-COPY --from=build /app/package*.json ./
-RUN npm install --omit=dev
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
 
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
-
-# Utiliser le port 8080, comme requis par Cloud Run
 ENV PORT=8080
-
 EXPOSE 8080
-
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]

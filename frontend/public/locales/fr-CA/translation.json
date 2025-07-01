@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Scanner",
+    "dashboard": "Tableau de bord",
+    "files": "Fichiers",
+    "connections": "Connexions",
+    "pay": "Payer",
+    "settings": "Paramètres",
+    "terms": "Conditions",
+    "privacy_policy": "Politique de confidentialité"
+  },
+  "header": {
+    "beta": "Bêta"
+  },
+  "chat": {
+    "placeholder": "Écrivez votre message..."
+  }
+}

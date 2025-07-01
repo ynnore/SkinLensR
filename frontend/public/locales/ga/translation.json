@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Scanadh",
+    "dashboard": "Painéal",
+    "files": "Comhaid",
+    "connections": "Naisc",
+    "pay": "Íoc",
+    "settings": "Socruithe",
+    "terms": "Téarmaí",
+    "privacy_policy": "Polasaí Príobháideachais"
+  },
+  "header": {
+    "beta": "Béite"
+  },
+  "chat": {
+    "placeholder": "Clóscríobh do theachtaireacht..."
+  }
+}

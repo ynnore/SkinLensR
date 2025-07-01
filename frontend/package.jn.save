@@ -1,0 +1,13 @@
+/** @type {import('next').NextConfig} */
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  // ... et le reste du fichier
+}
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  // ... et le reste du fichier
+}

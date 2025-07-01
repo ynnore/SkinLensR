@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "स्कैन करें",
+    "dashboard": "डैशबोर्ड",
+    "files": "फ़ाइलें",
+    "connections": "कनेक्शन",
+    "pay": "भुगतान करें",
+    "settings": "सेटिंग्स",
+    "terms": "शर्तें",
+    "privacy_policy": "गोपनीयता नीति"
+  },
+  "header": {
+    "beta": "बीटा"
+  },
+  "chat": {
+    "placeholder": "अपना संदेश टाइप करें..."
+  }
+}

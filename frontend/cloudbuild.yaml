@@ -1,14 +1,16 @@
-# cloudbuild.yaml (à la racine du dépôt)
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+  - id: 'build-docker-image'
+    name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
       - 'gcr.io/$PROJECT_ID/skinlensr-frontend'
-      - '-f' # Spécifie le chemin du Dockerfile
+      - '-f'
       - 'SkinLensR/SkinLensR/frontend/Dockerfile'
-      - 'SkinLensR/SkinLensR/frontend' # Spécifie le CONTEXTE de build (le dossier à envoyer à Docker)
-    id: 'build-docker-image'
+      - 'SkinLensR/SkinLensR/frontend'
+
+images:
+  - 'gcr.io/$PROJECT_ID/skinlensr-frontend'
 
 options:
   machineType: 'N1_HIGHCPU_8'
