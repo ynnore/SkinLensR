@@ -1,0 +1,32 @@
+/* src/components/ChatHeader.module.css (Version Finale) */
+
+.chatHeader {
+  /* PAR DÉFAUT (GRAND ÉCRAN) : LE HEADER EST CACHÉ */
+  display: none; 
+}
+
+/* LE HEADER N'APPARAÎT QUE SUR LES PETITS ÉCRANS */
+@media (max-width: 768px) {
+  .chatHeader {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 900;
+  }
+
+  .menuButton {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 0; /* Pour bien centrer l'icône */
+  }
+}

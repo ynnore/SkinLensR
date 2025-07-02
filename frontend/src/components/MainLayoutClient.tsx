@@ -1,61 +1,41 @@
 // Fichier : src/app/MainLayoutClient.tsx
-'use client'; // TRÈS IMPORTANT : Ce composant est un Client Component
+'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
-import Sidebar from '@/components/Sidebar'; // Utilise l'alias configuré
-import { LanguageProvider } from '@/contexts/LanguageContext'; // Importe le LanguageProvider
-import styles from './MainLayoutClient.module.css'; // Importe le CSS Module spécifique à ce layout (anciennement layoutStyles)
+import React, { useState, useCallback } from 'react';
+import Sidebar from '../components/Sidebar';
+import ChatHeader from '../components/ChatHeader'; // <-- 1. Importez le nouveau ChatHeader
+import styles from './MainLayoutClient.module.css';
+
+// L'import de FaBars n'est plus nécessaire ici
+// import { FaBars } from 'react-icons/fa'; 
 
 export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true); // État de la sidebar
-  const [isDarkMode, setDarkMode] = useState(false); // État du thème
+  // L'état de la sidebar est géré ici.
+  // IMPORTANT : On l'initialise à `false` pour que sur mobile, le menu soit fermé par défaut.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Effet pour charger le thème depuis localStorage au premier rendu
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
-    }
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarOpen(prev => !prev);
   }, []);
 
-  // Effet pour sauvegarder le thème dans localStorage et appliquer/retirer la classe 'dark' sur <html>
-  useEffect(() => {
-    const root = document.documentElement; // Cible la balise <html>
-    if (isDarkMode) {
-      root.classList.add('dark');
-      root.classList.remove('light'); // Retirez 'light' si vous l'ajoutez ailleurs dans votre CSS
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.add('light'); // Ajoutez 'light' si vous la gérez spécifiquement dans votre CSS
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
-
-  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
-  const toggleTheme = useCallback(() => setDarkMode(prev => !prev), []);
-
   return (
-    // Le LanguageProvider DOIT ENVELOPPER tous les composants qui utilisent useLanguage()
-    // (ici, la Sidebar et les `children` qui sont les pages)
-    <LanguageProvider>
-      <div className={styles.layoutContainer}> {/* Ce conteneur gère la disposition flex */}
-        <Sidebar
-          isOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-          isDarkMode={isDarkMode}
-          toggleTheme={toggleTheme}
-          // <<< TRÈS IMPORTANT : language={language} et setLanguage={setLanguage} NE SONT PAS PASSÉS ICI.
-          // La Sidebar les récupère directement du contexte via useLanguage().
-        />
-        {/* main est ici pour gérer le décalage de la page lorsque la sidebar est ouverte/fermée */}
-        {/* La classe `content-area` est dans globals.css, `mainContentOpen` est dans MainLayoutClient.module.css */}
-        <main className={`content-area ${isSidebarOpen ? styles.mainContentOpen : ''}`}>
-          {children} {/* Ceci rendra votre page.tsx */}
-        </main>
-      </div>
-    </LanguageProvider>
+    // Ce conteneur ne gère plus la disposition flex.
+    <div className={styles.mainLayoutContainer}>
+      
+      {/* La Sidebar vit sa vie en position: fixed grâce à son propre CSS */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
+      
+      {/* Le ChatHeader est aussi en position: fixed (sur mobile) et reçoit la fonction pour ouvrir la sidebar */}
+      <ChatHeader toggleSidebar={toggleSidebar} />
+        
+      {/* Le contenu principal est le seul élément qui scrollera */}
+      <main className={styles.mainContent}>
+        {children}
+      </main>
+
+    </div>
   );
 }

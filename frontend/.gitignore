@@ -1,8 +1,24 @@
-# Build output
-.next/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Logs
-*.log
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# Local env files
+# testing
+/coverage
+
+# production
+/build
+/.next/
+/out/
+
+# misc
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .env*.local
+.vercel
+.gitattributes

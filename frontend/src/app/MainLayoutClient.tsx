@@ -1,55 +1,42 @@
 // Fichier : src/app/MainLayoutClient.tsx
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
-import Sidebar from '@/components/Sidebar';
-import { LanguageProvider } from '@/contexts/LanguageContext'; // Utilisez LanguageProvider ici
+import React, { useState, useCallback } from 'react';
+import Sidebar from '../components/Sidebar';
+import ChatHeader from '../components/ChatHeader'; // <-- 1. On importe le nouveau ChatHeader
 import styles from './MainLayoutClient.module.css';
 
-export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [isDarkMode, setDarkMode] = useState(false);
-  // Pas besoin de 'language' et 'setLanguage' ici, car ils sont gérés par LanguageProvider
+// L'import de FaBars n'est plus nécessaire ici
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      setDarkMode(true);
-    } else {
-      setDarkMode(false);
-    }
+export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
+  // 2. L'état est initialisé à `false` pour que le menu soit fermé par défaut sur mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // 3. Toute la logique de thème (isDarkMode, toggleTheme, useEffect) a été SUPPRIMÉE
+  // car elle est maintenant gérée par ThemeContext. C'est plus propre.
+
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarOpen(prev => !prev);
   }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDarkMode) {
-      root.classList.add('dark');
-      root.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.add('light');
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
-
-  const toggleSidebar = useCallback(() => setSidebarOpen(prev => !prev), []);
-  const toggleTheme = useCallback(() => setDarkMode(prev => !prev), []);
-
   return (
-    <LanguageProvider> {/* LanguageProvider doit envelopper la Sidebar et les children */}
-      <div className={styles.layoutContainer}>
-        <Sidebar
-          isOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-          isDarkMode={isDarkMode}
-          toggleTheme={toggleTheme}
-          // language et setLanguage ne sont plus passés en props ici
-        />
-        <main className={`${styles.mainContent} ${isSidebarOpen ? styles.mainContentOpen : ''}`}>
-          {children}
-        </main>
-      </div>
-    </LanguageProvider>
+    // Ce conteneur ne gère plus la disposition, il sert juste de wrapper
+    <div className={styles.mainLayoutContainer}>
+      
+      {/* 4. La Sidebar ne reçoit plus les props de thème */}
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
+      
+      {/* 5. Le ChatHeader est maintenant un composant de premier niveau */}
+      <ChatHeader toggleSidebar={toggleSidebar} />
+        
+      {/* 6. Le <main> est simplifié et n'a plus le bouton à l'intérieur */}
+      <main className={styles.mainContent}>
+        {children}
+      </main>
+
+    </div>
   );
 }

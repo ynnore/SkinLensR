@@ -1,125 +1,62 @@
-/* src/app/layout.module.css (Version finale et corrigée) */
+/* Fichier : src/app/MainLayoutClient.module.css */
 
-/* === Style de base pour le <body> (ne pas toucher) === */
-.body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--color-bg-light);
-  color: var(--color-text-light);
-  transition: background-color var(--transition-duration), color var(--transition-duration);
-  margin: 0;
-}
-
-/* === Conteneur principal qui s'adapte à la sidebar (la zone à droite) === */
-.mainContentWrapper {
+.mainLayoutContainer {
   display: flex;
-  flex-direction: column;
   min-height: 100vh;
-  transition: margin-left var(--transition-duration) ease-in-out;
-  
-  /* Comportement par défaut pour les mobiles : pas de marge */
-  margin-left: 0;
-}
-
-/* --- Uniquement pour les écrans larges (Desktop) --- */
-@media (min-width: 768px) {
-  /* Classe pour pousser le contenu quand la sidebar est OUVERTE */
-  .mainContentWrapperOpen {
-    margin-left: var(--sidebar-width-open);
-  }
-  /* Classe pour ramener le contenu quand la sidebar est FERMÉE */
-  .mainContentWrapperClosed {
-    margin-left: var(--sidebar-width-closed);
-  }
-}
-
-/* === En-tête (Header) au-dessus du chat === */
-.appHeader {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  height: var(--header-height);
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  background-color: var(--color-header-bg-light);
-  
-  /* Ligne de séparation propre */
-  border-bottom: 1px solid var(--color-border-light);
-  transition: background-color var(--transition-duration), border-color var(--transition-duration);
-}
-
-/* === Bouton pour ouvrir/fermer le menu sur mobile === */
-.toggleButton {
-  padding: 0.5rem;
-  border-radius: 0.375rem;
-  color: var(--color-text-light);
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
-.toggleButton:hover {
-  background-color: var(--color-button-hover-bg-light);
-}
-.toggleButton:focus-visible {
-  outline: 2px solid var(--color-focus-ring);
-  outline-offset: 2px;
-}
-
-/* Cache le bouton menu sur les grands écrans (la sidebar est toujours visible) */
-@media (min-width: 768px) {
-  .toggleButton {
-    display: none;
-  }
-}
-
-
-/* === Zone de contenu principal (où le composant de chat s'affiche) === */
-.mainArea {
-  flex-grow: 1; /* S'assure qu'elle prend tout l'espace vertical restant */
-  padding: 1.5rem;
-  /* Aucun halo, aucune bordure ici. C'est juste un conteneur. */
-}
-
-/* ===================================
-   STYLES POUR LE MODE SOMBRE
-   =================================== */
-
-:global(html.dark) .body {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-dark);
-}
-
-:global(html.dark) .appHeader {
-  background-color: var(--color-header-bg-dark);
-  border-bottom-color: var(--color-border-dark);
-}
-
-:global(html.dark) .toggleButton {
-  color: var(--color-text-dark);
-}
-
-:global(html.dark) .toggleButton:hover {
-  background-color: var(--color-button-hover-bg-dark);
-}
-/* src/components/MainLayoutClient.module.css */
-
-.layoutContainer {
-  display: flex; /* LA LIGNE LA PLUS IMPORTANTE : Corrige le menu "flottant" */
-  height: 100vh;
   width: 100%;
-  background-color: var(--bg-main);
-  overflow: hidden;
 }
 
 .mainContent {
-  flex-grow: 1; /* Le contenu principal prend toute la place restante */
-  height: 100vh;
-  overflow-y: auto;
-  padding: 1.5rem;
+  flex-grow: 1;
+  padding: 20px;
   box-sizing: border-box;
+  transition: all var(--transition-speed) ease;
+  overflow-x: hidden;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  position: relative; /* Nécessaire pour positionner le bouton de menu à l'intérieur */
+}
+
+/* Règle pour ajuster la largeur du contenu principal lorsque la sidebar est fermée */
+.mainContentFullWidth {
+  width: calc(100% - var(--sidebar-width-closed));
+}
+
+/* === DÉBUT DES AJOUTS POUR LE RESPONSIVE === */
+
+/* Style du bouton de menu mobile (caché par défaut) */
+.mobileMenuButton {
+  display: none; 
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 500; /* Assez haut pour être cliquable */
+  background: var(--bg-sidebar); /* Utilise les couleurs du thème */
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  line-height: 0; /* Pour bien centrer l'icône */
+}
+
+/* Media Query pour les petits écrans */
+@media (max-width: 768px) {
+  .mainLayoutContainer {
+    /* Le layout n'est plus en flex horizontal */
+    flex-direction: column; 
+  }
+
+  .mainContent {
+    /* Le contenu principal prend toute la largeur */
+    width: 100%;
+    padding: 10px;
+    padding-top: 70px; /* Ajoute de l'espace en haut pour ne pas que le contenu soit sous le bouton */
+  }
+
+  /* On affiche le bouton de menu uniquement sur les petits écrans */
+  .mobileMenuButton {
+    display: block; 
+  }
 }

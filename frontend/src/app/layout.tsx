@@ -1,17 +1,15 @@
 // src/app/layout.tsx
-// Pas de 'use client' ici ! C'est un Server Component par défaut.
+import { Inter } from 'next/font/google'; // Si vous utilisez Inter, sinon retirez cette ligne
+import { LanguageProvider } from '../contexts/LanguageContext';
+import { ThemeProvider } from '../context/ThemeContext'; // Assurez-vous que le chemin est correct
+import MainLayoutClient from './MainLayoutClient'; // Ce composant est probablement déjà un "Client Component"
+import './globals.css';
 
-import { Inter } from 'next/font/google'; // Exemple d'importation de police, si vous en avez une
-import './globals.css'; // <<< CORRECTION IMPORTANTE : Chemin relatif car globals.css est dans le même dossier src/app/
-
-// Importe le composant client qui contient toute la logique client
-import MainLayoutClient from './MainLayoutClient'; // Chemin relatif si MainLayoutClient.tsx est à côté de layout.tsx
-
-const inter = Inter({ subsets: ['latin'] }); // Décommentez si vous utilisez Inter
+const inter = Inter({ subsets: ['latin'] }); // Si vous utilisez Inter, sinon retirez cette ligne
 
 export const metadata = {
-  title: 'SkinLensR App',
-  description: 'Automatisez tout avec SkinLensR',
+  title: 'SkinLensR',
+  description: 'Votre application de diagnostic SkinLensR',
 };
 
 export default function RootLayout({
@@ -20,16 +18,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // La classe 'dark-mode'/'light-mode' sera appliquée par MainLayoutClient sur l'élément html
-    <html lang="fr" className={inter.className}> {/* Ajustez 'lang' si nécessaire, décommentez className si inter est utilisé */}
-      <body>
+    // L'élément <html> ne doit pas avoir directement les classes 'light' ou 'dark' ici.
+    // C'est le ThemeProvider (qui est un Client Component) qui va gérer cela
+    // en manipulant le document.documentElement.className une fois le client hydraté.
+    <html lang="fr">
+      {/* Applique la classe de la police sur le body si nécessaire */}
+      <body className={inter.className}>
         {/*
-          MainLayoutClient est le wrapper client qui gérera la sidebar, le thème et la langue.
-          Il prendra 'children' qui seront les pages (ex: page.tsx).
+          Le ThemeProvider doit envelopper tout ce qui a besoin d'accéder au contexte du thème.
+          Il doit aussi être dans une "boundary" de client component car il utilise 'useState' et 'useEffect'.
+          Votre MainLayoutClient est l'endroit logique pour cette boundary si c'est un Client Component.
         */}
-        <MainLayoutClient>
-          {children}
-        </MainLayoutClient>
+        <ThemeProvider>
+          {/*
+            Ensuite, vous pouvez nicher vos autres providers comme LanguageProvider.
+            L'ordre des providers peut parfois importer, mais pour le thème et la langue,
+            généralement il n'y a pas de problème majeur.
+          */}
+          <LanguageProvider>
+            <MainLayoutClient>
+              {children}
+            </MainLayoutClient>
+          </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
