@@ -1,19 +1,18 @@
-// Fichier : src/app/page.tsx
 'use client';
 
-import React, { useState, KeyboardEvent, useEffect } from 'react';
+import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css'; 
 import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaPlayCircle } from 'react-icons/fa';
-
 import { useLanguage } from '@/contexts/LanguageContext'; 
 
-// Structure de l'interface Message (peut être déplacée dans un fichier types.ts si vous en avez un)
+// --- INTERFACES & TRADUCTIONS ---
 interface Message {
   role: string;
   content: string;
 }
 
+// CORRECTION : L'objet 'translations' est maintenant complet
 const translations = {
   header: {
     missionStatement: {
@@ -23,11 +22,11 @@ const translations = {
       ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
       gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misean togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
-      'en-AU': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.", // Ou une version Aussie si vous en avez une spécifique
-      'en-NZ': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.", // Idem pour NZ
-      'en-CA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.", // Idem pour CA
-      'fr-CA': "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.", // Idem pour FR-CA
-      'en-ZA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.", // Idem pour ZA
+      'en-AU': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
+      'en-NZ': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
+      'en-CA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
+      'fr-CA': "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.",
+      'en-ZA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       af: "Geïnspireer deur die Wellington Tunneliers van Arras, is ons missie om in die skaduwee te bou wat môre sal deurbreek na die oppervlak.",
     },
     beta: {
@@ -79,7 +78,7 @@ const translations = {
       af: 'Tik jou boodskap...',
     }
   },
-  welcome: { // Nouvel objet pour les éléments de l'interface de bienvenue
+  welcome: {
     headline: {
       en: 'Automate anything', fr: 'Automatisez tout', mi: 'Rangatira katoa',
       ga: 'Uathoibrigh rud ar bith', hi: 'कुछ भी स्वचालित करें', gd: 'Uatamaich rud sam bith',
@@ -105,7 +104,7 @@ const translations = {
       'fr-CA': 'Tapez ici une tâche à confier à SkinLensR', 'en-ZA': 'Type here to give a task to SkinLensR', af: 'Tik hier om SkinLensR \'n taak te gee',
     },
   },
-  sidebar: { // Ajout de la section sidebar
+  sidebar: {
     scan: { en: "Scan", fr: "Scanner", af: "Skandeer" },
     dashboard: { en: "Dashboard", fr: "Tableau de bord", af: "Paneelbord" },
     files: { en: "Files", fr: "Fichiers", af: "Lêers" },
@@ -122,24 +121,67 @@ const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const ambianceStarted = useRef(false);
+  const muteButtonRef = useRef<HTMLButtonElement>(null);
+
+  const sounds = useRef<{
+      click: HTMLAudioElement | null,
+      send: HTMLAudioElement | null,
+      typing: HTMLAudioElement | null,
+      ambiance: HTMLAudioElement | null,
+  }>({ click: null, send: null, typing: null, ambiance: null });
+
+  useEffect(() => {
+    sounds.current = {
+      click: new Audio('/sounds/click_ui.mp3'),
+      send: new Audio('/sounds/send_telegram.mp3'),
+      typing: new Audio('/sounds/typewriter_key.mp3'),
+      ambiance: new Audio('/sounds/gramophone_music.mp3')
+    };
+
+    if (sounds.current.click) sounds.current.click.volume = 0.6;
+    if (sounds.current.send) sounds.current.send.volume = 0.7;
+    if (sounds.current.typing) sounds.current.typing.volume = 0.5;
+    if (sounds.current.ambiance) {
+        sounds.current.ambiance.volume = 0.1;
+        sounds.current.ambiance.loop = true;
+    }
+    return () => { sounds.current.ambiance?.pause(); }
+  }, []);
+
+  const playSound = (sound: HTMLAudioElement | null) => {
+    if (!isMuted && sound) {
+      sound.currentTime = 0;
+      sound.play().catch(error => console.log(`Audio play error: ${error.message}`));
+    }
+  };
   
   useEffect(() => {
-    // Utiliser la nouvelle structure pour le message de bienvenue
+    if (sounds.current.ambiance) {
+      sounds.current.ambiance.muted = isMuted;
+    }
+  }, [isMuted]);
+
+  useEffect(() => {
     setMessages([{ role: 'assistant', content: translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en }]);
   }, [language]);
 
   const getAssistantAvatar = () => {
-    const emblemMap: { [key: string]: string } = {
-        en: '🇬🇧', fr: '🇫🇷', mi: '🇳🇿', ga: '🇮🇪', hi: '🇮🇳', gd: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-        'en-AU': '🇦🇺', 'en-NZ': '🇳🇿', 'en-CA': '🇨🇦', 'fr-CA': '🇨🇦',
-        'en-ZA': '🇿🇦', af: '🇿🇦'
-    };
-    const emblem = emblemMap[language] || '🤖'; 
-    return <div className={styles.robotAvatar}>{emblem}</div>;
+    return (
+      <img 
+        src="/images/kiwi-avatar.svg" 
+        alt="Avatar de l'assistant SkinLensR" 
+        className={styles.robotAvatar} 
+      />
+    );
   };
 
-  const handleSendMessage = () => { /* ... */ };
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => { /* ... */ };
+  const handleSendMessage = () => { if (inputValue.trim()) playSound(sounds.current.send); };
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key.length === 1) playSound(sounds.current.typing);
+    if (e.key === 'Enter' && !isLoading) handleSendMessage();
+  };
 
   const messageAreaClassName = (msgRole: string) => [styles.messageBubble, msgRole === 'user' ? styles.userMessage : styles.assistantMessage].join(' ');
 
@@ -147,15 +189,34 @@ const ChatInterface = () => {
     <div className={styles.chatContainer}>
       <header className={styles.pageHeader}>
         <div className={styles.headerLeft}>
-          {/* Utiliser la clé de traduction pour la phrase d'inspiration */}
           <span>{translations.header.missionStatement[language] || translations.header.missionStatement.en}</span>
           <h1></h1>
         </div>
         <div className={styles.headerRight}>
-          {/* Utiliser la clé de traduction pour Beta */}
+          <button 
+            ref={muteButtonRef} 
+            onClick={() => {
+                if (!ambianceStarted.current && sounds.current.ambiance) {
+                    sounds.current.ambiance.play().catch(e => {});
+                    ambianceStarted.current = true;
+                }
+                setIsMuted(!isMuted);
+            }} 
+            className={styles.iconButton} 
+            title={isMuted ? "Activer la musique" : "Couper la musique"}
+          >
+            <img 
+              src="/images/gramophone.svg"
+              alt="Icône Gramophone" 
+              width={24}
+              height={24}
+              className={styles.gramophoneIcon} 
+              style={{ opacity: isMuted ? 0.6 : 1 }}
+            />
+          </button>
           
-          <button className={styles.moreButton}>...</button>
-          <button className={styles.shareButton}>3D</button>
+          <button className={styles.moreButton} onClick={() => playSound(sounds.current.click)}>...</button>
+          <button className={styles.shareButton} onClick={() => playSound(sounds.current.click)}>3D</button>
         </div>
       </header>
       <div className={styles.messagesArea}>
@@ -173,7 +234,6 @@ const ChatInterface = () => {
               {getAssistantAvatar()}
             </div>
             <p className={styles.messageContent}>
-              {/* Utiliser la nouvelle structure pour thinking */}
               <i>{translations.chat.thinking[language] || translations.chat.thinking.en}</i>
             </p>
           </div>
@@ -181,10 +241,9 @@ const ChatInterface = () => {
       </div>
       <footer className={styles.pageFooter}>
         <div className={styles.inputWrapper}>
-          <button className={styles.iconButton}><FaPaperclip /></button>
+          <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}><FaPaperclip /></button>
           <input
             type="text"
-            // Utiliser la nouvelle structure pour placeholder
             placeholder={translations.chat.placeholder[language] || translations.chat.placeholder.en}
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
@@ -194,9 +253,9 @@ const ChatInterface = () => {
         </div>
         <div className={styles.footerActions}>
           <div className={styles.footerActionsLeft}>
-            <button className={styles.iconButton}><FaImage /></button>
-            <button className={styles.iconButton}><FaKeyboard /></button>
-            <button className={styles.iconButton}><FaMicrophone /></button>
+            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}><FaImage /></button>
+            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}><FaKeyboard /></button>
+            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}><FaMicrophone /></button>
           </div>
           <div className={styles.footerActionsRight}>
             <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
@@ -216,27 +275,23 @@ const WelcomeInterface = () => {
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
         <div className={styles.logoIcon}>H</div>
-        {/* Utiliser la nouvelle structure pour welcomeHeadline */}
         <h1>{translations.welcome.headline[language] || translations.welcome.headline.en}</h1>
       </div>
       <div className={styles.welcomeCard}>
         <div className={styles.videoThumbnail}><FaPlayCircle /></div>
         <div className={styles.cardText}>
-          {/* Utiliser la nouvelle structure pour watch */}
           <p><strong>{translations.welcome.watch[language] || translations.welcome.watch.en}</strong></p>
-          {/* Utiliser la nouvelle structure pour intro */}
           <p>{translations.welcome.intro[language] || translations.welcome.intro.en}</p>
         </div>
         <button className={styles.closeCardButton}>×</button>
       </div>
-      {/* Utiliser la nouvelle structure pour inputBar */}
       <div className={styles.inputBar}>{translations.welcome.inputBar[language] || translations.welcome.inputBar.en}</div>
     </div>
   );
 };
 
 export default function Page() {
-  const isLoggedIn = true; // Pour le moment, toujours true
+  const isLoggedIn = true; 
 
   return (
     <>

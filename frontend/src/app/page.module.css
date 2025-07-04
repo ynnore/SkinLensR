@@ -2,7 +2,7 @@
    STRUCTURE PRINCIPALE
    ======================================================== */
 
-.mainPageContainer {
+.mainPageContainer, .mainPageContentWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -89,236 +89,83 @@
 }
 
 /* ========================================================
-   ZONE DE MESSAGES
+   ZONE DE MESSAGES ET FOOTER
    ======================================================== */
 
-.messagesArea {
-  flex-grow: 1;
-  padding: 1.5rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+.messagesArea { flex-grow: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
+.messageBubble { display: flex; gap: 1rem; max-width: 85%; }
+.userMessage { align-self: flex-end; flex-direction: row-reverse; }
+.assistantMessage { align-self: flex-start; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; background-color: transparent; border: none; }
+.messageContent { margin: 0; line-height: 1.6; }
+.pageFooter { padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); flex-shrink: 0; }
+.inputWrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem; }
+.inputWrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 0.5rem; color: var(--text-primary); }
+.footerActions { display: flex; align-items: center; justify-content: space-between; }
+.footerActionsLeft, .footerActionsRight { display: flex; align-items: center; gap: 0.5rem; }
+.iconButton { background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 0; font-size: 1.1rem; border-radius: 6px; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; transition: background-color 0.2s; }
+.iconButton:hover { background-color: var(--hover-bg); }
+.sendButton { background: none; border: none; color: var(--text-secondary); cursor: pointer; width: 36px; height: 36px; font-size: 1.2rem; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
+.sendButton:hover { background-color: var(--hover-bg); }
+.sendButton:disabled { color: var(--border-color); cursor: not-allowed; background: none; }
 
-.messageBubble {
-  display: flex;
-  gap: 1rem;
-  max-width: 85%;
-}
 
-.userMessage {
-  align-self: flex-end;
-  flex-direction: row-reverse;
-}
+/* ========================================================
+   STYLES DES ICÔNES (SOLUTION FINALE ET ROBUSTE)
+   ======================================================== */
 
-.assistantMessage {
-  align-self: flex-start;
-}
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--hover-bg);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* dans page.module.css */
+/* --- 1. Style de l'avatar Kiwi (TOUJOURS GRIS) --- */
+/*
+  Cette règle assure que le kiwi est gris en MODE CLAIR.
+  Elle force l'image à devenir grise quelle que soit sa couleur d'origine.
+*/
 .robotAvatar {
-  /* ... autres styles de .avatar ... */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem; /* Vous pouvez ajuster la taille de l'emoji ici */
-}
-
-/* Dans votre fichier page.module.css, près des styles de .avatar */
-
-.avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: var(--hover-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden; /* Important pour que l'image ne dépasse pas */
-}
-
-/* NOUVELLE CLASSE POUR L'IMAGE DE L'AVATAR */
-.assistantAvatarImage {
+  filter: grayscale(1) contrast(0) brightness(0.6);
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Assure que l'image remplit l'espace sans se déformer */
-}
-.messageContent {
-  margin: 0;
-  line-height: 1.6;
+  object-fit: cover;
+  transition: filter 0.3s ease;
 }
 
+/*
+  Cette règle assure que le kiwi RESTE gris en MODE SOMBRE.
+  Elle écrase tout `filter: invert()` ou autre qui pourrait être appliqué
+  globalement aux images en mode sombre, garantissant que le kiwi reste gris.
+*/
+:global(html.dark) .robotAvatar {
+  filter: grayscale(1) contrast(0) brightness(0.6) !important; /* Force à rester gris foncé */
+}
+
+
+/* --- 2. Style de l'icône Gramophone (gris en clair, blanc en sombre) --- */
+
+/*
+  MODE CLAIR : Le gramophone doit être GRIS.
+  On utilise le même filtre que pour le kiwi pour le rendre gris.
+*/
+.gramophoneIcon {
+  filter: grayscale(1) contrast(0) brightness(0.6); /* Force à être gris foncé */
+  transition: filter 0.3s ease;
+}
+
+/*
+  MODE SOMBRE : Le gramophone doit être BLANC.
+  Le `invert(1)` transforme le noir en blanc. `!important` assure qu'il l'emporte.
+*/
+:global(html.dark) .gramophoneIcon {
+  filter: grayscale(1) contrast(0) invert(1) !important; /* Force à être blanc */
+}
+
+
 /* ========================================================
-   FOOTER
+   STYLES POUR L'INTERFACE DE BIENVENUE (EXEMPLE)
    ======================================================== */
-
-.pageFooter {
-  padding: 1rem 1.5rem;
-  border-top: 1px solid var(--border-color);
-  flex-shrink: 0;
-}
-
-.inputWrapper {
-  display: flex;
-  align-items: center;
-  background-color: var(--bg-main);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.inputWrapper input {
-  flex-grow: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: 0.5rem;
-  color: var(--text-primary);
-}
-
-.footerActions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.footerActionsLeft,
-.footerActionsRight {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.iconButton {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  font-size: 1.1rem;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  transition: background-color 0.2s;
-}
-
-.iconButton:hover {
-  background-color: var(--hover-bg);
-}
-
-.sendButton {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  font-size: 1.2rem;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-}
-
-.sendButton:hover {
-  background-color: var(--hover-bg);
-}
-
-.sendButton:disabled {
-  color: var(--border-color);
-  cursor: not-allowed;
-  background: none;
+.welcomeContainer, .welcomeLogo, .logoIcon, .welcomeCard, .videoThumbnail, .cardText, .closeCardButton, .inputBar {
+  /* ... vos styles ... */
 }
 
 /* ========================================================
-   SÉLECTEUR DE LANGUE AVEC EMBLÈMES
-   ======================================================== */
-
-.languageSelector {
-  position: relative; /* Contexte pour le positionnement du menu */
-  display: inline-block;
-}
-
-.languageButton {
-  /* Style unifié avec les autres boutons du footer */
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  padding: 0;
-  font-size: 1.5rem; /* Taille de l'emblème (légèrement plus grand pour la lisibilité) */
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  transition: background-color 0.2s;
-}
-
-.languageButton:hover {
-  background-color: var(--hover-bg);
-}
-
-.languageMenu {
-  position: absolute;
-  bottom: 100%; /* S'affiche au-dessus du bouton */
-  right: 0;
-  background-color: var(--bg-sidebar); /* Utilisation des variables CSS */
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  width: max-content; /* S'adapte à la longueur du texte */
-  margin-bottom: 8px; /* Espace entre le menu et la barre d'actions */
-}
-
-.languageMenuItem {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  padding: 10px 15px;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.2s;
-  font-size: 0.9rem;
-}
-
-.languageMenuItem:hover {
-  background-color: var(--hover-bg);
-}
-
-.languageMenuItem .emblem {
-  font-size: 1.2rem;
-  margin-right: 12px;
-}
-
-/* ========================================================
-   MEDIA QUERIES (ADAPTATION MOBILE)
+   MEDIA QUERIES
    ======================================================== */
 
 @media (max-width: 768px) {
