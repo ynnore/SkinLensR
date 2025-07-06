@@ -125,3 +125,87 @@
     display: none;
   }
 }
+/* Styles pour le bouton qui contient le logo et le texte */
+.logoButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex; /* Permet d'aligner la div .logo et le span .siteName */
+  align-items: center; /* Centre verticalement les éléments enfants */
+  /* Ajoutez d'autres styles comme margin, etc., si nécessaire */
+}
+
+/* Styles pour la div qui enveloppe l'image du logo (anciennement styles.logo) */
+.logo {
+  /* Supprimez les éventuels background-image ou background-size si présents ici */
+  display: flex; /* Permet de centrer l'image à l'intérieur de cette div */
+  justify-content: center;
+  align-items: center;
+  width: 50px;   /* Exemple: Largeur fixe pour la zone du logo */
+  height: 50px;  /* Exemple: Hauteur fixe pour la zone du logo */
+  margin-right: 10px; /* Espace entre le logo et le nom du site */
+  /* Ajoutez une bordure, un fond ou d'autres styles si cette div doit avoir une apparence spécifique */
+}
+
+/* Styles pour la balise <img> elle-même (le fichier SVG) */
+.logoImage {
+  max-width: 100%;  /* L'image ne dépasse pas la largeur de son parent (.logo) */
+  max-height: 100%; /* L'image ne dépasse pas la hauteur de son parent (.logo) */
+  object-fit: contain; /* Garde le ratio d'aspect et s'adapte au conteneur */
+  /* Si vous n'avez pas de width/height sur .logo, vous pouvez les définir ici directement, ex: */
+  /* width: 40px; */
+  /* height: 40px; */
+}
+
+/* Styles pour le texte du nom du site (si vous l'utilisez) */
+.siteName {
+  font-size: 1.5em; /* Taille du texte */
+  font-weight: bold;
+  color: #333; /* Couleur du texte, ajustez à votre thème */
+  /* Autres styles comme line-height si nécessaire */
+}
+
+/* Styles pour le menu déroulant au clic */
+.userMenu {
+    position: absolute; /* Ajustez le positionnement selon votre layout (relative, fixed) */
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 100; /* Assurez-vous qu'il est au-dessus des autres éléments */
+    /* top, left, right, bottom pour positionner, ou utilisez flexbox/grid */
+}
+
+.userMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.userMenuItem {
+    width: 100%;
+    text-align: left;
+    padding: 10px 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+}
+
+.userMenuItem:hover {
+    background-color: #f0f0f0;
+}
+
+/* Assurez-vous que .logoContainer a une position relative si .userMenu est absolute */
+.logoContainer {
+    position: relative; /* Très important pour positionner .userMenu correctement */
+    /* Autres styles pour ce conteneur si nécessaire */
+}
+/* Dans src/components/Sidebar.module.css */
+.navLink.active {
+  background-color: var(--color-primary-light); /* Ou toute couleur de surbrillance */
+  color: var(--color-primary-dark); /* Ou la couleur de texte désirée */
+  font-weight: bold;
+}
