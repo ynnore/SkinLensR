@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Scan",
+    "dashboard": "Dashboard",
+    "files": "Files",
+    "connections": "Connections",
+    "pay": "Pay",
+    "settings": "Settings",
+    "terms": "Terms",
+    "privacy_policy": "Privacy Policy"
+  },
+  "header": {
+    "beta": "Beta"
+  },
+  "chat": {
+    "placeholder": "Type your message..."
+  }
+}

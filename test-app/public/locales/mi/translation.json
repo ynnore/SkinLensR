@@ -1,0 +1,18 @@
+{
+  "sidebar": {
+    "scan": "Matawai",
+    "dashboard": "Pae Tīrohanga",
+    "files": "Kōnae",
+    "connections": "Hononga",
+    "pay": "Utu",
+    "settings": "Tautuhinga",
+    "terms": "Manatā",
+    "privacy_policy": "Kaupapa Tūmataiti"
+  },
+  "header": {
+    "beta": "Whakamātau"
+  },
+  "chat": {
+    "placeholder": "Tuhia tō karere..."
+  }
+}

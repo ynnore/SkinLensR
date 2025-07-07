@@ -33,6 +33,7 @@ venv/
 env/
 .venv/
 .env/
+.env.local
 
 # Fichiers IDE / Éditeur
 .vscode/
