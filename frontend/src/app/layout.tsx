@@ -8,7 +8,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'SkinLensR',
+  title: 'K Project',
   description: 'Votre application de diagnostic SkinLensR',
 };
 

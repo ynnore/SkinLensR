@@ -1,4 +1,4 @@
-'use client';
+'use client'; 
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
 import Head from 'next/head';
@@ -34,34 +34,34 @@ const translations = {
       'en-AU': "Beta", 'en-NZ': "Beta", 'en-CA': "Beta", 'fr-CA': "Bêta", 'en-ZA': "Beta", af: "Beta",
     }
   },
-  chat: {
+    chat: {
     welcomeMessage: {
-      en: "Hello! I'm SkinLensR. How can I help you today?",
-      fr: "Bonjour ! Je suis SkinLensR. Comment puis-je vous aider aujourd'hui ?",
-      mi: "Kia ora! Ko SkinLensR ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
-      ga: "Dia duit! Is mise SkinLensR. Conas is féidir liom cabhrú leat inniu?", 
-      hi: "नमस्ते! मैं स्किनलेंसआर हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",       
-      gd: "Halo! 'S mise SkinLensR. Ciamar as urrainn dhomh do chuideachadh an-diugh?", 
-      'en-AU': "G'day! I'm SkinLensR. How can I help ya today?",                   
-      'en-NZ': "Kia ora! I'm SkinLensR. How can I help you today?",                 
-      'en-CA': "Hey there! I'm SkinLensR. How can I help you today, eh?",           
-      'fr-CA': "Bonjour ! Je suis SkinLensR. Comment puis-je vous aider aujourd'hui ?", 
-      'en-ZA': "Howzit! I'm SkinLensR. How can I help you today?",                 
-      af: "Goeiedag! Ek is SkinLensR. Hoe kan ek jou vandag help?",                
+      en: "Hello! I'm Agent K. How can I help you today?",
+      fr: "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?",
+      mi: "Kia ora! Ko Agent K ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
+      ga: "Dia duit! Is mise Agent K. Conas is féidir liom cabhrú leat inniu?", 
+      hi: "नमस्ते! मैं एजेंट के हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",       
+      gd: "Halo! 'S mise Agent K. Ciamar as urrainn dhomh do chuideachadh an-diugh?", 
+      'en-AU': "G'day! I'm Agent K. How can I help ya today?",                   
+      'en-NZ': "Kia ora! I'm Agent K. How can I help you today?",                 
+      'en-CA': "Hey there! I'm Agent K. How can I help you today, eh?",           
+      'fr-CA': "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?", 
+      'en-ZA': "Howzit! I'm Agent K. How can I help you today?",                 
+      af: "Goeiedag! Ek is Agent K. Hoe kan ek jou vandag help?",                
     },
     thinking: {
-      en: 'SkinLensR is thinking...',
-      fr: 'SkinLensR réfléchit...',
-      mi: 'Ke whakaaro a SkinLensR...',
-      ga: 'Tá SkinLensR ag smaoineamh...',
-      hi: 'स्किनलेंसआर सोच रहा है...',
-      gd: 'Tha SkinLensR a\' smaoineachadh...',
-      'en-AU': 'SkinLensR\'s thinkin\'...',
-      'en-NZ': 'SkinLensR\'s thinking...',
-      'en-CA': 'SkinLensR is thinking...',
-      'fr-CA': 'SkinLensR réfléchit...',
-      'en-ZA': 'SkinLensR is thinking...',
-      af: 'SkinLensR dink...',
+      en: 'Agent K is thinking...',
+      fr: 'Agent K réfléchit...',
+      mi: 'Ke whakaaro a Agent K...',
+      ga: 'Tá Agent K ag smaoineamh...',
+      hi: 'एजेंट के सोच रहा है...',
+      gd: 'Tha Agent K a\' smaoineachadh...',
+      'en-AU': 'Agent K\'s thinkin\'...',
+      'en-NZ': 'Agent K\'s thinking...',
+      'en-CA': 'Agent K is thinking...',
+      'fr-CA': 'Agent K réfléchit...',
+      'en-ZA': 'Agent K is thinking...',
+      af: 'Agent K dink...',
     },
     placeholder: {
       en: 'Type your message...',
@@ -78,12 +78,20 @@ const translations = {
       af: 'Tik jou boodskap...',
     }
   },
-  welcome: {
+    welcome: {
     headline: {
-      en: 'Automate anything', fr: 'Automatisez tout', mi: 'Rangatira katoa',
-      ga: 'Uathoibrigh rud ar bith', hi: 'कुछ भी स्वचालित करें', gd: 'Uatamaich rud sam bith',
-      'en-AU': 'Automate anything, mate', 'en-NZ': 'Automate anything', 'en-CA': 'Automate anything',
-      'fr-CA': 'Automatisez tout', 'en-ZA': 'Automate anything', af: 'Outomatiseer enigiets',
+      en: "Project K",
+      fr: "Projet K",
+      mi: "Kaupapa K", // "Project K" in Maori
+      ga: "Tionscadal K", // "Project K" in Irish
+      hi: "प्रोजेक्ट के", // "Project K" in Hindi
+      gd: "Pròiseact K", // "Project K" in Scottish Gaelic
+      'en-AU': "Project K",
+      'en-NZ': "Project K",
+      'en-CA': "Project K",
+      'fr-CA': "Projet K",
+      'en-ZA': "Project K",
+      af: "Projek K",
     },
     watch: {
       en: 'Watch', fr: 'Regarder', mi: 'Mātakitaki',
@@ -92,16 +100,32 @@ const translations = {
       'en-ZA': 'Watch', af: 'Kyk',
     },
     intro: {
-      en: 'Getting started with SkinLensR', fr: 'Bien démarrer avec SkinLensR', mi: 'Kei te timata ki SkinLensR',
-      ga: 'Ag tosú le SkinLensR', hi: 'स्किनलेंसआर के साथ शुरुआत करना', gd: 'A\' tòiseachadh le SkinLensR',
-      'en-AU': 'Getting started with SkinLensR', 'en-NZ': 'Getting started with SkinLensR', 'en-CA': 'Getting started with SkinLensR',
-      'fr-CA': 'Bien démarrer avec SkinLensR', 'en-ZA': 'Getting started with SkinLensR', af: 'Begin met SkinLensR',
+      en: 'Getting started with Project K',
+      fr: 'Bien démarrer avec Project K',
+      mi: 'Kei te timata ki Project K',
+      ga: 'Ag tosú le Project K',
+      hi: 'प्रोजेक्ट के के साथ शुरुआत करना',
+      gd: 'A\' tòiseachadh le Project K',
+      'en-AU': 'Getting started with Project K',
+      'en-NZ': 'Getting started with Project K',
+      'en-CA': 'Getting started with Project K',
+      'fr-CA': 'Bien démarrer avec Project K',
+      'en-ZA': 'Getting started with Project K',
+      af: 'Begin met Project K',
     },
     inputBar: {
-      en: 'Type here to give a task to SkinLensR', fr: 'Tapez ici une tâche à confier à SkinLensR', mi: 'Tāpaea tēnei ki SkinLensR',
-      ga: 'Clóscríobh anseo chun tasc a thabhairt do SkinLensR', hi: 'यहां स्किनलेंसआर को एक कार्य देने के लिए टाइप करें', gd: 'Sgrìobh an seo gus gnìomh a thoirt do SkinLensR',
-      'en-AU': 'Type here to give a task to SkinLensR', 'en-NZ': 'Type here to give a task to SkinLensR', 'en-CA': 'Type here to give a task to SkinLensR',
-      'fr-CA': 'Tapez ici une tâche à confier à SkinLensR', 'en-ZA': 'Type here to give a task to SkinLensR', af: 'Tik hier om SkinLensR \'n taak te gee',
+      en: 'Type here to give a task to Agent K',
+      fr: "Tapez ici une tâche à confier à l'Agent K",
+      mi: 'Tāpaea tēnei ki Agent K',
+      ga: 'Clóscríobh anseo chun tasc a thabhairt do Agent K',
+      hi: 'यहां एजेंट के को एक कार्य देने के लिए टाइप करें',
+      gd: 'Sgrìobh an seo gus gnìomh a thoirt do Agent K',
+      'en-AU': 'Type here to give a task to Agent K',
+      'en-NZ': 'Type here to give a task to Agent K',
+      'en-CA': 'Type here to give a task to Agent K',
+      'fr-CA': "Tapez ici une tâche à confier à l'Agent K",
+      'en-ZA': 'Type here to give a task to Agent K',
+      af: 'Tik hier om Agent K \'n taak te gee',
     },
   },
   sidebar: {
@@ -296,7 +320,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>SkinLensR - Chat</title>
+        <title>Project K - Chat</title>
       </Head>
       <div className={styles.mainPageContentWrapper}> 
         {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}

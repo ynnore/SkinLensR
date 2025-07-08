@@ -47,7 +47,7 @@
 .sidebar.closed .headerControls { flex-direction: column; gap: 15px; }
 .logoContainer { position: relative; flex-shrink: 0; }
 .logoButton { background: none; border: none; cursor: pointer; padding: 0; }
-.logo { width: 40px; height: 40px; background-color: #007bff; color: white; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-weight: bold; font-size: 1.5em; flex-shrink: 0; transition: all var(--transition-speed) ease; }
+.logo { width: 40px; height: 40px; background-color: #020d1a; color: white; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-weight: bold; font-size: 1.5em; flex-shrink: 0; transition: all var(--transition-speed) ease; }
 .sidebar.closed .logo { width: 30px; height: 30px; font-size: 1.2em; }
 .themeToggle, .headerToggleButton { background: none; border: 1px solid var(--border-color); padding: 8px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--icon-color); width: 40px; height: 40px; font-size: 1.2em; flex-shrink: 0; }
 .themeToggle:hover, .headerToggleButton:hover { background-color: var(--hover-bg); }

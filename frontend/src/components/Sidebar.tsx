@@ -98,7 +98,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         <div className={styles.logoAndToggleButtonWrapper}>
           <div ref={menuRef} className={styles.logoContainer}>
             <button onClick={toggleMenu} className={styles.logoButton} aria-label="Ouvrir le menu utilisateur">
-              <div className={styles.logo}>S</div>
+              <div className={styles.logo}>K</div>
             </button>
             {isMenuOpen && (
               <div className={styles.userMenu}>
