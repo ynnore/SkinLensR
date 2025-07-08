@@ -13,12 +13,12 @@
 
 .chatContainer {
   width: 100%;
-  max-width: 900px;
-  height: 85vh;
-  max-height: 800px;
+  max-width: 1100px; /* MODIFIÉ: Augmenté la largeur maximale */
+  height: 90vh;      /* MODIFIÉ: Augmenté la hauteur */
+  max-height: 900px; /* MODIFIÉ: Augmenté la hauteur maximale */
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-sidebar);
+  background-color: var(--bg-sidebar); /* Gardé tel quel */
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -92,12 +92,86 @@
    ZONE DE MESSAGES ET FOOTER
    ======================================================== */
 
-.messagesArea { flex-grow: 1; padding: 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; }
-.messageBubble { display: flex; gap: 1rem; max-width: 85%; }
-.userMessage { align-self: flex-end; flex-direction: row-reverse; }
-.assistantMessage { align-self: flex-start; }
-.avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; background-color: transparent; border: none; }
-.messageContent { margin: 0; line-height: 1.6; }
+.messagesArea {
+  flex-grow: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* MODIFIÉ: Ajusté l'espace entre les messages */
+}
+
+/* Styles de base pour chaque bulle de message */
+.messageBubble {
+  display: flex;
+  align-items: flex-start; /* Aligner le contenu en haut (utile pour les messages multi-lignes) */
+  /* SUPPRIMÉ: margin-bottom: 15px; (car le 'gap' de messagesArea gère l'espacement) */
+  gap: 10px; /* Espace entre l'avatar et la bulle de message */
+  max-width: 85%; /* Limite la largeur de la bulle de message */
+}
+
+/* Conteneur de l'avatar - C'est ce qui rend l'avatar rond et contient l'image */
+.avatar {
+  width: 40px; /* Taille fixe de l'avatar */
+  height: 40px;
+  border-radius: 50%; /* Rend le conteneur circulaire */
+  overflow: hidden; /* Cache tout ce qui dépasse des bords arrondis */
+  flex-shrink: 0; /* Empêche l'avatar de rétrécir */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure subtile */
+  background-color: #333; /* Couleur de fond si l'image ne charge pas ou pour l'espace vide */
+
+  /* AJOUTÉ : Pour centrer l'image à l'intérieur du cercle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style appliqué aux balises <img> À L'INTÉRIEUR du conteneur .avatar */
+.avatar img {
+  width: 100%;
+  height: 100%;
+  /* MODIFIÉ : 'contain' pour que le badge entier soit visible sans être coupé */
+  object-fit: contain;
+  display: block;
+}
+
+/* Styles des bulles de message */
+.messageContent {
+  flex-grow: 1; /* Permet à la bulle de prendre l'espace restant */
+  padding: 10px 15px;
+  border-radius: 18px;
+  white-space: pre-wrap; /* Préserve les retours à la ligne */
+  word-break: break-word; /* Casse les mots longs pour éviter le débordement */
+}
+
+/* ------------------------------------------- */
+/* STYLES SPÉCIFIQUES POUR LES MESSAGES DE L'ASSISTANT (À GAUCHE) */
+/* ------------------------------------------- */
+.assistantMessage {
+  align-self: flex-start; /* Aligne le bloc (avatar + bulle) à gauche du messagesArea */
+  flex-direction: row; /* Place l'avatar à gauche, puis le contenu */
+}
+
+.assistantMessage .messageContent {
+  background-color: var(--color-background-secondary);
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------- */
+/* STYLES SPÉCIFIQUES POUR LES MESSAGES DE L'UTILISATEUR (À DROITE) */
+/* ------------------------------------------- */
+.userMessage {
+  align-self: flex-end; /* Aligne le bloc (avatar + bulle) à droite du messagesArea */
+  flex-direction: row-reverse; /* Place le contenu à gauche, puis l'avatar à droite */
+}
+
+.userMessage .messageContent {
+  background-color: var(--color-accent-blue);
+  color: white;
+}
+
+
+/* FOOTER : Reste inchangé par rapport à votre code */
 .pageFooter { padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); flex-shrink: 0; }
 .inputWrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem; }
 .inputWrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 0.5rem; color: var(--text-primary); }
@@ -111,58 +185,28 @@
 
 
 /* ========================================================
-   STYLES DES ICÔNES (SOLUTION FINALE ET ROBUSTE)
+   STYLES DES ICÔNES (FILTRES DE COULEUR)
    ======================================================== */
 
-/* --- 1. Style de l'avatar Kiwi (TOUJOURS GRIS) --- */
-/*
-  Cette règle assure que le kiwi est gris en MODE CLAIR.
-  Elle force l'image à devenir grise quelle que soit sa couleur d'origine.
-*/
-.robotAvatar {
-  filter: grayscale(1) contrast(0) brightness(0.6);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: filter 0.3s ease;
-}
-
-/*
-  Cette règle assure que le kiwi RESTE gris en MODE SOMBRE.
-  Elle écrase tout `filter: invert()` ou autre qui pourrait être appliqué
-  globalement aux images en mode sombre, garantissant que le kiwi reste gris.
-*/
 :global(html.dark) .robotAvatar {
-  filter: grayscale(1) contrast(0) brightness(0.6) !important; /* Force à rester gris foncé */
+  filter: grayscale(1) contrast(0) brightness(0.6) !important;
 }
 
-
-/* --- 2. Style de l'icône Gramophone (gris en clair, blanc en sombre) --- */
-
-/*
-  MODE CLAIR : Le gramophone doit être GRIS.
-  On utilise le même filtre que pour le kiwi pour le rendre gris.
-*/
 .gramophoneIcon {
-  filter: grayscale(1) contrast(0) brightness(0.6); /* Force à être gris foncé */
+  filter: grayscale(1) contrast(0) brightness(0.6);
   transition: filter 0.3s ease;
 }
 
-/*
-  MODE SOMBRE : Le gramophone doit être BLANC.
-  Le `invert(1)` transforme le noir en blanc. `!important` assure qu'il l'emporte.
-*/
 :global(html.dark) .gramophoneIcon {
-  filter: grayscale(1) contrast(0) invert(1) !important; /* Force à être blanc */
+  filter: grayscale(1) contrast(0) invert(1) !important;
 }
 
 
 /* ========================================================
    STYLES POUR L'INTERFACE DE BIENVENUE (EXEMPLE)
    ======================================================== */
-.welcomeContainer, .welcomeLogo, .logoIcon, .welcomeCard, .videoThumbnail, .cardText, .closeCardButton, .inputBar {
-  /* ... vos styles ... */
-}
+/* Les classes .welcomeContainer, etc., si elles existent, devraient avoir leurs styles
+   intégrés ici ou dans un fichier séparé. */
 
 /* ========================================================
    MEDIA QUERIES
@@ -170,7 +214,16 @@
 
 @media (max-width: 768px) {
   .chatContainer {
-    height: 95vh;
+    height: 100vh;
     border-radius: 0;
+  }
+  .mainPageContentWrapper {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
   }
 }

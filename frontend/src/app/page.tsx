@@ -1,16 +1,37 @@
-'use client'; 
+'use client';
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import styles from './page.module.css'; 
-import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaUser, FaPlayCircle } from 'react-icons/fa';
-import { useLanguage } from '@/contexts/LanguageContext'; 
+import styles from './page.module.css';
+import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa'; // FaUser retiré
+import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- INTERFACES & TRADUCTIONS ---
 interface Message {
   role: string;
   content: string;
 }
+
+const userAvatars: { [key: string]: string } = {
+  // Commonwealth / Empire
+  'en-AU': '/avatars/australian.png',
+  'en-CA': '/avatars/canada.jpg',
+  'fr-CA': '/avatars/canada.jpg',
+  'en':    '/avatars/england.png',
+  'hi':    '/avatars/india.png',
+  'en-NZ': '/avatars/new-zealand.png',
+  'mi':    '/avatars/maoripioneer.png',
+  'en-ZA': '/avatars/south-africa.png',
+  'af':    '/avatars/south-africa.png',
+  // Nations du Royaume-Uni
+  'ga':    '/avatars/irish.png',
+  'gd':    '/avatars/scottish.jpg',
+  'cy':    '/avatars/welsh.jpg',
+  // France
+  'fr':    '/avatars/france.png',
+  // NOUVEAU : Avatar par défaut pour l'utilisateur
+  'user_default': '/avatars/human.png', // Assurez-vous que ce fichier existe !
+};
 
 // CORRECTION : L'objet 'translations' est maintenant complet
 const translations = {
@@ -39,15 +60,15 @@ const translations = {
       en: "Hello! I'm Agent K. How can I help you today?",
       fr: "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?",
       mi: "Kia ora! Ko Agent K ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
-      ga: "Dia duit! Is mise Agent K. Conas is féidir liom cabhrú leat inniu?", 
-      hi: "नमस्ते! मैं एजेंट के हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",       
-      gd: "Halo! 'S mise Agent K. Ciamar as urrainn dhomh do chuideachadh an-diugh?", 
-      'en-AU': "G'day! I'm Agent K. How can I help ya today?",                   
-      'en-NZ': "Kia ora! I'm Agent K. How can I help you today?",                 
-      'en-CA': "Hey there! I'm Agent K. How can I help you today, eh?",           
-      'fr-CA': "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?", 
-      'en-ZA': "Howzit! I'm Agent K. How can I help you today?",                 
-      af: "Goeiedag! Ek is Agent K. Hoe kan ek jou vandag help?",                
+      ga: "Dia duit! Is mise Agent K. Conas is féidir liom cabhrú leat inniu?",
+      hi: "नमस्ते! मैं एजेंट के हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
+      gd: "Halo! 'S mise Agent K. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+      'en-AU': "G'day! I'm Agent K. How can I help ya today?",
+      'en-NZ': "Kia ora! I'm Agent K. How can I help you today?",
+      'en-CA': "Hey there! I'm Agent K. How can I help you today, eh?",
+      'fr-CA': "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?",
+      'en-ZA': "Howzit! I'm Agent K. How can I help you today?",
+      af: "Goeiedag! Ek is Agent K. Hoe kan ek jou vandag help?",
     },
     thinking: {
       en: 'Agent K is thinking...',
@@ -141,7 +162,7 @@ const translations = {
 };
 
 const ChatInterface = () => {
-  const { language } = useLanguage(); 
+  const { language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -180,7 +201,7 @@ const ChatInterface = () => {
       sound.play().catch(error => console.log(`Audio play error: ${error.message}`));
     }
   };
-  
+
   useEffect(() => {
     if (sounds.current.ambiance) {
       sounds.current.ambiance.muted = isMuted;
@@ -191,17 +212,54 @@ const ChatInterface = () => {
     setMessages([{ role: 'assistant', content: translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en }]);
   }, [language]);
 
+  // Fonction pour obtenir l'avatar de l'assistant (maintenant sans className en dur)
   const getAssistantAvatar = () => {
+    // Utilise la langue actuelle, avec 'en' comme fallback
+    const assistantAvatarPath = userAvatars[language] || userAvatars['en'];
     return (
-      <img 
-        src="/images/kiwi-avatar.svg" 
-        alt="Avatar de l'assistant SkinLensR" 
-        className={styles.robotAvatar} 
+      <img
+        src={assistantAvatarPath}
+        alt="Avatar de l'assistant"
+        // Le style est géré par .avatar img dans page.module.css
       />
     );
   };
 
-  const handleSendMessage = () => { if (inputValue.trim()) playSound(sounds.current.send); };
+  // NOUVEAU : Fonction pour obtenir l'avatar de l'utilisateur
+  const getUserAvatar = () => {
+    // Utilise l'avatar par défaut de l'utilisateur
+    return (
+      <img
+        src={userAvatars['user_default']}
+        alt="Votre avatar"
+        // Le style est géré par .avatar img dans page.module.css
+      />
+    );
+  };
+
+  const handleSendMessage = () => {
+    if (inputValue.trim()) {
+      playSound(sounds.current.send);
+      // Simule l'ajout du message utilisateur et d'une réponse de l'assistant
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { role: 'user', content: inputValue.trim() }
+      ]);
+      setInputValue('');
+      setIsLoading(true);
+
+      // Simule une réponse de l'agent K après un délai
+      setTimeout(() => {
+        setMessages(prevMessages => [
+          ...prevMessages,
+          { role: 'assistant', content: "Ceci est une réponse simulée de l'Agent K." }
+        ]);
+        setIsLoading(false);
+      }, 1500);
+    }
+  };
+
+
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key.length === 1) playSound(sounds.current.typing);
     if (e.key === 'Enter' && !isLoading) handleSendMessage();
@@ -217,28 +275,28 @@ const ChatInterface = () => {
           <h1></h1>
         </div>
         <div className={styles.headerRight}>
-          <button 
-            ref={muteButtonRef} 
+          <button
+            ref={muteButtonRef}
             onClick={() => {
                 if (!ambianceStarted.current && sounds.current.ambiance) {
                     sounds.current.ambiance.play().catch(e => {});
                     ambianceStarted.current = true;
                 }
                 setIsMuted(!isMuted);
-            }} 
-            className={styles.iconButton} 
+            }}
+            className={styles.iconButton}
             title={isMuted ? "Activer la musique" : "Couper la musique"}
           >
-            <img 
+            <img
               src="/images/gramophone.svg"
-              alt="Icône Gramophone" 
+              alt="Icône Gramophone"
               width={24}
               height={24}
-              className={styles.gramophoneIcon} 
+              className={styles.gramophoneIcon}
               style={{ opacity: isMuted ? 0.6 : 1 }}
             />
           </button>
-          
+
           <button className={styles.moreButton} onClick={() => playSound(sounds.current.click)}>...</button>
           <button className={styles.shareButton} onClick={() => playSound(sounds.current.click)}>3D</button>
         </div>
@@ -247,7 +305,7 @@ const ChatInterface = () => {
         {messages.map((msg, i) => (
           <div key={i} className={messageAreaClassName(msg.role)}>
             <div className={styles.avatar}>
-              {msg.role === 'user' ? <FaUser /> : getAssistantAvatar()}
+              {msg.role === 'user' ? getUserAvatar() : getAssistantAvatar()}
             </div>
             <p className={styles.messageContent}>{msg.content}</p>
           </div>
@@ -294,7 +352,7 @@ const ChatInterface = () => {
 
 
 const WelcomeInterface = () => {
-  const { language } = useLanguage(); 
+  const { language } = useLanguage();
   return (
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
@@ -315,14 +373,14 @@ const WelcomeInterface = () => {
 };
 
 export default function Page() {
-  const isLoggedIn = true; 
+  const isLoggedIn = true; // Définissez cette variable en fonction de votre logique d'authentification
 
   return (
     <>
       <Head>
         <title>Operation W - Chat</title>
       </Head>
-      <div className={styles.mainPageContentWrapper}> 
+      <div className={styles.mainPageContentWrapper}>
         {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
       </div>
     </>
