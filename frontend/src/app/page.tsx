@@ -80,18 +80,18 @@ const translations = {
   },
     welcome: {
     headline: {
-      en: "Project K",
-      fr: "Projet K",
-      mi: "Kaupapa K", // "Project K" in Maori
-      ga: "Tionscadal K", // "Project K" in Irish
-      hi: "प्रोजेक्ट के", // "Project K" in Hindi
-      gd: "Pròiseact K", // "Project K" in Scottish Gaelic
-      'en-AU': "Project K",
-      'en-NZ': "Project K",
-      'en-CA': "Project K",
-      'fr-CA': "Projet K",
-      'en-ZA': "Project K",
-      af: "Projek K",
+      en: "Operation W",
+      fr: "Opération W",
+      mi: "Operesihona W", // Phonetic "Operation W" in Maori
+      ga: "Oibríocht W",   // "Operation W" in Irish
+      hi: "ऑपरेशन डब्ल्यू", // "Operation W" in Hindi
+      gd: "Obrachadh W",   // "Operation W" in Scottish Gaelic
+      'en-AU': "Operation W",
+      'en-NZ': "Operation W",
+      'en-CA': "Operation W",
+      'fr-CA': "Opération W",
+      'en-ZA': "Operation W",
+      af: "Operasie W",    // "Operation W" in Afrikaans
     },
     watch: {
       en: 'Watch', fr: 'Regarder', mi: 'Mātakitaki',
@@ -100,18 +100,18 @@ const translations = {
       'en-ZA': 'Watch', af: 'Kyk',
     },
     intro: {
-      en: 'Getting started with Project K',
-      fr: 'Bien démarrer avec Project K',
-      mi: 'Kei te timata ki Project K',
-      ga: 'Ag tosú le Project K',
-      hi: 'प्रोजेक्ट के के साथ शुरुआत करना',
-      gd: 'A\' tòiseachadh le Project K',
-      'en-AU': 'Getting started with Project K',
-      'en-NZ': 'Getting started with Project K',
-      'en-CA': 'Getting started with Project K',
-      'fr-CA': 'Bien démarrer avec Project K',
-      'en-ZA': 'Getting started with Project K',
-      af: 'Begin met Project K',
+       en: 'Getting started with Operation W',
+      fr: 'Bien démarrer avec Opération W',
+      mi: 'Kei te timata ki Operation W',
+      ga: 'Ag tosú le Operation W',
+      hi: 'ऑपरेशन डब्ल्यू के साथ शुरुआत करना', // "Operation W" in Hindi
+      gd: 'A\' tòiseachadh le Operation W',
+      'en-AU': 'Getting started with Operation W',
+      'en-NZ': 'Getting started with Operation W',
+      'en-CA': 'Getting started with Operation W',
+      'fr-CA': 'Bien démarrer avec Opération W',
+      'en-ZA': 'Getting started with Operation W',
+      af: 'Begin met Operasie W', // "Operation W" in Afrikaans
     },
     inputBar: {
       en: 'Type here to give a task to Agent K',
@@ -298,7 +298,7 @@ const WelcomeInterface = () => {
   return (
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
-        <div className={styles.logoIcon}>H</div>
+        <div className={styles.logoIcon}>W</div>
         <h1>{translations.welcome.headline[language] || translations.welcome.headline.en}</h1>
       </div>
       <div className={styles.welcomeCard}>
@@ -320,7 +320,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>Project K - Chat</title>
+        <title>Operation W - Chat</title>
       </Head>
       <div className={styles.mainPageContentWrapper}> 
         {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}

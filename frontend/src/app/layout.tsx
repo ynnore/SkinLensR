@@ -8,8 +8,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'K Project',
-  description: 'Votre application de diagnostic SkinLensR',
+  title: 'Operation W',
+  description: 'Votre application de diagnostic ',
 };
 
 // Ce petit script sera injecté dans le <head> pour éviter le flash de thème.
