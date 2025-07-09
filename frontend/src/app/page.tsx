@@ -3,7 +3,7 @@
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import styles from './page.module.css';
-import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa'; // FaUser retiré
+import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // --- INTERFACES & TRADUCTIONS ---
@@ -42,7 +42,7 @@ const translations = {
       mi: "He mea whakahihiri mai i ngā kaikeri o raro o Te Whanganui-a-Tara ki Arras, ko tā mātou kaupapa he hanga i roto i te atarangi i ngā mea ka puta ki te mata āpōpopo.",
       ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
-      gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misean togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
+      gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misneachd togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
       'en-AU': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       'en-NZ': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       'en-CA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
@@ -166,8 +166,8 @@ const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const ambianceStarted = useRef(false);
+  const [isMuted, setIsMuted] = useState(true); // Initial state: music is muted (good for autoplay policies)
+  // const ambianceStarted = useRef(false); // <--- SUPPRIMEZ CETTE LIGNE, ELLE CAUSE LE PROBLÈME
   const muteButtonRef = useRef<HTMLButtonElement>(null);
 
   const sounds = useRef<{
@@ -182,7 +182,7 @@ const ChatInterface = () => {
       click: new Audio('/sounds/click_ui.mp3'),
       send: new Audio('/sounds/send_telegram.mp3'),
       typing: new Audio('/sounds/typewriter_key.mp3'),
-      ambiance: new Audio('/sounds/gramophone_music.mp3')
+      ambiance: new Audio('/sounds/gramophone_music.mp3') // Chemin correct : public/sounds/gramophone_music.mp3
     };
 
     if (sounds.current.click) sounds.current.click.volume = 0.6;
@@ -191,22 +191,31 @@ const ChatInterface = () => {
     if (sounds.current.ambiance) {
         sounds.current.ambiance.volume = 0.1;
         sounds.current.ambiance.loop = true;
+        // Très important : Initialiser la propriété 'muted' de l'élément audio
+        // au même état que votre variable isMuted.
+        sounds.current.ambiance.muted = isMuted;
     }
+    // Nettoyage : s'assurer que la musique est arrêtée quand le composant est démonté
     return () => { sounds.current.ambiance?.pause(); }
   }, []);
 
-  const playSound = (sound: HTMLAudioElement | null) => {
-    if (!isMuted && sound) {
-      sound.currentTime = 0;
-      sound.play().catch(error => console.log(`Audio play error: ${error.message}`));
-    }
-  };
-
+  // Ce useEffect est correct et doit être conservé.
+  // Il assure que la propriété 'muted' de l'élément audio est toujours synchronisée
+  // avec l'état React 'isMuted'.
   useEffect(() => {
     if (sounds.current.ambiance) {
       sounds.current.ambiance.muted = isMuted;
     }
   }, [isMuted]);
+
+  const playSound = (sound: HTMLAudioElement | null) => {
+    // Cette fonction est pour les sons UI (clic, envoi, frappe), pas pour la musique d'ambiance.
+    // Nous ajoutons une condition pour s'assurer que le son d'ambiance n'est pas géré ici.
+    if (!isMuted && sound && sound !== sounds.current.ambiance) {
+      sound.currentTime = 0;
+      sound.play().catch(error => console.log(`Audio play error: ${error.message}`));
+    }
+  };
 
   useEffect(() => {
     setMessages([{ role: 'assistant', content: translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en }]);
@@ -259,7 +268,6 @@ const ChatInterface = () => {
     }
   };
 
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key.length === 1) playSound(sounds.current.typing);
     if (e.key === 'Enter' && !isLoading) handleSendMessage();
@@ -278,11 +286,22 @@ const ChatInterface = () => {
           <button
             ref={muteButtonRef}
             onClick={() => {
-                if (!ambianceStarted.current && sounds.current.ambiance) {
-                    sounds.current.ambiance.play().catch(e => {});
-                    ambianceStarted.current = true;
+                const newMutedState = !isMuted; // Déterminer le nouvel état de mute
+                setIsMuted(newMutedState);    // Mettre à jour l'état React
+
+                if (sounds.current.ambiance) {
+                    if (newMutedState) {
+                        // Si le nouvel état est 'muted' (muet), mettre la musique en pause
+                        sounds.current.ambiance.pause();
+                    } else {
+                        // Si le nouvel état est 'unmuted' (non muet), tenter de relancer la musique
+                        sounds.current.ambiance.play().catch(e => {
+                            console.error("Erreur de lecture de l'ambiance (politique d'autoplay ou autre):", e);
+                            // C'est souvent dû aux navigateurs qui bloquent l'autoplay si l'utilisateur n'a pas interagi
+                            // avant. Comme c'est un clic, cela devrait fonctionner.
+                        });
+                    }
                 }
-                setIsMuted(!isMuted);
             }}
             className={styles.iconButton}
             title={isMuted ? "Activer la musique" : "Couper la musique"}
@@ -356,7 +375,7 @@ const WelcomeInterface = () => {
   return (
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
-        <div className={styles.logoIcon}>W</div>
+        <div className={styles.logoIcon}>O</div>
         <h1>{translations.welcome.headline[language] || translations.welcome.headline.en}</h1>
       </div>
       <div className={styles.welcomeCard}>
@@ -378,7 +397,7 @@ export default function Page() {
   return (
     <>
       <Head>
-        <title>Operation W - Chat</title>
+        <title>Kiwi-ops-Chat</title>
       </Head>
       <div className={styles.mainPageContentWrapper}>
         {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
