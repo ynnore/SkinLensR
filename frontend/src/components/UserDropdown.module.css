@@ -1,3 +1,4 @@
+/* Dropdown (langue / menu utilisateur) */
 .dropdown {
   position: absolute;
   top: calc(100% + 5px);
@@ -12,11 +13,83 @@
   z-index: 50;
   animation: fadeIn 0.1s ease-out;
 }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-.profileSection { padding: 0.5rem; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.menuItem { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem; border-radius: 6px; color: var(--text-secondary); font-size: 0.9rem; }
-.menuItem:hover { background-color: var(--hover-bg); color: var(--text-primary); }
-.menuItem svg { font-size: 1rem; flex-shrink: 0; }
-.menuItem span { white-space: nowrap; }
-.divider { height: 1px; background-color: var(--border-color); margin: 0.75rem 0; }
+/* Animation d’apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sections dans le menu */
+.profileSection {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Entrée de menu / langue */
+.menuItem,
+.languageButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.menuItem:hover,
+.languageButton:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+}
+
+/* Icônes SVG dans les menus */
+.menuItem svg,
+.languageButton svg {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Texte */
+.menuItem span,
+.languageButton span {
+  white-space: nowrap;
+}
+
+/* Séparateur */
+.divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 0.75rem 0;
+}
+
+/* Drapeaux (image de langue) */
+.menuItem img,
+.languageButton img,
+.dropdown img {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}

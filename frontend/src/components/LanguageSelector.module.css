@@ -1,0 +1,118 @@
+/* Fichier : src/components/LanguageSelector.module.css */
+
+.languageSelectorContainer {
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+  flex-shrink: 0;
+  z-index: 100; /* Donne un z-index au conteneur du sélecteur de langue pour son bouton */
+}
+
+.currentLanguageButton {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 0.85rem;
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+  gap: 6px;
+  line-height: 1;
+  height: 36px;
+}
+
+.currentLanguageButton:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--primary-color);
+}
+
+.flagImage,
+.flagEmoji {
+  font-size: 1.3rem;
+  width: 24px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.languageShortName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--transition-speed) ease, width var(--transition-speed) ease;
+  min-width: 25px;
+}
+
+.dropdownArrow {
+  margin-left: auto;
+  font-size: 0.7rem;
+  transition: transform var(--transition-speed) ease;
+}
+
+.currentLanguageButton[aria-expanded="true"] .dropdownArrow {
+  transform: rotate(180deg);
+}
+
+.languageOptionsDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: var(--dropdown-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  z-index: 1003; /* TRÈS HAUT POUR S'ASSURER QU'IL EST AU-DESSUS DE TOUT, Y COMPRIS LE MENU UTILISATEUR ET LES LIENS DE NAV */
+  padding: 8px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.languageOption {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text-color);
+  transition: background-color var(--transition-speed) ease;
+  gap: 8px;
+}
+
+.languageOption:hover {
+  background-color: var(--hover-bg);
+}
+
+.languageOption.activeLanguageOption {
+  background-color: var(--active-link-bg);
+  color: var(--active-link-color);
+  font-weight: bold;
+}
+
+.languageSelectorContainer.closedSidebarMode .currentLanguageButton {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  border: none;
+}
+
+.languageSelectorContainer.closedSidebarMode .languageShortName,
+.languageSelectorContainer.closedSidebarMode .dropdownArrow {
+  display: none;
+}
+
+.languageSelectorContainer.closedSidebarMode .flagImage,
+.languageSelectorContainer.closedSidebarMode .flagEmoji {
+  width: 24px;
+  height: 20px;
+  font-size: 1.3rem;
+}

@@ -1,41 +1,37 @@
-// Fichier : src/app/MainLayoutClient.tsx
+// src/app/MainLayoutClient.tsx
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import Sidebar from '../components/Sidebar';
-import ChatHeader from '../components/ChatHeader'; // <-- 1. Importez le nouveau ChatHeader
-import styles from './MainLayoutClient.module.css';
+import Sidebar from '@/components/Sidebar';
 
-// L'import de FaBars n'est plus nécessaire ici
-// import { FaBars } from 'react-icons/fa'; 
+interface MainLayoutClientProps {
+  children: React.ReactNode;
+}
 
-export default function MainLayoutClient({ children }: { children: React.ReactNode }) {
-  // L'état de la sidebar est géré ici.
-  // IMPORTANT : On l'initialise à `false` pour que sur mobile, le menu soit fermé par défaut.
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+export default function MainLayoutClient({ children }: MainLayoutClientProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = useCallback(() => {
     setIsSidebarOpen(prev => !prev);
   }, []);
 
   return (
-    // Ce conteneur ne gère plus la disposition flex.
-    <div className={styles.mainLayoutContainer}>
-      
-      {/* La Sidebar vit sa vie en position: fixed grâce à son propre CSS */}
-      <Sidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-      />
-      
-      {/* Le ChatHeader est aussi en position: fixed (sur mobile) et reçoit la fonction pour ouvrir la sidebar */}
-      <ChatHeader toggleSidebar={toggleSidebar} />
-        
-      {/* Le contenu principal est le seul élément qui scrollera */}
-      <main className={styles.mainContent}>
+    <div style={{ display: 'flex', minHeight: '100vh', position: 'relative' }}>
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+
+      <main
+        style={{
+          flexGrow: 1,
+          marginLeft: `var(${isSidebarOpen ? '--sidebar-width-open' : '--sidebar-width-closed'})`,
+          transition: `margin-left var(--transition-speed) ease`,
+          padding: '20px',
+          boxSizing: 'border-box',
+          width: `calc(100% - var(${isSidebarOpen ? '--sidebar-width-open' : '--sidebar-width-closed'}))`,
+          overflowY: 'auto',
+        }}
+      >
         {children}
       </main>
-
     </div>
   );
 }
