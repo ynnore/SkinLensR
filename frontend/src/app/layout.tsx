@@ -2,7 +2,7 @@
 import { Inter } from 'next/font/google';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import { ThemeProvider } from '../context/ThemeContext';
-import MainLayoutClient from './MainLayoutClient';
+import MainLayoutClient from './MainLayoutClient'; // Importé ici
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -12,7 +12,6 @@ export const metadata = {
   description: 'Votre application de diagnostic ',
 };
 
-// Ce petit script sera injecté dans le <head> pour éviter le flash de thème.
 const ThemeScript = () => {
   const script = `
     (function() {
@@ -35,15 +34,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // La langue est importante ici. La classe 'dark' sera ajoutée par le script.
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* Le script est placé ici, dans le <head> */}
         <ThemeScript />
       </head>
       <body className={inter.className}>
         <ThemeProvider>
           <LanguageProvider>
+            {/* MainLayoutClient est le composant parent qui gérera le layout avec la sidebar */}
             <MainLayoutClient>
               {children}
             </MainLayoutClient>

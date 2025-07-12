@@ -51,19 +51,80 @@ html.dark {
    STYLES DE BASE GLOBAUX
    ======================================================== */
 
+      
+/* Fichier : src/app/globals.css */
+
+/* Styles globaux de base pour le corps de la page */
+html,
 body {
   margin: 0;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%; /* Important pour que les layouts en pleine hauteur fonctionnent */
+  overflow-x: hidden; /* Empêche le défilement horizontal indésirable */
 }
 
-* {
-  box-sizing: border-box;
+/* Les variables par défaut (thème clair) sont définies sur :root */
+:root {
+  --page-bg: #ffffff; /* Couleur de fond de la page en thème clair */
+  --sidebar-bg: #f8f9fa; /* Light grey */
+  --text-color: #212529; /* Dark text */
+  --icon-color: #495057;
+  --nav-link-color: #495057;
+  --nav-link-hover-color: #212529;
+  --active-link-color: #212529;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --active-link-bg: rgba(0, 0, 0, 0.1);
+  --primary-color: #ff0022; /* Blue */
+  --primary-dark-color: #b32400;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --dropdown-bg: #ffffff;
+
+  /* Variables pour la sidebar (neutres ou par défaut) */
+  --sidebar-width-open: 250px;
+  --sidebar-width-closed: 80px;
+  --transition-speed: 0.3s;
 }
 
+/* Le thème sombre est appliqué via la classe 'dark' sur l'élément HTML */
+html.dark {
+  --page-bg: #1a1a2e; /* Couleur de fond de la page en thème sombre */
+  --sidebar-bg: #1a1a2e; /* Dark blue/grey */
+  --text-color: #ecf0f1; /* Light grey */
+  --icon-color: #bdc3c7; /* Medium grey */
+  --nav-link-color: #bdc3c7;
+  --nav-link-hover-color: #ecf0f1;
+  --active-link-color: #ecf0f1;
+  --hover-bg: rgba(255, 255, 255, 0.1);
+  --active-link-bg: rgba(255, 255, 255, 0.2);
+  --primary-color: #db5534; /* Blue */
+  --primary-dark-color: #b92929; /* Darker blue */
+  --border-color: rgba(255, 255, 255, 0.1);
+  --dropdown-bg: #34495e; /* Darker grey than sidebar */
+}
+
+/* Le corps prend les couleurs de page appropriées */
+body {
+  background-color: var(--page-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Styles de base pour les liens, boutons, etc. */
 a {
   color: inherit;
   text-decoration: none;
 }
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+}
+
+    
+
