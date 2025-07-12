@@ -76,8 +76,8 @@ body {
   --active-link-color: #212529;
   --hover-bg: rgba(0, 0, 0, 0.05);
   --active-link-bg: rgba(0, 0, 0, 0.1);
-  --primary-color: #ff0022; /* Blue */
-  --primary-dark-color: #b32400;
+  --primary-color: #ff0000; /* Blue */
+  --primary-dark-color: #b30000;
   --border-color: rgba(0, 0, 0, 0.1);
   --dropdown-bg: #ffffff;
 
@@ -98,7 +98,7 @@ html.dark {
   --active-link-color: #ecf0f1;
   --hover-bg: rgba(255, 255, 255, 0.1);
   --active-link-bg: rgba(255, 255, 255, 0.2);
-  --primary-color: #db5534; /* Blue */
+  --primary-color: hsl(0, 94%, 52%); /* Blue */
   --primary-dark-color: #b92929; /* Darker blue */
   --border-color: rgba(255, 255, 255, 0.1);
   --dropdown-bg: #34495e; /* Darker grey than sidebar */
