@@ -1,3 +1,5 @@
+// page.js - FICHIER COMPLET ET CORRIGÉ
+
 'use client';
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
@@ -33,7 +35,6 @@ const userAvatars: { [key: string]: string } = {
   'user_default': '/avatars/human.png', // Assurez-vous que ce fichier existe !
 };
 
-// CORRECTION : L'objet 'translations' est maintenant complet
 const translations = {
   header: {
     missionStatement: {
@@ -166,8 +167,7 @@ const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(true); // Initial state: music is muted (good for autoplay policies)
-  // const ambianceStarted = useRef(false); // <--- SUPPRIMEZ CETTE LIGNE, ELLE CAUSE LE PROBLÈME
+  const [isMuted, setIsMuted] = useState(true);
   const muteButtonRef = useRef<HTMLButtonElement>(null);
 
   const sounds = useRef<{
@@ -182,7 +182,7 @@ const ChatInterface = () => {
       click: new Audio('/sounds/click_ui.mp3'),
       send: new Audio('/sounds/send_telegram.mp3'),
       typing: new Audio('/sounds/typewriter_key.mp3'),
-      ambiance: new Audio('/sounds/gramophone_music.mp3') // Chemin correct : public/sounds/gramophone_music.mp3
+      ambiance: new Audio('/sounds/gramophone_music.mp3')
     };
 
     if (sounds.current.click) sounds.current.click.volume = 0.6;
@@ -191,17 +191,11 @@ const ChatInterface = () => {
     if (sounds.current.ambiance) {
         sounds.current.ambiance.volume = 0.1;
         sounds.current.ambiance.loop = true;
-        // Très important : Initialiser la propriété 'muted' de l'élément audio
-        // au même état que votre variable isMuted.
         sounds.current.ambiance.muted = isMuted;
     }
-    // Nettoyage : s'assurer que la musique est arrêtée quand le composant est démonté
     return () => { sounds.current.ambiance?.pause(); }
   }, []);
 
-  // Ce useEffect est correct et doit être conservé.
-  // Il assure que la propriété 'muted' de l'élément audio est toujours synchronisée
-  // avec l'état React 'isMuted'.
   useEffect(() => {
     if (sounds.current.ambiance) {
       sounds.current.ambiance.muted = isMuted;
@@ -209,8 +203,6 @@ const ChatInterface = () => {
   }, [isMuted]);
 
   const playSound = (sound: HTMLAudioElement | null) => {
-    // Cette fonction est pour les sons UI (clic, envoi, frappe), pas pour la musique d'ambiance.
-    // Nous ajoutons une condition pour s'assurer que le son d'ambiance n'est pas géré ici.
     if (!isMuted && sound && sound !== sounds.current.ambiance) {
       sound.currentTime = 0;
       sound.play().catch(error => console.log(`Audio play error: ${error.message}`));
@@ -221,56 +213,79 @@ const ChatInterface = () => {
     setMessages([{ role: 'assistant', content: translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en }]);
   }, [language]);
 
-  // Fonction pour obtenir l'avatar de l'assistant (maintenant sans className en dur)
   const getAssistantAvatar = () => {
-    // Utilise la langue actuelle, avec 'en' comme fallback
     const assistantAvatarPath = userAvatars[language] || userAvatars['en'];
     return (
-      <img
-        src={assistantAvatarPath}
-        alt="Avatar de l'assistant"
-        // Le style est géré par .avatar img dans page.module.css
-      />
+      <img src={assistantAvatarPath} alt="Avatar de l'assistant" />
     );
   };
 
-  // NOUVEAU : Fonction pour obtenir l'avatar de l'utilisateur
   const getUserAvatar = () => {
-    // Utilise l'avatar par défaut de l'utilisateur
     return (
-      <img
-        src={userAvatars['user_default']}
-        alt="Votre avatar"
-        // Le style est géré par .avatar img dans page.module.css
-      />
+      <img src={userAvatars['user_default']} alt="Votre avatar" />
     );
   };
 
-  const handleSendMessage = () => {
+  // --- MODIFICATION PRINCIPALE ICI ---
+  const handleSendMessage = async () => { // Ajout de 'async' pour pouvoir utiliser 'await'
     if (inputValue.trim()) {
       playSound(sounds.current.send);
-      // Simule l'ajout du message utilisateur et d'une réponse de l'assistant
-      setMessages(prevMessages => [
-        ...prevMessages,
-        { role: 'user', content: inputValue.trim() }
-      ]);
+
+      const userMessage = { role: 'user', content: inputValue.trim() };
+      
+      // Ajoute le message de l'utilisateur à l'interface immédiatement
+      setMessages(prevMessages => [...prevMessages, userMessage]);
+      
       setInputValue('');
       setIsLoading(true);
 
-      // Simule une réponse de l'agent K après un délai
-      setTimeout(() => {
+      // Début de l'appel réel à l'API (remplace la simulation 'setTimeout')
+      try {
+        // 1. Appel à votre backend sur la bonne URL et la bonne route
+        const response = await fetch('http://127.0.0.1:5050/agent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          // 2. Envoi de la question dans le format attendu par votre backend: { "prompt": "..." }
+          body: JSON.stringify({ prompt: userMessage.content }),
+        });
+
+        // 3. Gestion d'une réponse d'erreur du serveur
+        if (!response.ok) {
+          throw new Error(`Erreur du serveur: ${response.status}`);
+        }
+
+        // 4. Extraction de la réponse JSON
+        const data = await response.json();
+
+        // 5. Ajout de la réponse de l'IA à l'interface
+        //    Votre backend retourne { "answer": "..." }, donc on utilise data.answer
         setMessages(prevMessages => [
           ...prevMessages,
-          { role: 'assistant', content: "Ceci est une réponse simulée de l'Agent K." }
+          { role: 'assistant', content: data.answer || "Désolé, je n'ai pas reçu de réponse valide." }
         ]);
+
+      } catch (error) {
+        // En cas de problème réseau ou autre erreur
+        console.error("Erreur lors de l'appel à l'API:", error);
+        setMessages(prevMessages => [
+          ...prevMessages,
+          { role: 'assistant', content: `Une erreur de communication est survenue: ${error.message}` }
+        ]);
+      } finally {
+        // Quoi qu'il arrive (succès ou erreur), on arrête l'indicateur de chargement
         setIsLoading(false);
-      }, 1500);
+      }
     }
   };
+  // --- FIN DE LA MODIFICATION PRINCIPALE ---
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key.length === 1) playSound(sounds.current.typing);
-    if (e.key === 'Enter' && !isLoading) handleSendMessage();
+    if (e.key === 'Enter' && !isLoading) {
+      handleSendMessage();
+    }
   };
 
   const messageAreaClassName = (msgRole: string) => [styles.messageBubble, msgRole === 'user' ? styles.userMessage : styles.assistantMessage].join(' ');
@@ -286,19 +301,15 @@ const ChatInterface = () => {
           <button
             ref={muteButtonRef}
             onClick={() => {
-                const newMutedState = !isMuted; // Déterminer le nouvel état de mute
-                setIsMuted(newMutedState);    // Mettre à jour l'état React
+                const newMutedState = !isMuted;
+                setIsMuted(newMutedState);
 
                 if (sounds.current.ambiance) {
                     if (newMutedState) {
-                        // Si le nouvel état est 'muted' (muet), mettre la musique en pause
                         sounds.current.ambiance.pause();
                     } else {
-                        // Si le nouvel état est 'unmuted' (non muet), tenter de relancer la musique
                         sounds.current.ambiance.play().catch(e => {
-                            console.error("Erreur de lecture de l'ambiance (politique d'autoplay ou autre):", e);
-                            // C'est souvent dû aux navigateurs qui bloquent l'autoplay si l'utilisateur n'a pas interagi
-                            // avant. Comme c'est un clic, cela devrait fonctionner.
+                            console.error("Erreur de lecture de l'ambiance:", e);
                         });
                     }
                 }
@@ -315,7 +326,6 @@ const ChatInterface = () => {
               style={{ opacity: isMuted ? 0.6 : 1 }}
             />
           </button>
-
           <button className={styles.moreButton} onClick={() => playSound(sounds.current.click)}>...</button>
           <button className={styles.shareButton} onClick={() => playSound(sounds.current.click)}>3D</button>
         </div>
