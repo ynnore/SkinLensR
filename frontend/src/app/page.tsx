@@ -1,5 +1,3 @@
-// page.js - FICHIER COMPLET ET CORRIGÉ
-
 'use client';
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
@@ -14,27 +12,61 @@ interface Message {
   content: string;
 }
 
-const userAvatars: { [key: string]: string } = {
-  // Commonwealth / Empire
+// Chemins des fichiers images des drapeaux (utilisés pour les avatars utilisateur et comme fallback pour les agents si pas de symbole)
+const flagAvatars: { [key: string]: string } = {
   'en-AU': '/avatars/australian.png',
   'en-CA': '/avatars/canada.jpg',
   'fr-CA': '/avatars/canada.jpg',
-  'en':    '/avatars/england.png',
+  'en':    '/avatars/england.png', // Anglais générique (pour le Royaume-Uni/Angleterre)
   'hi':    '/avatars/india.png',
   'en-NZ': '/avatars/new-zealand.png',
   'mi':    '/avatars/maoripioneer.png',
   'en-ZA': '/avatars/south-africa.png',
   'af':    '/avatars/south-africa.png',
-  // Nations du Royaume-Uni
-  'ga':    '/avatars/irish.png',
-  'gd':    '/avatars/scottish.jpg',
-  'cy':    '/avatars/welsh.jpg',
-  // France
+  'ga':    '/avatars/irish.png', // Irlandais
+  'gd':    '/avatars/scottish.jpg', // Écossais
+  'cy':    '/avatars/welsh.jpg', // Gallois
   'fr':    '/avatars/france.png',
-  // NOUVEAU : Avatar par défaut pour l'utilisateur
-  'user_default': '/avatars/human.png', // Assurez-vous que ce fichier existe !
 };
 
+// Chemins des fichiers images des avatars symboliques spécifiques pour les agents
+const symbolicAgentAvatars: { [key: string]: string } = {
+  'lion': '/avatars/lion.png',
+  'thorn': '/avatars/thorn.png',
+  'protea': '/avatars/protea.png',
+  '007': '/avatars/007.png',
+  'ashoka': '/avatars/ashoka.png',
+  'ktk': '/avatars/ktk.png',
+  'rock': '/avatars/rock.png',
+  'fern': '/avatars/fern.png',
+  'southerncross': '/avatars/southerncross.png',
+  'maple': '/avatars/maple.svg', // AJOUTÉ : Avatar feuille d'érable pour le Canada
+};
+
+// Noms des agents et le chemin de leur avatar (priorise les symboles, sinon les drapeaux)
+const agentDetails: { [key: string]: { name: string; avatarPath: string } } = {
+  'fr': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr },
+  'en-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['en-CA'] }, // UTILISE MAPLE.SVG
+  'fr-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['fr-CA'] }, // UTILISE MAPLE.SVG
+  'ga': { name: '☘️ R.O.C.K.', avatarPath: symbolicAgentAvatars.rock || flagAvatars.ga },
+  'gd': { name: '🌸 T.H.O.R.N.', avatarPath: symbolicAgentAvatars.thorn || flagAvatars.gd },
+  'en-NZ': { name: '🌿 FERN', avatarPath: symbolicAgentAvatars.fern || flagAvatars['en-NZ'] },
+  'mi': { name: '⚫⚪🔴 K.T.K.', avatarPath: symbolicAgentAvatars.ktk || flagAvatars.mi },
+  'en-AU': { name: '✨ D.G.R.', avatarPath: symbolicAgentAvatars.southerncross || flagAvatars['en-AU'] },
+  'hi': { name: '☸️ C.K.R.', avatarPath: symbolicAgentAvatars.ashoka || flagAvatars.hi },
+  'en-ZA': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars['en-ZA'] },
+  'af': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars.af },
+  'en': { name: 'B', avatarPath: symbolicAgentAvatars['007'] || flagAvatars.en },
+  'default': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr }
+};
+
+// Avatars de l'utilisateur basés sur la langue (utilisent les drapeaux)
+const userAvatarsMapping: { [key: string]: string } = {
+  ...flagAvatars, // Inclut tous les drapeaux comme options pour l'utilisateur
+  'default': '/avatars/human.png', // Avatar par défaut pour l'utilisateur si la langue n'a pas de drapeau spécifique
+};
+
+// L'objet 'translations' complet avec les noms d'agents spécifiques
 const translations = {
   header: {
     missionStatement: {
@@ -58,39 +90,39 @@ const translations = {
   },
     chat: {
     welcomeMessage: {
-      en: "Hello! I'm Agent K. How can I help you today?",
-      fr: "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?",
-      mi: "Kia ora! Ko Agent K ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
-      ga: "Dia duit! Is mise Agent K. Conas is féidir liom cabhrú leat inniu?",
-      hi: "नमस्ते! मैं एजेंट के हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
-      gd: "Halo! 'S mise Agent K. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
-      'en-AU': "G'day! I'm Agent K. How can I help ya today?",
-      'en-NZ': "Kia ora! I'm Agent K. How can I help you today?",
-      'en-CA': "Hey there! I'm Agent K. How can I help you today, eh?",
-      'fr-CA': "Bonjour ! Je suis l'Agent K. Comment puis-je vous aider aujourd'hui ?",
-      'en-ZA': "Howzit! I'm Agent K. How can I help you today?",
-      af: "Goeiedag! Ek is Agent K. Hoe kan ek jou vandag help?",
+      en: "Hello! I'm Agent B. How can I help you today?",
+      fr: "Bonjour ! Je suis l'Agent L.I.O.N. Comment puis-je vous aider aujourd'hui ?",
+      mi: "Kia ora! Ko Agent K.T.K. ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
+      ga: "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
+      hi: "नमस्ते! मैं एजेंट ☸️ C.K.R. हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
+      gd: "Halo! 'S mise Agent 🌸 T.H.O.R.N.. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+      'en-AU': "G'day! I'm Agent ✨ D.G.R.. How can I help ya today?",
+      'en-NZ': "Kia ora! I'm Agent 🌿 FERN. How can I help you today?",
+      'en-CA': "Hey there! I'm Agent 🍁 M.A.P.L.. How can I help you today, eh?",
+      'fr-CA': "Bonjour ! Je suis l'Agent 🍁 M.A.P.L.. Comment puis-je vous aider aujourd'hui ?",
+      'en-ZA': "Howzit! I'm Agent 🇿🇦 P.R.T.. How can I help you today?",
+      af: "Goeiedag! Ek is Agent 🇿🇦 P.R.T.. Hoe kan ek jou vandag help?",
     },
     thinking: {
-      en: 'Agent K is thinking...',
-      fr: 'Agent K réfléchit...',
-      mi: 'Ke whakaaro a Agent K...',
-      ga: 'Tá Agent K ag smaoineamh...',
-      hi: 'एजेंट के सोच रहा है...',
-      gd: 'Tha Agent K a\' smaoineachadh...',
-      'en-AU': 'Agent K\'s thinkin\'...',
-      'en-NZ': 'Agent K\'s thinking...',
-      'en-CA': 'Agent K is thinking...',
-      'fr-CA': 'Agent K réfléchit...',
-      'en-ZA': 'Agent K is thinking...',
-      af: 'Agent K dink...',
+      en: 'Agent B is thinking...',
+      fr: 'Agent L.I.O.N. réfléchit...',
+      mi: 'Kei te whakaaro a Agent K.T.K....',
+      ga: 'Tá Agent ☘️ R.O.C.K. ag smaoineamh...',
+      hi: 'एजेंट ☸️ C.K.R. सोच रहा है...',
+      gd: 'Tha Agent 🌸 T.H.O.R.N. a\' smaoineachadh...',
+      'en-AU': 'Agent ✨ D.G.R.\'s thinkin\'...',
+      'en-NZ': 'Agent 🌿 FERN\'s thinking...',
+      'en-CA': 'Agent 🍁 M.A.P.L. is thinking...',
+      'fr-CA': 'Agent 🍁 M.A.P.L. réfléchit...',
+      'en-ZA': 'Agent 🇿🇦 P.R.T. is thinking...',
+      af: 'Agent 🇿🇦 P.R.T. dink...',
     },
     placeholder: {
       en: 'Type your message...',
       fr: 'Tapez votre message...',
       mi: 'Tēnā koa, tāpiri tō karere...',
       ga: 'Clóscríobh do theachtaireacht...',
-      hi: 'अपना संदेश टाइप करें...',
+      hi: 'अपना संदेश type करें...',
       gd: 'Cuir a-steach do theachdaireachd...',
       'en-AU': 'Chuck your message in here...',
       'en-NZ': 'Type your message here...',
@@ -104,16 +136,16 @@ const translations = {
     headline: {
       en: "Operation W",
       fr: "Opération W",
-      mi: "Operesihona W", // Phonetic "Operation W" in Maori
-      ga: "Oibríocht W",   // "Operation W" in Irish
-      hi: "ऑपरेशन डब्ल्यू", // "Operation W" in Hindi
-      gd: "Obrachadh W",   // "Operation W" in Scottish Gaelic
+      mi: "Operesihona W",
+      ga: "Oibríocht W",
+      hi: "ऑपरेशन डब्ल्यू",
+      gd: "Obrachadh W",
       'en-AU': "Operation W",
       'en-NZ': "Operation W",
       'en-CA': "Operation W",
       'fr-CA': "Opération W",
       'en-ZA': "Operation W",
-      af: "Operasie W",    // "Operation W" in Afrikaans
+      af: "Operasie W",
     },
     watch: {
       en: 'Watch', fr: 'Regarder', mi: 'Mātakitaki',
@@ -126,14 +158,14 @@ const translations = {
       fr: 'Bien démarrer avec Opération W',
       mi: 'Kei te timata ki Operation W',
       ga: 'Ag tosú le Operation W',
-      hi: 'ऑपरेशन डब्ल्यू के साथ शुरुआत करना', // "Operation W" in Hindi
+      hi: 'ऑपरेशन डब्ल्यू के साथ शुरुआत करना',
       gd: 'A\' tòiseachadh le Operation W',
       'en-AU': 'Getting started with Operation W',
       'en-NZ': 'Getting started with Operation W',
       'en-CA': 'Getting started with Operation W',
       'fr-CA': 'Bien démarrer avec Opération W',
       'en-ZA': 'Getting started with Operation W',
-      af: 'Begin met Operasie W', // "Operation W" in Afrikaans
+      af: 'Begin met Operasie W',
     },
     inputBar: {
       en: 'Type here to give a task to Agent K',
@@ -141,7 +173,7 @@ const translations = {
       mi: 'Tāpaea tēnei ki Agent K',
       ga: 'Clóscríobh anseo chun tasc a thabhairt do Agent K',
       hi: 'यहां एजेंट के को एक कार्य देने के लिए टाइप करें',
-      gd: 'Sgrìobh an seo gus gnìomh a thoirt do Agent K',
+      gd: 'Sgrìobh an here gus gnìomh a thoirt do Agent K',
       'en-AU': 'Type here to give a task to Agent K',
       'en-NZ': 'Type here to give a task to Agent K',
       'en-CA': 'Type here to give a task to Agent K',
@@ -209,83 +241,62 @@ const ChatInterface = () => {
     }
   };
 
+  // Détermine les détails de l'agent actuel en fonction de la langue sélectionnée
+  const currentAgent = agentDetails[language] || agentDetails['default'];
+  const agentName = currentAgent.name;
+  const agentAvatarSrc = currentAgent.avatarPath; // L'avatar de l'agent est directement dans agentDetails.avatarPath
+
+
   useEffect(() => {
-    setMessages([{ role: 'assistant', content: translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en }]);
+    // Le message de bienvenue initial de l'agent est directement tiré des traductions
+    const welcomeMessageContent = translations.chat.welcomeMessage[language] || translations.chat.welcomeMessage.en;
+    setMessages([{ role: 'assistant', content: welcomeMessageContent }]);
   }, [language]);
 
+  // Fonction pour obtenir l'avatar de l'assistant
   const getAssistantAvatar = () => {
-    const assistantAvatarPath = userAvatars[language] || userAvatars['en'];
     return (
-      <img src={assistantAvatarPath} alt="Avatar de l'assistant" />
+      <img
+        src={agentAvatarSrc} // Utilise le chemin de l'avatar de l'agent déterminé dynamiquement
+        alt={`Avatar de ${agentName}`} // Texte alternatif dynamique pour l'accessibilité
+      />
     );
   };
 
+  // Fonction pour obtenir l'avatar de l'utilisateur (dépend maintenant de la langue)
   const getUserAvatar = () => {
+    const userAvatarSrc = userAvatarsMapping[language] || userAvatarsMapping['default'];
     return (
-      <img src={userAvatars['user_default']} alt="Votre avatar" />
+      <img
+        src={userAvatarSrc}
+        alt="Votre avatar"
+      />
     );
   };
 
-  // --- MODIFICATION PRINCIPALE ICI ---
-  const handleSendMessage = async () => { // Ajout de 'async' pour pouvoir utiliser 'await'
+  const handleSendMessage = () => {
     if (inputValue.trim()) {
       playSound(sounds.current.send);
-
-      const userMessage = { role: 'user', content: inputValue.trim() };
-      
-      // Ajoute le message de l'utilisateur à l'interface immédiatement
-      setMessages(prevMessages => [...prevMessages, userMessage]);
-      
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { role: 'user', content: inputValue.trim() }
+      ]);
       setInputValue('');
       setIsLoading(true);
 
-      // Début de l'appel réel à l'API (remplace la simulation 'setTimeout')
-      try {
-        // 1. Appel à votre backend sur la bonne URL et la bonne route
-        const response = await fetch('http://127.0.0.1:5050/agent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // 2. Envoi de la question dans le format attendu par votre backend: { "prompt": "..." }
-          body: JSON.stringify({ prompt: userMessage.content }),
-        });
-
-        // 3. Gestion d'une réponse d'erreur du serveur
-        if (!response.ok) {
-          throw new Error(`Erreur du serveur: ${response.status}`);
-        }
-
-        // 4. Extraction de la réponse JSON
-        const data = await response.json();
-
-        // 5. Ajout de la réponse de l'IA à l'interface
-        //    Votre backend retourne { "answer": "..." }, donc on utilise data.answer
+      setTimeout(() => {
         setMessages(prevMessages => [
           ...prevMessages,
-          { role: 'assistant', content: data.answer || "Désolé, je n'ai pas reçu de réponse valide." }
+          { role: 'assistant', content: `Ceci est une réponse simulée de ${agentName}.` }
         ]);
-
-      } catch (error) {
-        // En cas de problème réseau ou autre erreur
-        console.error("Erreur lors de l'appel à l'API:", error);
-        setMessages(prevMessages => [
-          ...prevMessages,
-          { role: 'assistant', content: `Une erreur de communication est survenue: ${error.message}` }
-        ]);
-      } finally {
-        // Quoi qu'il arrive (succès ou erreur), on arrête l'indicateur de chargement
         setIsLoading(false);
-      }
+      }, 1500);
     }
   };
-  // --- FIN DE LA MODIFICATION PRINCIPALE ---
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key.length === 1) playSound(sounds.current.typing);
-    if (e.key === 'Enter' && !isLoading) {
-      handleSendMessage();
-    }
+    if (e.key === 'Enter' && !isLoading) handleSendMessage();
   };
 
   const messageAreaClassName = (msgRole: string) => [styles.messageBubble, msgRole === 'user' ? styles.userMessage : styles.assistantMessage].join(' ');
@@ -309,7 +320,7 @@ const ChatInterface = () => {
                         sounds.current.ambiance.pause();
                     } else {
                         sounds.current.ambiance.play().catch(e => {
-                            console.error("Erreur de lecture de l'ambiance:", e);
+                            console.error("Erreur de lecture de l'ambiance (politique d'autoplay ou autre):", e);
                         });
                     }
                 }
@@ -326,6 +337,7 @@ const ChatInterface = () => {
               style={{ opacity: isMuted ? 0.6 : 1 }}
             />
           </button>
+
           <button className={styles.moreButton} onClick={() => playSound(sounds.current.click)}>...</button>
           <button className={styles.shareButton} onClick={() => playSound(sounds.current.click)}>3D</button>
         </div>
