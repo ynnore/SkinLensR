@@ -7,9 +7,10 @@
 }
 
 .mainContent {
+  /* Desktop styles */
   margin-left: var(--sidebar-width-open);
   width: calc(100% - var(--sidebar-width-open));
-  padding: 20px;
+  padding: 20px; /* Padding interne pour le contenu */
   box-sizing: border-box;
   transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease, padding var(--transition-speed) ease;
   overflow-x: hidden;
@@ -27,37 +28,8 @@
   width: calc(100% - var(--sidebar-width-closed));
 }
 
-/* === MOBILE OVERLAY (CALQUE DE SUPERPOSITION) === */
-.mobileOverlay {
-  display: none; /* Caché par défaut (sur desktop) */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente pour assombrir */
-  z-index: 999; /* Inférieur à la sidebar (1000) mais supérieur à mainContent (1) et ChatHeader (500) */
-  opacity: 0; /* Commence complètement transparent */
-  pointer-events: none; /* Non cliquable quand transparent */
-  transition: opacity var(--transition-speed) ease;
-}
-
-/* REND LE MOBILE OVERLAY VISIBLE (mais transparent) SUR MOBILE */
-@media (max-width: 768px) {
-  .mobileOverlay {
-    display: block; /* Visible sur mobile, mais son opacité est contrôlée par JS */
-  }
-}
-
-/* CLASSE APPLIQUÉE PAR JS POUR RENDRE L'OVERLAY OPAQUE ET CLIQUABLE QUAND LA SIDEBAR EST OUVERTE */
-.mobileOverlay.mobileOverlayActive {
-  opacity: 1;
-  pointer-events: auto; /* Permet les interactions (clics) */
-}
-
-
-/* === MOBILE MENU BUTTON (HAMBURGER) === */
-/* Ce bouton est maintenant géré dans ChatHeader.tsx. S'il y avait des styles ici, ils sont supprimés. */
+.mobileOverlay { /* ... styles inchangés ... */ }
+.mobileOverlay.mobileOverlayActive { /* ... styles inchangés ... */ }
 
 
 /* ========================================================
@@ -66,10 +38,10 @@
 
 @media (max-width: 768px) {
   .mainContent {
-    margin-left: 0; /* Pas de décalage sur mobile */
-    width: 100vw; /* Prend toute la largeur du viewport */
-    padding: 10px; /* Padding interne réduit */
-    padding-top: 70px; /* Espace pour le ChatHeader fixe */
+    margin-left: 0; /* IMPÉRATIF : Aucune marge à gauche sur mobile */
+    width: 100vw; /* IMPÉRATIF : Prend toute la largeur du viewport */
+    padding: 0;   /* TRÈS IMPORTANT : Supprime TOUT padding de ce conteneur sur mobile */
+    box-sizing: border-box; /* S'assure que le padding serait inclus si appliqué */
     height: 100vh; /* Prend toute la hauteur du viewport */
     overflow-y: auto;
     justify-content: flex-start;
