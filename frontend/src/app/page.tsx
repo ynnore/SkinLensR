@@ -56,7 +56,7 @@ const agentDetails: { [key: string]: { name: string; avatarPath: string } } = {
   'hi': { name: '☸️ C.K.R.', avatarPath: symbolicAgentAvatars.ashoka || flagAvatars.hi },
   'en-ZA': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars['en-ZA'] },
   'af': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars.af },
-  'en': { name: 'B', avatarPath: symbolicAgentAvatars['007'] || flagAvatars.en },
+  'en': { name: 'A.L.A.N', avatarPath: symbolicAgentAvatars['007'] || flagAvatars.en },
   'default': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr }
 };
 
@@ -90,18 +90,18 @@ const translations = {
   },
     chat: {
     welcomeMessage: {
-      en: "Hello! I'm Agent B. How can I help you today?",
+      en: "Hello! I'm A.L.A.N nod to Alan Turing,How can I help you today?",
       fr: "Bonjour ! Je suis l'Agent L.I.O.N. Comment puis-je vous aider aujourd'hui ?",
       mi: "Kia ora! Ko Agent K.T.K. ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
       ga: "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
       hi: "नमस्ते! मैं एजेंट ☸️ C.K.R. हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
-      gd: "Halo! 'S mise Agent 🌸 T.H.O.R.N.. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+      gd: "Halo! 'S mise Agent S.C. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
       'en-AU': "G'day! I'm Agent ✨ D.G.R.. How can I help ya today?",
       'en-NZ': "Kia ora! I'm Agent 🌿 FERN. How can I help you today?",
       'en-CA': "Hey there! I'm Agent 🍁 M.A.P.L.. How can I help you today, eh?",
       'fr-CA': "Bonjour ! Je suis l'Agent 🍁 M.A.P.L.. Comment puis-je vous aider aujourd'hui ?",
-      'en-ZA': "Howzit! I'm Agent 🇿🇦 P.R.T.. How can I help you today?",
-      af: "Goeiedag! Ek is Agent 🇿🇦 P.R.T.. Hoe kan ek jou vandag help?",
+      'en-ZA': "Howzit! I'm Agent 🇿🇦 M.DB.. nod to Neslon Mandela How can I help you today?",
+      af: "Goeiedag! Ek is Agent 🇿🇦 M.D.B. Hoe kan ek jou vandag help?",
     },
     thinking: {
       en: 'Agent B is thinking...',
