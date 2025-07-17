@@ -1,53 +1,42 @@
-'use client';
+// Fichier : src/app/page.tsx
+'use client'; // Gardez ceci si vous avez des hooks ou des interactions client
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
-import Head from 'next/head';
-import styles from './page.module.css';
+// La balise <Head> de next/head n'est pas utilisée dans l'App Router.
+// import Head from 'next/head'; // SUPPRIMER CET IMPORT
+
+import styles from './page.module.css'; // S'assure que page.module.css est bien importé
 import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-// --- INTERFACES & TRADUCTIONS ---
+// --- INTERFACES & TRADUCTIONS (laissés tels quels, car ils sont fonctionnels) ---
 interface Message {
   role: string;
   content: string;
 }
 
-// Chemins des fichiers images des drapeaux (utilisés pour les avatars utilisateur et comme fallback pour les agents si pas de symbole)
+// Chemins des fichiers images des drapeaux
 const flagAvatars: { [key: string]: string } = {
-  'en-AU': '/avatars/australian.png',
-  'en-CA': '/avatars/canada.jpg',
-  'fr-CA': '/avatars/canada.jpg',
-  'en':    '/avatars/england.png', // Anglais générique (pour le Royaume-Uni/Angleterre)
-  'hi':    '/avatars/india.png',
-  'en-NZ': '/avatars/new-zealand.png',
-  'mi':    '/avatars/maoripioneer.png',
-  'en-ZA': '/avatars/south-africa.png',
-  'af':    '/avatars/south-africa.png',
-  'ga':    '/avatars/irish.png', // Irlandais
-  'gd':    '/avatars/scottish.jpg', // Écossais
-  'cy':    '/avatars/welsh.jpg', // Gallois
-  'fr':    '/avatars/france.png',
+  'en-AU': '/avatars/australian.png', 'en-CA': '/avatars/canada.jpg', 'fr-CA': '/avatars/canada.jpg',
+  'en': '/avatars/england.png', 'hi': '/avatars/india.png', 'en-NZ': '/avatars/new-zealand.png',
+  'mi': '/avatars/maoripioneer.png', 'en-ZA': '/avatars/south-africa.png', 'af': '/avatars/south-africa.png',
+  'ga': '/avatars/irish.png', 'gd': '/avatars/scottish.jpg', 'cy': '/avatars/welsh.jpg',
+  'fr': '/avatars/france.png',
 };
 
-// Chemins des fichiers images des avatars symboliques spécifiques pour les agents
+// Chemins des fichiers images des avatars symboliques
 const symbolicAgentAvatars: { [key: string]: string } = {
-  'lion': '/avatars/lion.png',
-  'thorn': '/avatars/thorn.png',
-  'protea': '/avatars/protea.png',
-  '007': '/avatars/007.png',
-  'ashoka': '/avatars/ashoka.png',
-  'ktk': '/avatars/ktk.png',
-  'rock': '/avatars/rock.png',
-  'fern': '/avatars/fern.png',
-  'southerncross': '/avatars/southerncross.png',
-  'maple': '/avatars/maple.svg', // AJOUTÉ : Avatar feuille d'érable pour le Canada
+  'lion': '/avatars/lion.png', 'thorn': '/avatars/thorn.png', 'protea': '/avatars/protea.png',
+  '007': '/avatars/007.png', 'ashoka': '/avatars/ashoka.png', 'ktk': '/avatars/ktk.png',
+  'rock': '/avatars/rock.png', 'fern': '/avatars/fern.png', 'southerncross': '/avatars/southerncross.png',
+  'maple': '/avatars/maple.svg',
 };
 
-// Noms des agents et le chemin de leur avatar (priorise les symboles, sinon les drapeaux)
+// Noms des agents et le chemin de leur avatar
 const agentDetails: { [key: string]: { name: string; avatarPath: string } } = {
   'fr': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr },
-  'en-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['en-CA'] }, // UTILISE MAPLE.SVG
-  'fr-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['fr-CA'] }, // UTILISE MAPLE.SVG
+  'en-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['en-CA'] },
+  'fr-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['fr-CA'] },
   'ga': { name: '☘️ R.O.C.K.', avatarPath: symbolicAgentAvatars.rock || flagAvatars.ga },
   'gd': { name: '🌸 T.H.O.R.N.', avatarPath: symbolicAgentAvatars.thorn || flagAvatars.gd },
   'en-NZ': { name: '🌿 FERN', avatarPath: symbolicAgentAvatars.fern || flagAvatars['en-NZ'] },
@@ -60,13 +49,11 @@ const agentDetails: { [key: string]: { name: string; avatarPath: string } } = {
   'default': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr }
 };
 
-// Avatars de l'utilisateur basés sur la langue (utilisent les drapeaux)
 const userAvatarsMapping: { [key: string]: string } = {
-  ...flagAvatars, // Inclut tous les drapeaux comme options pour l'utilisateur
-  'default': '/avatars/human.png', // Avatar par défaut pour l'utilisateur si la langue n'a pas de drapeau spécifique
+  ...flagAvatars,
+  'default': '/avatars/human.png',
 };
 
-// L'objet 'translations' complet avec les noms d'agents spécifiques
 const translations = {
   header: {
     missionStatement: {
@@ -418,12 +405,7 @@ export default function Page() {
 
   return (
     <>
-      <Head>
-        <title>Kiwi-ops-Chat</title>
-      </Head>
-      <div className={styles.mainPageContentWrapper}>
-        {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
-      </div>
+      {isLoggedIn ? <ChatInterface /> : <WelcomeInterface />}
     </>
   );
 }

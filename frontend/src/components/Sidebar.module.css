@@ -1,31 +1,61 @@
 /* Fichier : src/components/Sidebar.module.css */
 
+/* ========================================================
+   VARIABLES GLOBALES (assumant qu'elles sont définies dans :root ailleurs, ex: globals.css)
+   ======================================================== */
+/* Ces variables devraient être gérées dans src/app/globals.css
+:root {
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 60px;
+  --transition-speed: 0.3s;
+  --sidebar-bg: #1f2937; // Exemple de couleur de fond pour la sidebar
+  --text-color: #f9fafb; // Exemple de couleur de texte
+  --icon-color: #9ca3af;
+  --nav-link-color: #bdc3c7;
+  --nav-link-hover-color: #ecf0f1;
+  --active-link-color: #ecf0f1;
+  --hover-bg: #374151;
+  --active-link-bg: rgba(255, 255, 255, 0.2);
+  --primary-color: hsl(0, 94%, 52%);
+  --primary-dark-color: #b92929;
+  --border-color: #374151;
+  --dropdown-bg: #34495e;
+}
+*/
+
+/* ========================================================
+   STYLES DE LA SIDEBAR (DESKTOP ET MOBILE PAR DÉFAUT)
+   ======================================================== */
+
 .sidebar {
-  width: var(--sidebar-width-open);
-  background-color: var(--sidebar-bg);
+  width: var(--sidebar-width-open); /* Largeur par défaut pour les grands écrans */
+  background-color: var(--sidebar-bg); /* Doit être une couleur opaque */
   color: var(--text-color);
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  position: fixed;
+  height: 100vh; /* Prend toute la hauteur du viewport */
+  position: fixed; /* Reste fixe lors du défilement */
   left: 0;
   top: 0;
-  transition: width var(--transition-speed) ease, background-color var(--transition-speed) ease;
+  transition: width var(--transition-speed) ease, transform var(--transition-speed) ease, background-color var(--transition-speed) ease;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* La sidebar elle-même a un z-index élevé */
-  overflow-y: auto;
+  z-index: 1000; /* Assure que la sidebar est au-dessus du contenu */
+  overflow-y: auto; /* Permet le défilement si le contenu dépasse */
   box-sizing: border-box;
   padding: 20px;
+  opacity: 1; /* S'assure que la sidebar est opaque par défaut */
 }
 
+/* Styles de la sidebar quand elle est "fermée" sur desktop (icônes seulement) */
 .sidebar.closed {
   width: var(--sidebar-width-closed);
   padding: 15px 10px;
   align-items: center;
 }
 
+/* Bouton pour fermer la sidebar sur mobile (le 'X') */
 .mobileCloseButton {
-  display: none;
+  display: none; /* Caché par défaut (sur desktop) */
   position: absolute;
   top: 15px;
   right: 15px;
@@ -34,8 +64,12 @@
   color: var(--text-color);
   font-size: 1.5rem;
   cursor: pointer;
-  z-index: 1001; /* Doit être au-dessus du reste de la sidebar sur mobile */
+  z-index: 1001; /* Doit être au-dessus du reste de la sidebar */
 }
+
+/* ========================================================
+   HEADER DE LA SIDEBAR
+   ======================================================== */
 
 .header {
   display: flex;
@@ -53,7 +87,7 @@
 }
 
 .logoContainer {
-  position: relative; /* Conteneur pour le menu utilisateur déroulant */
+  position: relative;
   flex-shrink: 0;
 }
 
@@ -91,7 +125,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   min-width: 180px;
-  z-index: 99; /* Z-INDEX RÉTABLI À UNE VALEUR PLUS RAISONNABLE, MAIS SUFFISANTE POUR SURPASSER LES LIENS DE NAV */
+  z-index: 99; /* Z-index plus bas que la sidebar, mais au-dessus des liens de nav */
   padding: 8px 0;
 }
 
@@ -135,7 +169,7 @@
 }
 
 .themeToggle,
-.headerToggleButton {
+.headerToggleButton { /* Le bouton pour basculer la sidebar sur desktop */
   background: none;
   border: none;
   color: var(--icon-color);
@@ -161,13 +195,14 @@
   margin-left: auto;
 }
 
+/* Styles pour la sidebar quand elle est fermée (affecte le header) */
 .sidebar.closed .header {
   flex-direction: column;
   justify-content: center;
   gap: 15px;
   padding-bottom: 0;
   border-bottom: none;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
 }
 
 .sidebar.closed .logo {
@@ -180,6 +215,10 @@
   flex-direction: column;
   gap: 15px;
 }
+
+/* ========================================================
+   NAVIGATION DE LA SIDEBAR
+   ======================================================== */
 
 .nav {
   flex-grow: 1;
@@ -194,7 +233,6 @@
 
 .nav li {
   margin-bottom: 5px;
-  /* position: relative; et z-index: 1; supprimés si possible pour éviter les stacking contexts indésirables */
 }
 
 .navLink {
@@ -244,6 +282,10 @@
   pointer-events: none;
 }
 
+/* ========================================================
+   FOOTER DE LA SIDEBAR
+   ======================================================== */
+
 .footer {
   margin-top: auto;
   padding: 20px 0;
@@ -261,28 +303,53 @@
   margin-bottom: 5px;
 }
 
+/* ========================================================
+   MEDIA QUERIES (COMPORTEMENT MOBILE)
+   ======================================================== */
+
 @media (max-width: 768px) {
   .sidebar {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    padding: 20px;
+    width: 100vw; /* LA SIDEBAR PREND TOUTE LA LARGEUR DE L'ÉCRAN SUR MOBILE */
+    height: 100vh; /* LA SIDEBAR PREND TOUTE LA HAUTEUR DE L'ÉCRAN SUR MOBILE */
+    transform: translateX(-100%); /* Masquée par défaut (hors de l'écran) */
+    box-shadow: none; /* Pas d'ombre quand elle couvre tout l'écran */
+    padding: 20px; /* Conserve le padding interne */
+    border-right: none; /* Pas de bordure sur le côté de l'écran */
+    opacity: 1; /* S'assure que la sidebar est complÈtement opaque sur mobile */
   }
 
+  /* Quand la sidebar n'a PAS la classe 'closed' (donc ouverte), elle est visible */
   .sidebar:not(.closed) {
-    transform: translateX(0);
+    transform: translateX(0); /* Rentre à 0 pour être visible */
   }
 
+  /* Le bouton de fermeture (le 'X') devient visible sur mobile */
   .mobileCloseButton {
-    display: flex;
+    display: flex; /* Le 'X' est affiché dans le coin de la sidebar */
   }
 
+  /* Cache le bouton de bascule de la sidebar pour desktop sur mobile */
   .headerToggleButton {
-    display: none; 
+    display: none;
+  }
+
+  /* Ajustements pour les éléments internes de la sidebar sur mobile quand elle est ouverte */
+  .sidebar .header {
+    flex-direction: row; /* Reste en ligne même sur mobile pour le header de la sidebar */
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color); /* Remet la bordure si elle était enlevée */
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+  }
+
+  .sidebar .headerControls {
+    flex-direction: row; /* Les contrôles du header restent en ligne */
+  }
+
+  .sidebar .logo {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
   }
 }

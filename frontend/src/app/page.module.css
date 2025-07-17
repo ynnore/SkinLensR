@@ -2,31 +2,46 @@
    STRUCTURE PRINCIPALE
    ======================================================== */
 
-.mainPageContainer, .mainPageContentWrapper {
+.mainPageContainer {
+  display: flex; /* Permet à la sidebar (si elle est fixe et décalée) et au contenu principal d'être côte à côte */
+  height: 100vh; /* S'assure que le conteneur principal prend toute la hauteur du viewport */
+  width: 100vw; /* S'assure que le conteneur principal prend toute la largeur du viewport */
+  overflow: hidden; /* Empêche le défilement horizontal ou vertical non désiré sur le conteneur principal */
+  padding: 0; /* Supprime tout padding externe ici */
+  margin: 0;  /* Supprime toute marge externe ici */
+}
+
+.mainPageContentWrapper {
+  flex-grow: 1; /* Permet au contenu principal de prendre tout l'espace restant horizontalement */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  padding: 2rem;
-  box-sizing: border-box;
+  flex-direction: column; /* Organise le header de la page, le chat, et le footer verticalement */
+  height: 100%; /* Prend toute la hauteur disponible de son parent (.mainPageContainer) */
+  width: 100%; /* S'adapte à la largeur de son parent flex */
+  /* Ajustement pour l'espace pris par la sidebar sur desktop (si la sidebar n'est pas fixed) */
+  /* Si votre sidebar est position: fixed;, ce margin-left n'est pas nécessaire et peut être enlevé */
+  /* padding-left: var(--sidebar-width-open); */ /* Alternative pour l'espace de la sidebar si elle est fixed */
+  padding: 2rem; /* Padding interne pour le contenu de la page principale sur les grands écrans */
+  box-sizing: border-box; /* S'assure que le padding et la bordure sont inclus dans la taille totale */
 }
 
 .chatContainer {
-  width: 100%;
-  max-width: 1100px; /* MODIFIÉ: Augmenté la largeur maximale */
-  height: 90vh;      /* MODIFIÉ: Augmenté la hauteur */
-  max-height: 900px; /* MODIFIÉ: Augmenté la hauteur maximale */
+  width: 100%; /* Prendra 100% de la largeur disponible de son parent (.mainPageContentWrapper) */
+  max-width: 1100px; /* Limite la largeur sur les grands écrans pour le chat */
+  height: 90vh;
+  max-height: 900px;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-sidebar); /* Gardé tel quel */
+  background-color: var(--bg-sidebar); /* Utilise la couleur de fond de la sidebar pour le chat */
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  /* Centre le chatContainer dans le mainPageContentWrapper sur desktop */
+  margin: 0 auto;
 }
 
 /* ========================================================
-   HEADER
+   HEADER DE LA PAGE PRINCIPALE (CELUI AVEC LE BOUTON HAMBURGER)
    ======================================================== */
 
 .pageHeader {
@@ -36,6 +51,9 @@
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
+  /* S'assure que ce header est au-dessus de tout sur mobile si la sidebar est fermée */
+  z-index: 500;
+  background-color: var(--page-bg); /* Donne un fond au header */
 }
 
 .headerLeft {
@@ -88,8 +106,21 @@
   border-color: var(--hover-bg);
 }
 
+/* NOUVEAU STYLE POUR LE BOUTON HAMBURGER (À PLACER DANS page.tsx) */
+.mobileHamburgerButton {
+  display: none; /* Caché par défaut sur desktop */
+  background: none;
+  border: none;
+  font-size: 1.8rem; /* Taille de l'icône */
+  color: var(--text-primary); /* Couleur de l'icône, s'adapte au thème */
+  cursor: pointer;
+  padding: 0.5rem;
+  /* Ajoutez une marge si nécessaire pour l'éloigner du bord ou d'autres éléments */
+}
+
+
 /* ========================================================
-   ZONE DE MESSAGES ET FOOTER
+   ZONE DE MESSAGES ET FOOTER DU CHAT
    ======================================================== */
 
 .messagesArea {
@@ -98,19 +129,18 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* MODIFIÉ: Ajusté l'espace entre les messages */
+  gap: 1rem; /* Ajuste l'espace entre les messages */
 }
 
 /* Styles de base pour chaque bulle de message */
 .messageBubble {
   display: flex;
-  align-items: flex-start; /* Aligner le contenu en haut (utile pour les messages multi-lignes) */
-  /* SUPPRIMÉ: margin-bottom: 15px; (car le 'gap' de messagesArea gère l'espacement) */
+  align-items: flex-start; /* Aligne le contenu en haut (utile pour les messages multi-lignes) */
   gap: 10px; /* Espace entre l'avatar et la bulle de message */
   max-width: 85%; /* Limite la largeur de la bulle de message */
 }
 
-/* Conteneur de l'avatar - C'est ce qui rend l'avatar rond et contient l'image */
+/* Conteneur de l'avatar */
 .avatar {
   width: 40px; /* Taille fixe de l'avatar */
   height: 40px;
@@ -119,8 +149,6 @@
   flex-shrink: 0; /* Empêche l'avatar de rétrécir */
   border: 1px solid rgba(255, 255, 255, 0.2); /* Bordure subtile */
   background-color: #333; /* Couleur de fond si l'image ne charge pas ou pour l'espace vide */
-
-  /* AJOUTÉ : Pour centrer l'image à l'intérieur du cercle */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,8 +158,7 @@
 .avatar img {
   width: 100%;
   height: 100%;
-  /* MODIFIÉ : 'contain' pour que le badge entier soit visible sans être coupé */
-  object-fit: contain;
+  object-fit: contain; /* Assure que l'image est contenue dans le cercle */
   display: block;
 }
 
@@ -171,7 +198,7 @@
 }
 
 
-/* FOOTER : Reste inchangé par rapport à votre code */
+/* FOOTER DU CHAT */
 .pageFooter { padding: 1rem 1.5rem; border-top: 1px solid var(--border-color); flex-shrink: 0; }
 .inputWrapper { display: flex; align-items: center; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.5rem; margin-bottom: 0.5rem; }
 .inputWrapper input { flex-grow: 1; background: transparent; border: none; outline: none; padding: 0.5rem; color: var(--text-primary); }
@@ -203,27 +230,81 @@
 
 
 /* ========================================================
-   STYLES POUR L'INTERFACE DE BIENVENUE (EXEMPLE)
-   ======================================================== */
-/* Les classes .welcomeContainer, etc., si elles existent, devraient avoir leurs styles
-   intégrés ici ou dans un fichier séparé. */
-
-/* ========================================================
-   MEDIA QUERIES
+   MEDIA QUERIES (OPTIMISATION MOBILE)
    ======================================================== */
 
 @media (max-width: 768px) {
-  .chatContainer {
-    height: 100vh;
-    border-radius: 0;
-  }
-  .mainPageContentWrapper {
+  /* Modifications pour les conteneurs principaux sur mobile pour maximiser l'espace */
+  .mainPageContainer {
+    /* La sidebar est position: fixed et prend 100vw/vh, donc mainPageContainer n'a pas besoin de margin-left */
+    /* Assure que mainPageContainer n'introduit pas de barres de défilement */
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    height: 100vh; /* Prend toute la hauteur du viewport sur mobile */
+    /* Important: Si mainPageContainer gère une flex-direction: row sur desktop,
+       il doit passer en flex-direction: column sur mobile pour empiler le header
+       de page et le chatContainer */
     flex-direction: column;
   }
-  .sidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
+
+  .mainPageContentWrapper {
+    width: 100vw; /* Prend toute la largeur du viewport */
+    padding: 0.5rem; /* Réduit le padding pour les écrans étroits */
+    margin-left: 0; /* S'assure qu'il n'y a pas de décalage à cause de la sidebar sur mobile */
+    justify-content: flex-start; /* Aligne le contenu à gauche au lieu de le centrer */
+    align-items: flex-start; /* Aligne le contenu en haut au lieu de le centrer */
+    height: 100%; /* S'adapte à la hauteur de son parent */
   }
+
+  .chatContainer {
+    width: 100%; /* S'assure qu'il prend 100% de la largeur du parent */
+    height: 100%; /* S'adapte à la hauteur disponible dans mainPageContentWrapper */
+    border-radius: 0; /* Supprime les coins arrondis pour une intégration pleine largeur sur mobile */
+    max-width: 100%; /* S'assure qu'il n'est pas limité par une valeur supérieure à 100% */
+    margin: 0; /* Supprime le centrage automatique sur mobile */
+  }
+
+  /* Ajustements pour les éléments internes du chatContainer pour optimiser l'espace */
+  .pageHeader {
+    padding: 0.5rem 1rem; /* Réduit le padding de l'en-tête pour les petits écrans */
+  }
+
+  .messagesArea {
+    padding: 1rem; /* Réduit le padding de la zone des messages */
+  }
+
+  .messageBubble {
+    max-width: 95%; /* Augmente légèrement la largeur maximale des bulles de message */
+  }
+
+  /* RENDRE LE BOUTON HAMBURGER VISIBLE SUR MOBILE */
+  .mobileHamburgerButton {
+    display: block; /* Ou flex, si votre icône a besoin d'être centrée à l'intérieur */
+  }
+
+  /* Règles pour le texte de message qui étaient déjà présentes ou ajoutées pour le responsive */
+  .message-text {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+  .message-container { /* Si cette classe est utilisée pour la bulle entière */
+    max-width: 100%;
+    width: 100%;
+    display: block; /* Ou flex, selon l'organisation de ses enfants */
+  }
+  /* Les règles suivantes sont généralement redondantes si messageBubble est déjà bien stylisé */
+  /*
+  .message {
+    display: flex;
+    align-items: flex-start;
+  }
+  .message img.avatar {
+    margin-right: 10px;
+  }
+  .message-text {
+    flex: 1;
+  }
+  */
 }

@@ -12,6 +12,7 @@ export const metadata = {
   description: 'Votre application de diagnostic ',
 };
 
+// Ce script est crucial pour éviter le FOUC (Flash Of Unstyled Content) lors du changement de thème
 const ThemeScript = () => {
   const script = `
     (function() {
@@ -36,6 +37,9 @@ export default function RootLayout({
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
+        {/* LA BALISE META VIEWPORT CORRECTEMENT PLACÉE ICI */}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* Le script pour gérer le thème avant le rendu du corps */}
         <ThemeScript />
       </head>
       <body className={inter.className}>

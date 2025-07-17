@@ -1,8 +1,8 @@
-/* src/components/ChatHeader.module.css (Version Finale) */
+/* src/components/ChatHeader.module.css */
 
 .chatHeader {
   /* PAR DÉFAUT (GRAND ÉCRAN) : LE HEADER EST CACHÉ */
-  display: none; 
+  display: none;
 }
 
 /* LE HEADER N'APPARAÎT QUE SUR LES PETITS ÉCRANS */
@@ -11,13 +11,14 @@
     display: flex;
     align-items: center;
     padding: 10px 15px;
-    background-color: var(--bg-sidebar);
+    background-color: var(--bg-sidebar); /* S'assure que c'est une couleur opaque */
     border-bottom: 1px solid var(--border-color);
-    width: 100%;
-    position: fixed;
+    width: 100%; /* Prend toute la largeur de l'écran */
+    position: fixed; /* Reste fixe en haut de l'écran */
     top: 0;
     left: 0;
-    z-index: 900;
+    z-index: 500; /* IMPORTANT : DOIT ÊTRE INFÉRIEUR à mobileOverlay (999) et sidebar (1000) */
+    opacity: 1; /* S'assure de l'opacité complète */
   }
 
   .menuButton {

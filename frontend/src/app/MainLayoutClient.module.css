@@ -1,62 +1,78 @@
 /* Fichier : src/app/MainLayoutClient.module.css */
 
 .mainLayoutContainer {
-  display: flex;
   min-height: 100vh;
   width: 100%;
+  position: relative;
 }
 
 .mainContent {
-  flex-grow: 1;
+  margin-left: var(--sidebar-width-open);
+  width: calc(100% - var(--sidebar-width-open));
   padding: 20px;
   box-sizing: border-box;
-  transition: all var(--transition-speed) ease;
+  transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease, padding var(--transition-speed) ease;
   overflow-x: hidden;
   background-color: var(--bg-main);
   color: var(--text-primary);
-  position: relative; /* Nécessaire pour positionner le bouton de menu à l'intérieur */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1; /* Reste sous l'overlay et la sidebar */
+  position: relative;
 }
 
-/* Règle pour ajuster la largeur du contenu principal lorsque la sidebar est fermée */
-.mainContentFullWidth {
+.mainContent.sidebarClosed {
+  margin-left: var(--sidebar-width-closed);
   width: calc(100% - var(--sidebar-width-closed));
 }
 
-/* === DÉBUT DES AJOUTS POUR LE RESPONSIVE === */
-
-/* Style du bouton de menu mobile (caché par défaut) */
-.mobileMenuButton {
-  display: none; 
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 500; /* Assez haut pour être cliquable */
-  background: var(--bg-sidebar); /* Utilise les couleurs du thème */
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  font-size: 1.2rem;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  line-height: 0; /* Pour bien centrer l'icône */
+/* === MOBILE OVERLAY (CALQUE DE SUPERPOSITION) === */
+.mobileOverlay {
+  display: none; /* Caché par défaut (sur desktop) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Couleur semi-transparente pour assombrir */
+  z-index: 999; /* Inférieur à la sidebar (1000) mais supérieur à mainContent (1) et ChatHeader (500) */
+  opacity: 0; /* Commence complètement transparent */
+  pointer-events: none; /* Non cliquable quand transparent */
+  transition: opacity var(--transition-speed) ease;
 }
 
-/* Media Query pour les petits écrans */
+/* REND LE MOBILE OVERLAY VISIBLE (mais transparent) SUR MOBILE */
 @media (max-width: 768px) {
-  .mainLayoutContainer {
-    /* Le layout n'est plus en flex horizontal */
-    flex-direction: column; 
+  .mobileOverlay {
+    display: block; /* Visible sur mobile, mais son opacité est contrôlée par JS */
   }
+}
 
+/* CLASSE APPLIQUÉE PAR JS POUR RENDRE L'OVERLAY OPAQUE ET CLIQUABLE QUAND LA SIDEBAR EST OUVERTE */
+.mobileOverlay.mobileOverlayActive {
+  opacity: 1;
+  pointer-events: auto; /* Permet les interactions (clics) */
+}
+
+
+/* === MOBILE MENU BUTTON (HAMBURGER) === */
+/* Ce bouton est maintenant géré dans ChatHeader.tsx. S'il y avait des styles ici, ils sont supprimés. */
+
+
+/* ========================================================
+   MEDIA QUERY POUR LES PETITS ÉCRANS (MOBILE)
+   ======================================================== */
+
+@media (max-width: 768px) {
   .mainContent {
-    /* Le contenu principal prend toute la largeur */
-    width: 100%;
-    padding: 10px;
-    padding-top: 70px; /* Ajoute de l'espace en haut pour ne pas que le contenu soit sous le bouton */
-  }
-
-  /* On affiche le bouton de menu uniquement sur les petits écrans */
-  .mobileMenuButton {
-    display: block; 
+    margin-left: 0; /* Pas de décalage sur mobile */
+    width: 100vw; /* Prend toute la largeur du viewport */
+    padding: 10px; /* Padding interne réduit */
+    padding-top: 70px; /* Espace pour le ChatHeader fixe */
+    height: 100vh; /* Prend toute la hauteur du viewport */
+    overflow-y: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 }
