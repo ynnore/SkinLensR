@@ -2,11 +2,14 @@
 'use client'; // Gardez ceci si vous avez des hooks ou des interactions client
 
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
+// La balise <Head> de next/head n'est pas utilisée dans l'App Router.
+// import Head from 'next/head'; // SUPPRIMER CET IMPORT
+
 import styles from './page.module.css'; // S'assure que page.module.css est bien importé
-import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone } from 'react-icons/fa'; // FaPlayCircle n'est plus utilisé dans votre WelcomeInterface si elle est retirée
+import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-// --- INTERFACES & TRADUCTIONS ---
+// --- INTERFACES & TRADUCTIONS (laissés tels quels, car ils sont fonctionnels) ---
 interface Message {
   role: string;
   content: string;
@@ -17,60 +20,40 @@ const flagAvatars: { [key: string]: string } = {
   'en-AU': '/avatars/australian.png', 'en-CA': '/avatars/canada.jpg', 'fr-CA': '/avatars/canada.jpg',
   'en': '/avatars/england.png', 'hi': '/avatars/india.png', 'en-NZ': '/avatars/new-zealand.png',
   'mi': '/avatars/maoripioneer.png', 'en-ZA': '/avatars/south-africa.png', 'af': '/avatars/south-africa.png',
-  'ga': '/avatars/irish.png', 'gd': '/avatars/scottish.jpg', // Correction: Ajoutez 'gd' pour écossais
-  // 'cy': '/avatars/welsh.jpg', // Si vous n'avez pas de déploiement spécifique gallois, ou n'utilisez pas
+  'ga': '/avatars/irish.png', 'gd': '/avatars/scottish.jpg', 'cy': '/avatars/welsh.jpg',
   'fr': '/avatars/france.png',
 };
 
 // Chemins des fichiers images des avatars symboliques
 const symbolicAgentAvatars: { [key: string]: string } = {
-  'lion': '/avatars/lion.png', // L'avatar du Lion d'Arras pour la France
-  'alan_turing': '/avatars/alan_turing.png', // Pour Alan Turing (Angleterre)
-  'johnny_clegg': '/avatars/johnny_clegg.png', // Pour Johnny Clegg (Afrique du Sud)
-  'gandhi': '/avatars/gandhi.png', // Pour Gandhi (Inde)
-  // Ajoutez d'autres avatars au fur et à mesure que vous les créez
-  'maple': '/avatars/maple.svg', // Pour Canada
-  'rock': '/avatars/rock.png', // Pour Irlande (si lié à un symbole ou paysage)
-  'thorn': '/avatars/thorn.png', // Pour Écosse (si lié à un symbole ou paysage)
-  'fern': '/avatars/fern.png', // Pour Nouvelle-Zélande
-  'southerncross': '/avatars/southerncross.png', // Pour Australie
-  'ktk': '/avatars/ktk.png', // Pour Māori (si vous avez un agent spécifique Māori)
+  'lion': '/avatars/lion.png', 'thorn': '/avatars/thorn.png', 'protea': '/avatars/protea.png',
+  '007': '/avatars/007.png', 'ashoka': '/avatars/ashoka.png', 'ktk': '/avatars/ktk.png',
+  'rock': '/avatars/rock.png', 'fern': '/avatars/fern.png', 'southerncross': '/avatars/southerncross.png',
+  'maple': '/avatars/maple.svg',
 };
 
-// Noms des agents et le chemin de leur avatar, personnalisés par langue/culture
+// Noms des agents et le chemin de leur avatar
 const agentDetails: { [key: string]: { name: string; avatarPath: string } } = {
   'fr': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr },
-  // Canada (fr et en)
   'en-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['en-CA'] },
   'fr-CA': { name: '🍁 M.A.P.L.', avatarPath: symbolicAgentAvatars.maple || flagAvatars['fr-CA'] },
-  // Irlande
   'ga': { name: '☘️ R.O.C.K.', avatarPath: symbolicAgentAvatars.rock || flagAvatars.ga },
-  // Écosse
   'gd': { name: '🌸 T.H.O.R.N.', avatarPath: symbolicAgentAvatars.thorn || flagAvatars.gd },
-  // Nouvelle-Zélande
   'en-NZ': { name: '🌿 FERN', avatarPath: symbolicAgentAvatars.fern || flagAvatars['en-NZ'] },
-  // Maōri (si vous avez un déploiement spécifique Māori et un agent dédié)
   'mi': { name: '⚫⚪🔴 K.T.K.', avatarPath: symbolicAgentAvatars.ktk || flagAvatars.mi },
-  // Australie
   'en-AU': { name: '✨ D.G.R.', avatarPath: symbolicAgentAvatars.southerncross || flagAvatars['en-AU'] },
-  // Inde
-  'hi': { name: '☸️ G.A.N.D.H.I.', avatarPath: symbolicAgentAvatars.gandhi || flagAvatars.hi }, // Renommé en G.A.N.D.H.I.
-  // Afrique du Sud
-  'en-ZA': { name: '🇿🇦 J.C.', avatarPath: symbolicAgentAvatars.johnny_clegg || flagAvatars['en-ZA'] }, // Renommé en J.C. pour Johnny Clegg
-  'af': { name: '🇿🇦 J.C.', avatarPath: symbolicAgentAvatars.johnny_clegg || flagAvatars.af }, // Renommé en J.C. pour Johnny Clegg
-  // Angleterre (UK)
-  'en': { name: 'A.L.A.N.', avatarPath: symbolicAgentAvatars.alan_turing || flagAvatars.en }, // Renommé en A.L.A.N. pour Alan Turing
-  // Agent par défaut si la langue n'est pas trouvée
+  'hi': { name: '☸️ C.K.R.', avatarPath: symbolicAgentAvatars.ashoka || flagAvatars.hi },
+  'en-ZA': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars['en-ZA'] },
+  'af': { name: '🇿🇦 P.R.T.', avatarPath: symbolicAgentAvatars.protea || flagAvatars.af },
+  'en': { name: 'A.L.A.N', avatarPath: symbolicAgentAvatars['007'] || flagAvatars.en },
   'default': { name: 'L.I.O.N.', avatarPath: symbolicAgentAvatars.lion || flagAvatars.fr }
 };
 
-// Mappage des avatars utilisateur (peut aussi être personnalisé par langue si besoin)
 const userAvatarsMapping: { [key: string]: string } = {
-  ...flagAvatars, // Utilise les drapeaux comme avatars utilisateur par défaut pour ces langues
-  'default': '/avatars/human.png', // Avatar générique pour l'utilisateur
+  ...flagAvatars,
+  'default': '/avatars/human.png',
 };
 
-// Traductions de l'interface utilisateur
 const translations = {
   header: {
     missionStatement: {
@@ -92,34 +75,34 @@ const translations = {
       'en-AU': "Beta", 'en-NZ': "Beta", 'en-CA': "Beta", 'fr-CA': "Bêta", 'en-ZA': "Beta", af: "Beta",
     }
   },
-  chat: {
+    chat: {
     welcomeMessage: {
-      en: "Hello! I'm A.L.A.N. (nod to Alan Turing). How can I help you today?", // Message pour Alan Turing
+      en: "Hello! I'm A.L.A.N nod to Alan Turing,How can I help you today?",
       fr: "Bonjour ! Je suis l'Agent L.I.O.N. Comment puis-je vous aider aujourd'hui ?",
       mi: "Kia ora! Ko Agent K.T.K. ahau. Me pēhea taku āwhina i a koe i tēnei rā?",
       ga: "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
-      hi: "नमस्ते! मैं एजेंट ☸️ G.A.N.D.H.I. हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?", // Message pour Gandhi
-      gd: "Halo! 'S mise Agent 🌸 T.H.O.R.N.. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+      hi: "नमस्ते! मैं एजेंट ☸️ C.K.R. हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
+      gd: "Halo! 'S mise Agent S.C. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
       'en-AU': "G'day! I'm Agent ✨ D.G.R.. How can I help ya today?",
       'en-NZ': "Kia ora! I'm Agent 🌿 FERN. How can I help you today?",
       'en-CA': "Hey there! I'm Agent 🍁 M.A.P.L.. How can I help you today, eh?",
       'fr-CA': "Bonjour ! Je suis l'Agent 🍁 M.A.P.L.. Comment puis-je vous aider aujourd'hui ?",
-      'en-ZA': "Howzit! I'm Agent 🇿🇦 J.C. (nod to Johnny Clegg). How can I help you today?", // Message pour Johnny Clegg
-      af: "Goeiedag! Ek is Agent 🇿🇦 J.C. Hoe kan ek jou vandag help?", // Message pour Johnny Clegg (Afrikaans)
+      'en-ZA': "Howzit! I'm Agent 🇿🇦 M.DB.. nod to Neslon Mandela How can I help you today?",
+      af: "Goeiedag! Ek is Agent 🇿🇦 M.D.B. Hoe kan ek jou vandag help?",
     },
     thinking: {
-      en: 'Agent is thinking...', // Plus générique
+      en: 'Agent B is thinking...',
       fr: 'Agent L.I.O.N. réfléchit...',
       mi: 'Kei te whakaaro a Agent K.T.K....',
       ga: 'Tá Agent ☘️ R.O.C.K. ag smaoineamh...',
-      hi: 'एजेंट ☸️ G.A.N.D.H.I. सोच रहा है...',
+      hi: 'एजेंट ☸️ C.K.R. सोच रहा है...',
       gd: 'Tha Agent 🌸 T.H.O.R.N. a\' smaoineachadh...',
       'en-AU': 'Agent ✨ D.G.R.\'s thinkin\'...',
       'en-NZ': 'Agent 🌿 FERN\'s thinking...',
       'en-CA': 'Agent 🍁 M.A.P.L. is thinking...',
       'fr-CA': 'Agent 🍁 M.A.P.L. réfléchit...',
-      'en-ZA': 'Agent 🇿🇦 J.C. is thinking...',
-      af: 'Agent 🇿🇦 J.C. dink...',
+      'en-ZA': 'Agent 🇿🇦 P.R.T. is thinking...',
+      af: 'Agent 🇿🇦 P.R.T. dink...',
     },
     placeholder: {
       en: 'Type your message...',
@@ -136,8 +119,7 @@ const translations = {
       af: 'Tik jou boodskap...',
     }
   },
-  // La section welcome est conservée telle quelle, car elle ne concerne pas l'agent K
-  welcome: {
+    welcome: {
     headline: {
       en: "Operation W",
       fr: "Opération W",
@@ -174,15 +156,15 @@ const translations = {
     },
     inputBar: {
       en: 'Type here to give a task to Agent K',
-      fr: "Tapez ici une tâche à confier à l'Agent L.I.O.N.", // MIS A JOUR pour L.I.O.N.
-      mi: 'Tāpaea tēnei ki Agent K', // Si agent K est générique pour le welcome screen
+      fr: "Tapez ici une tâche à confier à l'Agent K",
+      mi: 'Tāpaea tēnei ki Agent K',
       ga: 'Clóscríobh anseo chun tasc a thabhairt do Agent K',
       hi: 'यहां एजेंट के को एक कार्य देने के लिए टाइप करें',
       gd: 'Sgrìobh an here gus gnìomh a thoirt do Agent K',
       'en-AU': 'Type here to give a task to Agent K',
       'en-NZ': 'Type here to give a task to Agent K',
       'en-CA': 'Type here to give a task to Agent K',
-      'fr-CA': "Tapez ici une tâche à confier à l'Agent L.I.O.N.", // MIS A JOUR pour L.I.O.N.
+      'fr-CA': "Tapez ici une tâche à confier à l'Agent K",
       'en-ZA': 'Type here to give a task to Agent K',
       af: 'Tik hier om Agent K \'n taak te gee',
     },
@@ -216,8 +198,8 @@ const ChatInterface = () => {
 
   useEffect(() => {
     sounds.current = {
-      click: new Audio('/sounds/click_ui.mp3'), // Conserver click_ui.mp3 pour les clics
-      send: new Audio('/sounds/morse_signal.mp3'), // Utilise morse_signal.mp3 pour l'envoi
+      click: new Audio('/sounds/click_ui.mp3'),
+      send: new Audio('/sounds/morse_signal.mp3'),
       typing: new Audio('/sounds/typewriter_key.mp3'),
       ambiance: new Audio('/sounds/gramophone_music.mp3')
     };
@@ -292,8 +274,7 @@ const ChatInterface = () => {
       setTimeout(() => {
         setMessages(prevMessages => [
           ...prevMessages,
-          // Réponse simulée de l'agent (utilisant le nom de l'agent actuel)
-          { role: 'assistant', content: `Ceci est une réponse simulée de l'Agent ${agentName}.` }
+          { role: 'assistant', content: `Ceci est une réponse simulée de ${agentName}.` }
         ]);
         setIsLoading(false);
       }, 1500);
@@ -311,9 +292,8 @@ const ChatInterface = () => {
     <div className={styles.chatContainer}>
       <header className={styles.pageHeader}>
         <div className={styles.headerLeft}>
-          {/* Correction: Supprimer le h1 vide ici si le span est suffisant */}
           <span>{translations.header.missionStatement[language] || translations.header.missionStatement.en}</span>
-          {/* <h1></h1> */}
+          <h1></h1>
         </div>
         <div className={styles.headerRight}>
           <button
@@ -326,8 +306,6 @@ const ChatInterface = () => {
                     if (newMutedState) {
                         sounds.current.ambiance.pause();
                     } else {
-                        // Tenter de jouer si non-muted et pas déjà en cours
-                        // Cette ligne n'est peut-être pas nécessaire ici si l'ambiance est loop
                         sounds.current.ambiance.play().catch(e => {
                             console.error("Erreur de lecture de l'ambiance (politique d'autoplay ou autre):", e);
                         });
@@ -401,21 +379,16 @@ const ChatInterface = () => {
 };
 
 
-// La WelcomeInterface a été simplifiée ou retirée dans les discussions précédentes.
-// Si elle est utilisée, vérifiez son intégration et son affichage.
 const WelcomeInterface = () => {
   const { language } = useLanguage();
   return (
     <div className={styles.welcomeContainer}>
       <div className={styles.welcomeLogo}>
-        {/* L'icône 'O' ici n'est pas rendue comme dans la sidebar (où elle pourrait être un composant). */}
-        {/* Si l'objectif est d'utiliser le logo 'o' de Kiwi-Ops, il faudrait s'assurer que c'est le même composant ou style */}
         <div className={styles.logoIcon}>O</div>
         <h1>{translations.welcome.headline[language] || translations.welcome.headline.en}</h1>
       </div>
       <div className={styles.welcomeCard}>
-        {/* FaPlayCircle n'est pas importé s'il n'est pas utilisé ailleurs */}
-        {/* <div className={styles.videoThumbnail}><FaPlayCircle /></div> */}
+        <div className={styles.videoThumbnail}><FaPlayCircle /></div>
         <div className={styles.cardText}>
           <p><strong>{translations.welcome.watch[language] || translations.welcome.watch.en}</strong></p>
           <p>{translations.welcome.intro[language] || translations.welcome.intro.en}</p>
