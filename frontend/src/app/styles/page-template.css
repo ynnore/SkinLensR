@@ -1,0 +1,38 @@
+/* src/app/styles/page-template.css */
+/* Ce fichier contient les styles communs à toutes les pages principales de l'application */
+
+.pageContainer {
+  padding: 2rem 2.5rem;
+  width: 100%;
+  animation: fadeIn 0.5s ease-in-out; /* Ajoute une petite animation d'apparition */
+}
+
+.title {
+  font-family: var(--font-special-elite), serif; /* Police configurée dans layout.tsx */
+  font-size: 2.5rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #5a5a5a;
+  padding-bottom: 1rem;
+}
+
+.placeholder {
+  font-family: var(--font-courier-prime), monospace; /* Police configurée dans layout.tsx */
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

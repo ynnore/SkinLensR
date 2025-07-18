@@ -1,0 +1,110 @@
+/* src/app/login/login.module.css */
+
+.pageContainer {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #5a5a5a;
+  background-color: rgba(243, 239, 230, 0.85);
+  padding: 2rem 2.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-family: var(--font-special-elite), serif;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.errorBox {
+  margin-bottom: 1rem;
+  border: 1px solid #b33a3a;
+  background-color: #fce4e4;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-courier-prime), monospace;
+  color: #b33a3a;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.label {
+  font-family: var(--font-courier-prime), monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #444;
+  letter-spacing: 0.5px;
+}
+
+.inputField {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #555;
+  background-color: transparent;
+  padding: 0.5rem 0.2rem;
+  font-family: var(--font-courier-prime), monospace;
+  font-size: 1.1rem;
+  color: #222;
+  margin-top: 0.25rem;
+}
+
+.inputField:focus {
+  outline: none;
+  border-bottom-color: #000;
+}
+
+.submitButton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  border: 2px solid #333;
+  background-color: #ddd;
+  font-family: var(--font-special-elite), serif;
+  font-size: 1.2rem;
+  color: #333;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #ccc;
+  color: #000;
+}
+
+.submitButton:disabled {
+  background-color: #aaa;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.footerText {
+  margin-top: 2rem;
+  text-align: center;
+  font-family: var(--font-courier-prime), monospace;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.link {
+  font-weight: 700;
+  color: #444;
+  text-decoration: underline;
+}
