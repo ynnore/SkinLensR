@@ -1,0 +1,45 @@
+/* AJOUTER CE CODE À LA FIN DE inscription.module.css */
+
+.separator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+  color: var(--text-secondary);
+  font-family: var(--font-courier-prime), monospace;
+}
+
+.separatorLine {
+  flex-grow: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.separatorText {
+  padding: 0 1rem;
+}
+
+.socialButtonsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.socialButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  font-family: var(--font-courier-prime), monospace;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.socialButton:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+}

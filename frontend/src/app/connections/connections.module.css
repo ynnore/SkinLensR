@@ -1,1 +1,71 @@
-@import '../styles/page-template.css';
+/* Fichier: src/app/connections/connections.module.css */
+
+.pageContainer {
+  padding: 2rem 2.5rem;
+}
+
+.title {
+  font-family: var(--font-special-elite), serif;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-family: var(--font-courier-prime), monospace;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  max-width: 80ch; /* Limite la largeur du texte pour la lisibilité */
+}
+
+/* --- La Grille des Nations --- */
+.nationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+  border-top: 2px solid var(--border-color);
+  padding-top: 2rem;
+}
+
+.nationCard {
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.nationName {
+  font-family: var(--font-special-elite), serif;
+  font-size: 1.4rem;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.nationGroup {
+  font-family: var(--font-courier-prime), monospace;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  text-transform: uppercase;
+}

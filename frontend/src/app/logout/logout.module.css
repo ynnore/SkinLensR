@@ -1,0 +1,108 @@
+/* Fichier: src/app/logout/logout.module.css */
+
+.pageContainer {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--bg-main);
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-sidebar);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-special-elite), serif;
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.preamble {
+  font-family: var(--font-courier-prime), monospace;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.infoSection {
+  font-family: var(--font-courier-prime), monospace;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+  margin-bottom: 2.5rem;
+}
+
+.infoSection p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.infoSection span {
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-right: 1ch;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column-reverse; /* Met le bouton principal en bas sur mobile */
+  gap: 1rem;
+}
+
+/* Pour les écrans plus larges, on met les boutons côte à côte */
+@media (min-width: 640px) {
+  .buttonContainer {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.cancelButton, .confirmButton {
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--border-color);
+  font-family: var(--font-special-elite), serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+
+.cancelButton:hover {
+  background-color: var(--hover-bg);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+.confirmButton {
+  background-color: #b30000;
+  border-color: #b30000;
+  color: #fff;
+}
+
+.confirmButton:hover {
+  background-color: #ff0000;
+  border-color: #ff0000;
+}
+
+.footerText {
+  margin-top: 2.5rem;
+  font-family: var(--font-courier-prime), monospace;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
