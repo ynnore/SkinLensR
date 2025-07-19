@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "Matawai",
-    "dashboard": "Pae Tīrohanga",
-    "files": "Kōnae",
-    "connections": "Hononga",
-    "pay": "Utu",
+    "scan": "Pokapū Whakarongo",
+    "dashboard": "Tari Matua",
+    "files": "Pūranga",
+    "connections": "Whatunga o te Whakakotahitanga",
+    "pay": "Kaitiaki Taonga",
     "settings": "Tautuhinga",
-    "terms": "Manatā",
-    "privacy_policy": "Kaupapa Tūmataiti"
+    "terms": "Ture Whakahau"
   },
-  "header": {
-    "beta": "Whakamātau"
+  "userMenu": {
+    "profile": "Kōnae Āpiha",
+    "settings": "Tautuhinga Pūkete",
+    "logout": "Tono Whakatā"
   },
   "chat": {
     "placeholder": "Tuhia tō karere..."
+  },
+
+  "loginPage": {
+    "title": "Te Whakauru ki te Tari Whakahaere",
+    "emailLabel": "WĀHITAU WHAKAHAERE",
+    "passwordLabel": "KUPU HUNA",
+    "submitButton": "TUKU",
+    "socialSeparator": "RĀNEI",
+    "googleButton": "HAERE TONU KI A GOOGLE",
+    "githubButton": "HAERE TONU KI A GITHUB",
+    "signupPrompt": "Kāore anō kia rēhita?",
+    "signupLink": "Rēhita ki te tari."
+  },
+
+  "signupPage": {
+    "title": "Tari Rēhitatanga",
+    "preamble": "Me whakakī ngā āpiha e hiahia ana ki te whai wāhi ki ngā mahi i te puka i raro iho nei. He mea nui te noho matatapu.",
+    "nameLabel": "INGOAHUNA",
+    "emailLabel": "WĀHITAU WHAKAHAERE (Īmēra)",
+    "passwordLabel": "KUPU HUNA (Kupuhipa)",
+    "submitButton": "WHAKAPŪMAU I TE RĒHITATANGA",
+    "loadingButton": "Kei te rēhita...",
+    "socialGoogle": "RĒHITA KI A GOOGLE",
+    "socialGithub": "RĒHITA KI A GITHUB",
+    "loginPrompt": "He tau ratonga tō?",
+    "loginLink": "Whakauru ki te Tari Whakahaere."
+  },
+
+  "profilePage": {
+    "title": "Kōnae Āpiha",
+    "labelName": "INGOAHUNA",
+    "labelMatricule": "TAU RATONGA",
+    "labelAccreditation": "TAUMATA WHAKAWHIRINAKI",
+    "accreditationAgent": "Āpiha ā-Rohe",
+    "accreditationOfficer": "Āpiha Mōhiohio",
+    "accreditationCommander": "Kaihautū",
+    "commanderAccessMessage": "Kua whakahohetia te urunga rangatira. Kei a koe te mana teitei."
+  },
+
+  "logoutPage": {
+    "title": "Tono Whakatā",
+    "preamble": "E te āpiha, kua rehitatia tō tono whakatā. Tēnā, whakapūmautia tō wehenga atu i tō tūranga. Ka whakatārewatia tō urunga kia hoki mai rā anō koe.",
+    "labelMatricule": "TAU RATONGA:",
+    "labelName": "INGOAHUNA:",
+    "labelPoste": "TŪRANGA O NAIANEI:",
+    "buttonCancel": "WHAKAKORE KA HOKI KI TE MAHI",
+    "buttonConfirm": "WHAKAPŪMAU I TE TONO KA WEHE I TE TŪRANGA",
+    "footer": "Me noho matatapu, ahakoa kei te whakatā."
+  },
+
+  "connectionsPage": {
+    "title": "Whatunga o te Whakakotahitanga",
+    "subtitle": "Te whakaaturanga o te tūnga o te whatunga āpiha AI. Ka whakaaturia i konei ngā hononga hohe me ngā rerenga raraunga i waenga i ngā iwi.",
+    "statusActive": "Hononga Hohe",
+    "statusInactive": "Kāore i Whakapūmautia te Hononga"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Tautuhinga",
+    "mainSubtitle": "Whirihorahia ō tautuhinga pūkete me tō tono i konei."
+    
   }
 }

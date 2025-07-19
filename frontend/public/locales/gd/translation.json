@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "Sgan",
-    "dashboard": "Deas-bhòrd",
-    "files": "Faidhlichean",
-    "connections": "Ceanglaichean",
-    "pay": "Pàigh",
+    "scan": "Post Èisteachd",
+    "dashboard": "Prìomh-oifis",
+    "files": "Tasglann",
+    "connections": "Lìonra na Caidreachas",
+    "pay": "Cairteal-mhaighstir",
     "settings": "Roghainnean",
-    "terms": "Teirmean",
-    "privacy_policy": "Poileasaidh Dìomhaireachd"
+    "terms": "Òrduighean"
   },
-  "header": {
-    "beta": "Beta"
+  "userMenu": {
+    "profile": "Faidhliche an Àidseant",
+    "settings": "Roghainnean a' Chunntais",
+    "logout": "Iarrtas Cead-fàgail"
   },
   "chat": {
-    "placeholder": "Sgrìobh an teachdaireachd agad..."
+    "placeholder": "Sgrìobh do bhrath..."
+  },
+
+  "loginPage": {
+    "title": "Cothrom air a' Phost Comannd",
+    "emailLabel": "SEÒLADH TAR-CHUIR",
+    "passwordLabel": "CÒD DÌOMHAIR",
+    "submitButton": "TAR-CHUIR",
+    "socialSeparator": "NO",
+    "googleButton": "LEAN AIR ADHART LE GOOGLE",
+    "githubButton": "LEAN AIR ADHART LE GITHUB",
+    "signupPrompt": "Gun chlàradh fhathast?",
+    "signupLink": "Clàraich aig an oifis."
+  },
+
+  "signupPage": {
+    "title": "Oifis Clàraidh",
+    "preamble": "Thathas ag iarraidh air àidseantan a tha airson pàirt a ghabhail ann an gnìomhachd am foirm gu h-ìosal a lìonadh. Tha dìomhaireachd deatamach.",
+    "nameLabel": "AINM-CÒID",
+    "emailLabel": "SEÒLADH TAR-CHUIR (Post-d)",
+    "passwordLabel": "CÒD DÌOMHAIR (Facal-faire)",
+    "submitButton": "DEARBHAICH AN CLÀRADH",
+    "loadingButton": "A' clàradh...",
+    "socialGoogle": "CLÀRAICH LE GOOGLE",
+    "socialGithub": "CLÀRAICH LE GITHUB",
+    "loginPrompt": "A bheil àireamh seirbheis agad mu thràth?",
+    "loginLink": "Faigh cothrom air a' Phost Comannd."
+  },
+
+  "profilePage": {
+    "title": "Faidhliche an Àidseant",
+    "labelName": "AINM-CÒID",
+    "labelMatricule": "ÀIREAMH SEIRBHEIS",
+    "labelAccreditation": "ÌRE BARRANTAIS",
+    "accreditationAgent": "Àidseant Achaidh",
+    "accreditationOfficer": "Oifigear Fiosrachaidh",
+    "accreditationCommander": "Ceannard",
+    "commanderAccessMessage": "Cothrom ceannaird gnìomhach. Tha an ìre ceadachaidh as àirde agad."
+  },
+
+  "logoutPage": {
+    "title": "Iarrtas Cead-fàgail",
+    "preamble": "Àidseant, chaidh an t-iarrtas cead-fàgail agad a chlàradh. Feuch an dearbh thu d' fhalbh bhon phost. Thèid do chothrom a chuir dheth gus an till thu.",
+    "labelMatricule": "ÀIREAMH SEIRBHEIS:",
+    "labelName": "AINM-CÒID:",
+    "labelPoste": "POST LÀITHREACH:",
+    "buttonCancel": "CUIREAMH AIR CHÙL AGUS TILL GU SEIRBHIS",
+    "buttonConfirm": "DEARBHAICH AN T-IARRTAS AGUS FÀG AM POST",
+    "footer": "Tha feum air dìomhaireachd, eadhon air cead-fàgail."
+  },
+
+  "connectionsPage": {
+    "title": "Lìonra na Caidreachas",
+    "subtitle": "Dealbh lèirsinneach de staid lìonra nan àidseantan AI. Tha ceanglaichean gnìomhach agus sruthadh dàta eadar nàiseanan air an taisbeanadh an seo.",
+    "statusActive": "Ceangal Gnìomhach",
+    "statusInactive": "Ceangal gun Stèidheachadh"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Roghainnean",
+    "mainSubtitle": "Rèitich roghainnean do chunntais agus an aplacaid an seo."
+   
   }
 }

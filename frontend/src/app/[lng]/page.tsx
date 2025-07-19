@@ -4,8 +4,7 @@
 import React, { useState, KeyboardEvent, useEffect, useRef } from 'react';
 // La balise <Head> de next/head n'est pas utilisée dans l'App Router.
 // import Head from 'next/head'; // SUPPRIMER CET IMPORT
-
-import styles from './page.module.css'; // S'assure que page.module.css est bien importé
+import styles from '../page.module.css';
 import { FaPaperclip, FaImage, FaKeyboard, FaMicrophone, FaPlayCircle } from 'react-icons/fa';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -83,8 +82,8 @@ const translations = {
       ga: "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
       hi: "नमस्ते! मैं एजेंट ☸️ C.K.R. हूँ। आज मैं आपकी कैसे मदद कर सकता हूँ?",
       gd: "Halo! 'S mise Agent S.C. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
-      'en-AU': "G'day! I'm Agent ✨ D.G.R.. How can I help ya today?",
-      'en-NZ': "Kia ora! I'm Agent 🌿 FERN. How can I help you today?",
+      'en-AU': "G'day! I'm Agent ✨ D.G.R. How can I help ya today?",
+      'en-NZ': "Kia ora! I'm Agent 🌿 S.H.A.N.E. How can I help you today?",
       'en-CA': "Hey there! I'm Agent 🍁 M.A.P.L.. How can I help you today, eh?",
       'fr-CA': "Bonjour ! Je suis l'Agent 🍁 M.A.P.L.. Comment puis-je vous aider aujourd'hui ?",
       'en-ZA': "Howzit! I'm Agent 🇿🇦 M.DB.. nod to Neslon Mandela How can I help you today?",
@@ -98,11 +97,11 @@ const translations = {
       hi: 'एजेंट ☸️ C.K.R. सोच रहा है...',
       gd: 'Tha Agent 🌸 T.H.O.R.N. a\' smaoineachadh...',
       'en-AU': 'Agent ✨ D.G.R.\'s thinkin\'...',
-      'en-NZ': 'Agent 🌿 FERN\'s thinking...',
+      'en-NZ': 'Agent 🌿 S.H.A.N.E\'s thinking...',
       'en-CA': 'Agent 🍁 M.A.P.L. is thinking...',
       'fr-CA': 'Agent 🍁 M.A.P.L. réfléchit...',
-      'en-ZA': 'Agent 🇿🇦 P.R.T. is thinking...',
-      af: 'Agent 🇿🇦 P.R.T. dink...',
+      'en-ZA': 'Agent 🇿🇦 M.D.B is thinking...',
+      af: 'Agent 🇿🇦 M.D.B dink...',
     },
     placeholder: {
       en: 'Type your message...',
@@ -155,18 +154,18 @@ const translations = {
       af: 'Begin met Operasie W',
     },
     inputBar: {
-      en: 'Type here to give a task to Agent K',
-      fr: "Tapez ici une tâche à confier à l'Agent K",
-      mi: 'Tāpaea tēnei ki Agent K',
-      ga: 'Clóscríobh anseo chun tasc a thabhairt do Agent K',
+      en: 'Type here to give a task to A.L.A.N',
+      fr: "Tapez ici une tâche à confier à L.I.O.N",
+      mi: 'Tāpaea tēnei ki K.T.K',
+      ga: 'Clóscríobh anseo chun tasc a thabhairt do R.O.C.K.',
       hi: 'यहां एजेंट के को एक कार्य देने के लिए टाइप करें',
-      gd: 'Sgrìobh an here gus gnìomh a thoirt do Agent K',
-      'en-AU': 'Type here to give a task to Agent K',
-      'en-NZ': 'Type here to give a task to Agent K',
-      'en-CA': 'Type here to give a task to Agent K',
-      'fr-CA': "Tapez ici une tâche à confier à l'Agent K",
-      'en-ZA': 'Type here to give a task to Agent K',
-      af: 'Tik hier om Agent K \'n taak te gee',
+      gd: 'Sgrìobh an here gus gnìomh a thoirt do T.H.O.R.N',
+      'en-AU': 'Type here to give a task to ✨ D.G.R',
+      'en-NZ': 'Type here to give a task to 🌿 S.H.A.N.E',
+      'en-CA': 'Type here to give a task to 🍁 M.A.P.L',
+      'fr-CA': "Tapez ici une tâche à confier à L.I.O.N",
+      'en-ZA': 'Type here to give a task to Agent M.D.B',
+      af: 'Tik hier om Agent M.D \'n taak te gee',
     },
   },
   sidebar: {

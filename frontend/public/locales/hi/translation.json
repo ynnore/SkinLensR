@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "स्कैन करें",
-    "dashboard": "डैशबोर्ड",
-    "files": "फ़ाइलें",
-    "connections": "कनेक्शन",
-    "pay": "भुगतान करें",
+    "scan": "निगरानी केंद्र",
+    "dashboard": "मुख्यालय",
+    "files": "पुरालेख",
+    "connections": "गठबंधन नेटवर्क",
+    "pay": "रसद विभाग",
     "settings": "सेटिंग्स",
-    "terms": "शर्तें",
-    "privacy_policy": "गोपनीयता नीति"
+    "terms": "नियम"
   },
-  "header": {
-    "beta": "बीटा"
+  "userMenu": {
+    "profile": "एजेंट की फ़ाइल",
+    "settings": "खाता सेटिंग्स",
+    "logout": "अवकाश का अनुरोध"
   },
   "chat": {
-    "placeholder": "अपना संदेश टाइप करें..."
+    "placeholder": "अपना प्रेषण लिखें..."
+  },
+
+  "loginPage": {
+    "title": "कमांड पोस्ट तक पहुंच",
+    "emailLabel": "प्रेषण पता",
+    "passwordLabel": "गुप्त कोड",
+    "submitButton": "प्रेषित करें",
+    "socialSeparator": "या",
+    "googleButton": "गूगल के साथ जारी रखें",
+    "githubButton": "गिटहब के साथ जारी रखें",
+    "signupPrompt": "अभी तक नामांकित नहीं हैं?",
+    "signupLink": "ब्यूरो में साइन अप करें।"
+  },
+
+  "signupPage": {
+    "title": "पंजीकरण ब्यूरो",
+    "preamble": "संचालन में भाग लेने के इच्छुक एजेंटों से अनुरोध है कि वे नीचे दिया गया फॉर्म भरें। विवेक सर्वोपरि है।",
+    "nameLabel": "कोड नाम",
+    "emailLabel": "प्रेषण पता (ई-मेल)",
+    "passwordLabel": "गुप्त कोड (पासवर्ड)",
+    "submitButton": "नामांकन की पुष्टि करें",
+    "loadingButton": "पंजीकरण हो रहा है...",
+    "socialGoogle": "गूगल के साथ नामांकन करें",
+    "socialGithub": "गिटहब के साथ नामांकन करें",
+    "loginPrompt": "क्या आपके पास पहले से सर्विस नंबर है?",
+    "loginLink": "कमांड पोस्ट तक पहुंचें।"
+  },
+
+  "profilePage": {
+    "title": "एजेंट की फ़ाइल",
+    "labelName": "कोड नाम",
+    "labelMatricule": "सर्विस नंबर",
+    "labelAccreditation": "मान्यता स्तर",
+    "accreditationAgent": "फील्ड एजेंट",
+    "accreditationOfficer": "खुफिया अधिकारी",
+    "accreditationCommander": "कमांडर",
+    "commanderAccessMessage": "कमांड एक्सेस सक्रिय है। आपके पास अधिकतम क्लीयरेंस है।"
+  },
+
+  "logoutPage": {
+    "title": "अवकाश का अनुरोध",
+    "preamble": "एजेंट, आपका अवकाश अनुरोध दर्ज कर लिया गया है। कृपया अपने पद से प्रस्थान की पुष्टि करें। आपकी वापसी तक आपकी पहुंच निलंबित रहेगी।",
+    "labelMatricule": "सर्विस नंबर:",
+    "labelName": "कोड नाम:",
+    "labelPoste": "वर्तमान पद:",
+    "buttonCancel": "सेवा रद्द करें और फिर से शुरू करें",
+    "buttonConfirm": "अनुरोध की पुष्टि करें और पद छोड़ें",
+    "footer": "अवकाश पर भी विवेक आवश्यक है।"
+  },
+
+  "connectionsPage": {
+    "title": "गठबंधन नेटवर्क",
+    "subtitle": "एआई एजेंट नेटवर्क की स्थिति का विज़ुअलाइज़ेशन। राष्ट्रों के बीच सक्रिय कनेक्शन और डेटा प्रवाह यहां प्रदर्शित होते हैं।",
+    "statusActive": "कनेक्शन सक्रिय",
+    "statusInactive": "लिंक स्थापित नहीं"
+  },
+
+  "settingsPage": {
+    "mainTitle": "सेटिंग्स",
+    "mainSubtitle": "यहां अपने खाते और एप्लिकेशन की सेटिंग्स कॉन्फ़िगर करें।"
+    
   }
 }

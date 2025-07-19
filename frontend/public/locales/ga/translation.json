@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "Scanadh",
-    "dashboard": "Painéal",
-    "files": "Comhaid",
-    "connections": "Naisc",
-    "pay": "Íoc",
-    "settings": "Socruithe",
-    "terms": "Téarmaí",
-    "privacy_policy": "Polasaí Príobháideachais"
+    "scan": "Post Gwrando",
+    "dashboard": "Pencadlys",
+    "files": "Archifau",
+    "connections": "Rhwydwaith y Gynghrair",
+    "pay": "Cwarterfeistr",
+    "settings": "Gosodiadau",
+    "terms": "Ordinadau"
   },
-  "header": {
-    "beta": "Béite"
+  "userMenu": {
+    "profile": "Ffeil yr Asiant",
+    "settings": "Gosodiadau Cyfrif",
+    "logout": "Cais am Ganiatâd"
   },
   "chat": {
-    "placeholder": "Clóscríobh do theachtaireacht..."
+    "placeholder": "Llunio'ch adroddiad..."
+  },
+
+  "loginPage": {
+    "title": "Mynediad i'r Orsaf Reoli",
+    "emailLabel": "CYFEIRIAD TROSGLWYDDO",
+    "passwordLabel": "COD CYFRINACHOL",
+    "submitButton": "TROSGLWYDDO",
+    "socialSeparator": "NEU",
+    "googleButton": "YMGYRCHU GYDA GOOGLE",
+    "githubButton": "YMGYRCHU GYDA GITHUB",
+    "signupPrompt": "Heb ymrestru eto?",
+    "signupLink": "Ymrestrwch yn y swyddfa."
+  },
+
+  "signupPage": {
+    "title": "Swyddfa Gofrestru",
+    "preamble": "Gofynnir i asiantau sy'n dymuno cymryd rhan yn y gweithrediadau lenwi'r ffurflen isod. Mae disgresiwn yn hollbwysig.",
+    "nameLabel": "ENW COD",
+    "emailLabel": "CYFEIRIAD TROSGLWYDDO (E-bost)",
+    "passwordLabel": "COD CYFRINACHOL (Cyfrinair)",
+    "submitButton": "CADARNHAU'R YMRESTRIAD",
+    "loadingButton": "Wrthi'n cofrestru...",
+    "socialGoogle": "YMRESTRU GYDA GOOGLE",
+    "socialGithub": "YMRESTRU GYDA GITHUB",
+    "loginPrompt": "Rhif gwasanaeth gennych eisoes?",
+    "loginLink": "Mynediad i'r Orsaf Reoli."
+  },
+
+  "profilePage": {
+    "title": "Ffeil yr Asiant",
+    "labelName": "ENW COD",
+    "labelMatricule": "RHIF Gwasanaeth",
+    "labelAccreditation": "LEFEL ACHREDiad",
+    "accreditationAgent": "Asiant Maes",
+    "accreditationOfficer": "Swyddog Cudd-wybodaeth",
+    "accreditationCommander": "Cadlywydd",
+    "commanderAccessMessage": "Mynediad cadlywydd yn weithredol. Mae gennych y cliriad uchaf."
+  },
+
+  "logoutPage": {
+    "title": "Cais am Ganiatâd",
+    "preamble": "Asiant, mae eich cais am ganiatâd wedi'i gofnodi. Cadarnhewch eich ymadawiad o'r swydd. Bydd eich mynediad yn cael ei atal nes i chi ddychwelyd.",
+    "labelMatricule": "RHIF GWASANAETH:",
+    "labelName": "ENW COD:",
+    "labelPoste": "SWYDD BRESENNOL:",
+    "buttonCancel": "CANSLO A DYCHWELYD I'R GWASANAETH",
+    "buttonConfirm": "CADARNHAU'R CAIS A GADAEL Y SWYDD",
+    "footer": "Mae angen disgresiwn, hyd yn oed ar absenoldeb."
+  },
+
+  "connectionsPage": {
+    "title": "Rhwydwaith y Gynghrair",
+    "subtitle": "Delweddu statws rhwydwaith yr asiantau AI. Dangosir cysylltiadau gweithredol a llif data rhwng cenhedloedd yma.",
+    "statusActive": "Cysylltiad yn Weithredol",
+    "statusInactive": "Cyswllt Heb ei Sefydlu"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Gosodiadau",
+    "mainSubtitle": "Ffurfweddwch osodiadau eich cyfrif a'r rhaglen yma."
+  
   }
 }

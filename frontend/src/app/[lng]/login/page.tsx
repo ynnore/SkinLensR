@@ -4,9 +4,14 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import styles from './login.module.css'; // On importe notre propre style
+// 1. IMPORTER LE HOOK DE TRADUCTION
+import { useTranslation } from 'react-i18next'; // Ou ton hook équivalent
+import styles from './login.module.css';
 
 export default function LoginPage() {
+  // 2. INITIALISER LE HOOK POUR AVOIR ACCÈS À LA FONCTION 't'
+  const { t } = useTranslation('common'); // 'common' est le nom de ton fichier JSON
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -18,23 +23,23 @@ export default function LoginPage() {
     setIsLoading(true);
     setError(null);
 
-    // --- Ta logique de connexion reste ici (l'exemple mock est conservé) ---
     await new Promise(resolve => setTimeout(resolve, 1000));
     if (email === 'user@example.com' && password === 'password') {
       console.log('Accès autorisé !');
       router.push('/dashboard');
     } else {
+      // Tu pourrais aussi traduire ce message d'erreur !
       setError('Identifiants incorrects. Accès refusé par le QG.');
     }
     setIsLoading(false);
-    // --- Fin de la logique de connexion ---
   };
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formWrapper}>
+        {/* 3. UTILISER LA FONCTION 't' POUR TRADUIRE CHAQUE TEXTE */}
         <h1 className={styles.title}>
-          Accès au Poste de Commandement
+          {t('loginPage.title')}
         </h1>
 
         {error && (
@@ -46,7 +51,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div>
             <label htmlFor="transmission" className={styles.label}>
-              ADRESSE DE TRANSMISSION
+              {t('loginPage.emailLabel')}
             </label>
             <input
               id="transmission"
@@ -63,7 +68,7 @@ export default function LoginPage() {
 
           <div>
             <label htmlFor="secret" className={styles.label}>
-              CODE SECRET
+              {t('loginPage.passwordLabel')}
             </label>
             <input
               id="secret"
@@ -84,15 +89,15 @@ export default function LoginPage() {
               disabled={isLoading}
               className={styles.submitButton}
             >
-              {isLoading ? 'Transmission...' : 'TRANSMETTRE'}
+              {isLoading ? 'Transmission...' : t('loginPage.submitButton')}
             </button>
           </div>
         </form>
 
         <p className={styles.footerText}>
-          Pas encore enrôlé ?{' '}
+          {t('loginPage.signupPrompt')}{' '}
           <Link href="/inscription" className={styles.link}>
-            S'inscrire au bureau.
+            {t('loginPage.signupLink')}
           </Link>
         </p>
       </div>

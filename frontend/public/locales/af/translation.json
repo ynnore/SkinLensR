@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "Skandeer",
-    "dashboard": "Paneelbord",
-    "files": "Lêers",
-    "connections": "Verbindings",
-    "pay": "Betaal",
+    "scan": "Luisterpos",
+    "dashboard": "Hoofkwartier",
+    "files": "Argiewe",
+    "connections": "Alliansie Netwerk",
+    "pay": "Kwartiermeester",
     "settings": "Instellings",
-    "terms": "Bepalings",
-    "privacy_policy": "Privaatheidsbeleid"
+    "terms": "Ordonnansies"
   },
-  "header": {
-    "beta": "Beta"
+  "userMenu": {
+    "profile": "Agent Lêer",
+    "settings": "Rekeninginstellings",
+    "logout": "Verlofversoek"
   },
   "chat": {
-    "placeholder": "Tik jou boodskap..."
+    "placeholder": "Stel jou versending op..."
+  },
+
+  "loginPage": {
+    "title": "Toegang tot Bevelspos",
+    "emailLabel": "Transmissie Adres",
+    "passwordLabel": "Geheime Kode",
+    "submitButton": "Oordra",
+    "socialSeparator": "OF",
+    "googleButton": "Gaan voort met Google",
+    "githubButton": "Gaan voort met GitHub",
+    "signupPrompt": "Nog nie ingeskryf nie?",
+    "signupLink": "Skryf in by die buro."
+  },
+
+  "signupPage": {
+    "title": "Inskrywingsburo",
+    "preamble": "Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm in te vul. Disresie is van kardinale belang.",
+    "nameLabel": "KODENAAM",
+    "emailLabel": "TRANSMISSIE ADRES (E-pos)",
+    "passwordLabel": "GEHEIME KODE (Wagwoord)",
+    "submitButton": "BEVESTIG INSKRYWING",
+    "loadingButton": "Registreer tans...",
+    "socialGoogle": "INSKRYF MET GOOGLE",
+    "socialGithub": "INSKRYF MET GITHUB",
+    "loginPrompt": "Het jy reeds 'n diensnommer?",
+    "loginLink": "Verkry toegang tot die Bevelspos."
+  },
+
+  "profilePage": {
+    "title": "Agent Lêer",
+    "labelName": "KODENAAM",
+    "labelMatricule": "DIENSNOMMER",
+    "labelAccreditation": "AKKREDITASIEVLAK",
+    "accreditationAgent": "Veldagent",
+    "accreditationOfficer": "Intelligensie-offisier",
+    "accreditationCommander": "Bevelvoerder",
+    "commanderAccessMessage": "Bevelstoegang aktief. Jy het maksimum klaring."
+  },
+
+  "logoutPage": {
+    "title": "Verlofversoek",
+    "preamble": "Agent, jou verlofversoek is ingedien. Bevestig asseblief jou vertrek van jou pos. Jou toegang sal opgeskort word tot jou terugkeer.",
+    "labelMatricule": "DIENSNOMMER:",
+    "labelName": "KODENAAM:",
+    "labelPoste": "HUIDIGE POS:",
+    "buttonCancel": "KANSELLEER EN HERVAT DIENS",
+    "buttonConfirm": "BEVESTIG VERSOEK EN VERLAAT POS",
+    "footer": "Disresie word vereis, selfs met verlof."
+  },
+
+  "connectionsPage": {
+    "title": "Alliansie Netwerk",
+    "subtitle": "Visualisering van die KI-agentnetwerkstatus. Aktiewe verbindings en datavloei tussen nasies word hier vertoon.",
+    "statusActive": "Verbinding Aktief",
+    "statusInactive": "Skakel Nie Gevestig Nie"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Instellings",
+    "mainSubtitle": "Stel jou rekening- en toepassinginstellings hier op."
+    
   }
 }
