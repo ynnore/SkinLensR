@@ -9,25 +9,34 @@ interface LanguageContextType {
   setLanguage: (lang: LanguageCode) => void;
 }
 
+interface LanguageProviderProps {
+  children: ReactNode;
+  initialLanguage?: LanguageCode; // ✅ Permet de passer la langue depuis [lng]/layout.tsx
+}
+
+const validLanguages: LanguageCode[] = [
+  'en', 'fr', 'mi', 'ga', 'hi', 'gd',
+  'en-AU', 'en-NZ', 'en-CA', 'fr-CA',
+  'en-ZA', 'af'
+];
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [language, setLanguage] = useState<LanguageCode>('en');
+export const LanguageProvider = ({ children, initialLanguage = 'en' }: LanguageProviderProps) => {
+  const [language, setLanguage] = useState<LanguageCode>(initialLanguage);
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('language');
-    const validLanguages: LanguageCode[] = [
-      'en', 'fr', 'mi', 'ga', 'hi', 'gd',
-      'en-AU', 'en-NZ', 'en-CA', 'fr-CA',
-      'en-ZA', 'af'
-    ];
+    const savedLang = localStorage.getItem('language') as LanguageCode | null;
 
-    if (savedLang && validLanguages.includes(savedLang as LanguageCode)) {
-      setLanguage(savedLang as LanguageCode);
+    if (savedLang && validLanguages.includes(savedLang)) {
+      setLanguage(savedLang);
+    } else if (validLanguages.includes(initialLanguage)) {
+      // ✅ Si pas de localStorage, on prend la langue venant de la route [lng]
+      setLanguage(initialLanguage);
     } else {
-      setLanguage('en');
+      setLanguage('en'); // fallback
     }
-  }, []);
+  }, [initialLanguage]);
 
   useEffect(() => {
     localStorage.setItem('language', language);
@@ -42,7 +51,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;

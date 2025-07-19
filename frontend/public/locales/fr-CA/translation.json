@@ -1,18 +1,81 @@
 {
   "sidebar": {
-    "scan": "Scanner",
-    "dashboard": "Tableau de bord",
-    "files": "Fichiers",
-    "connections": "Connexions",
-    "pay": "Payer",
-    "settings": "Paramètres",
-    "terms": "Conditions",
-    "privacy_policy": "Politique de confidentialité"
+    "scan": "Listening Post",
+    "dashboard": "Headquarters",
+    "files": "Archives",
+    "connections": "Alliance Network",
+    "pay": "Quartermaster",
+    "settings": "Settings",
+    "terms": "Ordinances"
   },
-  "header": {
-    "beta": "Bêta"
+  "userMenu": {
+    "profile": "Agent File",
+    "settings": "Account Settings",
+    "logout": "Request Leave"
   },
   "chat": {
-    "placeholder": "Écrivez votre message..."
+    "placeholder": "Compose your dispatch..."
+  },
+
+  "loginPage": {
+    "title": "Access Command Post",
+    "emailLabel": "Transmission Address",
+    "passwordLabel": "Secret Code",
+    "submitButton": "Transmit",
+    "socialSeparator": "OR",
+    "googleButton": "Continue with Google",
+    "githubButton": "Continue with GitHub",
+    "signupPrompt": "Not enlisted yet?",
+    "signupLink": "Sign up at the bureau."
+  },
+
+  "signupPage": {
+    "title": "Registration Bureau",
+    "preamble": "Agents wishing to take part in operations are requested to fill out the form below. Discretion is paramount.",
+    "nameLabel": "CODE NAME",
+    "emailLabel": "TRANSMISSION ADDRESS (E-mail)",
+    "passwordLabel": "SECRET CODE (Password)",
+    "submitButton": "CONFIRM ENLISTMENT",
+    "loadingButton": "Registering...",
+    "socialGoogle": "ENLIST WITH GOOGLE",
+    "socialGithub": "ENLIST WITH GITHUB",
+    "loginPrompt": "Already have a service number?",
+    "loginLink": "Access the Command Post."
+  },
+
+  "profilePage": {
+    "title": "Agent File",
+    "labelName": "CODE NAME",
+    "labelMatricule": "SERVICE NUMBER",
+    "labelAccreditation": "ACCREDITATION LEVEL",
+    "accreditationAgent": "Field Agent",
+    "accreditationOfficer": "Intelligence Officer",
+    "accreditationCommander": "Commander",
+    "commanderAccessMessage": "Command access active. You have maximum clearance."
+  },
+
+  "logoutPage": {
+    "title": "Leave Request",
+    "preamble": "Agent, your leave request has been filed. Please confirm your departure from your post. Your access will be suspended until your return.",
+    "labelMatricule": "SERVICE NUMBER:",
+    "labelName": "CODE NAME:",
+    "labelPoste": "CURRENT POST:",
+    "buttonCancel": "CANCEL AND RESUME SERVICE",
+    "buttonConfirm": "CONFIRM REQUEST AND LEAVE POST",
+    "footer": "Discretion is required, even on leave."
+  },
+
+  "connectionsPage": {
+    "title": "Alliance Network",
+    "subtitle": "Visualization of the AI agent network status. Active connections and data flows between nations are displayed here.",
+    "statusActive": "Connection Active",
+    "statusInactive": "Link Not Established"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Settings",
+    "mainSubtitle": "Configure your account and application settings here."
+    
   }
 }
+

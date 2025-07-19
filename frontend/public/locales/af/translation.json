@@ -4,23 +4,32 @@
     "beta": "Beta"
   },
   "sidebar": {
-    "scan": "Skandeer",
-    "dashboard": "Paneelbord",
-    "files": "Lêers",
-    "connections": "Verbindings",
-    "pay": "Betaal",
+    "scan": "Luisterpos",
+    "dashboard": "Hoofkwartier",
+    "files": "Argiewe",
+    "connections": "Alliansie Netwerk",
+    "pay": "Kwartiermeester",
     "settings": "Instellings",
-    "terms": "Bepalings",
-    "privacy_policy": "Privaatheidsbeleid"
+    "terms": "Ordonnansies"
   },
   "userMenu": {
     "profile": "Agent Lêer",
+<<<<<<< HEAD
     "accountSettings": "Rekeninginstellingen",
     "logout": "Verlofversoek"
   },
   "chat": {
     "placeholder": "Tik jou boodskap..."
   },
+=======
+    "settings": "Rekeninginstellings",
+    "logout": "Verlofversoek"
+  },
+  "chat": {
+    "placeholder": "Stel jou versending op..."
+  },
+
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   "loginPage": {
     "title": "Toegang tot Bevelspos",
     "emailLabel": "Transmissie Adres",
@@ -32,6 +41,10 @@
     "signupPrompt": "Nog nie ingeskryf nie?",
     "signupLink": "Skryf in by die buro."
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   "signupPage": {
     "title": "Inskrywingsburo",
     "preamble": "Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm in te vul. Disresie is van kardinale belang.",
@@ -45,6 +58,10 @@
     "loginPrompt": "Het jy reeds 'n diensnommer?",
     "loginLink": "Verkry toegang tot die Bevelspos."
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   "profilePage": {
     "title": "Agent Lêer",
     "labelName": "KODENAAM",
@@ -55,6 +72,10 @@
     "accreditationCommander": "Bevelvoerder",
     "commanderAccessMessage": "Bevelstoegang aktief. Jy het maksimum klaring."
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   "logoutPage": {
     "title": "Verlofversoek",
     "preamble": "Agent, jou verlofversoek is ingedien. Bevestig asseblief jou vertrek van jou pos. Jou toegang sal opgeskort word tot jou terugkeer.",
@@ -65,12 +86,17 @@
     "buttonConfirm": "BEVESTIG VERSOEK EN VERLAAT POS",
     "footer": "Disresie word vereis, selfs met verlof."
   },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   "connectionsPage": {
     "title": "Alliansie Netwerk",
     "subtitle": "Visualisering van die KI-agentnetwerkstatus. Aktiewe verbindings en datavloei tussen nasies word hier vertoon.",
     "statusActive": "Verbinding Aktief",
     "statusInactive": "Skakel Nie Gevestig Nie"
   },
+<<<<<<< HEAD
   "settingsPage": {
     "mainTitle": "Instellings",
     "mainSubtitle": "Stel jou rekening- en toepassinginstellings hier op."
@@ -80,5 +106,12 @@
     "watch": "Kyk",
     "intro": "Begin met Operasie W",
     "inputBar": "Tik hier om Agent M.D 'n taak te gee"
+=======
+
+  "settingsPage": {
+    "mainTitle": "Instellings",
+    "mainSubtitle": "Stel jou rekening- en toepassinginstellings hier op."
+    
+>>>>>>> 1aca44d123876b51a2a752009b33b7fe53ac1f31
   }
 }

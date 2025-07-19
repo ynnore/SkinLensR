@@ -1,18 +1,80 @@
 {
   "sidebar": {
-    "scan": "Scanner",
-    "dashboard": "Tableau de bord",
-    "files": "Fichiers",
-    "connections": "Connexions",
-    "pay": "Payer",
-    "settings": "Paramètres",
-    "terms": "Conditions",
-    "privacy_policy": "Politique de confidentialité"
+    "scan": "Centre d'Écoute",
+    "dashboard": "État-Major",
+    "files": "Archives",
+    "connections": "Réseau des Alliances",
+    "pay": "Intendance",
+    "settings": "Réglages",
+    "terms": "Ordonnances"
   },
-  "header": {
-    "beta": "Bêta"
+  "userMenu": {
+    "profile": "Fiche d'Agent",
+    "settings": "Réglages du Compte",
+    "logout": "Demander une Permission"
   },
   "chat": {
-    "placeholder": "Écrivez votre message..."
+    "placeholder": "Rédigez votre dépêche..."
+  },
+
+  "loginPage": {
+    "title": "Accès au Poste de Commandement",
+    "emailLabel": "ADRESSE DE TRANSMISSION",
+    "passwordLabel": "CODE SECRET",
+    "submitButton": "TRANSMETTRE",
+    "socialSeparator": "OU",
+    "googleButton": "CONTINUER AVEC GOOGLE",
+    "githubButton": "CONTINUER AVEC GITHUB",
+    "signupPrompt": "Pas encore enrôlé ?",
+    "signupLink": "S'inscrire au bureau."
+  },
+
+  "signupPage": {
+    "title": "Bureau d'Inscription",
+    "preamble": "Les agents désirant prendre part aux opérations sont priés de remplir la fiche ci-dessous. La discrétion est de rigueur.",
+    "nameLabel": "NOM DE CODE",
+    "emailLabel": "ADRESSE DE TRANSMISSION (E-mail)",
+    "passwordLabel": "CODE SECRET (Mot de passe)",
+    "submitButton": "VALIDER L'ENRÔLEMENT",
+    "loadingButton": "Enregistrement...",
+    "socialGoogle": "ENRÔLEMENT AVEC GOOGLE",
+    "socialGithub": "ENRÔLEMENT AVEC GITHUB",
+    "loginPrompt": "Déjà un matricule ?",
+    "loginLink": "Accéder au Poste de Commandement."
+  },
+
+  "profilePage": {
+    "title": "Fiche d'Agent",
+    "labelName": "NOM DE CODE",
+    "labelMatricule": "MATRICULE",
+    "labelAccreditation": "NIVEAU D'ACCRÉDITATION",
+    "accreditationAgent": "Agent de Terrain",
+    "accreditationOfficer": "Officier de Renseignement",
+    "accreditationCommander": "Commandant",
+    "commanderAccessMessage": "Accès de commandement activé. Vous disposez des autorisations maximales."
+  },
+
+  "logoutPage": {
+    "title": "Demande de Permission",
+    "preamble": "Agent, votre demande de permission a été enregistrée. Veuillez confirmer votre départ du poste. Vos accès seront suspendus jusqu'à votre retour.",
+    "labelMatricule": "MATRICULE :",
+    "labelName": "NOM DE CODE :",
+    "labelPoste": "POSTE ACTUEL :",
+    "buttonCancel": "ANNULER ET REPRENDRE LE SERVICE",
+    "buttonConfirm": "CONFIRMER LA DEMANDE ET QUITTER LE POSTE",
+    "footer": "La discrétion est requise, même en permission."
+  },
+
+  "connectionsPage": {
+    "title": "Réseau des Alliances",
+    "subtitle": "Visualisation de l'état du réseau des agents IA. Les connexions actives et les flux de données entre les nations sont affichés ici.",
+    "statusActive": "Connexion Active",
+    "statusInactive": "Liaison non établie"
+  },
+
+  "settingsPage": {
+    "mainTitle": "Réglages",
+    "mainSubtitle": "Configurez les paramètres de votre compte et de l'application ici."
+   
   }
 }
