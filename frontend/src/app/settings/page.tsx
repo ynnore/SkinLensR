@@ -1,185 +1,218 @@
-// Fichier: src/app/settings/page.tsx
 'use client'; // Indique que ce composant est un Client Component
 
 import { useTheme } from '../../context/ThemeContext'; // Importez le hook useTheme
+import styles from './settings.module.css'; // Importez le CSS module
 
 export default function SettingsPage() {
   const { theme } = useTheme(); // Accédez au thème actuel
 
-  // Définissez les couleurs en fonction du thème
-  const textColor = theme === 'dark' ? '#E0E0E0' : '#333';
-  const linkColor = theme === 'dark' ? '#8BC4FF' : '#0070f3';
-  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666';
-  const borderColor = theme === 'dark' ? '#444' : '#eee';
-  const inputBgColor = theme === 'dark' ? '#2c2c2c' : '#f9f9f9'; // Couleur de fond pour les champs de formulaire en lecture seule
-  const inputBorderColor = theme === 'dark' ? '#555' : '#ddd'; // Bordure pour les champs de formulaire
-  const sectionBgColor = theme === 'dark' ? '#1a1a1a' : '#fff'; // Fond des sections
-  const buttonPrimaryBg = theme === 'dark' ? '#005bb5' : '#0070f3'; // Bouton principal
-  const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white'; // Texte bouton principal
-  const buttonDangerBg = theme === 'dark' ? '#992222' : '#dc3545'; // Bouton danger
-  const buttonSuccessBg = theme === 'dark' ? '#1e7e34' : '#28a745'; // Bouton succès
+  // Définissez les couleurs et autres propriétés en fonction du thème
+  const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
+  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
+  const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFF8E1'; // Fond de page légèrement crème
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F5F0E1'; // Fond des sections/cartes
+  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent
+  const inputBgColor = theme === 'dark' ? '#1F1F2A' : '#FFFFFF';
+  const inputReadOnlyBgColor = theme === 'dark' ? '#1A1A22' : '#F0F0F0'; // Couleur pour les inputs en lecture seule
+  const inputBorderColor = theme === 'dark' ? '#444444' : '#CCCCCC';
+
+  // Couleurs des boutons
+  const buttonPrimaryBg = theme === 'dark' ? '#005bb5' : '#0070f3';
+  const buttonPrimaryHoverBg = theme === 'dark' ? '#004a99' : '#005edb';
+  const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white';
+
+  const buttonDangerBg = theme === 'dark' ? '#B03A2E' : '#dc3545'; // Rouge plus doux en dark
+  const buttonDangerHoverBg = theme === 'dark' ? '#993026' : '#c82333';
+
+  const buttonSuccessBg = theme === 'dark' ? '#28A745' : '#28a745';
+  const buttonSuccessHoverBg = theme === 'dark' ? '#218838' : '#218838';
+
+  const buttonSecondaryBg = theme === 'dark' ? '#6c757d' : '#6c757d';
+  const buttonSecondaryHoverBg = theme === 'dark' ? '#5a6268' : '#5a6268';
+
+  // Ombres
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+  const shadowColorButton = theme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.15)';
+  const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
+
 
   return (
-    <div style={{
-      padding: '2rem',
-      maxWidth: '900px',
-      margin: '0 auto',
-      lineHeight: '1.6',
-      fontSize: '1rem',
-      color: textColor // Appliquez la couleur de texte dynamique
-    }}>
-      <h1 style={{ marginBottom: '1.5rem', fontSize: '2.5rem', borderBottom: `1px solid ${borderColor}`, paddingBottom: '0.5rem' }}>
-        Settings
+    // Le style sur le div parent injecte les variables CSS pour le thème
+    <div
+      className={styles.pageContainer}
+      style={{
+        backgroundColor: backgroundColorPage,
+        // Définition des variables CSS consommées par settings.module.css
+        '--kiwi-text-primary': textColor,
+        '--kiwi-text-secondary': mutedTextColor,
+        '--kiwi-border-color': borderColor,
+        '--kiwi-background-section': sectionBgColor,
+        '--kiwi-highlight-color': highlightColor,
+        '--kiwi-input-background-color': inputBgColor,
+        '--kiwi-input-readonly-background-color': inputReadOnlyBgColor,
+        '--kiwi-input-border-color': inputBorderColor,
+        '--kiwi-button-primary-bg': buttonPrimaryBg,
+        '--kiwi-button-primary-hover-bg': buttonPrimaryHoverBg,
+        '--kiwi-button-primary-text': buttonPrimaryText,
+        '--kiwi-button-danger-bg': buttonDangerBg,
+        '--kiwi-button-danger-hover-bg': buttonDangerHoverBg,
+        '--kiwi-button-success-bg': buttonSuccessBg,
+        '--kiwi-button-success-hover-bg': buttonSuccessHoverBg,
+        '--kiwi-button-secondary-bg': buttonSecondaryBg,
+        '--kiwi-button-secondary-hover-bg': buttonSecondaryHoverBg,
+        '--kiwi-shadow-color-card': shadowColorCard,
+        '--kiwi-shadow-color-button': shadowColorButton,
+        '--kiwi-text-shadow': `2px 2px 0px ${textShadowColor}`
+      } as React.CSSProperties} // Cast pour permettre les CSS variables
+    >
+      <h1 className={styles.title}>
+        Configuration du Quartier Général
       </h1>
-      <p style={{ marginBottom: '2.5rem', color: mutedTextColor }}>
-        Configure your account and application settings here.
+      <p className={styles.subtitle}>
+        "Ajustez les paramètres de votre compte et les préférences opérationnelles de l'application."
       </p>
 
-      {/* Section 1: Account Information */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Account Information
+      {/* Section 1: Informations d'Agent */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Dossier d'Agent
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Manage your personal details and profile.</p>
-        {/* Placeholder for actual form components */}
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Name:</label>
-          <input type="text" id="name" defaultValue="John Doe" style={{ width: '100%', padding: '0.75rem', border: `1px solid ${inputBorderColor}`, borderRadius: '4px', backgroundColor: inputBgColor, color: textColor }} />
+        <p className={styles.sectionDescription}>Gérez vos informations personnelles et votre profil d'agent.</p>
+        <div className={styles.formGroup}>
+          <label htmlFor="name" className={styles.formLabel}>Nom de Code :</label>
+          <input type="text" id="name" defaultValue="Agent Phoenix" className={styles.formInput} />
         </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Email:</label>
-          <input type="email" id="email" defaultValue="john.doe@example.com" readOnly style={{ width: '100%', padding: '0.75rem', border: `1px solid ${inputBorderColor}`, borderRadius: '4px', backgroundColor: inputBgColor, color: mutedTextColor }} />
-          <small style={{ color: mutedTextColor, display: 'block', marginTop: '0.25rem' }}>Contact support to change your email address.</small>
+        <div className={styles.formGroup}>
+          <label htmlFor="email" className={styles.formLabel}>Adresse de Transmission (E-mail) :</label>
+          <input type="email" id="email" defaultValue="phoenix.agent@kiwi-ops.com" readOnly className={styles.formInput} />
+          <small className={styles.smallText}>Contactez le Commandement pour modifier votre adresse de transmission.</small>
         </div>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonPrimaryBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
-          Save Changes
+        <button className={`${styles.button} ${styles.buttonPrimary}`}>
+          Mettre à Jour le Dossier
         </button>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          For any issues related to your account or profile, please contact:{" "}
-          <a href="mailto:account@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>account@kiwi-ops.com</a> (or `support@kiwi-ops.com` if you don't have a specific `account` alias).
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Pour tout problème lié à votre dossier d'agent ou votre profil, veuillez contacter :{" "}
+          <a href="mailto:account@kiwi-ops.com" className={styles.infoLink}>account@kiwi-ops.com</a>.
         </p>
       </section>
 
-      {/* Section 2: Security Settings */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Security
+      {/* Section 2: Protocoles de Sécurité */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Protocoles de Sécurité
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Manage your password and security preferences.</p>
-        {/* Placeholder for password change form */}
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="current-password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>Current Password:</label>
-          <input type="password" id="current-password" style={{ width: '100%', padding: '0.75rem', border: `1px solid ${inputBorderColor}`, borderRadius: '4px', backgroundColor: inputBgColor, color: textColor }} />
+        <p className={styles.sectionDescription}>Gérez votre code secret et vos préférences de sécurité.</p>
+        <div className={styles.formGroup}>
+          <label htmlFor="current-password" className={styles.formLabel}>Code Secret Actuel :</label>
+          <input type="password" id="current-password" className={styles.formInput} />
         </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label htmlFor="new-password" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>New Password:</label>
-          <input type="password" id="new-password" style={{ width: '100%', padding: '0.75rem', border: `1px solid ${inputBorderColor}`, borderRadius: '4px', backgroundColor: inputBgColor, color: textColor }} />
+        <div className={styles.formGroup}>
+          <label htmlFor="new-password" className={styles.formLabel}>Nouveau Code Secret :</label>
+          <input type="password" id="new-password" className={styles.formInput} />
         </div>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonPrimaryBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
-          Change Password
+        <button className={`${styles.button} ${styles.buttonPrimary}`}>
+          Modifier le Code Secret
         </button>
-        {/* Placeholder for 2FA settings */}
-        <div style={{ marginTop: '2rem', display: 'flex', alignItems: 'center' }}>
-          <input type="checkbox" id="two-factor-auth" style={{ marginRight: '0.5rem' }} />
-          <label htmlFor="two-factor-auth" style={{ fontWeight: 'bold' }}>Enable Two-Factor Authentication</label>
+        <div className={styles.checkboxGroup} style={{ marginTop: '2rem' }}>
+          <input type="checkbox" id="two-factor-auth" className={styles.checkboxInput} />
+          <label htmlFor="two-factor-auth" className={styles.checkboxLabel}>Activer l'Authentification Renforcée (2FA)</label>
         </div>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          For any security concerns or to report a vulnerability, please contact:{" "}
-          <a href="mailto:security@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>security@kiwi-ops.com</a>.
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Pour toute préoccupation de sécurité ou pour signaler une vulnérabilité, veuillez contacter :{" "}
+          <a href="mailto:security@kiwi-ops.com" className={styles.infoLink}>security@kiwi-ops.com</a>.
         </p>
       </section>
 
-      {/* Section 3: Notifications */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Notifications
+      {/* Section 3: Alertes et Notifications */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Alertes et Notifications
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Choose how you want to receive updates from us.</p>
-        {/* Placeholder for notification toggles */}
-        <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-          <input type="checkbox" id="email-notifications" defaultChecked style={{ marginRight: '0.5rem' }} />
-          <label htmlFor="email-notifications">Email Notifications</label>
+        <p className={styles.sectionDescription}>Choisissez comment recevoir les mises à jour et les alertes opérationnelles.</p>
+        <div className={styles.checkboxGroup}>
+          <input type="checkbox" id="email-notifications" defaultChecked className={styles.checkboxInput} />
+          <label htmlFor="email-notifications" className={styles.checkboxLabel}>Notifications par Transmission E-mail</label>
         </div>
-        <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-          <input type="checkbox" id="inapp-notifications" defaultChecked style={{ marginRight: '0.5rem' }} />
-          <label htmlFor="inapp-notifications">In-App Notifications</label>
+        <div className={styles.checkboxGroup}>
+          <input type="checkbox" id="inapp-notifications" defaultChecked className={styles.checkboxInput} />
+          <label htmlFor="inapp-notifications" className={styles.checkboxLabel}>Alertes Intégrées à l'Interface</label>
         </div>
-        <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
-          <input type="checkbox" id="scan-notifications" defaultChecked style={{ marginRight: '0.5rem' }} />
-          <label htmlFor="scan-notifications">Scan Completion Alerts</label>
+        <div className={styles.checkboxGroup}>
+          <input type="checkbox" id="scan-notifications" defaultChecked className={styles.checkboxInput} />
+          <label htmlFor="scan-notifications" className={styles.checkboxLabel}>Alertes de Fin de Scan d'Analyse</label>
         </div>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonPrimaryBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
-          Update Notification Settings
+        <button className={`${styles.button} ${styles.buttonPrimary}`}>
+          Mettre à Jour les Préférences d'Alertes
         </button>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          Having trouble with notifications? Contact our support team:{" "}
-          <a href="mailto:support@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>support@kiwi-ops.com</a>.
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Des difficultés avec les notifications ? Contactez l'Équipe de Support :{" "}
+          <a href="mailto:support@kiwi-ops.com" className={styles.infoLink}>support@kiwi-ops.com</a>.
         </p>
       </section>
 
-      {/* Section 4: Billing & Subscription (if applicable) */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Billing & Subscription
+      {/* Section 4: Accréditation et Protocole Financier (si applicable) */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Accréditation & Protocole Financier
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Manage your plan and payment methods.</p>
-        <p style={{ marginBottom: '1rem' }}>Your current plan: <strong>Pro Plan</strong> (<a href="#" style={{ color: linkColor, textDecoration: 'none' }}>Upgrade/Downgrade</a>)</p>
-        {/* Placeholder for billing details */}
-        <p style={{ marginBottom: '1rem' }}>Payment Method: **** **** **** 1234 (Expires 12/25)</p>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonPrimaryBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', marginRight: '1rem' }}>
-          Update Payment Method
+        <p className={styles.sectionDescription}>Gérez votre niveau d'accréditation et vos méthodes de paiement.</p>
+        <p style={{ marginBottom: '1rem', color: textColor }}>Votre accréditation actuelle : <strong>Protocole Alpha</strong> (<a href="#" className={styles.infoLink}>Mettre à Niveau / Rétrograder</a>)</p>
+        <p style={{ marginBottom: '1rem', color: textColor }}>Méthode de Paiement Enregistrée : **** **** **** 1234 (Valide jusqu'à 12/25)</p>
+        <button className={`${styles.button} ${styles.buttonPrimary}`} style={{ marginRight: '1rem' }}>
+          Mettre à Jour le Protocole de Paiement
         </button>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: '#6c757d', color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
-          View Invoices
+        <button className={`${styles.button} ${styles.buttonSecondary}`}>
+          Consulter les Facturations
         </button>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          For all billing and payment related inquiries, please contact:{" "}
-          <a href="mailto:billing@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>billing@kiwi-ops.com</a>.
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Pour toutes questions relatives à l'accréditation ou aux transactions, veuillez contacter :{" "}
+          <a href="mailto:billing@kiwi-ops.com" className={styles.infoLink}>billing@kiwi-ops.com</a>.
         </p>
       </section>
 
-      {/* Section 5: Data & Privacy (Crucial for professionalism and compliance) */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Data & Privacy
+      {/* Section 5: Données et Confidentialité (Crucial pour le professionnalisme) */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Données et Confidentialité
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Manage your data and privacy settings.</p>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonSuccessBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem', marginRight: '1rem' }}>
-          Export My Data
+        <p className={styles.sectionDescription}>Gérez vos données personnelles et vos paramètres de confidentialité.</p>
+        <button className={`${styles.button} ${styles.buttonSuccess}`} style={{ marginRight: '1rem' }}>
+          Extraire mes Données
         </button>
-        <button style={{ padding: '0.8rem 1.5rem', backgroundColor: buttonDangerBg, color: buttonPrimaryText, border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '1rem' }}>
-          Delete My Account
+        <button className={`${styles.button} ${styles.buttonDanger}`}>
+          Supprimer mon Dossier d'Agent
         </button>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          For questions related to your data privacy, data access, deletion requests, or to report data breaches, please contact:{" "}
-          <a href="mailto:privacy@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>privacy@kiwi-ops.com</a>.
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Pour toute question concernant la confidentialité de vos données, l'accès, les requêtes de suppression, ou pour signaler des brèches, veuillez contacter :{" "}
+          <a href="mailto:privacy@kiwi-ops.com" className={styles.infoLink}>privacy@kiwi-ops.com</a>.
         </p>
-        <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          You can also review our full{" "}
-          <a href="/privacy-policy" style={{ color: linkColor, textDecoration: 'none' }}>Privacy Policy</a>
-          {" "} and{" "}
-          <a href="/terms" style={{ color: linkColor, textDecoration: 'none' }}>Terms and Conditions</a>.
+        <p className={styles.smallText} style={{ marginTop: '0.5rem' }}>
+          Veuillez également consulter nos{" "}
+          <a href="/privacy-policy" className={styles.infoLink}>Politique de Confidentialité</a>
+          {" "} et{" "}
+          <a href="/terms" className={styles.infoLink}>Conditions Générales d'Utilisation</a>.
         </p>
       </section>
 
-      {/* Section 6: General Help & Support (Catch-all) */}
-      <section style={{ marginBottom: '2.5rem', padding: '1.5rem', border: `1px solid ${borderColor}`, borderRadius: '8px', backgroundColor: sectionBgColor }}>
-        <h2 style={{ fontSize: '1.8rem', marginBottom: '1rem' }}>
-          Help & Support
+      {/* Section 6: Assistance et Support Général */}
+      <section className={styles.settingSection}>
+        <h2 className={styles.sectionTitle}>
+          Assistance & Support du QG
         </h2>
-        <p style={{ marginBottom: '1rem' }}>Need further assistance? Our team is here to help.</p>
-        <p style={{ marginTop: '1.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          For any other questions or general support, please contact:{" "}
-          <a href="mailto:support@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none' }}>support@kiwi-ops.com</a>.
+        <p className={styles.sectionDescription}>Besoin d'une assistance supplémentaire ? Notre équipe est là pour vous aider.</p>
+        <p className={styles.smallText} style={{ marginTop: '1.5rem' }}>
+          Pour toute autre question ou un support général, veuillez contacter :{" "}
+          <a href="mailto:support@kiwi-ops.com" className={styles.infoLink}>support@kiwi-ops.com</a>.
         </p>
-        <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: mutedTextColor }}>
-          You can also visit our comprehensive{" "}
-          <a href="/help-center" style={{ color: linkColor, textDecoration: 'none' }}>Help Center</a> (if you have one).
+        <p className={styles.smallText} style={{ marginTop: '0.5rem' }}>
+          Vous pouvez également visiter notre{" "}
+          <a href="/help-center" className={styles.infoLink}>Centre d'Aide</a> (si vous en avez un).
         </p>
       </section>
 
-      <p style={{ textAlign: 'center', marginTop: '3rem', fontSize: '0.9rem', color: mutedTextColor }}>
-        © {new Date().getFullYear()} Kiwi-Ops. All rights reserved.
+      <p className={styles.globalFooter}>
+        © {new Date().getFullYear()} Kiwi-Ops – Tous droits d'accès réservés.
       </p>
     </div>
   );

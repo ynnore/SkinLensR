@@ -1,0 +1,198 @@
+/* Fichier: src/app/settings/settings.module.css */
+
+.pageContainer {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--kiwi-text-primary); /* Couleur de texte principale */
+}
+
+.title {
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  text-shadow: var(--kiwi-text-shadow); /* Ombre pour le titre */
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  font-size: 1.15rem;
+  color: var(--kiwi-text-secondary);
+  margin-top: 1.5rem;
+  max-width: 85ch;
+  text-align: center;
+  border-bottom: 1px dashed var(--kiwi-border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 3rem; /* Espacement plus grand après le sous-titre */
+}
+
+/* Styles pour les sections individuelles */
+.settingSection {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  padding: 1.8rem;
+  border: 2px solid var(--kiwi-border-color);
+  border-radius: 8px;
+  background-color: var(--kiwi-background-section);
+  box-shadow: 5px 5px 0px var(--kiwi-shadow-color-card); /* Ombre pour l'effet de profondeur */
+  color: var(--kiwi-text-primary);
+}
+
+.sectionTitle {
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed var(--kiwi-border-color); /* Ligne en pointillé */
+  padding-bottom: 0.8rem;
+  color: var(--kiwi-highlight-color); /* Titre de section en couleur d'accent */
+}
+
+.sectionDescription {
+  margin-bottom: 1.5rem;
+  color: var(--kiwi-text-secondary);
+  font-style: italic;
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+}
+
+/* Styles des champs de formulaire */
+.formGroup {
+  margin-bottom: 1.2rem;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+}
+
+.formInput {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--kiwi-input-border-color);
+  border-radius: 4px;
+  background-color: var(--kiwi-input-background-color);
+  color: var(--kiwi-text-primary);
+  font-size: 1rem;
+  box-sizing: border-box; /* Inclut padding et border dans la largeur */
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+}
+
+.formInput[readOnly] {
+  color: var(--kiwi-text-secondary);
+  background-color: var(--kiwi-input-readonly-background-color);
+  cursor: not-allowed;
+}
+
+.smallText {
+  color: var(--kiwi-text-secondary);
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* Styles des boutons */
+.button {
+  padding: 0.9rem 1.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 2px 2px 0px var(--kiwi-shadow-color-button);
+}
+
+.buttonPrimary {
+  background-color: var(--kiwi-button-primary-bg);
+  color: var(--kiwi-button-primary-text);
+}
+
+.buttonPrimary:hover {
+  background-color: var(--kiwi-button-primary-hover-bg);
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+}
+
+.buttonDanger {
+  background-color: var(--kiwi-button-danger-bg);
+  color: var(--kiwi-button-primary-text);
+}
+
+.buttonDanger:hover {
+  background-color: var(--kiwi-button-danger-hover-bg);
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+}
+
+.buttonSuccess {
+  background-color: var(--kiwi-button-success-bg);
+  color: var(--kiwi-button-primary-text);
+}
+
+.buttonSuccess:hover {
+  background-color: var(--kiwi-button-success-hover-bg);
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+}
+
+.buttonSecondary { /* Pour les boutons comme "View Invoices" */
+  background-color: var(--kiwi-button-secondary-bg);
+  color: var(--kiwi-button-primary-text);
+}
+.buttonSecondary:hover {
+  background-color: var(--kiwi-button-secondary-hover-bg);
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+}
+
+
+/* Checkboxes */
+.checkboxGroup {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.checkboxLabel {
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+}
+
+.checkboxInput {
+  margin-right: 0.8rem; /* Plus d'espace pour le checkbox */
+  width: 18px; /* Taille légèrement plus grande */
+  height: 18px;
+}
+
+/* Liens dans le texte informatif */
+.infoLink {
+  color: var(--kiwi-highlight-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.infoLink:hover {
+  color: var(--kiwi-text-primary);
+}
+
+/* Pied de page global */
+.globalFooter {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 0.8rem;
+  color: var(--kiwi-text-secondary);
+}

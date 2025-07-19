@@ -1,32 +1,274 @@
-// Fichier: src/app/pay/page.tsx
-'use client';
+'use client'; // Indique que ce composant est un Client Component
 
-import { useTheme } from '../../context/ThemeContext';
+import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext'; // Assurez-vous que ce chemin est correct
 
-export default function PayPage() {
+export default function PaymentPage() {
   const { theme } = useTheme();
 
-  const textColor = theme === 'dark' ? '#E0E0E0' : '#333';
-  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666';
-  
+  // Définissez les couleurs en fonction du thème, avec une touche "Lorette"
+  const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
+  const linkColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Un bleu un peu plus affirmé
+  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
+  const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA'; // Une bordure plus grise pour l'effet ancien
+
+  const [nomPorteur, setNomPorteur] = useState('');
+  const [numeroCarte, setNumeroCarte] = useState('');
+  const [dateExpiration, setDateExpiration] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [message, setMessage] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    setIsProcessing(true);
+    setMessage('');
+
+    // --- ICI EST LE POINT D'INTÉGRATION FUTUR ---
+    // C'est ici que vous intégrerez votre logique de paiement réel.
+    // Par exemple, en envoyant ces données (après une tokenisation sécurisée)
+    // à votre backend, qui à son tour interagirait avec Stripe, une API bancaire,
+    // ou un service de paiement sur GCP.
+    // NE JAMAIS ENVOYER DES NUMÉROS DE CARTE BRUTS DIRECTEMENT DU FRONTEND AU BACKEND OU À UNE API TIERS.
+    // Utilisez toujours une solution de tokenisation fournie par le prestataire de paiement (comme Stripe.js ou équivalent).
+
+    console.log("Nom du Porteur:", nomPorteur);
+    console.log("Numéro de Carte:", numeroCarte);
+    console.log("Date d'Expiration:", dateExpiration);
+    console.log("CVV:", cvv);
+
+    // Simulation d'un traitement
+    setTimeout(() => {
+      setIsProcessing(false);
+      setMessage("Dossier de Transaction Reçu. Traitement en cours via Protocole Bêta.");
+      // Réinitialiser le formulaire si désiré
+      setNomPorteur('');
+      setNumeroCarte('');
+      setDateExpiration('');
+      setCvv('');
+    }, 2000);
+  };
+
   return (
     <div style={{
-      padding: '2rem 2.5rem',
-      color: textColor
+      padding: '2rem',
+      maxWidth: '700px', // Largeur adaptée pour le contenu
+      margin: '0 auto',
+      lineHeight: '1.6',
+      fontSize: '1rem',
+      color: textColor,
+      fontFamily: "'Georgia', serif", // Utilisation d'une police serif par défaut pour le corps
+      backgroundColor: theme === 'dark' ? '#1A1A2E' : '#FFF8E1', // Un fond légèrement crème pour l'ambiance affiche ancienne
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
     }}>
-      <h1 style={{ fontFamily: 'var(--font-special-elite), serif', fontSize: '2.5rem', textTransform: 'uppercase' }}>
-        Intendance
+      <h1 style={{
+        marginBottom: '1rem',
+        fontSize: '3.5rem',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontFamily: "'Playfair Display', serif", // Police pour les titres très visibles
+        textTransform: 'uppercase',
+        letterSpacing: '2px',
+        color: textColor,
+        textShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(150,150,150,0.3)'}` // Effet d'ombre pour le texte du titre
+      }}>
+        Bureau Central<br />Kiwi-Ops
       </h1>
-      <p style={{ fontFamily: 'var(--font-courier-prime), monospace', fontSize: '1.1rem', color: mutedTextColor, marginTop: '1rem' }}>
-        Gestion de votre contribution à l'effort des opérations et accès aux ressources premium.
+      <p style={{ fontStyle: 'italic', marginBottom: '3rem', textAlign: 'center', color: mutedTextColor, fontSize: '1.1rem' }}>
+        "Votre contribution, notre succès commun."
       </p>
 
-      <div style={{ marginTop: '3rem' }}>
-        {/* Ici viendront les options d'abonnement */}
-        <p style={{ fontStyle: 'italic', color: mutedTextColor }}>
-          Module de gestion des contributions en cours de développement...
+      {/* Formulaire de paiement simplifié */}
+      <form onSubmit={handleSubmit} style={{
+        border: `2px solid ${borderColor}`, // Bordure plus prononcée
+        padding: '2.5rem',
+        borderRadius: '5px',
+        boxShadow: `5px 5px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)'}`, // Ombre portée pour l'effet affiche
+        background: theme === 'dark' ? '#2A2A3A' : '#F5F0E1', // Fond plus "papier ancien" en mode clair
+        color: textColor,
+        width: '100%', // Prend toute la largeur disponible dans le maxWidth parent
+        boxSizing: 'border-box' // Inclut padding et border dans la largeur
+      }}>
+        <h3 style={{
+          fontSize: '1.8rem',
+          marginBottom: '1.5rem',
+          borderBottom: `2px dashed ${borderColor}`, // Ligne en pointillé
+          paddingBottom: '0.8rem',
+          color: textColor,
+          textAlign: 'center',
+          fontFamily: "'Playfair Display', serif", // Police pour les titres d'affiches
+          fontWeight: 'bold',
+          textTransform: 'uppercase'
+        }}>
+          Dossier de Transaction<br />— Accréditation d'Agent —
+        </h3>
+        <p style={{ marginBottom: '1.5rem', color: mutedTextColor, textAlign: 'center', fontStyle: 'italic' }}>
+          "La discrétion et la précision sont nos maîtres mots."
         </p>
-      </div>
+
+        {/* Champ Nom du Porteur */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <label htmlFor="card-name" style={{ display: 'block', marginBottom: '0.6rem', color: textColor, fontSize: '1.1rem' }}>
+            Nom du Porteur (Telle que sur la Fiche) :
+          </label>
+          <input
+            type="text"
+            id="card-name"
+            value={nomPorteur}
+            onChange={(e) => setNomPorteur(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '12px',
+              border: `1px solid ${borderColor}`,
+              borderRadius: '4px',
+              backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+              color: textColor,
+              fontSize: '1rem',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        {/* Champ Numéro de Carte */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <label htmlFor="card-number" style={{ display: 'block', marginBottom: '0.6rem', color: textColor, fontSize: '1.1rem' }}>
+            Numéro d'Accréditation (Fiche Bancaire) :
+          </label>
+          <input
+            type="text"
+            id="card-number"
+            value={numeroCarte}
+            onChange={(e) => setNumeroCarte(e.target.value)}
+            required
+            placeholder="XXXX XXXX XXXX XXXX"
+            style={{
+              width: '100%',
+              padding: '12px',
+              border: `1px solid ${borderColor}`,
+              borderRadius: '4px',
+              backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+              color: textColor,
+              fontSize: '1rem',
+              boxSizing: 'border-box'
+            }}
+          />
+        </div>
+
+        {/* Champs Date d'Expiration et CVV */}
+        <div style={{ display: 'flex', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div style={{ flex: 1 }}>
+            <label htmlFor="expiry-date" style={{ display: 'block', marginBottom: '0.6rem', color: textColor, fontSize: '1.1rem' }}>
+              Valide Jusqu'à (MM/AA) :
+            </label>
+            <input
+              type="text"
+              id="expiry-date"
+              value={dateExpiration}
+              onChange={(e) => setDateExpiration(e.target.value)}
+              required
+              placeholder="MM/AA"
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: `1px solid ${borderColor}`,
+                borderRadius: '4px',
+                backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+                color: textColor,
+                fontSize: '1rem',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label htmlFor="cvv" style={{ display: 'block', marginBottom: '0.6rem', color: textColor, fontSize: '1.1rem' }}>
+              Code Secret (CVV) :
+            </label>
+            <input
+              type="text"
+              id="cvv"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value)}
+              required
+              placeholder="CVC"
+              style={{
+                width: '100%',
+                padding: '12px',
+                border: `1px solid ${borderColor}`,
+                borderRadius: '4px',
+                backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+                color: textColor,
+                fontSize: '1rem',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isProcessing}
+          style={{
+            backgroundColor: linkColor, // Couleur d'accent
+            color: '#fff',
+            padding: '15px 30px',
+            borderRadius: '5px',
+            border: 'none',
+            fontSize: '1.2rem',
+            cursor: 'pointer',
+            opacity: isProcessing ? 0.6 : 1,
+            transition: 'opacity 0.3s ease, background-color 0.3s ease',
+            width: '100%',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            boxShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)'}`, // Ombre pour le bouton
+          }}
+        >
+          {isProcessing ? "Traitement de l'Accréditation..." : "Valider le Dossier"}
+        </button>
+
+        {message && (
+          <p style={{ color: 'green', marginTop: '1.5rem', fontSize: '1rem', textAlign: 'center', fontWeight: 'bold' }}>
+            {message}
+          </p>
+        )}
+      </form>
+
+      <section style={{
+        marginTop: '4rem',
+        borderTop: `2px dashed ${borderColor}`, // Ligne de séparation style affiche
+        paddingTop: '2.5rem',
+        textAlign: 'center',
+        color: textColor,
+        fontSize: '0.95rem'
+      }}>
+        <h2 style={{
+          fontSize: '1.6rem',
+          marginBottom: '1rem',
+          color: textColor,
+          fontFamily: "'Playfair Display', serif",
+          fontWeight: 'bold'
+        }}>
+          Directive du Commandement Opérationnel
+        </h2>
+        <p style={{ color: mutedTextColor, marginBottom: '1rem' }}>
+          Toute transaction est enregistrée et protégée par le Protocole de Sécurité Numérique A.
+        </p>
+        <p style={{ color: mutedTextColor, marginBottom: '1.5rem' }}>
+          Pour toute anomalie ou question relative à votre accréditation financière, contactez sans délai le Service des Affaires Monétaires.
+        </p>
+        <a href="mailto:finance@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none', fontSize: '1rem', display: 'block', fontWeight: 'bold' }}>
+          finance@kiwi-ops.com
+        </a>
+      </section>
+
+      <p style={{ textAlign: 'center', marginTop: '3rem', fontSize: '0.8rem', color: mutedTextColor }}>
+        © {new Date().getFullYear()} Kiwi-Ops – Tous droits d'accès réservés.
+      </p>
     </div>
   );
 }

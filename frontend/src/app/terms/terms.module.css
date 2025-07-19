@@ -1,0 +1,100 @@
+/* Fichier: src/app/terms/terms.module.css */
+
+.pageContainer {
+  padding: 2rem;
+  max-width: 850px; /* Largeur légèrement ajustée pour le contenu légal */
+  margin: 0 auto;
+  line-height: 1.7; /* Légèrement plus grand pour la lisibilité des longs textes */
+  font-size: 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--kiwi-text-primary); /* Couleur de texte principale */
+  font-family: var(--font-courier-prime, 'Georgia', serif); /* Police pour le corps du texte */
+}
+
+.title {
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 3.2rem; /* Taille de titre impactante */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  text-shadow: var(--kiwi-text-shadow); /* Ombre pour le titre */
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  font-size: 1.1rem;
+  color: var(--kiwi-text-secondary);
+  margin-top: 1.5rem;
+  max-width: 75ch; /* Limite la largeur du sous-titre */
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 2.5rem; /* Espacement après la date de mise à jour */
+}
+
+/* Styles pour les sections individuelles */
+.section {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 0; /* Pas de padding latéral pour les sections elles-mêmes */
+  border-bottom: 1px dashed var(--kiwi-border-color); /* Ligne en pointillé entre sections */
+}
+
+.section:last-of-type {
+  border-bottom: none; /* Pas de bordure pour la dernière section */
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 1.9rem; /* Légèrement plus petit que le titre principal */
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  color: var(--kiwi-highlight-color); /* Titre de section en couleur d'accent */
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.sectionText {
+  margin-bottom: 1rem;
+  color: var(--kiwi-text-primary);
+}
+
+/* Styles pour les listes */
+.sectionList {
+  list-style-type: disc; /* Points */
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sectionListItem {
+  margin-bottom: 0.5rem;
+  color: var(--kiwi-text-primary);
+}
+
+/* Styles des liens */
+.infoLink {
+  color: var(--kiwi-highlight-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.infoLink:hover {
+  color: var(--kiwi-text-primary);
+  text-decoration: underline;
+}
+
+/* Pied de page global */
+.globalFooter {
+  text-align: center;
+  margin-top: 4rem;
+  font-size: 0.8rem;
+  color: var(--kiwi-text-secondary);
+}
