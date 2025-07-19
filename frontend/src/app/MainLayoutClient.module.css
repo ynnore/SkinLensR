@@ -1,15 +1,14 @@
-/* === CONTENU PRINCIPAL (desktop) === */
 .mainContent {
-  margin-left: var(--sidebar-width-open);          /* Décalage quand sidebar ouverte */
-  width: calc(100% - var(--sidebar-width-open));   /* Le contenu s’adapte */
+  margin-left: var(--sidebar-width-open); /* Décalage quand sidebar ouverte */
+  width: calc(100% - var(--sidebar-width-open)); /* Le contenu s’adapte */
   padding: 20px;
   transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
 }
 
 /* === Sidebar fermée = aucun espace réservé === */
 .mainContent.sidebarClosed {
-  margin-left: 0;     /* Plus aucun décalage */
-  width: 100%;        /* Le chat prend toute la largeur */
+  margin-left: var(--sidebar-width-closed);
+  width: calc(100% - var(--sidebar-width-closed));
 }
 
 /* === MOBILE : toujours plein écran === */
@@ -17,9 +16,16 @@
   .mainContent {
     margin-left: 0;   /* Pas d’espace sur mobile */
     width: 100vw;     /* Prend tout le viewport */
-    padding: 0;       /* Supprime les marges */
+    padding: 10px;    /* ou 0 si tu veux */
+  }
+
+  /* Spécifique au mobile quand la sidebar est fermée pour mainContent */
+  .mainContent.sidebarClosed {
+    margin-left: 0;   /* Pas de décalage même si 'sidebarClosed' est appliqué */
+    width: 100%;
   }
 }
+
 
 /* === SIDEBAR ESCAMOTÉE === */
 .sidebar.closed {
