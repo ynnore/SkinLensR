@@ -1,4 +1,8 @@
 {
+  "header": {
+    "missionStatement": "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
+    "beta": "Béite"
+  },
   "sidebar": {
     "scan": "Scanadh",
     "dashboard": "Painéal",
@@ -9,10 +13,74 @@
     "terms": "Téarmaí",
     "privacy_policy": "Polasaí Príobháideachais"
   },
-  "header": {
-    "beta": "Béite"
+  "userMenu": {
+    "profile": "Próifíl",
+    "accountSettings": "Socruithe Cuntais",
+    "logout": "Logáil Amach"
   },
   "chat": {
+    "welcomeMessage": "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
+    "thinking": "Tá Agent ☘️ R.O.C.K. ag smaoineamh...",
     "placeholder": "Clóscríobh do theachtaireacht..."
+  },
+  "loginPage": {
+    "title": "Access Command Post",
+    "emailLabel": "Transmission Address",
+    "passwordLabel": "Secret Code",
+    "submitButton": "Transmit",
+    "socialSeparator": "OR",
+    "googleButton": "Continue with Google",
+    "githubButton": "Continue with GitHub",
+    "signupPrompt": "Not enlisted yet?",
+    "signupLink": "Sign up at the bureau."
+  },
+  "signupPage": {
+    "title": "Registration Bureau",
+    "preamble": "Agents wishing to take part in operations are requested to fill out the form below. Discretion is paramount.",
+    "nameLabel": "CODE NAME",
+    "emailLabel": "TRANSMISSION ADDRESS (E-mail)",
+    "passwordLabel": "SECRET CODE (Password)",
+    "submitButton": "CONFIRM ENLISTMENT",
+    "loadingButton": "Registering...",
+    "socialGoogle": "ENLIST WITH GOOGLE",
+    "socialGithub": "ENLIST WITH GITHUB",
+    "loginPrompt": "Already have a service number?",
+    "loginLink": "Access the Command Post."
+  },
+  "profilePage": {
+    "title": "Agent File",
+    "labelName": "CODE NAME",
+    "labelMatricule": "SERVICE NUMBER",
+    "labelAccreditation": "ACCREDITATION LEVEL",
+    "accreditationAgent": "Field Agent",
+    "accreditationOfficer": "Intelligence Officer",
+    "accreditationCommander": "Commander",
+    "commanderAccessMessage": "Command access active. You have maximum clearance."
+  },
+  "logoutPage": {
+    "title": "Leave Request",
+    "preamble": "Agent, your leave request has been filed. Please confirm your departure from your post. Your access will be suspended until your return.",
+    "labelMatricule": "SERVICE NUMBER:",
+    "labelName": "CODE NAME:",
+    "labelPoste": "CURRENT POST:",
+    "buttonCancel": "CANCEL AND RESUME SERVICE",
+    "buttonConfirm": "CONFIRM REQUEST AND LEAVE POST",
+    "footer": "Discretion is required, even on leave."
+  },
+  "connectionsPage": {
+    "title": "Alliance Network",
+    "subtitle": "Visualization of the AI agent network status. Active connections and data flows between nations are displayed here.",
+    "statusActive": "Connection Active",
+    "statusInactive": "Link Not Established"
+  },
+  "settingsPage": {
+    "mainTitle": "Settings",
+    "mainSubtitle": "Configure your account and application settings here."
+  },
+  "welcome": {
+    "headline": "Operation W",
+    "watch": "Watch",
+    "intro": "Getting started with Operation W",
+    "inputBar": "Clóscríobh anseo chun tasc a thabhairt do R.O.C.K."
   }
 }

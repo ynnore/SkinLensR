@@ -1,50 +1,30 @@
-/* Fichier : src/app/MainLayoutClient.module.css */
-
-.mainLayoutContainer {
-  min-height: 100vh;
-  width: 100%;
-  position: relative;
-}
-
+/* === CONTENU PRINCIPAL (desktop) === */
 .mainContent {
-  /* Desktop styles */
-  margin-left: var(--sidebar-width-open);
-  width: calc(100% - var(--sidebar-width-open));
-  padding: 20px; /* Padding interne pour le contenu */
-  box-sizing: border-box;
-  transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease, padding var(--transition-speed) ease;
-  overflow-x: hidden;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  z-index: 1; /* Reste sous l'overlay et la sidebar */
-  position: relative;
+  margin-left: var(--sidebar-width-open);          /* Décalage quand sidebar ouverte */
+  width: calc(100% - var(--sidebar-width-open));   /* Le contenu s’adapte */
+  padding: 20px;
+  transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
 }
 
+/* === Sidebar fermée = aucun espace réservé === */
 .mainContent.sidebarClosed {
-  margin-left: var(--sidebar-width-closed);
-  width: calc(100% - var(--sidebar-width-closed));
+  margin-left: 0;     /* Plus aucun décalage */
+  width: 100%;        /* Le chat prend toute la largeur */
 }
 
-.mobileOverlay { /* ... styles inchangés ... */ }
-.mobileOverlay.mobileOverlayActive { /* ... styles inchangés ... */ }
-
-
-/* ========================================================
-   MEDIA QUERY POUR LES PETITS ÉCRANS (MOBILE)
-   ======================================================== */
-
+/* === MOBILE : toujours plein écran === */
 @media (max-width: 768px) {
   .mainContent {
-    margin-left: 0; /* IMPÉRATIF : Aucune marge à gauche sur mobile */
-    width: 100vw; /* IMPÉRATIF : Prend toute la largeur du viewport */
-    padding: 0;   /* TRÈS IMPORTANT : Supprime TOUT padding de ce conteneur sur mobile */
-    box-sizing: border-box; /* S'assure que le padding serait inclus si appliqué */
-    height: 100vh; /* Prend toute la hauteur du viewport */
-    overflow-y: auto;
-    justify-content: flex-start;
-    align-items: flex-start;
+    margin-left: 0;   /* Pas d’espace sur mobile */
+    width: 100vw;     /* Prend tout le viewport */
+    padding: 0;       /* Supprime les marges */
   }
+}
+
+/* === SIDEBAR ESCAMOTÉE === */
+.sidebar.closed {
+  transform: translateX(-100%); /* Sort complètement de l’écran */
+  width: 0;                     /* Supprime sa largeur */
+  padding: 0;                   /* Plus de padding interne */
+  overflow: hidden;             /* Cache tout le contenu */
 }
