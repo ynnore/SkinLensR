@@ -1,7 +1,7 @@
 :root {
   /* Variables de mise en page */
   --sidebar-width-open: 260px; /* Largeur de la sidebar quand ouverte */
-  --sidebar-width-closed: 60px; /* Largeur de la sidebar quand fermée (seulement les icônes) */
+  --sidebar-width-closed: 0px; /* Largeur de la sidebar quand fermée (seulement les icônes) */
   --transition-speed: 0.3s;
 
   /* --- Définitions de couleurs pour le thème Clair --- */
