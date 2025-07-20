@@ -12,7 +12,7 @@ export default function HelpCenterPage() {
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFF8E1'; // Fond de page légèrement crème
+  const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#ffffff'; // Fond de page légèrement crème
   const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F5F0E1'; // Fond des sections/cartes
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent pour les liens/icônes
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';

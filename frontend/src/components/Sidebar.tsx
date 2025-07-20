@@ -1,3 +1,4 @@
+// Fichier: src/components/Sidebar.tsx
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
@@ -6,19 +7,20 @@ import { usePathname } from 'next/navigation';
 
 import {
   FaSun, FaMoon, FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaCog,
-  FaFileContract, FaKey, FaFolderOpen, FaFolder, FaTimes
+  FaFileContract, FaKey, FaFolderOpen, FaFolder, FaTimes, FaTag, FaQuestionCircle
 } from 'react-icons/fa';
 
-import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import styles from './Sidebar.module.css';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside'; // Assurez-vous que ce chemin est correct
+import styles from './Sidebar.module.css'; // Assurez-vous que ce chemin est correct
 
-import { LanguageCode } from '@/types';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
-import LanguageSelector from './LanguageSelector'; 
-import UserDropdown from './UserDropdown';  // ✅ NOUVEAU IMPORT
+import { LanguageCode } from '@/types'; // Assurez-vous que ce chemin est correct
+import { useLanguage } from '@/contexts/LanguageContext'; // Assurez-vous que ce chemin est correct
+import { useTheme } from '../context/ThemeContext'; // Assurez-vous que ce chemin est correct
+import LanguageSelector from './LanguageSelector'; // Assurez-vous que ce chemin est correct
+import UserDropdown from './UserDropdown'; // Assurez-vous que ce chemin est correct
 
-const translations = {
+// --- Translations déplacées en dehors du composant pour une meilleure performance et clarté ---
+const allTranslations = { // Renommé 'translations' en 'allTranslations' pour éviter les conflits si déjà un 'translations' global
   header: {
     beta: { en: 'Beta', fr: 'Bêta', mi: 'Pēta', ga: 'Béite', hi: 'बीटा', gd: 'Beta (Gàidhlig)', 'en-AU': 'Beta', 'en-NZ': 'Beta', 'en-CA': 'Beta', 'fr-CA': 'Bêta', 'en-ZA': 'Beta', af: 'Beta' }
   },
@@ -28,9 +30,11 @@ const translations = {
     files: { en: 'Files', fr: 'Fichiers', mi: 'Kōnae', ga: 'Comhaid', hi: 'फ़ाइलें', gd: 'Files (Gàidhlig)', 'en-AU': 'Files', 'en-NZ': 'Files', 'en-CA': 'Files', 'fr-CA': 'Fichiers', 'en-ZA': 'Files', af: 'Lêers' },
     connections: { en: 'Connections', fr: 'Connexions', mi: 'Hononga', ga: 'Naisc', hi: 'कनेक्शन', gd: 'Connections (Gàidhlig)', 'en-AU': 'Connections', 'en-NZ': 'Connections', 'en-CA': 'Connections', 'fr-CA': 'Connexions', 'en-ZA': 'Connections', af: 'Verbindings' },
     pay: { en: 'Pay', fr: 'Paiements', mi: 'Utu', ga: 'Íoc', hi: 'भु भुगतान करें', gd: 'Pay (Gàidhlig)', 'en-AU': 'Pay', 'en-NZ': 'Pay', 'en-CA': 'Pay', 'fr-CA': 'Paiements', 'en-ZA': 'Pay', af: 'Betaal' },
-    settings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhitinga', ga: 'Socruithe', hi: 'सेटिंग्स', gd: 'Settings (Gàidhlig)', 'en-AU': 'Settings', 'en-NZ': 'Settings', 'en-CA': 'Settings', 'fr-CA': 'Paramètres', 'en-ZA': 'Settings', af: 'Instellings' },
+    pricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', 'en-AU': 'Pricing', 'en-NZ': 'Pricing', 'en-CA': 'Pricing', 'fr-CA': 'Tarifs', 'en-ZA': 'Pricing', af: 'Pryse' },
+    settings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhitinga', ga: 'Socruithe', hi: 'से팅्स', gd: 'Settings (Gàidhlig)', 'en-AU': 'Settings', 'en-NZ': 'Settings', 'en-CA': 'Settings', 'fr-CA': 'Paramètres', 'en-ZA': 'Settings', af: 'Instellings' },
     terms: { en: 'Terms', fr: 'Conditions', mi: 'Ture', ga: 'Téarmaí', hi: 'शर्तें', gd: 'Terms (Gàidhlig)', 'en-AU': 'Terms', 'en-NZ': 'Terms', 'en-CA': 'Terms', 'fr-CA': 'Conditions', 'en-ZA': 'Terms', af: 'Terme' },
-    privacy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Tūmataitinga', ga: 'Polasaí Príobhaideachta', hi: 'गोपनीयता नीति', gd: 'Privacy Policy (Gàidhlig)', 'en-AU': 'Privacy Policy', 'en-NZ': 'Privacy Policy', 'en-CA': 'Privacy Policy', 'fr-CA': 'Politique de confidentialité', 'en-ZA': 'Privacy Policy', af: 'Privaatheidsbeleid' }
+    privacy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Tūmataitinga', ga: 'Polasaí Príobhaideachta', hi: 'गोपनीयता नीति', gd: 'Privacy Policy (Gàidhlig)', 'en-AU': 'Privacy Policy', 'en-NZ': 'Privacy Policy', 'en-CA': 'Privacy Policy', 'fr-CA': 'Politique de confidentialité', 'en-ZA': 'Privacy Policy', af: 'Privaatheidsbeleid' },
+    help: { en: 'Help', fr: 'Aide', mi: 'Āwhina', ga: 'Cabhair', hi: 'मदद', gd: 'Cobhair', 'en-AU': 'Help', 'en-NZ': 'Help', 'en-CA': 'Help', 'fr-CA': 'Aide', 'en-ZA': 'Help', af: 'Hulp' }
   },
   userMenu: {
     profile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifil', 'en-AU': 'Profile', 'en-NZ': 'Profile', 'en-CA': 'Profile', 'fr-CA': 'Profil', 'en-ZA': 'Profile', af: 'Profiel' },
@@ -38,6 +42,20 @@ const translations = {
     logout: { en: 'Logout', fr: 'Déconnexion', mi: 'Takiputa', ga: 'Logáil Amach', hi: 'लॉग आउट', gd: 'Log a-mach', 'en-AU': 'Logout', 'en-NZ': 'Logout', 'en-CA': 'Logout', 'fr-CA': 'Déconnexion', 'en-ZA': 'Logout', af: 'Teken uit' }
   }
 };
+
+// --- Fonction de traduction générique (utilisant allTranslations) ---
+const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
+  section: S,
+  key: K,
+  lang: LanguageCode // Passer la langue explicitement ici
+): string => {
+  const sectionTranslations = allTranslations[section];
+  if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
+  const specificTranslations = sectionTranslations[key];
+  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+};
+
 
 interface SidebarProps {
   isOpen: boolean;
@@ -54,32 +72,25 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), []);
   useOnClickOutside(menuRef, () => setMenuOpen(false));
 
-  const getTranslation = <S extends keyof typeof translations, K extends keyof typeof translations[S]>(
-    section: S,
-    key: K
-  ): string => {
-    const sectionTranslations = translations[section];
-    if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
-    const specificTranslations = sectionTranslations[key];
-    if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) return `[Invalid Translation: ${String(section)}.${String(key)}]`;
-    return (specificTranslations as { [lang: string]: string })[language] || (specificTranslations as { [lang: string]: string }).en;
-  };
-
   const navLinks = [
-    { id: 'scan', href: '/scan', label: getTranslation('sidebar', 'scan'), icon: FaFire },
-    { id: 'dashboard', href: '/dashboard', label: getTranslation('sidebar', 'dashboard'), icon: FaCompass },
-    { id: 'files', href: '/files', label: getTranslation('sidebar', 'files'), icon: FaFileAlt },
-    { id: 'connections', href: '/connections', label: getTranslation('sidebar', 'connections'), icon: FaLink },
-    { id: 'pay', href: '/pay', label: getTranslation('sidebar', 'pay'), icon: FaCoins },
+    // RAPPEL : '/' est la page de connexion, '/scan' est la page du chat
+    { id: 'scan', href: '/scan', label: getTranslation('sidebar', 'scan', language), icon: FaFire },
+    { id: 'dashboard', href: '/dashboard', label: getTranslation('sidebar', 'dashboard', language), icon: FaCompass },
+    { id: 'files', href: '/files', label: getTranslation('sidebar', 'files', language), icon: FaFolderOpen },
+    { id: 'connections', href: '/connections', label: getTranslation('sidebar', 'connections', language), icon: FaLink },
+    { id: 'pay', href: '/pay', label: getTranslation('sidebar', 'pay', language), icon: FaCoins },
+    { id: 'pricing', href: '/pricing', label: getTranslation('sidebar', 'pricing', language), icon: FaTag },
   ];
 
   const footerLinks = [
-    { id: 'settings', href: '/settings', label: getTranslation('sidebar', 'settings'), icon: FaCog },
-    { id: 'terms', href: '/terms', label: getTranslation('sidebar', 'terms'), icon: FaFileContract },
-    { id: 'privacy', href: '/privacy-policy', label: getTranslation('sidebar', 'privacy'), icon: FaKey },
+    { id: 'settings', href: '/settings', label: getTranslation('sidebar', 'settings', language), icon: FaCog },
+    { id: 'terms', href: '/terms', label: getTranslation('sidebar', 'terms', language), icon: FaFileContract },
+    { id: 'privacy', href: '/privacy-policy', label: getTranslation('sidebar', 'privacy', language), icon: FaKey },
+    { id: 'help', href: '/help-center', label: getTranslation('sidebar', 'help', language), icon: FaQuestionCircle },
   ];
 
   return (
+    // Les couleurs et transitions doivent être gérées par Sidebar.module.css et globals.css
     <aside className={`${styles.sidebar} ${!isOpen ? styles.closed : ''}`}>
       {/* Bouton de fermeture sur mobile */}
       <button onClick={toggleSidebar} className={styles.mobileCloseButton} aria-label="Fermer la barre latérale">
@@ -129,7 +140,8 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         <ul>
           {navLinks.map(({ id, href, label, icon: Icon }) => (
             <li key={id}>
-              <Link href={href} className={`${styles.navLink} ${pathname === href ? styles.active : ''}`}>
+              {/* Le lien "Scan" sera actif si pathname est '/scan' */}
+              <Link href={href} className={`${styles.navLink} ${ pathname === href ? styles.active : ''}`}>
                 <Icon className={styles.navIcon} />
                 <span className={styles.navLabel}>{label}</span>
               </Link>

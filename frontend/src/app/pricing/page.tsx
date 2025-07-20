@@ -1,7 +1,7 @@
 // src/app/pricing/page.tsx
 'use client';
 
-import React from 'react'; // <-- Assurez-vous que React est bien importé ici
+import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import styles from './pricing.module.css';
 import { FaCheckCircle, FaTimesCircle, FaStar } from 'react-icons/fa';
@@ -35,7 +35,7 @@ export default function PricingPage() {
   return (
     <div
       className={styles.pageContainer}
-      style={{ // <-- J'ai retiré 'as React.CSSProperties' ici
+      style={{
         // Définition des variables CSS pour cette page
         '--kiwi-background-page': backgroundColorPage,
         '--kiwi-text-primary': textColor,
@@ -52,7 +52,7 @@ export default function PricingPage() {
         '--kiwi-button-primary-text': buttonPrimaryText,
         '--font-special-elite': "'Playfair Display', serif",
         '--font-courier-prime': "'Georgia', serif",
-      }} // <-- Plus de 'as React.CSSProperties'
+      } as React.CSSProperties} // <-- CETTE LIGNE EST ESSENTIELLE
     >
       <h1 className={styles.title}>
         Protocoles d'Accréditation<br />— Tarifs des Missions —
