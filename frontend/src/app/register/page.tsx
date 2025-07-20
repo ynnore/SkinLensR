@@ -1,12 +1,16 @@
-// src/app/register/page.tsx
+// Fichier: src/app/register/page.tsx
 'use client'; // This component needs to be a client component for interactivity
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useTheme } from '../../context/ThemeContext'; // Ajustez le chemin si nécessaire
+import styles from './register.module.css'; // Importez le CSS module spécifique à 'register'
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState(''); // Optional: if you need a username
+  const { theme } = useTheme();
+
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -15,6 +19,38 @@ export default function RegisterPage() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const router = useRouter();
 
+  // Définition des couleurs à injecter comme variables CSS dans le style du div principal
+  const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
+  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
+  const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
+  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
+
+  const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#ffffff'; // Fond blanc pur
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Gris très très clair pour les cartes
+
+  const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.1)';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)';
+  const shadowColorButton = theme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)';
+
+  const inputBgColor = theme === 'dark' ? '#1F1F2A' : '#FFFFFF';
+  const inputBorderColor = theme === 'dark' ? '#444444' : '#CCCCCC';
+  const highlightColorLight = theme === 'dark' ? 'rgba(139, 196, 255, 0.3)' : 'rgba(74, 144, 226, 0.2)';
+
+  const buttonPrimaryBg = theme === 'dark' ? '#005bb5' : '#0070f3';
+  const buttonPrimaryHoverBg = theme === 'dark' ? '#004a99' : '#005edb';
+  const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white';
+
+  const errorBackground = theme === 'dark' ? '#5C2D2D' : '#FFDADA';
+  const errorText = theme === 'dark' ? '#FFCACA' : '#CC0000';
+  const errorBorder = theme === 'dark' ? '#CC0000' : '#FF0000';
+  const errorShadow = theme === 'dark' ? 'rgba(204,0,0,0.4)' : 'rgba(255,0,0,0.2)';
+
+  // Nouvelles variables pour le message de succès
+  const successBackground = theme === 'dark' ? '#2E5C2D' : '#DAFFDA';
+  const successText = theme === 'dark' ? '#CACAFF' : '#00CC00';
+  const successBorder = theme === 'dark' ? '#00CC00' : '#00FF00';
+
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -22,95 +58,87 @@ export default function RegisterPage() {
     setSuccessMessage(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Les Codes Secrets ne correspondent pas.');
       setIsLoading(false);
       return;
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long.');
+    if (password.length < 8) { // Une longueur minimale plus sécurisée
+      setError('Le Code Secret doit contenir au moins 8 caractères.');
       setIsLoading(false);
       return;
     }
 
-    // --- Simulate API Call for Registration ---
-    // In a real application, you would call your registration API endpoint
-    // For example:
-    // try {
-    //   const response = await fetch('/api/auth/register', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ username, email, password }),
-    //   });
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(errorData.message || 'Registration failed');
-    //   }
-    //   const data = await response.json();
-    //   setSuccessMessage(data.message || 'Registration successful! Please login.');
-    //   // Optionally, redirect to login or a "verify email" page
-    //   // router.push('/login');
-    // } catch (err) {
-    //   setError(err instanceof Error ? err.message : 'An unknown error occurred');
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    // --- Simulation d'appel API pour l'Enrôlement du Fondateur ---
+    console.log('Tentative d\'enrôlement Fondateur avec :', { username, email });
+    await new Promise(resolve => setTimeout(resolve, 1500)); // Simuler un délai réseau
 
-    // --- Mock Implementation ---
-    console.log('Registering with:', { username, email, password });
-    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-
-    // Simulate a successful registration or a common error
+    // Simuler un enrôlement réussi ou une erreur courante
     if (email === 'taken@example.com') {
-      setError('This email is already registered.');
+      setError('Cette Adresse de Transmission est déjà enregistrée.');
     } else {
-      setSuccessMessage('Registration successful! You can now log in.');
-      // Clear form on success (optional)
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      // Optionally redirect after a delay or let the user click a link
-      // setTimeout(() => router.push('/login'), 3000);
+      setSuccessMessage('Enrôlement en tant que Fondateur réussi ! Bienvenue à bord.');
+      // Optionnel : rediriger après un délai ou laisser l'utilisateur cliquer un lien
+      // setTimeout(() => router.push('/'), 3000); // Redirige vers la page de connexion
     }
     setIsLoading(false);
-    // --- End Mock Implementation ---
+    // --- Fin de l'implémentation simulée ---
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-xl">
-        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
-          Create Account
+    <div
+      className={styles.pageContainer}
+      style={{
+        // Définition des variables CSS passées au module CSS
+        '--kiwi-background-page': backgroundColorPage,
+        '--kiwi-text-primary': textColor,
+        '--kiwi-text-secondary': mutedTextColor,
+        '--kiwi-border-color': borderColor,
+        '--kiwi-background-section': sectionBgColor,
+        '--kiwi-highlight-color': highlightColor,
+        '--kiwi-highlight-color-light': highlightColorLight,
+        '--kiwi-input-background-color': inputBgColor,
+        '--kiwi-input-border-color': inputBorderColor,
+        '--kiwi-button-primary-bg': buttonPrimaryBg,
+        '--kiwi-button-primary-hover-bg': buttonPrimaryHoverBg,
+        '--kiwi-button-primary-text': buttonPrimaryText,
+        '--kiwi-error-background': errorBackground,
+        '--kiwi-error-text': errorText,
+        '--kiwi-error-border': errorBorder,
+        '--kiwi-error-shadow': errorShadow,
+        '--kiwi-success-background': successBackground, // Nouvelle variable succès
+        '--kiwi-success-text': successText, // Nouvelle variable succès
+        '--kiwi-success-border': successBorder, // Nouvelle variable succès
+        '--font-special-elite': "'Playfair Display', serif",
+        '--font-courier-prime': "'Georgia', serif",
+      } as React.CSSProperties}
+    >
+      <div className={styles.formWrapper}>
+        <h1 className={styles.title}>
+          Enrôlement Fighter
         </h1>
 
         {error && (
-          <div
-            className="mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
-            role="alert"
-          >
+          <div className={styles.errorBox} role="alert">
             <p>{error}</p>
           </div>
         )}
 
         {successMessage && (
-          <div
-            className="mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700"
-            role="alert"
-          >
+          <div className={styles.successBox} role="alert">
             <p>{successMessage}</p>
           </div>
         )}
 
-        {!successMessage && ( // Only show form if no success message
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Optional Username Field */}
+        {!successMessage && (
+          <form onSubmit={handleSubmit} className={styles.form}>
+            {/* Champ Nom d'Utilisateur (Optionnel) */}
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
+                className={styles.label}
               >
-                Username (Optional)
+                Nom de Code Fighter (Optionnel)
               </label>
               <input
                 id="username"
@@ -119,7 +147,7 @@ export default function RegisterPage() {
                 autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={styles.inputField}
                 disabled={isLoading}
               />
             </div>
@@ -127,9 +155,9 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className={styles.label}
               >
-                Email address
+                Camp de Base Fighter
               </label>
               <input
                 id="email"
@@ -139,7 +167,7 @@ export default function RegisterPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={styles.inputField}
                 disabled={isLoading}
               />
             </div>
@@ -147,19 +175,19 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className={styles.label}
               >
-                Password
+                Code Secret Fighter
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="new-password" // Important for password managers
+                autoComplete="new-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={styles.inputField}
                 disabled={isLoading}
               />
             </div>
@@ -167,9 +195,9 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700"
+                className={styles.label}
               >
-                Confirm Password
+                Confirmer Code Secret
               </label>
               <input
                 id="confirmPassword"
@@ -179,7 +207,7 @@ export default function RegisterPage() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                className={styles.inputField}
                 disabled={isLoading}
               />
             </div>
@@ -188,21 +216,21 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="mt-2 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400"
+                className={styles.submitButton}
               >
-                {isLoading ? 'Creating account...' : 'Register'}
+                {isLoading ? 'Enrôlement en cours...' : 'ENRÔLER EN TANT QUE KIWI-OPS FIGHTER'}
               </button>
             </div>
           </form>
         )}
 
-        <p className="mt-8 text-center text-sm text-gray-600">
-          Already have an account?{' '}
+        <p className={styles.footerText}>
+          Déjà un Fighter?{' '}
           <Link
-            href="/login"
-            className="font-medium text-indigo-600 hover:text-indigo-500"
+            href="/" // Redirige vers la page de connexion principale (qui est '/')
+            className={styles.link}
           >
-            Log in
+            Accéder au Poste de Commandement.
           </Link>
         </p>
       </div>

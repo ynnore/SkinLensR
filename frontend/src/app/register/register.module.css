@@ -1,0 +1,163 @@
+/* Fichier: src/app/register/register.module.css */
+
+.pageContainer {
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--kiwi-text-primary);
+  background-color: var(--kiwi-background-page);
+  font-family: var(--font-courier-prime);
+}
+
+.formWrapper {
+  max-width: 500px;
+  width: 100%;
+  padding: 2.5rem;
+  border: 2px solid var(--kiwi-border-color);
+  border-radius: 8px;
+  background-color: var(--kiwi-background-section);
+  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card);
+  box-sizing: border-box;
+}
+
+.title {
+  font-family: var(--font-special-elite);
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--kiwi-highlight-color);
+  text-shadow: var(--kiwi-text-shadow);
+  margin-bottom: 2rem;
+}
+
+.errorBox, .successBox {
+  border-radius: 4px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem; /* Réduit un peu l'espace pour les messages */
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 2px 2px 0px var(--kiwi-shadow-color-card-light);
+}
+
+.errorBox {
+  background-color: var(--kiwi-error-background);
+  color: var(--kiwi-error-text);
+  border: 1px solid var(--kiwi-error-border);
+  box-shadow: 2px 2px 0px var(--kiwi-error-shadow);
+}
+
+.successBox {
+  background-color: var(--kiwi-success-background); /* Nouvelle variable */
+  color: var(--kiwi-success-text); /* Nouvelle variable */
+  border: 1px solid var(--kiwi-success-border); /* Nouvelle variable */
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  margin-bottom: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  font-family: var(--font-courier-prime);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--kiwi-input-border-color);
+  border-radius: 4px;
+  background-color: var(--kiwi-input-background-color);
+  color: var(--kiwi-text-primary);
+  font-size: 1rem;
+  box-sizing: border-box;
+  font-family: var(--font-courier-prime);
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--kiwi-highlight-color);
+  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light);
+}
+
+.submitButton {
+  background-color: var(--kiwi-button-primary-bg);
+  color: var(--kiwi-button-primary-text);
+  padding: 1.2rem 2rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--kiwi-button-primary-hover-bg);
+  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.footerText {
+  margin-top: 3rem;
+  text-align: center;
+  color: var(--kiwi-text-secondary);
+  font-size: 0.95rem;
+}
+
+.link {
+  color: var(--kiwi-highlight-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: var(--kiwi-text-primary);
+  text-decoration: underline;
+}
+
+/* Media Queries pour le Responsive Design */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 1.5rem;
+  }
+
+  .formWrapper {
+    padding: 1.8rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .submitButton {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+}

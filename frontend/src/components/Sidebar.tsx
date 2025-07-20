@@ -10,17 +10,17 @@ import {
   FaFileContract, FaKey, FaFolderOpen, FaFolder, FaTimes, FaTag, FaQuestionCircle
 } from 'react-icons/fa';
 
-import { useOnClickOutside } from '@/hooks/useOnClickOutside'; // Assurez-vous que ce chemin est correct
-import styles from './Sidebar.module.css'; // Assurez-vous que ce chemin est correct
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import styles from './Sidebar.module.css'; // Contient le .dropdown global s'il est là
 
-import { LanguageCode } from '@/types'; // Assurez-vous que ce chemin est correct
-import { useLanguage } from '@/contexts/LanguageContext'; // Assurez-vous que ce chemin est correct
-import { useTheme } from '../context/ThemeContext'; // Assurez-vous que ce chemin est correct
-import LanguageSelector from './LanguageSelector'; // Assurez-vous que ce chemin est correct
-import UserDropdown from './UserDropdown'; // Assurez-vous que ce chemin est correct
+import { LanguageCode } from '@/types';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '../context/ThemeContext';
+import LanguageSelector from './LanguageSelector';
+import UserDropdown from './UserDropdown';
 
-// --- Translations déplacées en dehors du composant pour une meilleure performance et clarté ---
-const allTranslations = { // Renommé 'translations' en 'allTranslations' pour éviter les conflits si déjà un 'translations' global
+// Translations (gardées pour la fonction getTranslation)
+const allTranslations = {
   header: {
     beta: { en: 'Beta', fr: 'Bêta', mi: 'Pēta', ga: 'Béite', hi: 'बीटा', gd: 'Beta (Gàidhlig)', 'en-AU': 'Beta', 'en-NZ': 'Beta', 'en-CA': 'Beta', 'fr-CA': 'Bêta', 'en-ZA': 'Beta', af: 'Beta' }
   },
@@ -34,7 +34,7 @@ const allTranslations = { // Renommé 'translations' en 'allTranslations' pour �
     settings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhitinga', ga: 'Socruithe', hi: 'से팅्स', gd: 'Settings (Gàidhlig)', 'en-AU': 'Settings', 'en-NZ': 'Settings', 'en-CA': 'Settings', 'fr-CA': 'Paramètres', 'en-ZA': 'Settings', af: 'Instellings' },
     terms: { en: 'Terms', fr: 'Conditions', mi: 'Ture', ga: 'Téarmaí', hi: 'शर्तें', gd: 'Terms (Gàidhlig)', 'en-AU': 'Terms', 'en-NZ': 'Terms', 'en-CA': 'Terms', 'fr-CA': 'Conditions', 'en-ZA': 'Terms', af: 'Terme' },
     privacy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Tūmataitinga', ga: 'Polasaí Príobhaideachta', hi: 'गोपनीयता नीति', gd: 'Privacy Policy (Gàidhlig)', 'en-AU': 'Privacy Policy', 'en-NZ': 'Privacy Policy', 'en-CA': 'Privacy Policy', 'fr-CA': 'Politique de confidentialité', 'en-ZA': 'Privacy Policy', af: 'Privaatheidsbeleid' },
-    help: { en: 'Help', fr: 'Aide', mi: 'Āwhina', ga: 'Cabhair', hi: 'मदद', gd: 'Cobhair', 'en-AU': 'Help', 'en-NZ': 'Help', 'en-CA': 'Help', 'fr-CA': 'Aide', 'en-ZA': 'Help', af: 'Hulp' }
+    help: { en: 'Help', fr: 'Aide', mi: 'Āwhina', ga: 'Cabhair', hi: 'मदad', gd: 'Cobhair', 'en-AU': 'Help', 'en-NZ': 'Help', 'en-CA': 'Help', 'fr-CA': 'Aide', 'en-ZA': 'Help', af: 'Hulp' }
   },
   userMenu: {
     profile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifil', 'en-AU': 'Profile', 'en-NZ': 'Profile', 'en-CA': 'Profile', 'fr-CA': 'Profil', 'en-ZA': 'Profile', af: 'Profiel' },
@@ -43,11 +43,11 @@ const allTranslations = { // Renommé 'translations' en 'allTranslations' pour �
   }
 };
 
-// --- Fonction de traduction générique (utilisant allTranslations) ---
+// Fonction de traduction générique
 const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
   section: S,
   key: K,
-  lang: LanguageCode // Passer la langue explicitement ici
+  lang: LanguageCode
 ): string => {
   const sectionTranslations = allTranslations[section];
   if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
@@ -73,7 +73,6 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   useOnClickOutside(menuRef, () => setMenuOpen(false));
 
   const navLinks = [
-    // RAPPEL : '/' est la page de connexion, '/scan' est la page du chat
     { id: 'scan', href: '/scan', label: getTranslation('sidebar', 'scan', language), icon: FaFire },
     { id: 'dashboard', href: '/dashboard', label: getTranslation('sidebar', 'dashboard', language), icon: FaCompass },
     { id: 'files', href: '/files', label: getTranslation('sidebar', 'files', language), icon: FaFolderOpen },
@@ -90,7 +89,6 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   ];
 
   return (
-    // Les couleurs et transitions doivent être gérées par Sidebar.module.css et globals.css
     <aside className={`${styles.sidebar} ${!isOpen ? styles.closed : ''}`}>
       {/* Bouton de fermeture sur mobile */}
       <button onClick={toggleSidebar} className={styles.mobileCloseButton} aria-label="Fermer la barre latérale">
@@ -100,12 +98,12 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
       <div className={styles.header}>
         <div className={styles.logoAndToggleButtonWrapper}>
           <div ref={menuRef} className={styles.logoContainer}>
-            {/* Bouton qui ouvre le dropdown */}
+            {/* Bouton qui ouvre le dropdown (qui est UserDropdown.tsx) */}
             <button onClick={toggleMenu} className={styles.logoButton} aria-label="Ouvrir le menu utilisateur">
               <div className={styles.logo}>o</div>
             </button>
 
-            {/* ✅ Nouveau menu utilisateur */}
+            {/* ✅ Rend UserDropdown et lui passe une classe pour le styliser si nécessaire */}
             {isMenuOpen && (
               <UserDropdown
                 onClose={() => setMenuOpen(false)}
@@ -122,10 +120,13 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
           </button>
 
           {/* Sélecteur de langue */}
+          {/* La LanguageSelector utilise un dropdown interne, cette classe s'applique à lui */}
           <LanguageSelector
             currentLanguage={language}
             onSelectLanguage={setLanguage}
-            isSidebarOpen={isOpen}
+            isSidebarOpen={isOpen} // Utile pour le responsive
+            // Ajoutez une classe spécifique si vous voulez la styliser comme un dropdown
+            // Par exemple, en lui passant propClassName={styles.dropdown}
           />
 
           {/* Ouvrir/fermer la sidebar */}
@@ -140,7 +141,6 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         <ul>
           {navLinks.map(({ id, href, label, icon: Icon }) => (
             <li key={id}>
-              {/* Le lien "Scan" sera actif si pathname est '/scan' */}
               <Link href={href} className={`${styles.navLink} ${ pathname === href ? styles.active : ''}`}>
                 <Icon className={styles.navIcon} />
                 <span className={styles.navLabel}>{label}</span>
