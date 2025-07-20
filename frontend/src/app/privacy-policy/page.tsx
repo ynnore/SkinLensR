@@ -1,3 +1,4 @@
+      
 'use client'; // Indique que ce composant est un Client Component (nécessaire pour les hooks comme useTheme)
 
 import { useTheme } from '../../context/ThemeContext'; // Importez le hook useTheme
@@ -10,11 +11,11 @@ export default function PrivacyPolicyPage() {
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFF8E1'; // Fond de page légèrement crème
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#f9fafb';
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
 
-  const lastUpdatedDate = "25 juillet 2024";
+  const lastUpdatedDate = "15 juillet 2025";
 
   return (
     // Le style sur le div parent injecte les variables CSS pour le thème
@@ -209,3 +210,6 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
+    
+

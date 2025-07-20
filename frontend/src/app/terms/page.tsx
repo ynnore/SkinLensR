@@ -10,7 +10,8 @@ export default function TermsPage() {
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFF8E1'; // Fond de page légèrement crème
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#f9fafb';
+ // Fond de page légèrement crème
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
 
