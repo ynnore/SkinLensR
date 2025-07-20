@@ -151,11 +151,11 @@ export default function HelpCenterPage() {
           </li>
           <li style={{ marginBottom: '0.5rem' }}>
             <strong style={{ color: highlightColor }}>Problèmes Techniques :</strong>{" "}
-            <a href="mailto:tech.support@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontWeight: 'bold' }}>tech.support@kiwi-ops.com</a>
+            <a href="mailto:tech.support@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontWeight: 'bold' }}>ops@kiwi-ops.com</a>
           </li>
           <li style={{ marginBottom: '0.5rem' }}>
             <strong style={{ color: highlightColor }}>Affaires d'Accréditation :</strong>{" "}
-            <a href="mailto:account@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontWeight: 'bold' }}>account@kiwi-ops.com</a>
+            <a href="mailto:account@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontWeight: 'bold' }}>accounts@kiwi-ops.com</a>
           </li>
         </ul>
         <p style={{ marginTop: '2rem', color: mutedTextColor, fontSize: '0.9rem', fontStyle: 'italic' }}>

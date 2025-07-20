@@ -289,12 +289,12 @@ export default function ArchivesPage() {
           Protocole de Consultation des Archives
         </h2>
         <p style={{ color: mutedTextColor, marginBottom: '1rem' }}>
-          Toute tentative d'accès non autorisé est détectée et signalée. Les registres sont sous surveillance permanente du Commandement.
+          Toute tentative d'accès non autorisée est détectée et signalée. Les registres sont sous surveillance permanente du Commandement.
         </p>
         <p style={{ color: mutedTextColor, marginBottom: '1.5rem' }}>
           Pour soumettre un nouveau rapport ou une requête d'accès spécial, contactez le Service des Opérations d'Archivage.
         </p>
-        <a href="mailto:archives@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontSize: '1rem', display: 'block', fontWeight: 'bold' }}>
+        <a href="mailto:archive@kiwi-ops.com" style={{ color: highlightColor, textDecoration: 'none', fontSize: '1rem', display: 'block', fontWeight: 'bold' }}>
           archives@kiwi-ops.com
         </a>
       </section>

@@ -266,7 +266,7 @@ export default function PaymentPage() {
           Pour toute anomalie ou question relative à votre accréditation financière, contactez sans délai le Service des Affaires Monétaires.
         </p>
         <a href="mailto:finance@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none', fontSize: '1rem', display: 'block', fontWeight: 'bold' }}>
-          finance@ki-ops.com
+          billing@kiwi-ops.com
         </a>
       </section>
 
