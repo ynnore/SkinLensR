@@ -1,4 +1,3 @@
-// Fichier : src/components/Sidebar.tsx
 'use client';
 
 import React, { useState, useCallback, useRef } from 'react';
@@ -7,7 +6,7 @@ import { usePathname } from 'next/navigation';
 
 import {
   FaSun, FaMoon, FaFire, FaCompass, FaFileAlt, FaLink, FaCoins, FaCog,
-  FaFileContract, FaKey, FaUserCircle, FaSignOutAlt, FaFolderOpen, FaFolder, FaTimes
+  FaFileContract, FaKey, FaFolderOpen, FaFolder, FaTimes
 } from 'react-icons/fa';
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
@@ -16,7 +15,8 @@ import styles from './Sidebar.module.css';
 import { LanguageCode } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
-import LanguageSelector from './LanguageSelector'; // Import du composant LanguageSelector
+import LanguageSelector from './LanguageSelector'; 
+import UserDropdown from './UserDropdown';  // ✅ NOUVEAU IMPORT
 
 const translations = {
   header: {
@@ -38,7 +38,6 @@ const translations = {
     logout: { en: 'Logout', fr: 'Déconnexion', mi: 'Takiputa', ga: 'Logáil Amach', hi: 'लॉग आउट', gd: 'Log a-mach', 'en-AU': 'Logout', 'en-NZ': 'Logout', 'en-CA': 'Logout', 'fr-CA': 'Déconnexion', 'en-ZA': 'Logout', af: 'Teken uit' }
   }
 };
-
 
 interface SidebarProps {
   isOpen: boolean;
@@ -82,6 +81,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
 
   return (
     <aside className={`${styles.sidebar} ${!isOpen ? styles.closed : ''}`}>
+      {/* Bouton de fermeture sur mobile */}
       <button onClick={toggleSidebar} className={styles.mobileCloseButton} aria-label="Fermer la barre latérale">
         <FaTimes />
       </button>
@@ -89,50 +89,42 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
       <div className={styles.header}>
         <div className={styles.logoAndToggleButtonWrapper}>
           <div ref={menuRef} className={styles.logoContainer}>
+            {/* Bouton qui ouvre le dropdown */}
             <button onClick={toggleMenu} className={styles.logoButton} aria-label="Ouvrir le menu utilisateur">
               <div className={styles.logo}>o</div>
             </button>
+
+            {/* ✅ Nouveau menu utilisateur */}
             {isMenuOpen && (
-              <div className={styles.userMenu}>
-                <ul>
-                  <li>
-                    <Link href="/profile" className={styles.userMenuItem} onClick={() => setMenuOpen(false)}>
-                      <FaUserCircle /><span>{getTranslation('userMenu', 'profile')}</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/settings" className={styles.userMenuItem} onClick={() => setMenuOpen(false)}>
-                      <FaCog /><span>{getTranslation('userMenu', 'accountSettings')}</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <button className={styles.userMenuItem}>
-                      <FaSignOutAlt /><span>{getTranslation('userMenu', 'logout')}</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
+              <UserDropdown
+                onClose={() => setMenuOpen(false)}
+                userEmail="agent.kiwiops@hq.com"
+              />
             )}
           </div>
         </div>
 
         <div className={styles.headerControls}>
+          {/* Changer le thème */}
           <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Changer de thème">
             {theme === 'dark' ? <FaSun suppressHydrationWarning /> : <FaMoon suppressHydrationWarning />}
           </button>
 
+          {/* Sélecteur de langue */}
           <LanguageSelector
             currentLanguage={language}
             onSelectLanguage={setLanguage}
             isSidebarOpen={isOpen}
           />
 
+          {/* Ouvrir/fermer la sidebar */}
           <button onClick={toggleSidebar} className={styles.headerToggleButton} aria-label="Basculer la barre latérale">
             {isOpen ? <FaFolder /> : <FaFolderOpen />}
           </button>
         </div>
       </div>
 
+      {/* Navigation principale */}
       <nav className={styles.nav}>
         <ul>
           {navLinks.map(({ id, href, label, icon: Icon }) => (
@@ -146,6 +138,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         </ul>
       </nav>
 
+      {/* Liens bas de sidebar */}
       <div className={styles.footer}>
         <ul>
           {footerLinks.map(({ id, href, label, icon: Icon }) => (

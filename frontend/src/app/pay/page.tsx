@@ -19,18 +19,22 @@ export default function PaymentPage() {
   const [message, setMessage] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // Backgrounds: MODIFIÉ ICI POUR LE FOND PRINCIPAL ET LES SECTIONS
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#f9fafb'; // <--- FOND DE PAGE PRINCIPAL
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#FFFFFF'; // <--- FOND DES CARTES/FORMULAIRES (BLANC PUR)
+
+  // Autres couleurs dérivées pour l'ombre des boutons, inputs, etc.
+  // Ces couleurs sont réutilisées dans le style inline ci-dessous.
+  const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(150,150,150,0.3)';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+  const shadowColorButton = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+  const inputBgColor = theme === 'dark' ? '#1F1F2A' : '#FFFFFF';
+
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsProcessing(true);
     setMessage('');
-
-    // --- ICI EST LE POINT D'INTÉGRATION FUTUR ---
-    // C'est ici que vous intégrerez votre logique de paiement réel.
-    // Par exemple, en envoyant ces données (après une tokenisation sécurisée)
-    // à votre backend, qui à son tour interagirait avec Stripe, une API bancaire,
-    // ou un service de paiement sur GCP.
-    // NE JAMAIS ENVOYER DES NUMÉROS DE CARTE BRUTS DIRECTEMENT DU FRONTEND AU BACKEND OU À UNE API TIERS.
-    // Utilisez toujours une solution de tokenisation fournie par le prestataire de paiement (comme Stripe.js ou équivalent).
 
     console.log("Nom du Porteur:", nomPorteur);
     console.log("Numéro de Carte:", numeroCarte);
@@ -58,7 +62,7 @@ export default function PaymentPage() {
       fontSize: '1rem',
       color: textColor,
       fontFamily: "'Georgia', serif", // Utilisation d'une police serif par défaut pour le corps
-      backgroundColor: theme === 'dark' ? '#1A1A2E' : '#FFF8E1', // Un fond légèrement crème pour l'ambiance affiche ancienne
+      backgroundColor: backgroundColorPage, // Applique le nouveau fond de page
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -74,7 +78,7 @@ export default function PaymentPage() {
         textTransform: 'uppercase',
         letterSpacing: '2px',
         color: textColor,
-        textShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(150,150,150,0.3)'}` // Effet d'ombre pour le texte du titre
+        textShadow: `2px 2px 0px ${textShadowColor}` // Utilise la nouvelle couleur d'ombre
       }}>
         Bureau Central<br />Kiwi-Ops
       </h1>
@@ -87,8 +91,8 @@ export default function PaymentPage() {
         border: `2px solid ${borderColor}`, // Bordure plus prononcée
         padding: '2.5rem',
         borderRadius: '5px',
-        boxShadow: `5px 5px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)'}`, // Ombre portée pour l'effet affiche
-        background: theme === 'dark' ? '#2A2A3A' : '#F5F0E1', // Fond plus "papier ancien" en mode clair
+        boxShadow: `5px 5px 0px ${shadowColorCard}`, // Utilise la nouvelle couleur d'ombre
+        background: sectionBgColor, // Applique le nouveau fond de section
         color: textColor,
         width: '100%', // Prend toute la largeur disponible dans le maxWidth parent
         boxSizing: 'border-box' // Inclut padding et border dans la largeur
@@ -126,7 +130,7 @@ export default function PaymentPage() {
               padding: '12px',
               border: `1px solid ${borderColor}`,
               borderRadius: '4px',
-              backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+              backgroundColor: inputBgColor, // Utilise la nouvelle couleur d'input
               color: textColor,
               fontSize: '1rem',
               boxSizing: 'border-box'
@@ -151,7 +155,7 @@ export default function PaymentPage() {
               padding: '12px',
               border: `1px solid ${borderColor}`,
               borderRadius: '4px',
-              backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+              backgroundColor: inputBgColor, // Utilise la nouvelle couleur d'input
               color: textColor,
               fontSize: '1rem',
               boxSizing: 'border-box'
@@ -177,7 +181,7 @@ export default function PaymentPage() {
                 padding: '12px',
                 border: `1px solid ${borderColor}`,
                 borderRadius: '4px',
-                backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+                backgroundColor: inputBgColor, // Utilise la nouvelle couleur d'input
                 color: textColor,
                 fontSize: '1rem',
                 boxSizing: 'border-box'
@@ -200,7 +204,7 @@ export default function PaymentPage() {
                 padding: '12px',
                 border: `1px solid ${borderColor}`,
                 borderRadius: '4px',
-                backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+                backgroundColor: inputBgColor, // Utilise la nouvelle couleur d'input
                 color: textColor,
                 fontSize: '1rem',
                 boxSizing: 'border-box'
@@ -225,7 +229,7 @@ export default function PaymentPage() {
             width: '100%',
             fontWeight: 'bold',
             textTransform: 'uppercase',
-            boxShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)'}`, // Ombre pour le bouton
+            boxShadow: `2px 2px 0px ${shadowColorButton}`, // Utilise la nouvelle couleur d'ombre
           }}
         >
           {isProcessing ? "Traitement de l'Accréditation..." : "Valider le Dossier"}
@@ -262,7 +266,7 @@ export default function PaymentPage() {
           Pour toute anomalie ou question relative à votre accréditation financière, contactez sans délai le Service des Affaires Monétaires.
         </p>
         <a href="mailto:finance@kiwi-ops.com" style={{ color: linkColor, textDecoration: 'none', fontSize: '1rem', display: 'block', fontWeight: 'bold' }}>
-          finance@kiwi-ops.com
+          finance@ki-ops.com
         </a>
       </section>
 

@@ -18,12 +18,28 @@ export default function ArchivesPage() {
   const { theme } = useTheme();
 
   // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
-  const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
-  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
-  const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColor = theme === 'dark' ? '#1A1A2E' : '#FFF8E1'; // Fond légèrement crème pour l'ambiance affiche ancienne
-  const cardBackgroundColor = theme === 'dark' ? '#2A2A3A' : '#F5F0E1'; // Fond des cartes/panneaux
-  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent pour les liens/icônes
+  const textColor = theme === 'dark' ? '#E0E0E0' : '#111827'; // Basé sur clr-light-text-primary
+  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280'; // Basé sur clr-light-text-secondary
+  const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb'; // Basé sur clr-light-border
+  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent
+
+  // Backgrounds: MODIFIÉ ICI
+  const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#f9fafb'; // Fond de page: dark ou #f9fafb
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#FFFFFF'; // Fond des sections/cartes: dark ou BLANC PUR
+
+  // Autres couleurs dérivées (ombres, boutons, inputs, erreurs)
+  const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.1)';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)';
+  const shadowColorCardLight = theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)';
+  const shadowColorButton = theme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.1)';
+
+  const inputBgColor = theme === 'dark' ? '#1F1F2A' : '#FFFFFF'; // Couleur de fond des inputs
+  const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white'; // Texte des boutons
+
+  const errorBackground = theme === 'dark' ? '#5C2D2D' : '#FFDADA'; // Fond d'alerte erreur
+  const errorText = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Texte d'alerte erreur
+  const errorShadow = theme === 'dark' ? 'rgba(204,0,0,0.4)' : 'rgba(255,0,0,0.2)'; // Ombre d'alerte erreur
+
 
   // État pour simuler les données d'archives (viendraient du backend)
   const [archives, setArchives] = useState<ArchiveDocument[]>([]);
@@ -101,12 +117,30 @@ export default function ArchivesPage() {
       fontSize: '1rem',
       color: textColor,
       fontFamily: "'Arial', sans-serif", // Pour une lisibilité moderne, mais adaptable
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColorPage, // Applique la nouvelle couleur de fond de page
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-    }}>
+      // Définition des variables CSS pour cette page
+      '--kiwi-background-page': backgroundColorPage,
+      '--kiwi-text-primary': textColor,
+      '--kiwi-text-secondary': mutedTextColor,
+      '--kiwi-border-color': borderColor,
+      '--kiwi-background-section': sectionBgColor, // Applique la nouvelle couleur de fond de section
+      '--kiwi-highlight-color': highlightColor,
+      '--kiwi-text-shadow': `2px 2px 0px ${textShadowColor}`,
+      '--kiwi-shadow-color-card': shadowColorCard,
+      '--kiwi-shadow-color-card-light': shadowColorCardLight,
+      '--kiwi-shadow-color-button': shadowColorButton,
+      '--kiwi-input-background-color': inputBgColor,
+      '--kiwi-button-primary-text': buttonPrimaryText,
+      '--kiwi-error-background': errorBackground,
+      '--kiwi-error-text': errorText,
+      '--kiwi-error-shadow': errorShadow,
+      '--font-special-elite': "'Playfair Display', serif",
+      '--font-courier-prime': "'Georgia', serif",
+    } as React.CSSProperties}>
       <h1 style={{
         marginBottom: '1rem',
         fontSize: '3.5rem',
@@ -116,7 +150,7 @@ export default function ArchivesPage() {
         textTransform: 'uppercase',
         letterSpacing: '2px',
         color: textColor,
-        textShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(150,150,150,0.3)'}`
+        textShadow: `2px 2px 0px ${textShadowColor}`
       }}>
         Dossiers Classifiés<br />— Archives du Commandement —
       </h1>
@@ -130,12 +164,12 @@ export default function ArchivesPage() {
         border: `1px dashed ${borderColor}`,
         padding: '1.5rem',
         borderRadius: '5px',
-        background: theme === 'dark' ? '#3A2A2A' : '#FFEBEB', // Un fond un peu plus marqué pour l'alerte
-        color: theme === 'dark' ? '#FFCACA' : '#CC0000', // Texte rougeâtre pour l'avertissement
+        background: errorBackground, // Utilise le fond d'alerte erreur
+        color: errorText, // Utilise la couleur de texte d'alerte erreur
         textAlign: 'center',
-        boxShadow: `3px 3px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`
+        boxShadow: `3px 3px 0px ${errorShadow}`
       }}>
-        <h2 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: theme === 'dark' ? '#FFCACA' : '#CC0000' }}>
+        <h2 style={{ fontSize: '1.6rem', marginBottom: '0.8rem', color: errorText }}>
           Alerte Système : Accès aux Archives
         </h2>
         <p style={{ fontStyle: 'italic', fontSize: '1rem' }}>
@@ -148,11 +182,11 @@ export default function ArchivesPage() {
       {/* Section des Archives */}
       <section style={{
         width: '100%',
-        backgroundColor: cardBackgroundColor,
+        backgroundColor: sectionBgColor, // Applique la nouvelle couleur de fond de section (blanc pur)
         border: `2px solid ${borderColor}`,
         borderRadius: '5px',
         padding: '2rem',
-        boxShadow: `5px 5px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)'}`,
+        boxShadow: `5px 5px 0px ${shadowColorCard}`,
         color: textColor
       }}>
         <h2 style={{
@@ -186,8 +220,8 @@ export default function ArchivesPage() {
                 border: `1px solid ${borderColor}`,
                 borderRadius: '4px',
                 padding: '1rem 1.5rem',
-                backgroundColor: theme === 'dark' ? '#3A3A4A' : '#FFFFFF',
-                boxShadow: `2px 2px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`,
+                backgroundColor: inputBgColor, // Utilise la couleur de fond des inputs
+                boxShadow: `2px 2px 0px ${shadowColorCardLight}`,
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.5rem'
@@ -218,7 +252,7 @@ export default function ArchivesPage() {
                   onClick={() => alert(`Accès au dossier ${doc.id}. Implémentation du protocole d'extraction en cours...`)}
                   style={{
                     backgroundColor: highlightColor,
-                    color: '#fff',
+                    color: buttonPrimaryText,
                     padding: '8px 15px',
                     borderRadius: '4px',
                     border: 'none',
@@ -226,7 +260,7 @@ export default function ArchivesPage() {
                     cursor: 'pointer',
                     marginTop: '1rem',
                     alignSelf: 'flex-end', // Align the button to the right
-                    boxShadow: `1px 1px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.15)'}`
+                    boxShadow: `1px 1px 0px ${shadowColorButton}`
                   }}
                 >
                   Accéder au Document
@@ -239,7 +273,7 @@ export default function ArchivesPage() {
 
       <section style={{
         marginTop: '4rem',
-        borderTop: `2px dashed ${borderColor}`,
+        borderTop: `2px dashed ${borderColor}`, // Ligne de séparation style affiche
         paddingTop: '2.5rem',
         textAlign: 'center',
         color: textColor,
