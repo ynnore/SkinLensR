@@ -82,5 +82,26 @@
     "watch": "Watch",
     "intro": "Getting started with Operation W",
     "inputBar": "Type here to give a task to A.L.A.N"
+  },
+  "helpPage": {
+    "title": "ASSISTANCE PROTOCOL — KIWI-OPS HELP CENTER —",
+    "description": "Access documentation, FAQs, and support channels for all operational requests.",
+    "faqTitle": "Frequently Asked Questions (FAQ)",
+    "faqIntro": "Find answers to the most common questions from our agents.",
+    "faq1Q": "How can I change my secret code?",
+    "faq1A": "Go to 'Headquarters Settings' (gear icon in the sidebar), then navigate to 'Security Protocols'. You can initiate the change there.",
+    "faq2Q": "Where can I find archived mission reports?",
+    "faq2A": "Reports are accessible via the 'Classified Files' section (folder icon in the sidebar). Use filters to refine by category or date.",
+    "faq3Q": "Can I contribute new intelligence?",
+    "faq3A": "Yes, intelligence contributions are encouraged. Submission protocol is detailed in the 'Intelligence Operations' section (coming soon).",
+    "faqSeeAll": "View all FAQs",
+    "contactTitle": "Contact HQ Support",
+    "contactIntro": "If you didn't find an answer to your request, our team is ready to assist you.",
+    "contactInstruction": "For fast assistance, please contact us via the secure channels below:",
+    "contactGeneral": "General Requests",
+    "contactTechnical": "Technical Issues",
+    "contactAccreditation": "Accreditation Matters",
+    "contactConfidentiality": "\"All communications are handled with the utmost discretion and confidentiality.\"",
+    "footer": "© {{year}} Kiwi-Ops – Assistance Protocol Active."
   }
 }

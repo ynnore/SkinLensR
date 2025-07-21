@@ -1,18 +1,107 @@
 {
-  "sidebar": {
-    "scan": "Scanner",
-    "dashboard": "Tableau de bord",
-    "files": "Fichiers",
-    "connections": "Connexions",
-    "pay": "Payer",
-    "settings": "Paramètres",
-    "terms": "Conditions",
-    "privacy_policy": "Politique de confidentialité"
-  },
   "header": {
+    "missionStatement": "Inspirés par les Tunnelers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, émergera à la surface.",
     "beta": "Bêta"
   },
+  "sidebar": {
+    "scan": "Poste d’Écoute",
+    "dashboard": "Quartier Général",
+    "files": "Archives",
+    "connections": "Réseau d’Alliance",
+    "pay": "Intendance",
+    "settings": "Paramètres",
+    "terms": "Ordonnances",
+    "privacy_policy": "Politique de Confidentialité"
+  },
+  "userMenu": {
+    "profile": "Dossier Agent",
+    "accountSettings": "Paramètres du Compte",
+    "logout": "Demander une Permission"
+  },
   "chat": {
-    "placeholder": "Écrivez votre message..."
+    "welcomeMessage": "Bonjour ! Je suis A.L.A.N (clin d’œil à Alan Turing). Comment puis-je vous aider aujourd’hui ?",
+    "thinking": "L’Agent B réfléchit...",
+    "placeholder": "Rédigez votre dépêche..."
+  },
+  "loginPage": {
+    "title": "Accéder au Poste de Commandement",
+    "emailLabel": "Adresse de Transmission",
+    "passwordLabel": "Code Secret",
+    "submitButton": "Transmettre",
+    "socialSeparator": "OU",
+    "googleButton": "Continuer avec Google",
+    "githubButton": "Continuer avec GitHub",
+    "signupPrompt": "Pas encore enrôlé ?",
+    "signupLink": "Inscrivez-vous au bureau."
+  },
+  "signupPage": {
+    "title": "Bureau d’Enregistrement",
+    "preamble": "Les agents souhaitant participer aux opérations sont priés de remplir le formulaire ci-dessous. La discrétion est primordiale.",
+    "nameLabel": "NOM DE CODE",
+    "emailLabel": "ADRESSE DE TRANSMISSION (E-mail)",
+    "passwordLabel": "CODE SECRET (Mot de passe)",
+    "submitButton": "CONFIRMER L’ENRÔLEMENT",
+    "loadingButton": "Enregistrement...",
+    "socialGoogle": "S’ENRÔLER AVEC GOOGLE",
+    "socialGithub": "S’ENRÔLER AVEC GITHUB",
+    "loginPrompt": "Vous avez déjà un numéro de service ?",
+    "loginLink": "Accéder au Poste de Commandement."
+  },
+  "profilePage": {
+    "title": "Dossier Agent",
+    "labelName": "NOM DE CODE",
+    "labelMatricule": "NUMÉRO DE SERVICE",
+    "labelAccreditation": "NIVEAU D’ACCREDITATION",
+    "accreditationAgent": "Agent de Terrain",
+    "accreditationOfficer": "Officier du Renseignement",
+    "accreditationCommander": "Commandant",
+    "commanderAccessMessage": "Accès commandement actif. Vous disposez des autorisations maximales."
+  },
+  "logoutPage": {
+    "title": "Demande de Permission",
+    "preamble": "Agent, votre demande de permission a été enregistrée. Confirmez votre départ de votre poste. Votre accès sera suspendu jusqu’à votre retour.",
+    "labelMatricule": "NUMÉRO DE SERVICE :",
+    "labelName": "NOM DE CODE :",
+    "labelPoste": "POSTE ACTUEL :",
+    "buttonCancel": "ANNULER ET REPRENDRE LE SERVICE",
+    "buttonConfirm": "CONFIRMER LA DEMANDE ET QUITTER LE POSTE",
+    "footer": "La discrétion est requise, même en permission."
+  },
+  "connectionsPage": {
+    "title": "Réseau d’Alliance",
+    "subtitle": "Visualisation du statut du réseau d’agents IA. Connexions actives et flux de données entre nations affichés ici.",
+    "statusActive": "Connexion Active",
+    "statusInactive": "Lien Non Établi"
+  },
+  "settingsPage": {
+    "mainTitle": "Paramètres",
+    "mainSubtitle": "Configurez votre compte et les paramètres de l’application ici."
+  },
+  "welcome": {
+    "headline": "Opération W",
+    "watch": "Observer",
+    "intro": "Bien démarrer avec l’Opération W",
+    "inputBar": "Tapez ici pour donner une tâche à A.L.A.N"
+  },
+  "helpPage": {
+    "title": "PROTOCOLE D’ASSISTANCE — CENTRE D’AIDE KIWI-OPS —",
+    "description": "Accédez à la documentation, aux FAQ et aux canaux de support pour toutes vos requêtes opérationnelles.",
+    "faqTitle": "Questions Fréquentes (FAQ)",
+    "faqIntro": "Consultez les réponses aux interrogations les plus courantes de nos agents.",
+    "faq1Q": "Comment modifier mon code secret ?",
+    "faq1A": "Rendez-vous dans les \"Paramètres du QG\" (icône engrenage dans le menu latéral), puis naviguez vers la section \"Protocoles de Sécurité\". Vous pourrez y initier le changement.",
+    "faq2Q": "Où trouver les rapports de mission archivés ?",
+    "faq2A": "Les rapports sont accessibles via la section \"Dossiers Classifiés\" (icône dossier dans le menu latéral). Utilisez les filtres pour affiner votre recherche par catégorie ou date.",
+    "faq3Q": "Puis-je contribuer de nouveaux renseignements ?",
+    "faq3A": "Oui, la contribution de renseignements est encouragée. Le protocole de soumission est détaillé dans la section \"Opérations de Renseignement\" du manuel d’agent (disponible prochainement).",
+    "faqSeeAll": "Voir toutes les FAQ",
+    "contactTitle": "Contacter le Support du QG",
+    "contactIntro": "Si vous n’avez pas trouvé de réponse à votre requête, notre équipe est prête à vous assister.",
+    "contactInstruction": "Pour une assistance rapide, veuillez nous contacter via les canaux sécurisés ci-dessous :",
+    "contactGeneral": "Requêtes Générales",
+    "contactTechnical": "Problèmes Techniques",
+    "contactAccreditation": "Affaires d’Accréditation",
+    "contactConfidentiality": "\"Toute communication est traitée avec la plus haute discrétion et confidentialité.\"",
+    "footer": "© {{year}} Kiwi-Ops – Protocole d’Assistance Actif."
   }
 }

@@ -15,10 +15,12 @@
   },
   "userMenu": {
     "profile": "Agent Lêer",
-    "accountSettings": "Rekeninginstellingen",
+    "accountSettings": "Rekeninginstellings",
     "logout": "Verlofversoek"
   },
   "chat": {
+    "welcomeMessage": "Hallo! Ek is Agent M.D. Hoe kan ek jou vandag help?",
+    "thinking": "Agent M.D. dink...",
     "placeholder": "Tik jou boodskap..."
   },
   "loginPage": {
@@ -34,7 +36,7 @@
   },
   "signupPage": {
     "title": "Inskrywingsburo",
-    "preamble": "Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm in te vul. Disresie is van kardinale belang.",
+    "preamble": "Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm in te vul. Diskresie is van kardinale belang.",
     "nameLabel": "KODENAAM",
     "emailLabel": "TRANSMISSIE ADRES (E-pos)",
     "passwordLabel": "GEHEIME KODE (Wagwoord)",
@@ -63,7 +65,7 @@
     "labelPoste": "HUIDIGE POS:",
     "buttonCancel": "KANSELLEER EN HERVAT DIENS",
     "buttonConfirm": "BEVESTIG VERSOEK EN VERLAAT POS",
-    "footer": "Disresie word vereis, selfs met verlof."
+    "footer": "Diskresie word vereis, selfs met verlof."
   },
   "connectionsPage": {
     "title": "Alliansie Netwerk",
@@ -79,6 +81,27 @@
     "headline": "Operasie W",
     "watch": "Kyk",
     "intro": "Begin met Operasie W",
-    "inputBar": "Tik hier om Agent M.D 'n taak te gee"
+    "inputBar": "Tik hier om Agent M.D. 'n taak te gee"
+  },
+  "helpPage": {
+    "title": "Hulpsentrum — KIWI-OPS Hulp Protokol —",
+    "description": "Toegang tot dokumentasie, FAQ’s en ondersteuningskanale vir al jou operasionele navrae.",
+    "faqTitle": "Gereelde Vrae (FAQ)",
+    "faqIntro": "Kry antwoorde op die mees algemene vrae van ons agente.",
+    "faq1Q": "Hoe verander ek my geheime kode?",
+    "faq1A": "Gaan na die 'Hoofkwartier Instellings' (rat-ikoon in die sybalk), en navigeer na 'Sekuriteitsprotokolle'. Daar kan jy jou geheime kode verander.",
+    "faq2Q": "Waar kry ek die argiewe van sendingverslae?",
+    "faq2A": "Die verslae is beskikbaar in die 'Geklassifiseerde Lêers' afdeling (lêer-ikoon in die sybalk). Gebruik die filters om jou soektog te verfyn volgens kategorie of datum.",
+    "faq3Q": "Kan ek nuwe inligting bydra?",
+    "faq3A": "Ja, die bydrae van nuwe inligting word aangemoedig. Die indieningsproses word uiteengesit in die 'Intelligensie Operasies'-handboek (binnekort beskikbaar).",
+    "faqSeeAll": "Sien alle FAQ’s",
+    "contactTitle": "Kontak die Hoofkwartier Ondersteuning",
+    "contactIntro": "As jy nie jou antwoord gekry het nie, is ons span gereed om jou te help.",
+    "contactInstruction": "Vir vinnige hulp, kontak ons via die beveiligde kanale hieronder:",
+    "contactGeneral": "Algemene navrae",
+    "contactTechnical": "Tegniese probleme",
+    "contactAccreditation": "Akkreditasiesake",
+    "contactConfidentiality": "\"Alle kommunikasie word met die hoogste diskresie en vertroulikheid hanteer.\"",
+    "footer": "© {{year}} Kiwi-Ops – Hulp Protokol Aktief."
   }
 }

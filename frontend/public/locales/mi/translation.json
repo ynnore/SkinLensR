@@ -1,6 +1,6 @@
 {
   "header": {
-    "missionStatement": "He mea whakahihiri mai i ngā kaikeri o raro o Te Whanganui-a-Tara ki Arras, ko tā mātou kaupapa he hanga i roto i te atarangi i ngā mea ka puta ki te mata āpōpopo.",
+    "missionStatement": "He mea whakahihiri mai i ngā kaikeri o raro o Te Whanganui-a-Tara ki Arras, ko tā mātou kaupapa he hanga i roto i te atarangi i ngā mea ka puta ki te mata āpōpō.",
     "beta": "Whakamātau"
   },
   "sidebar": {
@@ -24,63 +24,84 @@
     "placeholder": "Tuhia tō karere..."
   },
   "loginPage": {
-    "title": "Access Command Post",
-    "emailLabel": "Transmission Address",
-    "passwordLabel": "Secret Code",
-    "submitButton": "Transmit",
-    "socialSeparator": "OR",
-    "googleButton": "Continue with Google",
-    "githubButton": "Continue with GitHub",
-    "signupPrompt": "Not enlisted yet?",
-    "signupLink": "Sign up at the bureau."
+    "title": "Uru ki te Tūnga Whakahaere",
+    "emailLabel": "Wāhitau Tukunga",
+    "passwordLabel": "Waehere Huna",
+    "submitButton": "Tuku",
+    "socialSeparator": "RĀNEI",
+    "googleButton": "Haere tonu mā Google",
+    "githubButton": "Haere tonu mā GitHub",
+    "signupPrompt": "Kāore anō kia whakauru?",
+    "signupLink": "Rēhita ki te tari."
   },
   "signupPage": {
-    "title": "Registration Bureau",
-    "preamble": "Agents wishing to take part in operations are requested to fill out the form below. Discretion is paramount.",
-    "nameLabel": "CODE NAME",
-    "emailLabel": "TRANSMISSION ADDRESS (E-mail)",
-    "passwordLabel": "SECRET CODE (Password)",
-    "submitButton": "CONFIRM ENLISTMENT",
-    "loadingButton": "Registering...",
-    "socialGoogle": "ENLIST WITH GOOGLE",
-    "socialGithub": "ENLIST WITH GITHUB",
-    "loginPrompt": "Already have a service number?",
-    "loginLink": "Access the Command Post."
+    "title": "Tari Rēhita",
+    "preamble": "Ko ngā āgent e hiahia ana ki te whai wāhi ki ngā mahi, me whakakī i tēnei puka. Ko te tūmataiti te mea nui rawa atu.",
+    "nameLabel": "INGOA WAEREA",
+    "emailLabel": "Wāhitau Tukunga (Īmēra)",
+    "passwordLabel": "Waehere Huna (Kupuhipa)",
+    "submitButton": "WHĀKATŪTURU TE WHAKAURUNGA",
+    "loadingButton": "Kei te rēhita...",
+    "socialGoogle": "RĒHITA MĀ GOOGLE",
+    "socialGithub": "RĒHITA MĀ GITHUB",
+    "loginPrompt": "Kua whai tau ratonga kē koe?",
+    "loginLink": "Uru ki te Tūnga Whakahaere."
   },
   "profilePage": {
-    "title": "Agent File",
-    "labelName": "CODE NAME",
-    "labelMatricule": "SERVICE NUMBER",
-    "labelAccreditation": "ACCREDITATION LEVEL",
-    "accreditationAgent": "Field Agent",
-    "accreditationOfficer": "Intelligence Officer",
-    "accreditationCommander": "Commander",
-    "commanderAccessMessage": "Command access active. You have maximum clearance."
+    "title": "Kōnae Āgent",
+    "labelName": "INGOA WAEREA",
+    "labelMatricule": "TAU RATONGA",
+    "labelAccreditation": "TAUMATA WHAKAMANATANGA",
+    "accreditationAgent": "Āgent Ātea",
+    "accreditationOfficer": "Āpiha Mōhiohio",
+    "accreditationCommander": "Kaiārahi",
+    "commanderAccessMessage": "Kei te kaha te uru whakahaere. Kei a koe te whakaaetanga mōrahi."
   },
   "logoutPage": {
-    "title": "Leave Request",
-    "preamble": "Agent, your leave request has been filed. Please confirm your departure from your post. Your access will be suspended until your return.",
-    "labelMatricule": "SERVICE NUMBER:",
-    "labelName": "CODE NAME:",
-    "labelPoste": "CURRENT POST:",
-    "buttonCancel": "CANCEL AND RESUME SERVICE",
-    "buttonConfirm": "CONFIRM REQUEST AND LEAVE POST",
-    "footer": "Discretion is required, even on leave."
+    "title": "Tono Wā Whakataa",
+    "preamble": "E āgent, kua tukuna tō tono mō te wā whakataa. Tēnā whakapūmau tō wehenga atu i tō tūnga. Ka aukatia tō uru tae noa ki tō hokinga mai.",
+    "labelMatricule": "TAU RATONGA:",
+    "labelName": "INGOA WAEREA:",
+    "labelPoste": "TŪNGA O NĀIANEI:",
+    "buttonCancel": "WHAKAKORE ME TE HAERE TONU",
+    "buttonConfirm": "WHAKATŪTURU TE TONO ME TE WEHENGA",
+    "footer": "Me noho tūmataiti ahakoa kei te wā whakataa."
   },
   "connectionsPage": {
-    "title": "Alliance Network",
-    "subtitle": "Visualization of the AI agent network status. Active connections and data flows between nations are displayed here.",
-    "statusActive": "Connection Active",
-    "statusInactive": "Link Not Established"
+    "title": "Hononga Alliance",
+    "subtitle": "Whakaaturanga o te tūnga whatunga āgent AI. Kei konei ngā hononga kaha me ngā rerenga raraunga i waenga i ngā whenua.",
+    "statusActive": "Hononga Kaha",
+    "statusInactive": "Kāore anō kia Whakatuwheratia"
   },
   "settingsPage": {
-    "mainTitle": "Settings",
-    "mainSubtitle": "Configure your account and application settings here."
+    "mainTitle": "Tautuhinga",
+    "mainSubtitle": "Whakaritea ngā tautuhinga pūkete me te taupānga ki konei."
   },
   "welcome": {
     "headline": "Operesihona W",
     "watch": "Mātakitaki",
-    "intro": "Kei te timata ki Operation W",
-    "inputBar": "Tāpaea tēnei ki K.T.K"
+    "intro": "Kei te tīmata ki te Operesihona W",
+    "inputBar": "Tuhia konei kia tuku mahi ki K.T.K."
+  },
+  "helpPage": {
+    "title": "Kaupapa Āwhina — Pokapū Āwhina KIWI-OPS —",
+    "description": "Uru ki ngā tuhinga, ngā FAQ, me ngā ara tautoko mō ngā tono whakahaere katoa.",
+    "faqTitle": "Ngā Pātai Auau (FAQ)",
+    "faqIntro": "Rapua ngā whakautu ki ngā pātai tino auau a ā mātou āgent.",
+    "faq1Q": "Me pēhea taku huri i taku waehere huna?",
+    "faq1A": "Haere ki ngā 'Tautuhinga Pae Matua' (te ata kōpae i te pae taha), kātahi ka neke ki te wāhanga 'Ngā Kaupapa Haumarutanga'. Ka taea e koe te huri i tō waehere huna ki reira.",
+    "faq2Q": "Kei hea ngā pūrongo mīhana kua rongoatia?",
+    "faq2A": "Ka wātea ngā pūrongo i te wāhanga 'Ngā Kōnae Tūmataiti' (te ata kōnae i te pae taha). Whakamahia ngā tātari kia āta kimi i runga i te kāwai, te rā rānei.",
+    "faq3Q": "Ka taea e au te tuku pārongo hou?",
+    "faq3A": "Āe, ka akiaki mātou i te tuku pārongo hou. Ka whakamāramatia te tukanga tuku ki te wāhanga 'Ngā Mahi Mōhiohio' (ka wātea ā muri ake).",
+    "faqSeeAll": "Tirohia ngā FAQ katoa",
+    "contactTitle": "Whakapā ki te Tautoko Pae Matua",
+    "contactIntro": "Mēnā kāore koe i kite i te whakautu, kei konei te rōpū tautoko hei āwhina i a koe.",
+    "contactInstruction": "Mō te āwhina tere, tēnā whakapā mā ngā ara haumaru i raro nei:",
+    "contactGeneral": "Ngā tono whānui",
+    "contactTechnical": "Ngā raruraru hangarau",
+    "contactAccreditation": "Ngā take whakamanatanga",
+    "contactConfidentiality": "\"Ka whakahaeretia ngā whakawhitiwhiti kōrero katoa me te tino tūmataiti me te ngākau matatika.\"",
+    "footer": "© {{year}} Kiwi-Ops – Kei te kaha te kaupapa āwhina."
   }
 }

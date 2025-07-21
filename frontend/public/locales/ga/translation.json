@@ -24,63 +24,84 @@
     "placeholder": "Clóscríobh do theachtaireacht..."
   },
   "loginPage": {
-    "title": "Access Command Post",
-    "emailLabel": "Transmission Address",
-    "passwordLabel": "Secret Code",
-    "submitButton": "Transmit",
-    "socialSeparator": "OR",
-    "googleButton": "Continue with Google",
-    "githubButton": "Continue with GitHub",
-    "signupPrompt": "Not enlisted yet?",
-    "signupLink": "Sign up at the bureau."
+    "title": "Rochtain ar an bPost Ceannais",
+    "emailLabel": "Seoladh Tarchurtha",
+    "passwordLabel": "Cód Rúnda",
+    "submitButton": "Tarchuir",
+    "socialSeparator": "NÓ",
+    "googleButton": "Lean ar aghaidh le Google",
+    "githubButton": "Lean ar aghaidh le GitHub",
+    "signupPrompt": "Nach bhfuil tú cláraithe fós?",
+    "signupLink": "Cláraigh ag an mbriogáid."
   },
   "signupPage": {
-    "title": "Registration Bureau",
-    "preamble": "Agents wishing to take part in operations are requested to fill out the form below. Discretion is paramount.",
-    "nameLabel": "CODE NAME",
-    "emailLabel": "TRANSMISSION ADDRESS (E-mail)",
-    "passwordLabel": "SECRET CODE (Password)",
-    "submitButton": "CONFIRM ENLISTMENT",
-    "loadingButton": "Registering...",
-    "socialGoogle": "ENLIST WITH GOOGLE",
-    "socialGithub": "ENLIST WITH GITHUB",
-    "loginPrompt": "Already have a service number?",
-    "loginLink": "Access the Command Post."
+    "title": "Briogáid Clárúcháin",
+    "preamble": "Táthar ag iarraidh ar ghníomhairí atá ag iarraidh páirt a ghlacadh foirm a líonadh thíos. Tá discréid ríthábhachtach.",
+    "nameLabel": "AINM CÓD",
+    "emailLabel": "SEOLADH TARCHURTHA (Ríomhphost)",
+    "passwordLabel": "CÓD RÚNDA (Focal Faire)",
+    "submitButton": "DEARBHÚ CLÁRÚCHÁIN",
+    "loadingButton": "Ag clárú...",
+    "socialGoogle": "CLÁRAIGH LE GOOGLE",
+    "socialGithub": "CLÁRAIGH LE GITHUB",
+    "loginPrompt": "An bhfuil uimhir seirbhíse agat cheana?",
+    "loginLink": "Rochtain ar an bPost Ceannais."
   },
   "profilePage": {
-    "title": "Agent File",
-    "labelName": "CODE NAME",
-    "labelMatricule": "SERVICE NUMBER",
-    "labelAccreditation": "ACCREDITATION LEVEL",
-    "accreditationAgent": "Field Agent",
-    "accreditationOfficer": "Intelligence Officer",
-    "accreditationCommander": "Commander",
-    "commanderAccessMessage": "Command access active. You have maximum clearance."
+    "title": "Comhad Gníomhaire",
+    "labelName": "AINM CÓD",
+    "labelMatricule": "UIMHIR SEIRBHÍSE",
+    "labelAccreditation": "LEIBHÉAL CREIDIÚNAITHE",
+    "accreditationAgent": "Gníomhaire Allamuigh",
+    "accreditationOfficer": "Oifigeach Faisnéise",
+    "accreditationCommander": "Ceannasaí",
+    "commanderAccessMessage": "Rochtain ceannasaíochta gníomhach. Tá údarás iomlán agat."
   },
   "logoutPage": {
-    "title": "Leave Request",
-    "preamble": "Agent, your leave request has been filed. Please confirm your departure from your post. Your access will be suspended until your return.",
-    "labelMatricule": "SERVICE NUMBER:",
-    "labelName": "CODE NAME:",
-    "labelPoste": "CURRENT POST:",
-    "buttonCancel": "CANCEL AND RESUME SERVICE",
-    "buttonConfirm": "CONFIRM REQUEST AND LEAVE POST",
-    "footer": "Discretion is required, even on leave."
+    "title": "Iarratas ar Shaoire",
+    "preamble": "Gníomhaire, cuireadh d’iarratas ar shaoire isteach. Deimhnigh d’imtheacht ón bpost. Beidh do rochtain curtha ar fionraí go dtí do fhilleadh.",
+    "labelMatricule": "UIMHIR SEIRBHÍSE:",
+    "labelName": "AINM CÓD:",
+    "labelPoste": "POST REATHA:",
+    "buttonCancel": "CEALAIGH AGUS FILL AR AN SEIRBHÍS",
+    "buttonConfirm": "DEARBHÚ AN IARRATAIS AGUS FÁG AN POST",
+    "footer": "Tá discréid riachtanach, fiú ar shaoire."
   },
   "connectionsPage": {
-    "title": "Alliance Network",
-    "subtitle": "Visualization of the AI agent network status. Active connections and data flows between nations are displayed here.",
-    "statusActive": "Connection Active",
-    "statusInactive": "Link Not Established"
+    "title": "Líonra Comhghuaillíochta",
+    "subtitle": "Amharc ar stádas líonra gníomhaire AI. Taispeántar naisc ghníomhacha agus sreafaí sonraí idir náisiúin anseo.",
+    "statusActive": "Nasc Gníomhach",
+    "statusInactive": "Nasc Gan Bhunú"
   },
   "settingsPage": {
-    "mainTitle": "Settings",
-    "mainSubtitle": "Configure your account and application settings here."
+    "mainTitle": "Socruithe",
+    "mainSubtitle": "Cumraigh do chuntas agus socruithe an fheidhmchláir anseo."
   },
   "welcome": {
-    "headline": "Operation W",
-    "watch": "Watch",
-    "intro": "Getting started with Operation W",
+    "headline": "Oibríocht W",
+    "watch": "Féach",
+    "intro": "Ag tosú le Oibríocht W",
     "inputBar": "Clóscríobh anseo chun tasc a thabhairt do R.O.C.K."
+  },
+  "helpPage": {
+    "title": "PRÓTACAL CÚNAIMH — LÁRIONAD CABHRÚ KIWI-OPS —",
+    "description": "Rochtain ar dhoiciméid, Ceisteanna Coitianta agus bealaí tacaíochta le haghaidh gach iarratais oibríochtúil.",
+    "faqTitle": "Ceisteanna Coitianta (FAQ)",
+    "faqIntro": "Faigh freagraí ar na ceisteanna is coitianta ó ár ngníomhairí.",
+    "faq1Q": "Conas is féidir liom mo chód rúnda a athrú?",
+    "faq1A": "Téigh chuig 'Socruithe Ceannais' (deilbhín fearas sa roghchlár taobh), ansin téigh chuig 'Prótacail Slándála'. Is féidir leat an t-athrú a thosú ansin.",
+    "faq2Q": "Cá bhfaighidh mé tuarascálacha misean cartlannaithe?",
+    "faq2A": "Tá tuarascálacha ar fáil tríd an rannóg 'Comhaid Rúnda' (deilbhín fillteán sa roghchlár taobh). Úsáid scagairí chun catagóir nó dáta a scagadh.",
+    "faq3Q": "An féidir liom faisnéis nua a chur leis?",
+    "faq3A": "Is féidir, spreagtar faisnéis nua. Tá an prótacal aighneachta mionsonraithe sa rannóg 'Oibríochtaí Faisnéise' (ag teacht go luath).",
+    "faqSeeAll": "Féach ar na Ceisteanna Coitianta go léir",
+    "contactTitle": "Déan Teagmháil le Tacaíocht Ceannais",
+    "contactIntro": "Mura bhfuair tú freagra ar d’iarratas, tá ár bhfoireann réidh chun cabhrú leat.",
+    "contactInstruction": "Le haghaidh cabhair thapa, déan teagmháil linn trí na bealaí slána thíos:",
+    "contactGeneral": "Iarratais Ghinearálta",
+    "contactTechnical": "Fadhbanna Teicniúla",
+    "contactAccreditation": "Cúrsaí Creidiúnaithe",
+    "contactConfidentiality": "\"Déileáiltear le gach cumarsáid leis an discréid agus an rúndacht is airde.\"",
+    "footer": "© {{year}} Kiwi-Ops – Prótacal Cúnaimh Gníomhach."
   }
 }

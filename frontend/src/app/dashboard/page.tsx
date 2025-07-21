@@ -2,9 +2,92 @@
 
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext'; // Assurez-vous que ce chemin est correct
+import { useLanguage } from '@/contexts/LanguageContext'; // Assurez-vous que ce chemin est correct
+import { LanguageCode } from '@/types';
+
+// Définitions des traductions pour cette page
+const allTranslations = {
+  dashboardPage: {
+    mainTitle: {
+      en: 'COMMAND CENTER',
+      fr: 'ÉTAT-MAJOR',
+      mi: 'Whare Matua Whakahaere',
+      ga: 'Lárionad Ordaithe',
+      hi: 'कमांड सेंटर',
+      gd: 'Ionad Command',
+      'en-AU': 'Command Center', 'en-NZ': 'Command Center', 'en-CA': 'Command Center', 'fr-CA': 'Centre de Commandement', 'en-ZA': 'Command Center', af: 'Bevelsentrum'
+    },
+    subtitle: {
+      en: '"Synthesis of operations and key intelligence in real-time."',
+      fr: '"Synthèse des opérations et renseignements importants en temps réel."',
+      mi: '"Whakarāpopototanga o ngā mahi me ngā mōhiohio matua i te wā tūturu."',
+      ga: '"Sintéis oibríochtaí agus faisnéise ríthábhachtach i bhfíor-am."',
+      hi: '"ऑपरेशंस और महत्वपूर्ण खुफिया जानकारी का वास्तविक समय में संश्लेषण।"',
+      gd: '"Co-chur gnìomhachdan agus fiosrachaidh cudromach ann an tìm fìor."',
+      'en-AU': '"Synthesis of operations and key intelligence in real-time."', 'en-NZ': '"Synthesis of operations and key intelligence in real-time."', 'en-CA': '"Synthesis of operations and key intelligence in real-time."', 'fr-CA': '"Synthèse des opérations et renseignements importants en temps réel."', 'en-ZA': '"Synthesis of operations and key intelligence in reële tyd."', af: '"Sintese van operasies en sleutelinligting in reële tyd."'
+    },
+    accessTitle: {
+      en: 'Dashboard Access',
+      fr: 'Accès au Tableau de Bord',
+      mi: 'Whakaaetanga Papapātuhi',
+      ga: 'Rochtain ar an bPainéal',
+      hi: 'डैशबोर्ड एक्सेस',
+      gd: 'Ruigsinneachd Deas-bhòrd',
+      'en-AU': 'Dashboard Access', 'en-NZ': 'Dashboard Access', 'en-CA': 'Dashboard Access', 'fr-CA': 'Accès au Tableau de Bord', 'en-ZA': 'Dashboard Access', af: 'Dashboard Toegang'
+    },
+    developmentMessage: {
+      en: 'Content area for dashboard widgets. Operational visualization and strategic data presentation systems are currently being calibrated and deployed.',
+      fr: 'Zone de contenu pour les widgets du tableau de bord. Les systèmes de visualisation des opérations et de présentation des données stratégiques sont en cours de calibrage et de déploiement.',
+      mi: 'Wāhi ihirangi mō ngā widget papapātuhi. Kei te whakatika me te tūhura ngā pūnaha tirohanga mahi me te whakaaturanga raraunga rautaki.',
+      ga: 'Limistéar ábhair do ghiuirléidí painéil. Tá córais amhairc oibríochtúla agus cur i láthair sonraí straitéiseacha á gcalabrú agus á n-imscaradh faoi láthair.',
+      hi: 'डैशबोर्ड विजेट के लिए सामग्री क्षेत्र। परिचालन विज़ुअलाइज़ेशन और रणनीतिक डेटा प्रस्तुति प्रणाली वर्तमान में कैलिब्रेट और तैनात की जा रही हैं।',
+      gd: 'Sgìre susbainn airson widgetan deas-bhòrd. Tha siostaman lèirsinneachd obrachaidh agus taisbeanaidh dàta ro-innleachdail gan calpachadh agus gan cleachdadh an-dràsta.',
+      'en-AU': 'Content area for dashboard widgets. Operational visualization and strategic data presentation systems are currently being calibrated and deployed.', 'en-NZ': 'Content area for dashboard widgets. Operational visualization and strategic data presentation systems are currently being calibrated and deployed.', 'en-CA': 'Content area for dashboard widgets. Operational visualization and strategic data presentation systems are currently being calibrated and deployed.', 'fr-CA': 'Zone de contenu pour les widgets du tableau de bord. Les systèmes de visualisation des opérations et de présentation des données stratégiques sont en cours de calibrage et de déploiement.', 'en-ZA': 'Content area for dashboard widgets. Operational visualization and strategic data presentation systems are currently being calibrated and deployed.', af: 'Inhoudsarea vir dashboard-widgets. Operasionele visualisering en strategiese data-aanbiedingstelsels word tans gekalibreer en ontplooi.'
+    },
+    stayAlertMessage: {
+      en: 'Please stay alert for upcoming Command updates.',
+      fr: 'Veuillez rester en alerte pour les prochaines mises à jour du Commandement.',
+      mi: 'Tēnā koa kia mataara tonu mō ngā whakahōutanga o te Whare Matua.',
+      ga: 'Fan go haireach do nuashonruithe ón Ordú amach romhaint.',
+      hi: 'कृपया कमांड के आगामी अपडेट के लिए सतर्क रहें।',
+      gd: 'Fuirichibh furachair airson ùrachaidhean Co-mhandaidh a tha ri thighinn.',
+      'en-AU': 'Please stay alert for upcoming Command updates.', 'en-NZ': 'Please stay alert for upcoming Command updates.', 'en-CA': 'Please stay alert for upcoming Command updates.', 'fr-CA': 'Veuillez rester en alerte pour les prochaines mises à jour du Commandement.', 'en-ZA': 'Please stay alert for upcoming Command updates.', af: 'Bly asseblief waaksaam vir opkomende Kommandoupdates.'
+    },
+    copyright: {
+      en: 'Kiwi-Ops – Unified Command System.',
+      fr: 'Kiwi-Ops – Système du Commandement Unifié.',
+      mi: 'Kiwi-Ops – Pūnaha Whakahau Kotahi.',
+      ga: 'Kiwi-Ops – Córas Aontaithe Ordaithe.',
+      hi: 'कीवी-ऑप्स – एकीकृत कमांड सिस्टम।',
+      gd: 'Kiwi-Ops – Siostam Òrdughan Aonaichte.',
+      'en-AU': 'Kiwi-Ops – Unified Command System.', 'en-NZ': 'Kiwi-Ops – Unified Command System.', 'en-CA': 'Kiwi-Ops – Unified Command System.', 'fr-CA': 'Kiwi-Ops – Système du Commandement Unifié.', 'en-ZA': 'Kiwi-Ops – Unified Command System.', af: 'Kiwi-Ops – Eenheidskommando Stelsel.'
+    },
+  },
+};
+
+// Fonction de traduction générique
+const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
+  section: S,
+  key: K,
+  lang: LanguageCode
+): string => {
+  const sectionTranslations = allTranslations[section];
+  if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
+  const specificTranslations = sectionTranslations[key];
+  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
+    console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
+    return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+  }
+  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+};
+
 
 export default function DashboardPage() {
   const { theme } = useTheme();
+  const { language } = useLanguage(); // Obtenez la langue courante
+
+  // Ajoutez ce log pour voir la valeur de 'language' à chaque rendu
+  console.log('DashboardPage est rendu. Langue actuelle:', language);
 
   // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
@@ -40,7 +123,7 @@ export default function DashboardPage() {
         color: textColor,
         textShadow: `3px 3px 0px ${theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)'}`
       }}>
-        ÉTAT-MAJOR
+        {getTranslation('dashboardPage', 'mainTitle', language)}
       </h1>
       <p style={{
         fontStyle: 'italic',
@@ -52,7 +135,7 @@ export default function DashboardPage() {
         borderBottom: `1px solid ${borderColor}`, // Une petite ligne sous le sous-titre
         paddingBottom: '1rem'
       }}>
-        "Synthèse des opérations et renseignements importants en temps réel."
+        {getTranslation('dashboardPage', 'subtitle', language)}
       </p>
 
       {/* Zone de contenu pour les widgets - Message de développement */}
@@ -80,7 +163,7 @@ export default function DashboardPage() {
           fontWeight: 'bold',
           textTransform: 'uppercase'
         }}>
-          Accès au Tableau de Bord
+          {getTranslation('dashboardPage', 'accessTitle', language)}
         </h2>
         <p style={{
           fontSize: '1.2rem',
@@ -88,7 +171,7 @@ export default function DashboardPage() {
           color: mutedTextColor, // Utiliser mutedTextColor pour le texte de l'alerte
           maxWidth: '700px'
         }}>
-          Zone de contenu pour les widgets du tableau de bord. Les systèmes de visualisation des opérations et de présentation des données stratégiques sont en cours de calibrage et de déploiement.
+          {getTranslation('dashboardPage', 'developmentMessage', language)}
         </p>
         <p style={{
           fontSize: '1.1rem',
@@ -96,7 +179,7 @@ export default function DashboardPage() {
           fontWeight: 'bold',
           color: warningColor // Revenir au rouge pour l'appel à l'action/message principal
         }}>
-          Veuillez rester en alerte pour les prochaines mises à jour du Commandement.
+          {getTranslation('dashboardPage', 'stayAlertMessage', language)}
         </p>
         {/* Vous pouvez ajouter un spinner ou une icône ici si vous le souhaitez */}
       </section>
@@ -137,7 +220,18 @@ export default function DashboardPage() {
       */}
 
       <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
-        © {new Date().getFullYear()} Kiwi-Ops – Système du Commandement Unifié.
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('dashboardPage', 'copyright', language)}
+      </p>
+
+      {/* Paragraphe temporaire pour afficher la langue du contexte, à retirer une fois résolu */}
+      <p style={{
+        marginTop: '2rem',
+        fontSize: '1.5rem',
+        fontWeight: 'bold',
+        color: 'blue', // Pour qu'il soit bien visible
+        textAlign: 'center'
+      }}>
+        
       </p>
     </div>
   );

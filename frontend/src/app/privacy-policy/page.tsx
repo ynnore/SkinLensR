@@ -1,215 +1,214 @@
-      
-'use client'; // Indique que ce composant est un Client Component (nécessaire pour les hooks comme useTheme)
+'use client'; // Indique que ce composant est un Client Component
 
-import { useTheme } from '../../context/ThemeContext'; // Importez le hook useTheme
-import styles from './privacy-policy.module.css'; // Importez le CSS module
+import React from 'react';
+import { useTheme } from '../../context/ThemeContext'; // Assurez-vous que ce chemin est correct
+import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
+import { LanguageCode } from '@/types'; // Importez LanguageCode
+
+// Définitions des traductions pour cette page BETA
+const allTranslations = {
+  privacyPolicyPageBeta: { // Section spécifique pour cette page simplifiée
+    mainTitleLine1: {
+      en: 'Privacy Protocol',
+      fr: 'Protocole de Confidentialité',
+      mi: 'Tikanga Muna',
+      ga: 'Prótacal Príobháideachais',
+      hi: 'गोपनीयता प्रोटोकॉल',
+      gd: 'Protocol Dìomhaireachd',
+      'en-AU': 'Privacy Protocol', 'en-NZ': 'Privacy Protocol', 'en-CA': 'Privacy Protocol', 'fr-CA': 'Protocole de Confidentialité', 'en-ZA': 'Privaatheidsprotokol', af: 'Privaatheidsprotokol'
+    },
+    mainTitleLine2: {
+      en: '— Data Security —',
+      fr: '— Sécurité des Données —',
+      mi: '— Haumaru Raraunga —',
+      ga: '— Slándáil Sonraí —',
+      hi: '— डेटा सुरक्षा —',
+      gd: '— Tèarainteachd Dàta —',
+      'en-AU': '— Data Security —', 'en-NZ': '— Data Security —', 'en-CA': '— Data Security —', 'fr-CA': '— Sécurité des Données —', 'en-ZA': '— Data Veiligheid —', af: '— Data Veiligheid —'
+    },
+    subtitle: {
+      en: '"Important directives on data handling and agent confidentiality."',
+      fr: '"Directives importantes sur la gestion des données et la confidentialité des agents."',
+      mi: '"Ngā aratohu nui mō te whakahaere raraunga me te muna āpiha."',
+      ga: '"Treoracha tábhachtacha maidir le láimhseáil sonraí agus rúndacht gníomhairí."',
+      hi: '"डेटा हैंडलिंग और एजेंट गोपनीयता पर महत्वपूर्ण निर्देश।"',
+      gd: '"Stiùiridhean cudromach mu làimhseachadh dàta agus dìomhaireachd àidseant."',
+      'en-AU': '"Important directives on data handling and agent confidentiality."', 'en-NZ': '"Important directives on data handling and agent confidentiality."', 'en-CA': '"Important directives on data handling and agent confidentiality."', 'fr-CA': '"Directives importantes sur la gestion des données et la confidentialité des agents."', 'en-ZA': '"Belangrike riglyne oor datahantering en agentvertroulikheid."', af: '"Belangrike riglyne oor datahantering en agentvertroulikheid."'
+    },
+    developmentTitle: {
+      en: 'Privacy Protocol Under Review',
+      fr: 'Protocole de Confidentialité en Cours de Révision',
+      mi: 'Tikanga Muna kei te Arotake',
+      ga: 'Prótacal Príobháideachais Faoi Athbhreithniú',
+      hi: 'गोपनीयता प्रोटोकॉल समीक्षाधीन है',
+      gd: 'Protocol Dìomhaireachd fo Ath-bhreithneachadh',
+      'en-AU': 'Privacy Protocol Under Review', 'en-NZ': 'Privacy Protocol Under Review', 'en-CA': 'Privacy Protocol Under Review', 'fr-CA': 'Protocole de Confidentialité en Cours de Révision', 'en-ZA': 'Privaatheidsprotokol Onder Hersiening', af: 'Privaatheidsprotokol Onder Hersiening'
+    },
+    betaTag: {
+      en: 'Beta Version',
+      fr: 'Version Bêta',
+      mi: 'Putanga Bêta',
+      ga: 'Leagan Béite',
+      hi: 'बीटा संस्करण',
+      gd: 'Tionndadh Beta',
+      'en-AU': 'Beta Version', 'en-NZ': 'Beta Version', 'en-CA': 'Beta Version', 'fr-CA': 'Version Bêta', 'en-ZA': 'Beta Weergawe', af: 'Beta Weergawe'
+    },
+    developmentMessage: {
+      en: 'The full Privacy Protocol is being rigorously updated to ensure compliance with global data protection standards and the latest operational security measures. Thank you for your understanding.',
+      fr: 'Le Protocole de Confidentialité complet est en cours de mise à jour rigoureuse pour assurer la conformité avec les normes mondiales de protection des données et les dernières mesures de sécurité opérationnelle. Merci de votre compréhension.',
+      mi: 'Kei te whakahōungia te Tikanga Muna katoa kia ū ai ki ngā paerewa tiaki raraunga o te ao, me ngā aratohu haumaru whakahaere hou. Ngā mihi ki a koe mō tō māramatanga.',
+      ga: 'Tá an Prótacal Príobháideachais iomlán á nuashonrú go docht chun comhlíonadh le caighdeáin chosanta sonraí domhanda agus na bearta slándála oibríochtúla is déanaí a chinntiú. Go raibh maith agat as do thuiscint.',
+      hi: 'वैश्विक डेटा संरक्षण मानकों और नवीनतम परिचालन सुरक्षा उपायों का अनुपालन सुनिश्चित करने के लिए पूर्ण गोपनीयता प्रोटोकॉल को कठोरता से अपडेट किया जा रहा है। आपकी समझ के लिए धन्यवाद।',
+      gd: 'Thèid am Protocol Dìomhaireachd làn ùrachadh gu cruaidh gus dèanamh cinnteach gu bheil e a’ gèilleadh ri inbhean dìon dàta cruinneil agus na ceumannan tèarainteachd obrachaidh as ùire. Tapadh leibh airson ur tuigse.',
+      'en-AU': 'The full Privacy Protocol is being rigorously updated to ensure compliance with global data protection standards and the latest operational security measures. Thank you for your understanding.', 'en-NZ': 'The full Privacy Protocol is being rigorously updated to ensure compliance with global data protection standards and the latest operational security measures. Thank you for your understanding.', 'en-CA': 'The full Privacy Protocol is being rigorously updated to ensure compliance with global data protection standards and the latest operational security measures. Thank you for your understanding.', 'fr-CA': 'Le Protocole de Confidentialité complet est en cours de mise à jour rigoureuse pour assurer la conformité avec les normes mondiales de protection des données et les dernières mesures de sécurité opérationnelle. Merci de votre compréhension.', 'en-ZA': 'Die volle Privaatheidsprotokol word tans streng bygewerk om voldoening aan globale databeskermingstandaarde en die nuutste operasionele veiligheidsmaatreëls te verseker. Dankie vir u begrip.', af: 'Die volle Privaatheidsprotokol word tans streng bygewerk om voldoening aan globale databeskermingstandaarde en die nuutste operasionele veiligheidsmaatreëls te verseker. Dankie vir u begrip.'
+    },
+    stayTuned: {
+      en: 'Please check back soon for the updated protocol.',
+      fr: 'Veuillez revenir bientôt pour le protocole mis à jour.',
+      mi: 'Tēnā hoki mai anō kia wātea te tikanga whakahōutia.',
+      ga: 'Fill ar ais go luath le haghaidh an phrótacail nuashonraithe.',
+      hi: 'अद्यतन प्रोटोकॉल के लिए कृपया जल्द ही वापस देखें।',
+      gd: 'Thig air ais a dh\'aithghearr airson a’ protocol ùraichte.',
+      'en-AU': 'Please check back soon for the updated protocol.', 'en-NZ': 'Please check back soon for the updated protocol.', 'en-CA': 'Please check back soon for the updated protocol.', 'fr-CA': 'Veuillez revenir bientôt pour le protocole mis à jour.', 'en-ZA': 'Kom binnekort weer vir die bygewerkte protokol.', af: 'Kom binnekort weer vir die bygewerkte protokol.'
+    },
+    copyright: {
+      en: 'Kiwi-Ops – Provisional Privacy Protocol.',
+      fr: 'Kiwi-Ops – Protocole de Confidentialité Provisoire.',
+      mi: 'Kiwi-Ops – Tikanga Muna Wāhanga.',
+      ga: 'Kiwi-Ops – Prótacal Príobháideachais Sealadach.',
+      hi: 'कीवी-ऑप्स – अनंतिम गोपनीयता प्रोटोकॉल।',
+      gd: 'Kiwi-Ops – Protocol Dìomhaireachd Sealach.',
+      'en-AU': 'Kiwi-Ops – Provisional Privacy Protocol.', 'en-NZ': 'Kiwi-Ops – Provisional Privacy Protocol.', 'en-CA': 'Kiwi-Ops – Provisional Privacy Protocol.', 'fr-CA': 'Kiwi-Ops – Protocole de Confidentialité Provisoire.', 'en-ZA': 'Kiwi-Ops – Voorlopige Privaatheidsprotokol.', af: 'Kiwi-Ops – Voorlopige Privaatheidsprotokol.'
+    },
+  },
+};
+
+// Fonction de traduction générique (copiée pour autonomie du fichier)
+const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
+  section: S,
+  key: K,
+  lang: LanguageCode
+): string => {
+  const sectionTranslations = allTranslations[section];
+  if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
+  const specificTranslations = sectionTranslations[key];
+  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
+    console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
+    return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+  }
+  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+};
+
 
 export default function PrivacyPolicyPage() {
-  const { theme } = useTheme(); // Accédez au thème actuel
+  const { theme } = useTheme();
+  const { language } = useLanguage(); // Obtenez la langue courante
 
-  // Définissez les couleurs et autres propriétés en fonction du thème
+  // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#f9fafb';
-  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur d'accent
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF'; // Fond blanc pour le mode clair
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Fond des sections/cartes
+  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
 
-  const lastUpdatedDate = "15 juillet 2025";
+  const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3'; // Fond léger pour l'alerte
+  const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Rouge pour l'alerte de développement
+  const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Bordure pour l'alerte de développement
 
   return (
-    // Le style sur le div parent injecte les variables CSS pour le thème
-    <div
-      className={styles.pageContainer}
-      style={{
-        backgroundColor: backgroundColorPage,
-        // Définition des variables CSS consommées par privacy-policy.module.css
-        '--kiwi-text-primary': textColor,
-        '--kiwi-text-secondary': mutedTextColor,
-        '--kiwi-border-color': borderColor,
-        '--kiwi-highlight-color': highlightColor,
-        '--kiwi-text-shadow': `2px 2px 0px ${textShadowColor}`
-        // Assurez-vous que --font-special-elite et --font-courier-prime sont définis globalement
-        // ou utilisez les fallbacks définis dans le CSS module.
-      } as React.CSSProperties} // Cast pour permettre les CSS variables
-    >
-      <h1 className={styles.title}>
-        Protocole de Confidentialité<br />— Sécurité des Données —
+    <div style={{
+      padding: '2rem',
+      maxWidth: '1000px', // Largeur adaptée pour le contenu
+      margin: '0 auto',
+      lineHeight: '1.6',
+      fontSize: '1rem',
+      color: textColor,
+      fontFamily: "'Arial', sans-serif",
+      backgroundColor: backgroundColorPage,
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    }}>
+      <h1 style={{
+        marginBottom: '1rem',
+        fontSize: '3.8rem',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontFamily: "'Playfair Display', serif",
+        textTransform: 'uppercase',
+        letterSpacing: '3px',
+        color: textColor,
+        textShadow: `3px 3px 0px ${textShadowColor}`
+      }}>
+        {getTranslation('privacyPolicyPageBeta', 'mainTitleLine1', language)}<br />
+        {getTranslation('privacyPolicyPageBeta', 'mainTitleLine2', language)}
       </h1>
-      <p className={styles.subtitle}>
-        Dernière mise à jour : {lastUpdatedDate}
+      <p style={{
+        fontStyle: 'italic',
+        marginBottom: '3rem',
+        textAlign: 'center',
+        color: mutedTextColor,
+        fontSize: '1.2rem',
+        maxWidth: '80%',
+        borderBottom: `1px solid ${borderColor}`,
+        paddingBottom: '1rem'
+      }}>
+        {getTranslation('privacyPolicyPageBeta', 'subtitle', language)}
       </p>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          1. Introduction et Engagement
+      {/* Carte d'information "En cours de développement" */}
+      <section style={{
+        width: '100%',
+        marginTop: '3rem',
+        padding: '2rem',
+        border: `2px dashed ${warningBorder}`,
+        borderRadius: '8px',
+        backgroundColor: warningBackground,
+        color: warningText,
+        textAlign: 'center',
+        boxShadow: `4px 4px 0px ${shadowColorCard}`,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '200px',
+      }}>
+        <h2 style={{
+          fontSize: '2rem',
+          marginBottom: '1rem',
+          color: warningText,
+          fontFamily: "'Playfair Display', serif",
+          fontWeight: 'bold',
+          textTransform: 'uppercase'
+        }}>
+          {getTranslation('privacyPolicyPageBeta', 'developmentTitle', language)}
         </h2>
-        <p className={styles.sectionText}>
-          Chez Kiwi-Ops, nous nous engageons fermement à protéger votre vie privée et la confidentialité de vos informations. Ce Protocole de Confidentialité explique comment nous recueillons, utilisons, divulguons et protégeons vos renseignements personnels lorsque vous utilisez nos services, notre site web et nos applications (collectivement, les "Services").
+        <p style={{
+          fontSize: '1.2rem',
+          fontStyle: 'italic',
+          color: mutedTextColor,
+          maxWidth: '700px'
+        }}>
+          {getTranslation('privacyPolicyPageBeta', 'developmentMessage', language)}
         </p>
-        <p className={styles.sectionText}>
-          En utilisant nos Services, vous consentez aux pratiques décrites dans ce Protocole. Pour toute question ou préoccupation concernant nos pratiques en matière de confidentialité, veuillez nous contacter à :{" "}
-          <a href="mailto:privacy@kiwi-ops.com" className={styles.infoLink}>privacy@kiwi-ops.com</a>.
+        <p style={{
+          fontSize: '1.1rem',
+          marginTop: '1.5rem',
+          fontWeight: 'bold',
+          color: warningText
+        }}>
+          {getTranslation('privacyPolicyPageBeta', 'betaTag', language)} – {getTranslation('privacyPolicyPageBeta', 'stayTuned', language)}
         </p>
       </section>
 
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          2. Renseignements Collectés
-        </h2>
-        <p className={styles.sectionText}>
-          Nous recueillons différents types d'informations pour fournir et améliorer nos Services :
-        </p>
-        <h3 className={styles.subSectionTitle}>
-          2.1 Données Personnelles de l'Agent
-        </h3>
-        <p className={styles.sectionText}>
-          Lorsque vous créez un compte d'agent ou utilisez nos Services, nous pouvons vous demander de nous fournir certaines informations personnellement identifiables qui peuvent être utilisées pour vous contacter ou vous identifier ("Données Personnelles"). Cela peut inclure, sans s'y limiter :
-        </p>
-        <ul className={styles.sectionList}>
-          <li className={styles.sectionListItem}>Nom et prénom</li>
-          <li className={styles.sectionListItem}>Adresse e-mail (Adresse de Transmission)</li>
-          <li className={styles.sectionListItem}>Numéro de téléphone sécurisé</li>
-          <li className={styles.sectionListItem}>Informations de facturation (si applicable pour l'accréditation)</li>
-          <li className={styles.sectionListItem}>Données d'utilisation (voir ci-dessous)</li>
-        </ul>
-
-        <h3 className={styles.subSectionTitle}>
-          2.2 Données d'Opérations et d'Utilisation
-        </h3>
-        <p className={styles.sectionText}>
-          Nous pouvons également collecter des informations sur la manière dont les Services sont consultés et utilisés ("Données d'Utilisation"). Ces Données d'Utilisation peuvent inclure des informations telles que l'adresse IP de votre terminal de commandement, le type et la version du navigateur sécurisé, les pages de nos Services que vous visitez, l'heure et la date de votre session, le temps passé sur ces pages, les identifiants uniques d'appareil et d'autres données de diagnostic de système.
-        </p>
-
-        <h3 className={styles.subSectionTitle}>
-          2.3 Protocoles de Suivi et Cookies Opérationnels
-        </h3>
-        <p className={styles.sectionText}>
-          Nous utilisons des cookies et des technologies de suivi similaires pour surveiller l'activité sur nos Services et conserver certaines informations opérationnelles.
-          Les cookies sont des fichiers avec une petite quantité de données qui peuvent inclure un identifiant unique anonyme. Ces identifiants sont transmis à votre navigateur à partir d'une interface sécurisée et stockés sur votre appareil pour optimiser votre expérience.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          3. Finalités de l'Utilisation des Renseignements
-        </h2>
-        <p className={styles.sectionText}>
-          Kiwi-Ops utilise les données collectées à diverses fins opérationnelles :
-        </p>
-        <ul className={styles.sectionList}>
-          <li className={styles.sectionListItem}>Pour fournir et maintenir nos Services en état d'alerte</li>
-          <li className={styles.sectionListItem}>Pour vous notifier des changements importants apportés à nos Services</li>
-          <li className={styles.sectionListItem}>Pour vous permettre de participer à des fonctionnalités interactives lorsque vous choisissez de le faire</li>
-          <li className={styles.sectionListItem}>Pour fournir un support technique et opérationnel</li>
-          <li className={styles.sectionListItem}>Pour surveiller l'utilisation et la performance de nos Services</li>
-          <li className={styles.sectionListItem}>Pour détecter, prévenir et résoudre les anomalies techniques</li>
-          <li className={styles.sectionListItem}>Pour gérer votre dossier d'agent et vous envoyer des informations stratégiques pertinentes</li>
-        </ul>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          4. Divulgation des Renseignements
-        </h2>
-        <p className={styles.sectionText}>
-          Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des entités tierces. Nous pouvons partager vos informations avec des fournisseurs de services tiers qui exécutent des services en notre nom (par exemple, traitement des accréditations financières, hébergement sécurisé, analyse de données opérationnelles). Ces tiers sont contractuellement tenus de maintenir la confidentialité de vos informations et de ne les utiliser qu'aux fins pour lesquelles nous les avons divulguées.
-        </p>
-        <p className={styles.sectionText}>
-          Nous pouvons également divulguer vos informations si la loi l'exige ou en réponse à des demandes validées des autorités compétentes (par exemple, une cour de justice ou une agence gouvernementale dûment mandatée). Pour les questions spécifiques à la divulgation légale, vous pouvez contacter :{" "}
-          <a href="mailto:legal@kiwi-ops.com" className={styles.infoLink}>legal@kiwi-ops.com</a>.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          5. Droits de l'Agent en Matière de Protection des Données
-        </h2>
-        <p className={styles.sectionText}>
-          Selon votre juridiction et le protocole en vigueur, vous pouvez disposer de certains droits concernant vos informations personnelles, notamment :
-        </p>
-        <ul className={styles.sectionList}>
-          <li className={styles.sectionListItem}>Le droit d'accéder à votre dossier de renseignements.</li>
-          <li className={styles.sectionListItem}>Le droit de rectifier les informations inexactes de votre dossier.</li>
-          <li className={styles.sectionListItem}>Le droit de demander la suppression de votre dossier de renseignements.</li>
-          <li className={styles.sectionListItem}>Le droit de vous opposer au traitement de certaines de vos informations.</li>
-          <li className={styles.sectionListItem}>Le droit de retirer votre consentement pour le traitement des données.</li>
-          <li className={styles.sectionListItem}>Le droit à la portabilité de vos données opérationnelles.</li>
-        </ul>
-        <p className={styles.sectionText}>
-          Pour exercer l'un de ces droits, veuillez nous contacter au Département de la Confidentialité :{" "}
-          <a href="mailto:privacy@kiwi-ops.com" className={styles.infoLink}>privacy@kiwi-ops.com</a>.
-          Nous répondrons à votre requête conformément aux directives et lois applicables.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          6. Sécurisation des Données Opérationnelles
-        </h2>
-        <p className={styles.sectionText}>
-          La sécurité de vos données est une priorité absolue pour nous, mais aucune méthode de transmission sur les réseaux ou de stockage électronique n'est totalement inviolable. Bien que nous nous efforcions d'utiliser des moyens commercialement acceptables et des protocoles avancés pour protéger vos Données Personnelles, nous ne pouvons garantir leur sécurité absolue contre toute intrusion non autorisée.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          7. Liens vers les Canaux Externes
-        </h2>
-        <p className={styles.sectionText}>
-          Nos Services peuvent contenir des liens vers d'autres interfaces ou sites qui ne sont pas sous notre contrôle opérationnel. Si vous cliquez sur un lien externe, vous serez redirigé vers l'interface de cette entité tierce. Nous vous conseillons vivement de consulter le protocole de confidentialité de chaque interface que vous visitez.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          8. Révisions du Protocole de Confidentialité
-        </h2>
-        <p className={styles.sectionText}>
-          Nous pouvons mettre à jour notre Protocole de Confidentialité de temps à autre pour refléter les évolutions des menaces ou de nos pratiques. Nous vous informerons de tout changement majeur en publiant la nouvelle version du Protocole sur cette page. Nous vous conseillons de consulter ce Protocole périodiquement pour toute révision.
-        </p>
-        <p className={styles.sectionText}>
-          Les modifications de ce Protocole de Confidentialité sont effectives dès leur publication sur cette page. La date de "Dernière mise à jour" en haut de cette page indique la date de la dernière révision approuvée.
-        </p>
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>
-          9. Contact du Département de la Confidentialité
-        </h2>
-        <p className={styles.sectionText}>
-          Si vous avez des questions concernant ce Protocole de Confidentialité, les pratiques de notre réseau ou vos interactions avec nos Services, vous pouvez contacter le Département de la Confidentialité :
-        </p>
-        <ul className={styles.sectionList}>
-          <li className={styles.sectionListItem}>
-            Par e-mail :{" "}
-            <a href="mailto:privacy@kiwi-ops.com" className={styles.infoLink}>privacy@kiwi-ops.com</a>
-            {" "} (pour les questions spécifiques à la confidentialité)
-          </li>
-          <li className={styles.sectionListItem}>
-            Par e-mail :{" "}
-            <a href="mailto:support@kiwi-ops.com" className={styles.infoLink}>support@kiwi-ops.com</a>
-            {" "} (pour le support général ou les questions techniques)
-          </li>
-          <li className={styles.sectionListItem}>
-            Par e-mail :{" "}
-            <a href="mailto:legal@kiwi-ops.com" className={styles.infoLink}>legal@kiwi-ops.com</a>
-            {" "} (pour les questions légales plus générales ou les requêtes des autorités)
-          </li>
-        </ul>
-        <p className={styles.sectionText}>
-          Veuillez également consulter nos{" "}
-          <a href="/terms" className={styles.infoLink}>Protocoles de Service (Conditions Générales d'Utilisation)</a>
-          {" "} pour plus d'informations sur l'utilisation de nos Services.
-        </p>
-      </section>
-
-      <p className={styles.globalFooter}>
-        © {new Date().getFullYear()} Kiwi-Ops – Protocole de Confidentialité Actif.
+      <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('privacyPolicyPageBeta', 'copyright', language)}
       </p>
     </div>
   );
 }
-
-    
-
