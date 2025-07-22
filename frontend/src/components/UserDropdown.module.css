@@ -1,5 +1,4 @@
 /* ✅ Container principal : largeur encore réduite (-20px) */
-/* ✅ Container principal : largeur encore réduite (-20px) */
 .dropdown {
   position: fixed;
   top: 30px;
@@ -16,25 +15,20 @@
   padding: 0;
   margin: 30px;
 
-  font-family: var(--font-courier-prime);
+  font-family: inherit;
   display: flex;
   flex-direction: column;
 
   /* coins légèrement arrondis */
   border-radius: 12px;
-  overflow: hidden;
+  overflow: hidden; /* CRUCIAL pour l'effet */
 
-  /* --- AJOUTS ICI --- */
   /* Position par défaut (quand la sidebar est ouverte) */
   transform: translateX(0);
-  /* Ajoute une animation fluide pour un effet plus doux */
   transition: transform 0.2s ease-in-out;
 }
-.dropdown {
-  font-family: inherit; /* hérite de la sidebar/globals */
-}
 
-/* ✅ Section profil : reste tout en haut */
+/* ✅ Section profil : devient le bouton cliquable */
 .profileSection {
   display: flex;
   align-items: center;
@@ -44,6 +38,11 @@
   background: var(--kiwi-background-section);
   font-weight: bold;
   border-bottom: 1px solid var(--border-color);
+  cursor: pointer; /* Indique que c'est un bouton */
+  transition: background-color 0.2s ease;
+}
+.profileSection:hover {
+  background-color: var(--kiwi-hover-bg);
 }
 
 .profileIcon {
@@ -60,17 +59,42 @@
   font-size: 0.9rem;
 }
 
-/* ✅ Menu juste en dessous de profileSection */
+/* --- NOUVEAU : Icône chevron pour indiquer l'état ouvert/fermé --- */
+.chevronIcon {
+  margin-left: auto; /* Pousse l'icône tout à droite */
+  transition: transform 0.3s ease-in-out;
+  color: var(--nav-link-color);
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* --- NOUVEAU : Le container qui va coulisser --- */
+.collapsibleContent {
+  overflow: hidden;
+  /* La transition sur max-height crée l'effet machine à sous */
+  transition: max-height 0.4s ease-in-out; 
+}
+
+.contentClosed {
+  max-height: 0;
+}
+.contentOpen {
+  /* Assez grand pour tout contenir. L'animation s'arrêtera à la taille réelle. */
+  max-height: 1000px;
+}
+
+
+/* --- Le contenu à l'intérieur du container coulissant --- */
+/* (Aucun changement sur les styles de .menuList, .menuItem, etc.) */
 .menuList {
   list-style: none;
-  padding: 0.4rem 0.6rem; /* même padding que les socialLinks */
+  padding: 0.4rem 0.6rem;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem; /* même espacement que les réseaux sociaux */
+  gap: 0.4rem;
 }
-
-/* ✅ Chaque item ressemble à un socialLink */
 .menuItem {
   display: flex;
   align-items: center;
@@ -84,24 +108,19 @@
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .menuItem:hover {
   background-color: var(--kiwi-hover-bg);
   color: var(--nav-link-hover-color);
 }
-
 .menuItem svg {
   width: 18px;
   height: 18px;
   color: var(--icon-color);
   transition: color 0.2s ease;
 }
-
 .menuItem:hover svg {
   color: var(--primary-color);
 }
-
-/* ✅ Déconnexion séparée visuellement mais même hover */
 .logoutItem {
   border-top: 1px solid var(--border-color);
   margin-top: 0.5rem;
@@ -115,22 +134,16 @@
 .logoutItem:hover svg {
   color: #fff;
 }
-
-/* ✅ Ligne séparatrice */
 .divider {
   border-top: 1px solid var(--border-color);
   margin: 0.5rem 0;
 }
-
-/* ✅ Liens sociaux alignés comme menu items */
-/* ✅ Liens sociaux alignés comme menu items */
 .socialSection {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
   padding: 0.4rem 0.6rem;
 }
-
 .socialLink {
   display: flex;
   align-items: center;
@@ -142,35 +155,24 @@
   border-radius: 8px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
-
 .socialLink svg {
   width: 20px;
   height: 20px;
   transition: color 0.2s ease;
 }
-
 .socialLink:hover {
-  background-color: var(--primary-dark-color); /* Rouge foncé */
-  color: #fff; /* texte en blanc */
+  background-color: var(--primary-dark-color);
+  color: #fff;
 }
-
 .socialLink:hover svg {
-  color: #fff; /* icône en blanc */
+  color: #fff;
 }
-
 .socialName {
   flex: 1;
   text-align: left;
 }
 
-/* ... (tout le reste de votre code CSS pour les items, etc.) ... */
-
-/*
- * ✅ DÉCALAGE CONDITIONNEL
- * Cette règle s'applique uniquement lorsque le menu .dropdown se trouve
- * à l'intérieur d'un élément ayant une classe contenant "Sidebar_closed".
-*/
+/* --- RÈGLE CONDITIONNELLE INCHANGÉE --- */
 [class*="Sidebar_closed"] .dropdown {
-  /* Décale le menu de 80px vers la droite (la largeur de la sidebar fermée) */
   transform: translateX(80px);
 }

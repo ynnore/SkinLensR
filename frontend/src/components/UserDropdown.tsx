@@ -1,17 +1,21 @@
 'use client';
 
-import React from 'react';
+// ✅ Imports complétés avec useRef, useCallback, useOnClickOutside et useSound
+import React, { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '../context/ThemeContext'; // Assurez-vous que le chemin est correct
+import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import useSound from 'use-sound';
 import styles from './UserDropdown.module.css';
 
 // Icônes
 import {
   FaSignOutAlt, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaHandshake, FaThumbsUp, FaEnvelope,
-  FaUserPlus, FaNewspaper, FaTruck, FaExclamationTriangle, FaRocket, FaLightbulb, FaUserCircle // ✅ Icônes mises à jour
+  FaUserPlus, FaNewspaper, FaTruck, FaExclamationTriangle, FaRocket, FaLightbulb, FaUserCircle,
+  FaChevronDown
 } from 'react-icons/fa';
 import { FaTiktok } from 'react-icons/fa6';
 
@@ -27,9 +31,8 @@ const XIcon = ({ size = 18 }: { size?: number }) => (
   </svg>
 );
 
-// ✅ Traductions mises à jour
+// L'objet des traductions que vous avez fourni
 const allTranslations = {
-  // ✅ NOUVELLE SECTION pour les liens d'opération
   operationsLinks: {
     ghost: { en: 'Join Operation', fr: 'Rejoindre l\'Opération', mi: 'Hono atu ki te Whakahaere', ga: 'Páirt a ghlacadh san Oibríocht', hi: 'ऑपरेशन में शामिल हों', gd: 'Gabh an sàs san obair' },
     press: { en: 'Press', fr: 'Presse', mi: 'Pāpāho', ga: 'Preas', hi: 'प्रेस', gd: 'Na meadhanan' },
@@ -52,7 +55,6 @@ const allTranslations = {
   },
 };
 
-// Fonction de traduction
 const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
   section: S,
   key: K,
@@ -68,11 +70,30 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
   const { theme } = useTheme();
   const { language } = useLanguage();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null); // ✅ La ref pour le clic extérieur
+
+  // ✅ Le son de la roulette
+  const [playClickSound] = useSound('/sounds/roulette-click.mp3', { volume: 0.5 });
+  
+  // ✅ Ferme le menu si on clique en dehors
+  useOnClickOutside(dropdownRef, () => setIsMenuOpen(false));
+
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => !prev);
+    playClickSound(); // Joue le son
+  }, [playClickSound]);
+
   const handleLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     onClose();
     router.push('/logout');
   };
+  
+  const handleLinkClick = useCallback(() => {
+    setIsMenuOpen(false); // Ferme le menu au clic sur un lien
+    onClose();
+  }, [onClose]);
 
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
@@ -80,52 +101,58 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
   const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
 
   return (
-    <div className={styles.dropdown} style={{ '--kiwi-text-primary': textColor, '--kiwi-text-secondary': mutedTextColor, '--kiwi-border-color': borderColor, '--kiwi-hover-bg': hoverBgColor } as React.CSSProperties}>
-      <div className={styles.profileSection}>
+    // ✅ La ref est attachée au conteneur principal
+    <div className={styles.dropdown} ref={dropdownRef} style={{ '--kiwi-text-primary': textColor, '--kiwi-text-secondary': mutedTextColor, '--kiwi-border-color': borderColor, '--kiwi-hover-bg': hoverBgColor } as React.CSSProperties}>
+      
+      {/* Le bouton qui contrôle tout */}
+      <div className={styles.profileSection} onClick={toggleMenu}>
         <FaUserCircle className={styles.profileIcon} />
         <span className={styles.profileEmail}>{userEmail}</span>
+        <FaChevronDown className={`${styles.chevronIcon} ${isMenuOpen ? styles.chevronOpen : ''}`} />
       </div>
 
-      <div className={styles.divider}></div>
-      
-      {/* ✅ NOUVELLE SECTION OPÉRATIONNELLE EN HAUT */}
-      <ul className={styles.menuList}>
-        <li><Link href="/register" className={styles.menuItem} onClick={onClose}><FaUserPlus /><span>{getTranslation('operationsLinks', 'ghost', language)}</span></Link></li>
-        <li><a href="mailto:press@kiwi-ops.com" className={styles.menuItem}><FaNewspaper /><span>{getTranslation('operationsLinks', 'press', language)}</span></a></li>
-        <li><a href="mailto:dispatch@kiwi-ops.com" className={styles.menuItem}><FaTruck /><span>{getTranslation('operationsLinks', 'dispatch', language)}</span></a></li>
-        <li><a href="mailto:breach@kiwi-ops.com" className={styles.menuItem}><FaExclamationTriangle /><span>{getTranslation('operationsLinks', 'breach', language)}</span></a></li>
-        <li><a href="mailto:vanguard@kiwi-ops.com" className={styles.menuItem}><FaRocket /><span>{getTranslation('operationsLinks', 'vanguard', language)}</span></a></li>
-        <li><a href="mailto:intel@kiwi-ops.com" className={styles.menuItem}><FaLightbulb /><span>{getTranslation('operationsLinks', 'intel', language)}</span></a></li>
-      </ul>
-      
-      <div className={styles.divider}></div>
+      {/* Le conteneur coulissant */}
+      <div className={`${styles.collapsibleContent} ${isMenuOpen ? styles.contentOpen : styles.contentClosed}`}>
+        
+        {/* Le contenu est identique à votre code */}
+        <div className={styles.divider}></div>
+        
+        <ul className={styles.menuList}>
+            <li><Link href="/register" className={styles.menuItem} onClick={handleLinkClick}><FaUserPlus /><span>{getTranslation('operationsLinks', 'ghost', language)}</span></Link></li>
+            <li><a href="mailto:press@kiwi-ops.com" className={styles.menuItem}><FaNewspaper /><span>{getTranslation('operationsLinks', 'press', language)}</span></a></li>
+            <li><a href="mailto:dispatch@kiwi-ops.com" className={styles.menuItem}><FaTruck /><span>{getTranslation('operationsLinks', 'dispatch', language)}</span></a></li>
+            <li><a href="mailto:breach@kiwi-ops.com" className={styles.menuItem}><FaExclamationTriangle /><span>{getTranslation('operationsLinks', 'breach', language)}</span></a></li>
+            <li><a href="mailto:vanguard@kiwi-ops.com" className={styles.menuItem}><FaRocket /><span>{getTranslation('operationsLinks', 'vanguard', language)}</span></a></li>
+            <li><a href="mailto:intel@kiwi-ops.com" className={styles.menuItem}><FaLightbulb /><span>{getTranslation('operationsLinks', 'intel', language)}</span></a></li>
+        </ul>
+        
+        <div className={styles.divider}></div>
 
-      {/* Section Contact */}
-      <ul className={styles.menuList}>
-        <li><a href="mailto:partners@kiwi-ops.com" className={styles.menuItem}><FaHandshake /><span>{getTranslation('contactLinks', 'becomePartners', language)}</span></a></li>
-        <li><a href="mailto:feedback@kiwi-ops.com" className={styles.menuItem}><FaThumbsUp /><span>{getTranslation('contactLinks', 'feedback', language)}</span></a></li>
-        <li><Link href="/contact-sales" className={styles.menuItem} onClick={onClose}><FaEnvelope /><span>{getTranslation('contactLinks', 'talkToSales', language)}</span></Link></li>
-      </ul>
+        <ul className={styles.menuList}>
+            <li><a href="mailto:partners@kiwi-ops.com" className={styles.menuItem}><FaHandshake /><span>{getTranslation('contactLinks', 'becomePartners', language)}</span></a></li>
+            <li><a href="mailto:feedback@kiwi-ops.com" className={styles.menuItem}><FaThumbsUp /><span>{getTranslation('contactLinks', 'feedback', language)}</span></a></li>
+            <li><Link href="/contact-sales" className={styles.menuItem} onClick={handleLinkClick}><FaEnvelope /><span>{getTranslation('contactLinks', 'talkToSales', language)}</span></Link></li>
+        </ul>
 
-      <div className={styles.divider}></div>
+        <div className={styles.divider}></div>
+        
+        <ul className={styles.menuList}>
+            <li><a href="https://x.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><XIcon /><span>{getTranslation('socials', 'followUs', language)}</span></a></li>
+            <li><a href="https://youtube.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaYoutube /><span>YouTube</span></a></li>
+            <li><a href="https://www.linkedin.com/company/kiwiops" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaLinkedin /><span>LinkedIn</span></a></li>
+            <li><a href="https://github.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaGithub /><span>GitHub</span></a></li>
+            <li><a href="https://www.instagram.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaInstagram /><span>Instagram</span></a></li>
+            <li><a href="https://www.tiktok.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaTiktok /><span>TikTok</span></a></li>
+            <li><a href="https://discord.gg/KiwiOpsCommunity" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaDiscord /><span>{getTranslation('socials', 'joinDiscord', language)}</span></a></li>
+        </ul>
 
-      {/* Section Déconnexion */}
-      <ul className={styles.menuList}>
-        <li><a onClick={handleLogout} className={`${styles.menuItem} ${styles.logoutItem}`}><FaSignOutAlt /><span>{getTranslation('userDropdown', 'logoutLink', language)}</span></a></li>
-      </ul>
+        <div className={styles.divider}></div>
 
-      <div className={styles.divider}></div>
-      
-      {/* Section Réseaux Sociaux */}
-      <ul className={styles.menuList}>
-        <li><a href="https://x.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><XIcon /><span>{getTranslation('socials', 'followUs', language)}</span></a></li>
-        <li><a href="https://youtube.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaYoutube /><span>YouTube</span></a></li>
-        <li><a href="https://www.linkedin.com/company/kiwiops" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaLinkedin /><span>LinkedIn</span></a></li>
-        <li><a href="https://github.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaGithub /><span>GitHub</span></a></li>
-        <li><a href="https://www.instagram.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaInstagram /><span>Instagram</span></a></li>
-        <li><a href="https://www.tiktok.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaTiktok /><span>TikTok</span></a></li>
-        <li><a href="https://discord.gg/KiwiOpsCommunity" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={onClose}><FaDiscord /><span>{getTranslation('socials', 'joinDiscord', language)}</span></a></li>
-      </ul>
+        <ul className={styles.menuList}>
+            <li><a onClick={handleLogout} className={`${styles.menuItem} ${styles.logoutItem}`}><FaSignOutAlt /><span>{getTranslation('userDropdown', 'logoutLink', language)}</span></a></li>
+        </ul>
+
+      </div>
     </div>
   );
 }

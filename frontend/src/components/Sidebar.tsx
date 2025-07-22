@@ -107,7 +107,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
             {isMenuOpen && (
               <UserDropdown
                 onClose={() => setMenuOpen(false)}
-                userEmail="kiwiops@hq.com"
+                userEmail="agent.kiwiops@hq.com"
               />
             )}
           </div>
