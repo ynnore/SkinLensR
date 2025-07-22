@@ -1,4 +1,4 @@
-import styles from './UserDropdown.module.css';
+import styles from '/UserDropdown.module.css';
 import { FaSignOutAlt, FaTwitter, FaDiscord } from 'react-icons/fa';
 
 export default function UserDropdown() {

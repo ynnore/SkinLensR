@@ -4,17 +4,43 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
-import { LanguageCode } from '@/types'; // Importez LanguageCode
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageCode } from '@/types';
 import styles from './UserDropdown.module.css';
-import { FaUserCircle, FaSignOutAlt, FaTwitter, FaDiscord, FaTag, FaCog } from 'react-icons/fa';
+
+// Icônes
+import { 
+  FaUserCircle, 
+  FaSignOutAlt, 
+  FaDiscord, 
+  FaTag, 
+  FaCog, 
+  FaYoutube, 
+  FaLinkedin, 
+  FaGithub, 
+  FaInstagram 
+} from 'react-icons/fa';
+import { FaTiktok } from 'react-icons/fa6'; // TikTok est dans fa6
 
 interface UserDropdownProps {
   onClose: () => void;
   userEmail: string;
 }
 
-// Définitions des traductions pour ce composant
+// ✅ SVG minimaliste pour X
+const XIcon = ({ size = 20 }: { size?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M18 2h3l-7.5 9 7.5 11h-3l-6-9-6 9H3l7.5-11L3 2h3l6 8z"/>
+  </svg>
+);
+
+// ✅ Traductions
 const allTranslations = {
   userDropdown: {
     profileLink: {
@@ -65,30 +91,26 @@ const allTranslations = {
   },
 };
 
-// Fonction de traduction générique
+// ✅ Fonction traduction
 const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
   section: S,
   key: K,
   lang: LanguageCode
 ): string => {
   const sectionTranslations = allTranslations[section];
-  if (!sectionTranslations) {
-    console.warn(`Translation section not found: ${String(section)}`);
-    return `[Missing Section: ${String(section)}]`;
-  }
+  if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
+
   const specificTranslations = sectionTranslations[key];
-  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
-    console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
+  if (typeof specificTranslations !== 'object' || !('en' in specificTranslations)) {
     return `[Invalid Translation: ${String(section)}.${String(key)}]`;
   }
   return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
 };
 
-
 export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) {
   const router = useRouter();
   const { theme } = useTheme();
-  const { language } = useLanguage(); // Obtenez la langue courante
+  const { language } = useLanguage();
 
   const handleLogout = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -97,7 +119,7 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
     router.push('/logout');
   };
 
-  // Définissez les couleurs en fonction du thème (pour injecter dans les variables CSS)
+  // ✅ Couleurs dynamiques selon thème
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
   const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
@@ -107,7 +129,6 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
   const hoverBgColor = theme === 'dark' ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)';
   const buttonDangerBg = theme === 'dark' ? '#B03A2E' : '#dc3545';
   const buttonDangerHoverBg = theme === 'dark' ? '#993026' : '#c82333';
-
 
   return (
     <div
@@ -122,16 +143,15 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
         '--kiwi-hover-bg': hoverBgColor,
         '--kiwi-button-danger-bg': buttonDangerBg,
         '--kiwi-button-danger-hover-bg': buttonDangerHoverBg,
-        '--font-special-elite': "'Playfair Display', serif",
-        '--font-courier-prime': "'Georgia', serif",
-      } as React.CSSProperties}
+           } as React.CSSProperties}
     >
-      {/* Section Profil/Email */}
+      {/* ✅ Profil */}
       <div className={styles.profileSection}>
         <FaUserCircle className={styles.profileIcon} />
         <span className={styles.profileEmail}>{userEmail}</span>
       </div>
 
+      {/* ✅ Menu */}
       <ul className={styles.menuList}>
         <li>
           <Link href="/profile" className={styles.menuItem} onClick={onClose}>
@@ -148,7 +168,6 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
             <FaTag /><span>{getTranslation('userDropdown', 'pricingLink', language)}</span>
           </Link>
         </li>
-        {/* L'élément de déconnexion */}
         <li>
           <a onClick={handleLogout} className={`${styles.menuItem} ${styles.logoutItem}`}>
             <FaSignOutAlt /><span>{getTranslation('userDropdown', 'logoutLink', language)}</span>
@@ -158,15 +177,99 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
 
       <div className={styles.divider}></div>
 
-      {/* Réseaux sociaux */}
+      {/* ✅ Réseaux sociaux */}
       <div className={styles.socialSection}>
-        <a href="https://twitter.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.socialLink} onClick={onClose} aria-label="Twitter">
-          <FaTwitter />
-        </a>
-        <a href="https://discord.gg/KiwiOpsCommunity" target="_blank" rel="noopener noreferrer" className={styles.socialLink} onClick={onClose} aria-label="Discord">
-          <FaDiscord />
-        </a>
-      </div>
+       {/* X (ancien Twitter) */}
+  <a 
+    href="https://x.com/KiwiOps" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="X"
+  >
+    <XIcon />
+    <span className={styles.socialName}>X (Twitter)</span>
+  </a>
+
+  {/* Discord */}
+  <a 
+    href="https://discord.gg/KiwiOpsCommunity" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="Discord"
+  >
+    <FaDiscord />
+    <span className={styles.socialName}>Discord</span>
+  </a>
+
+  {/* YouTube */}
+  <a 
+    href="https://youtube.com/@KiwiOps" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="YouTube"
+  >
+    <FaYoutube />
+    <span className={styles.socialName}>YouTube</span>
+  </a>
+
+  {/* LinkedIn */}
+  <a 
+    href="https://www.linkedin.com/company/kiwiops" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="LinkedIn"
+  >
+    <FaLinkedin />
+    <span className={styles.socialName}>LinkedIn</span>
+  </a>
+
+  {/* GitHub */}
+  <a 
+    href="https://github.com/KiwiOps" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="GitHub"
+  >
+    <FaGithub />
+    <span className={styles.socialName}>GitHub</span>
+  </a>
+
+  {/* Instagram */}
+  <a 
+    href="https://www.instagram.com/KiwiOps" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="Instagram"
+  >
+    <FaInstagram />
+    <span className={styles.socialName}>Instagram</span>
+  </a>
+
+  {/* TikTok */}
+  <a 
+    href="https://www.tiktok.com/@KiwiOps" 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className={styles.socialLink} 
+    onClick={onClose} 
+    aria-label="TikTok"
+  >
+    <FaTiktok />
+    <span className={styles.socialName}>TikTok</span>
+  </a>
+</div>
     </div>
   );
 }

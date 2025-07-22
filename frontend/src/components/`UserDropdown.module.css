@@ -1,41 +1,32 @@
-/* Fichier: src/components/'UserDropdown.module.css */
-
 .dropdown {
-  position: absolute;
-  top: 100%; /* Le positionne juste en dessous du bouton parent */
-  left: 0;   /* Aligne le bord gauche du menu avec le bord gauche du bouton "o" */
+  position: fixed; /* fixé par rapport à la fenêtre, pas au parent */
+  top: 60px; /* décale sous le header de la sidebar */
+  left: 0; /* collé au bord gauche */
+  width: 240px; /* même largeur que ta sidebar (ajuste si besoin) */
 
-  background-color: var(--kiwi-background-section); /* Devrait être opaque, e.g., #F8F8F8 */
-  border: 1px solid var(--kiwi-border-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px var(--kiwi-shadow-color-card);
-  padding: 0.5rem 0;
-  min-width: 220px;
-  z-index: 1000; /* Assurez-vous qu'il est au-dessus de tout */
-  list-style: none;
-  margin: 0.5rem 0 0;
+  background-color: var(--kiwi-background-section);
+  border-right: 1px solid var(--kiwi-border-color);
+  box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+  z-index: 1500; /* plus haut que la sidebar */
+
+  padding: 0;
+  margin: 0;
   font-family: var(--font-courier-prime);
-  text-align: left;
-  transform-origin: top left;
-  /* Retire toutes les règles d'opacité, de transform ou de pointer-events spécifiques ici. */
-  /* C'est le composant parent (Sidebar.tsx) qui gère le isMenuOpen et donc le rendu/non-rendu. */
 }
 
-/* Les styles pour les sections internes restent les mêmes, juste pour l'exhaustivité */
+/* Section profil */
 .profileSection {
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.8rem 1.2rem;
+  padding: 1rem;
   border-bottom: 1px solid var(--kiwi-border-color);
-  margin-bottom: 0.5rem;
   color: var(--kiwi-text-primary);
-  font-size: 0.95rem;
   font-weight: bold;
 }
 
 .profileIcon {
-  font-size: 1.0rem;
+  font-size: 1.2rem;
   color: var(--kiwi-highlight-color);
 }
 
@@ -44,6 +35,7 @@
   color: var(--kiwi-text-secondary);
 }
 
+/* Liens menu */
 .menuList {
   list-style: none;
   padding: 0;
@@ -54,7 +46,7 @@
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  padding: 0.8rem 1.2rem;
+  padding: 0.9rem 1.2rem;
   color: var(--kiwi-text-primary);
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;

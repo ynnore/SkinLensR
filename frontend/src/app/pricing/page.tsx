@@ -1,9 +1,10 @@
+      
 'use client';
 
 import React from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
-import { LanguageCode } from '@/types'; // Importez LanguageCode
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageCode } from '@/types';
 import styles from './pricing.module.css';
 import { FaCheckCircle, FaTimesCircle, FaStar } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
@@ -32,7 +33,7 @@ const allTranslations = {
     subtitle: {
       en: '"Choose the level of accreditation that best suits your operations and strategic needs."',
       fr: '"Choisissez le niveau d\'accréditation qui correspond le mieux à vos opérations et à vos besoins stratégiques."',
-      mi: '"Kōwhiria te taumata o te whakamana e pai ana ki ō mahi me ō hiahia rautaki."',
+      mi: '"Kōwhiria te taumata o te whakamana e pai ana kiō mahi meō hiahia rautaki."',
       ga: '"Roghnaigh an leibhéal creidiúnaithe is fearr a oireann do d\'oibríochtaí agus do riachtanais straitéiseacha."',
       hi: '"अपनी संचालन और रणनीतिक आवश्यकताओं के लिए सबसे उपयुक्त प्रत्यायन स्तर चुनें।"',
       gd: '"Tagh an ìre barantachd as fheàrr a fhreagras air do ghnìomhachdan agus do fheumalachdan ro-innleachdail."',
@@ -64,7 +65,7 @@ const allTranslations = {
       ga: 'Rochtain Riachtanach ar Uirlisí',
       hi: 'आवश्यक उपकरण पहुंच',
       gd: 'Ruigsinneachd Innealan Riatanach',
-      'en-AU': 'Essential Tool Access', 'en-NZ': 'Essential Tool Access', 'en-CA': 'Essential Tool Access', 'fr-CA': 'Accès Essentiel aux Outils', 'en-ZA': 'Essential Tool Access', af: 'Noodsaaklike Gereedskap Toegang'
+      'en-AU': 'Essential Tool Access', 'en-NZ': 'Essential Tool Access', 'en-CA': 'Essential Tool Access', 'fr-CA': 'Accès Essentiel aux Outils', 'en-ZA': 'Noodsaaklike Gereedskap Toegang', af: 'Noodsaaklike Gereedskap Toegang'
     },
     basicFeature2: {
       en: '1 Active Mission',
@@ -73,7 +74,7 @@ const allTranslations = {
       ga: '1 Misean Gníomhach',
       hi: '1 सक्रिय मिशन',
       gd: '1 Misean Gnìomhach',
-      'en-AU': '1 Active Mission', 'en-NZ': '1 Active Mission', 'en-CA': '1 Active Mission', 'fr-CA': '1 Mission Active', 'en-ZA': '1 Active Mission', af: '1 Aktiewe Sending'
+      'en-AU': '1 Active Mission', 'en-NZ': '1 Active Mission', 'en-CA': '1 Active Mission', 'fr-CA': '1 Mission Active', 'en-ZA': '1 Aktiewe Sending', af: '1 Aktiewe Sending'
     },
     basicFeature3: {
       en: 'Standard Support',
@@ -82,7 +83,7 @@ const allTranslations = {
       ga: 'Tacaíocht Chaighdeánach',
       hi: 'मानक समर्थन',
       gd: 'Taic Cunbhalach',
-      'en-AU': 'Standard Support', 'en-NZ': 'Standard Support', 'en-CA': 'Standard Support', 'fr-CA': 'Support Standard', 'en-ZA': 'Standard Support', af: 'Standaard Ondersteuning'
+      'en-AU': 'Standard Support', 'en-NZ': 'Standard Support', 'en-CA': 'Standard Support', 'fr-CA': 'Support Standard', 'en-ZA': 'Standaard Ondersteuning', af: 'Standaard Ondersteuning'
     },
     basicFeature4: {
       en: 'Advanced Analysis Reports',
@@ -91,7 +92,7 @@ const allTranslations = {
       ga: 'Tuarascálacha Anailíse Casta',
       hi: 'उन्नत विश्लेषण रिपोर्ट',
       gd: 'Aithisgean Mion-sgrùdaidh Adhartach',
-      'en-AU': 'Advanced Analysis Reports', 'en-NZ': 'Advanced Analysis Reports', 'en-CA': 'Advanced Analysis Reports', 'fr-CA': 'Rapports d\'Analyse Avancée', 'en-ZA': 'Advanced Analysis Reports', af: 'Gevorderde Analise Verslae'
+      'en-AU': 'Advanced Analysis Reports', 'en-NZ': 'Advanced Analysis Reports', 'en-CA': 'Advanced Analysis Reports', 'fr-CA': 'Rapports d\'Analyse Avancée', 'en-ZA': 'Gevorderde Analise Verslae', af: 'Gevorderde Analise Verslae'
     },
     basicFeature5: {
       en: 'Full Archives Access',
@@ -100,7 +101,7 @@ const allTranslations = {
       ga: 'Rochtain Iomlán ar Chartlanna',
       hi: 'पूर्ण अभिलेखागार पहुंच',
       gd: 'Ruigsinneachd Tasglannan Làn',
-      'en-AU': 'Full Archives Access', 'en-NZ': 'Full Archives Access', 'en-CA': 'Full Archives Access', 'fr-CA': 'Accès aux Archives Complètes', 'en-ZA': 'Full Archives Access', af: 'Volle Argief Toegang'
+      'en-AU': 'Full Archives Access', 'en-NZ': 'Full Archives Access', 'en-CA': 'Full Archives Access', 'fr-CA': 'Accès aux Archives Complètes', 'en-ZA': 'Volle Argief Toegang', af: 'Volle Argief Toegang'
     },
     basicCta: {
       en: 'Accredit (Free)',
@@ -109,7 +110,7 @@ const allTranslations = {
       ga: 'Creidiúnaigh (Saor in Aisce)',
       hi: 'प्रत्यायन करें (मुफ़्त)',
       gd: 'Barrantachd (Saor)',
-      'en-AU': 'Accredit (Free)', 'en-NZ': 'Accredit (Free)', 'en-CA': 'Accredit (Free)', 'fr-CA': 'S\'Accréditer (Gratuit)', 'en-ZA': 'Accredit (Free)', af: 'Akkrediteer (Gratis)'
+      'en-AU': 'Accredit (Free)', 'en-NZ': 'Accredit (Free)', 'en-CA': 'Accredit (Free)', 'fr-CA': 'S\'Accréditer (Gratuit)', 'en-ZA': 'Akkrediteer (Gratis)', af: 'Akkrediteer (Gratis)'
     },
     // Plan Standard
     planStandardName: {
@@ -119,7 +120,7 @@ const allTranslations = {
       ga: 'Foireann OPS',
       hi: 'टीम ऑप्स',
       gd: 'Sgioba OPS',
-      'en-AU': 'TEAM OPS', 'en-NZ': 'TEAM OPS', 'en-CA': 'TEAM OPS', 'fr-CA': 'ÉQUIPE OPS', 'en-ZA': 'TEAM OPS', af: 'SPAN OPS'
+      'en-AU': 'TEAM OPS', 'en-NZ': 'TEAM OPS', 'en-CA': 'TEAM OPS', 'fr-CA': 'ÉQUIPE OPS', 'en-ZA': 'SPAN OPS', af: 'SPAN OPS'
     },
     planStandardDescription: {
       en: 'For teams requiring increased coordination.',
@@ -128,7 +129,7 @@ const allTranslations = {
       ga: 'Do fhoirne a dteastaíonn comhordú méadaithe uathu.',
       hi: 'बढ़े हुए समन्वय की आवश्यकता वाली टीमों के लिए।',
       gd: 'Airson sgiobaidhean a tha feumach air barrachd co-òrdanachaidh.',
-      'en-AU': 'For teams requiring increased coordination.', 'en-NZ': 'For teams requiring increased coordination.', 'en-CA': 'For teams requiring increased coordination.', 'fr-CA': 'Pour les équipes nécessitant une coordination accrue.', 'en-ZA': 'For teams requiring increased coordination.', af: 'Vir spanne wat verhoogde koördinering benodig.'
+      'en-AU': 'For teams requiring increased coordination.', 'en-NZ': 'For teams requiring increased coordination.', 'en-CA': 'For teams requiring increased coordination.', 'fr-CA': 'Pour les équipes nécessitant une coordination accrue.', 'en-ZA': 'Vir spanne wat verhoogde koördinering benodig.', af: 'Vir spanne wat verhoogde koördinering benodig.'
     },
     standardFeature1: {
       en: 'Full Tool Access',
@@ -137,7 +138,7 @@ const allTranslations = {
       ga: 'Rochtain Iomlán ar Uirlisí',
       hi: 'पूर्ण उपकरण पहुंच',
       gd: 'Ruigsinneachd Innealan Làn',
-      'en-AU': 'Full Tool Access', 'en-NZ': 'Full Tool Access', 'en-CA': 'Full Tool Access', 'fr-CA': 'Accès Complet aux Outils', 'en-ZA': 'Full Tool Access', af: 'Volledige Gereedskap Toegang'
+      'en-AU': 'Full Tool Access', 'en-NZ': 'Full Tool Access', 'en-CA': 'Full Tool Access', 'fr-CA': 'Accès Complet aux Outils', 'en-ZA': 'Volledige Gereedskap Toegang', af: 'Volledige Gereedskap Toegang'
     },
     standardFeature2: {
       en: 'Unlimited Missions',
@@ -146,7 +147,7 @@ const allTranslations = {
       ga: 'Misin Gan Teorainn',
       hi: 'असीमित मिशन',
       gd: 'Miseanan Neo-chuingealaichte',
-      'en-AU': 'Unlimited Missions', 'en-NZ': 'Unlimited Missions', 'en-CA': 'Unlimited Missions', 'fr-CA': 'Missions Illimitées', 'en-ZA': 'Unlimited Missions', af: 'Onbeperkte Sendings'
+      'en-AU': 'Unlimited Missions', 'en-NZ': 'Unlimited Missions', 'en-CA': 'Unlimited Missions', 'fr-CA': 'Missions Illimitées', 'en-ZA': 'Onbeperkte Sendings', af: 'Onbeperkte Sendings'
     },
     standardFeature3: {
       en: 'Priority Support',
@@ -155,7 +156,7 @@ const allTranslations = {
       ga: 'Tacaíocht Tosaíochta',
       hi: 'प्राथमिकता समर्थन',
       gd: 'Taic Prìomhach',
-      'en-AU': 'Priority Support', 'en-NZ': 'Priority Support', 'en-CA': 'Priority Support', 'fr-CA': 'Support Prioritaire', 'en-ZA': 'Priority Support', af: 'Prioriteit Ondersteuning'
+      'en-AU': 'Priority Support', 'en-NZ': 'Priority Support', 'en-CA': 'Priority Support', 'fr-CA': 'Support Prioritaire', 'en-ZA': 'Prioriteit Ondersteuning', af: 'Prioriteit Ondersteuning'
     },
     standardCta: {
       en: 'Choose this Protocol',
@@ -164,7 +165,7 @@ const allTranslations = {
       ga: 'Roghnaigh an Prótacal seo',
       hi: 'यह प्रोटोकॉल चुनें',
       gd: 'Tagh an Protocol seo',
-      'en-AU': 'Choose this Protocol', 'en-NZ': 'Choose this Protocol', 'en-CA': 'Choose this Protocol', 'fr-CA': 'Choisir ce Protocole', 'en-ZA': 'Choose this Protocol', af: 'Kies hierdie Protokol'
+      'en-AU': 'Choose this Protocol', 'en-NZ': 'Choose this Protocol', 'en-CA': 'Choose this Protocol', 'fr-CA': 'Choisir ce Protocole', 'en-ZA': 'Kies hierdie Protokol', af: 'Kies hierdie Protokol'
     },
     // Plan Premium
     planPremiumName: {
@@ -173,7 +174,7 @@ const allTranslations = {
       mi: 'QG OPS',
       ga: 'Ceanncheathrú OPS',
       hi: 'मुख्यालय ऑप्स',
-      gd: 'Ceannard-Oifig OPS',
+      gd: 'Ceannard-Oifis OPS',
       'en-AU': 'HQ OPS', 'en-NZ': 'HQ OPS', 'en-CA': 'HQ OPS', 'fr-CA': 'QG OPS', 'en-ZA': 'HQ OPS', af: 'HQ OPS'
     },
     planPremiumDescription: {
@@ -183,7 +184,7 @@ const allTranslations = {
       ga: 'An leibhéal is airde údaráis agus acmhainní.',
       hi: 'अधिकार और संसाधनों का उच्चतम स्तर।',
       gd: 'An ìre as àirde de dh\'ùghdarras agus goireasan.',
-      'en-AU': 'The highest level of authority and resources.', 'en-NZ': 'The highest level of authority and resources.', 'en-CA': 'The highest level of authority and resources.', 'fr-CA': 'Le plus haut niveau d\'autorité et de ressources.', 'en-ZA': 'The highest level of authority and resources.', af: 'Die hoogste vlak van gesag en hulpbronne.'
+      'en-AU': 'The highest level of authority and resources.', 'en-NZ': 'The highest level of authority and resources.', 'en-CA': 'The highest level of authority and resources.', 'fr-CA': 'Le plus haut niveau d\'autorité et de ressources.', 'en-ZA': 'Die hoogste vlak van gesag en hulpbronne.', af: 'Die hoogste vlak van gesag en hulpbronne.'
     },
     premiumFeature1: {
       en: 'Ultra Full Access',
@@ -192,7 +193,7 @@ const allTranslations = {
       ga: 'Rochtain Ultra Iomlán',
       hi: 'अल्ट्रा पूर्ण पहुंच',
       gd: 'Ruigsinneachd Ultra Làn',
-      'en-AU': 'Ultra Full Access', 'en-NZ': 'Ultra Full Access', 'en-CA': 'Ultra Full Access', 'fr-CA': 'Accès Ultra Complet', 'en-ZA': 'Ultra Full Access', af: 'Ultra Volledige Toegang'
+      'en-AU': 'Ultra Full Access', 'en-NZ': 'Ultra Full Access', 'en-CA': 'Ultra Full Access', 'fr-CA': 'Accès Ultra Complet', 'en-ZA': 'Ultra Volledige Toegang', af: 'Ultra Volledige Toegang'
     },
     premiumFeature2: {
       en: 'Dedicated 24/7 Support',
@@ -201,7 +202,7 @@ const allTranslations = {
       ga: 'Tacaíocht Tiomnaithe 24/7',
       hi: 'समर्पित 24/7 समर्थन',
       gd: 'Taic Coisrigte 24/7',
-      'en-AU': 'Dedicated 24/7 Support', 'en-NZ': 'Dedicated 24/7 Support', 'en-CA': 'Dedicated 24/7 Support', 'fr-CA': 'Support Dédié 24/7', 'en-ZA': 'Dedicated 24/7 Support', af: 'Toegewyde 24/7 Ondersteuning'
+      'en-AU': 'Dedicated 24/7 Support', 'en-NZ': 'Dedicated 24/7 Support', 'en-CA': 'Dedicated 24/7 Support', 'fr-CA': 'Support Dédié 24/7', 'en-ZA': 'Toegewyde 24/7 Ondersteuning', af: 'Toegewyde 24/7 Ondersteuning'
     },
     premiumCta: {
       en: 'Become Commander',
@@ -210,7 +211,7 @@ const allTranslations = {
       ga: 'Bí i do Cheannasaí',
       hi: 'कमांडर बनें',
       gd: 'Biodh na Chomanndair',
-      'en-AU': 'Become Commander', 'en-NZ': 'Become Commander', 'en-CA': 'Become Commander', 'fr-CA': 'Devenir Commandant', 'en-ZA': 'Become Commander', af: 'Word Kommandant'
+      'en-AU': 'Become Commander', 'en-NZ': 'Become Commander', 'en-CA': 'Become Commander', 'fr-CA': 'Devenir Commandant', 'en-ZA': 'Word Kommandant', af: 'Word Kommandant'
     },
     footer: {
       en: 'Kiwi-Ops – Secure Financial Protocols.',
@@ -219,7 +220,17 @@ const allTranslations = {
       ga: 'Kiwi-Ops – Prótacail Airgeadais Slána.',
       hi: 'कीवी-ऑप्स – सुरक्षित वित्तीय प्रोटोकॉल।',
       gd: 'Kiwi-Ops – Protocolan Ionmhasail Tèarainte.',
-      'en-AU': 'Kiwi-Ops – Secure Financial Protocols.', 'en-NZ': 'Kiwi-Ops – Secure Financial Protocols.', 'en-CA': 'Kiwi-Ops – Secure Financial Protocols.', 'fr-CA': 'Kiwi-Ops – Protocoles Financiers Sécurisés.', 'en-ZA': 'Kiwi-Ops – Secure Financial Protocols.', af: 'Kiwi-Ops – Veilige Finansiële Protokolle.'
+      'en-AU': 'Kiwi-Ops – Secure Financial Protocols.', 'en-NZ': 'Kiwi-Ops – Secure Financial Protocols.', 'en-CA': 'Kiwi-Ops – Secure Financial Protocols.', 'fr-CA': 'Kiwi-Ops – Protocoles Financiers Sécurisés.', 'en-ZA': 'Kiwi-Ops – Veilige Finansiële Protokolle.', af: 'Kiwi-Ops – Veilige Finansiële Protokolle.'
+    },
+    // Ajout de la traduction pour 'month' pour la page pricing elle-même
+    month: {
+        en: 'month',
+        fr: 'mois',
+        mi: 'marama',
+        ga: 'mí',
+        hi: 'महीना',
+        gd: 'mìos',
+        'en-AU': 'month', 'en-NZ': 'month', 'en-CA': 'month', 'fr-CA': 'mois', 'en-ZA': 'month', af: 'maand'
     }
   }
 };
@@ -231,7 +242,10 @@ const getTranslation = <S extends keyof typeof allTranslations, K extends keyof 
   lang: LanguageCode
 ): string => {
   const sectionTranslations = allTranslations[section];
-  if (!sectionTranslations) return `[Missing Section: ${String(section)}]`;
+  if (!sectionTranslations) {
+    console.warn(`Translation section not found: ${String(section)}`);
+    return `[Missing Section: ${String(section)}]`;
+  }
   const specificTranslations = sectionTranslations[key];
   if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
     console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
@@ -243,20 +257,17 @@ const getTranslation = <S extends keyof typeof allTranslations, K extends keyof 
 
 export default function PricingPage() {
   const { theme } = useTheme();
-  const { language } = useLanguage(); // Obtenez la langue courante
+  const { language } = useLanguage();
   const router = useRouter();
 
-  // Définissez les couleurs en fonction du thème
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
   const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
 
-  // Backgrounds: FIXÉ À BLANC PUR POUR LE MODE CLAIR
   const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#ffffff';
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Gris très très clair pour les cartes
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8';
 
-  // Autres couleurs dérivées
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.1)';
   const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)';
   const shadowColorHover = theme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.2)';
@@ -271,7 +282,6 @@ export default function PricingPage() {
     <div
       className={styles.pageContainer}
       style={{
-        // Définition des variables CSS pour cette page
         '--kiwi-background-page': backgroundColorPage,
         '--kiwi-text-primary': textColor,
         '--kiwi-text-secondary': mutedTextColor,
@@ -305,7 +315,7 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planBasicDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €0<span>/{getTranslation('sidebar', 'month', language) || 'month'}</span> {/* Assurez-vous d'avoir 'month' dans les traductions de la sidebar si vous l'utilisez */}
+            €0<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature1', language)}</li>
@@ -329,14 +339,14 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planStandardDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €29<span>/{getTranslation('sidebar', 'month', language) || 'month'}</span>
+            €29<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature1', language)}</li>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature2', language)}</li>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature3', language)}</li>
-            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature4', language)}</li> {/* Réutilise la traduction de "Rapports d'Analyse Avancée" */}
-            <li><FaTimesCircle className={styles.featureIcon} style={{ color: mutedTextColor }} /> {getTranslation('pricingPage', 'basicFeature5', language)}</li> {/* Réutilise la traduction de "Accès aux Archives Complètes" */}
+            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature4', language)}</li>
+            <li><FaTimesCircle className={styles.featureIcon} style={{ color: mutedTextColor }} /> {getTranslation('pricingPage', 'basicFeature5', language)}</li>
           </ul>
           <button
             className={styles.callToAction}
@@ -356,14 +366,14 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planPremiumDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €79<span>/{getTranslation('sidebar', 'month', language) || 'month'}</span>
+            €79<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'premiumFeature1', language)}</li>
-            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature2', language)}</li> {/* Réutilise "Missions Illimitées" */}
+            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature2', language)}</li>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'premiumFeature2', language)}</li>
-            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature4', language)}</li> {/* Réutilise "Rapports d'Analyse Avancée" */}
-            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature5', language)}</li> {/* Réutilise "Accès aux Archives Complètes" */}
+            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature4', language)}</li>
+            <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature5', language)}</li>
           </ul>
           <button
             className={styles.callToAction}
@@ -380,3 +390,5 @@ export default function PricingPage() {
     </div>
   );
 }
+
+    

@@ -5,44 +5,44 @@ import { useTheme } from '../../context/ThemeContext'; // Assurez-vous que ce ch
 import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
 import { LanguageCode } from '@/types'; // Importez LanguageCode
 
-// Définitions des traductions pour cette page BETA
+// Définitions des traductions pour cette page BETA (inscription/register)
 const allTranslations = {
-  dashboardPageBeta: { // Section spécifique pour cette page simplifiée
+  registerPageBeta: { // Section spécifique pour cette page simplifiée (REGISTER)
     mainTitleLine1: {
-      en: 'Command Center',
-      fr: 'ÉTAT-MAJOR',
-      mi: 'Whare Matua Whakahaere',
-      ga: 'Lárionad Ordaithe',
-      hi: 'कमांड सेंटर',
-      gd: 'Ionad Command',
-      'en-AU': 'Command Center', 'en-NZ': 'Command Center', 'en-CA': 'Command Center', 'fr-CA': 'Centre de Commandement', 'en-ZA': 'Command Center', af: 'Bevelsentrum'
+      en: 'Registration Bureau',
+      fr: 'Bureau d\'Inscription',
+      mi: 'Tari Whakarēhita',
+      ga: 'Biúró Clárúcháin',
+      hi: 'पंजीकरण ब्यूरो',
+      gd: 'Biùro Clàraidh',
+      'en-AU': 'Registration Bureau', 'en-NZ': 'Registration Bureau', 'en-CA': 'Registration Bureau', 'fr-CA': 'Bureau d\'Inscription', 'en-ZA': 'Registrasiekantoor', af: 'Registrasiekantoor'
     },
     mainTitleLine2: {
-      en: '— Operational Overview —',
-      fr: '— Aperçu Opérationnel —',
-      mi: '— Tirohanga Mahi —',
-      ga: '— Forbhreathnú Oibríochtúil —',
-      hi: '— परिचालन अवलोकन —',
-      gd: '— Sealladh Obrachaidh —',
-      'en-AU': '— Operational Overview —', 'en-NZ': '— Operational Overview —', 'en-CA': '— Operational Overview —', 'fr-CA': '— Aperçu Opérationnel —', 'en-ZA': '— Operasionele Oorsig —', af: '— Operasionele Oorsig —'
+      en: '— Enrollment Protocols —',
+      fr: '— Protocoles d\'Enrôlement —',
+      mi: '— Tikanga Whakarēhita —',
+      ga: '— Prótacail Clárúcháin —',
+      hi: '— नामांकन प्रोटोकॉल —',
+      gd: '— Protocolan Clàraidh —',
+      'en-AU': '— Enrollment Protocols —', 'en-NZ': '— Enrollment Protocols —', 'en-CA': '— Enrollment Protocols —', 'fr-CA': '— Protocoles d\'Enrôlement —', 'en-ZA': '— Inskrywing Protokolle —', af: '— Inskrywing Protokolle —'
     },
     subtitle: {
-      en: '"Synthesis of operations and key intelligence in real-time."',
-      fr: '"Synthèse des opérations et renseignements importants en temps réel."',
-      mi: '"Whakarāpopototanga o ngā mahi me ngā mōhiohio matua i te wā tūturu."',
-      ga: '"Sintéis oibríochtaí agus faisnéise ríthábhachtaí i bhfíor-am."',
-      hi: '"ऑपरेशंस और महत्वपूर्ण खुफिया जानकारी का वास्तविक समय में संश्लेषण।"',
-      gd: '"Co-chur gnìomhachdan agus fiosrachaidh cudromach ann an tìm fìor."',
-      'en-AU': '"Synthesis of operations and key intelligence in real-time."', 'en-NZ': '"Synthesis of operations and key intelligence in real-time."', 'en-CA': '"Synthesis of operations and key intelligence in real-time."', 'fr-CA': '"Synthèse des opérations et renseignements importants en temps réel."', 'en-ZA': '"Sintese van operasies en sleutelinligting in reële tyd."', af: '"Sintese van operasies en sleutelinligting in reële tyd."'
+      en: '"Streamlined procedures for agent registration and onboarding."',
+      fr: '"Procédures simplifiées pour l\'enregistrement et l\'intégration des agents."',
+      mi: '"Ngā tukanga māmā mō te rēhita me te whakauru āpiha."',
+      ga: '"Nósanna imeachta simplithe le haghaidh clárúcháin agus ionduchtú gníomhaire."',
+      hi: '"एजेंट पंजीकरण और ऑनबोर्डिंग के लिए सुव्यवस्थित प्रक्रियाएं।"',
+      gd: '"Modhan sìmplidhe airson clàradh agus tòiseachadh àidseant."',
+      'en-AU': '"Streamlined procedures for agent registration and onboarding."', 'en-NZ': '"Streamlined procedures for agent registration and onboarding."', 'en-CA': '"Streamlined procedures for agent registration and onboarding."', 'fr-CA': '"Procédures simplifiées pour l\'enregistrement et l\'intégration des agents."', 'en-ZA': '"Vaartbelynde prosedures vir agentregistrasie en instap."', af: '"Vaartbelynde prosedures vir agentregistrasie en instap."'
     },
     developmentTitle: {
-      en: 'Dashboard Under Development',
-      fr: 'Tableau de Bord en Cours de Développement',
-      mi: 'Papapātuhi kei te Whakawhanake',
-      ga: 'Painéal Faoi Fhorbairt',
-      hi: 'डैशबोर्ड विकास में है',
-      gd: 'Deas-bhòrd fo Leasachadh',
-      'en-AU': 'Dashboard Under Development', 'en-NZ': 'Dashboard Under Development', 'en-CA': 'Dashboard Under Development', 'fr-CA': 'Tableau de Bord en Cours de Développement', 'en-ZA': 'Dashboard Onder Ontwikkeling', af: 'Dashboard Onder Ontwikkeling'
+      en: 'Enrollment Module Under Development',
+      fr: 'Module d\'Enrôlement en Cours de Développement',
+      mi: 'Kōwae Whakarēhita kei te Whakawhanake',
+      ga: 'Modúl Clárúcháin Faoi Fhorbairt',
+      hi: 'नामांकन मॉड्यूल विकास में है',
+      gd: 'Modal Clàraidh fo Leasachadh',
+      'en-AU': 'Enrollment Module Under Development', 'en-NZ': 'Enrollment Module Under Development', 'en-CA': 'Enrollment Module Under Development', 'fr-CA': 'Module d\'Enrôlement en Cours de Développement', 'en-ZA': 'Inskrywingsmodule Onder Ontwikkeling', af: 'Inskrywingsmodule Onder Ontwikkeling'
     },
     betaTag: {
       en: 'Beta Version',
@@ -54,22 +54,31 @@ const allTranslations = {
       'en-AU': 'Beta Version', 'en-NZ': 'Beta Version', 'en-CA': 'Beta Version', 'fr-CA': 'Version Bêta', 'en-ZA': 'Beta Weergawe', af: 'Beta Weergawe'
     },
     developmentMessage: {
-      en: 'The operational visualization and strategic data presentation systems are currently undergoing critical calibration and deployment. Please stay alert for upcoming Command updates.',
-      fr: 'Les systèmes de visualisation des opérations et de présentation des données stratégiques sont actuellement en phase de calibrage critique et de déploiement. Veuillez rester en alerte pour les prochaines mises à jour du Commandement.',
-      mi: 'Kei te whakatika me te tūhura ngā pūnaha tirohanga mahi me te whakaaturanga raraunga rautaki. Tēnā koa kia mataara tonu mō ngā whakahōutanga o te Whakahau.',
-      ga: 'Tá córais amhairc oibríochtúla agus cur i láthair sonraí straitéiseacha á gcalabrú agus á n-imscaradh faoi láthair. Fan go haireach do nuashonruithe ón Ordú amach romhainn.',
-      hi: 'परिचालन विज़ुअलाइज़ेशन और रणनीतिक डेटा प्रस्तुति प्रणाली वर्तमान में महत्वपूर्ण अंशांकन और तैनाती के चरण में हैं। कृपया कमांड के आगामी अपडेट के लिए सतर्क रहें।',
-      gd: 'Tha siostaman lèirsinneachd obrachaidh agus taisbeanaidh dàta ro-innleachdail gan calpachadh agus gan cleachdadh an-dràsta. Fuirichibh furachair airson ùrachaidhean Co-mhandaidh a tha ri thighinn.',
-      'en-AU': 'The operational visualization and strategic data presentation systems are currently undergoing critical calibration and deployment. Please stay alert for upcoming Command updates.', 'en-NZ': 'The operational visualization and strategic data presentation systems are currently undergoing critical calibration and deployment. Please stay alert for upcoming Command updates.', 'en-CA': 'The operational visualization and strategic data presentation systems are currently undergoing critical calibration and deployment. Please stay alert for upcoming Command updates.', 'fr-CA': 'Les systèmes de visualisation des opérations et de présentation des données stratégiques sont actuellement en phase de calibrage critique et de déploiement. Veuillez rester en alerte pour les prochaines mises à jour du Commandement.', 'en-ZA': 'Die operasionele visualisering en strategiese data-aanbiedingstelsels word tans gekalibreer en ontplooi. Bly asseblief waaksaam vir opkomende Kommandoupdates.', af: 'Die operasionele visualisering en strategiese data-aanbiedingstelsels word tans gekalibreer en ontplooi. Bly asseblief waaksaam vir opkomende Kommandoupdates.'
+      en: 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.',
+      fr: 'Les protocoles d\'enrôlement et d\'authentification des agents sont en cours de finalisation pour une intégration robuste et sécurisée. La fonctionnalité d\'inscription complète sera bientôt disponible.',
+      mi: 'Kei te whakatika ngā tikanga rēhita me te whakamana āpiha mō te whakauru kaha me te haumaru. Ka wātea kētia te mahi rēhita katoa.',
+      ga: 'Tá na prótacail clárúcháin agus fíordheimhnithe gníomhaire á gcríochnú le haghaidh ionduchtú láidir slán. Beidh feidhmchlár clárúcháin iomlán ar fáil go luath.',
+      hi: 'एजेंट नामांकन और प्रमाणीकरण प्रोटोकॉल मजबूत और सुरक्षित ऑनबोर्डिंग के लिए अंतिम रूप दिए जा रहे हैं। पूर्ण पंजीकरण कार्यक्षमता जल्द ही उपलब्ध होगी।',
+      gd: 'Tha protocolan clàraidh is dearbhaidh àidseant gan cur gu crìch airson bòrd-obrach làidir is tèarainte. Bidh làn ghnìomhachd clàraidh ri fhaighinn a dh’aithghearr.',
+      'en-AU': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'en-NZ': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'en-CA': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'fr-CA': 'Les protocoles d\'enrôlement et d\'authentification des agents sont en cours de finalisation pour une intégration robuste et sécurisée. La fonctionnalité d\'inscription complète sera bientôt disponible.', 'en-ZA': 'Die agentinskrywings- en verifikasieprotokolle word gefinaliseer vir robuuste en veilige instap. Volle registrasiefunksionaliteit sal binnekort beskikbaar wees.', af: 'Die agentinskrywings- en verifikasieprotokolle word gefinaliseer vir robuuste en veilige instap. Volle registrasiefunksionaliteit sal binnekort beskikbaar wees.'
+    },
+    stayTuned: {
+      en: 'Please check back soon for full access.',
+      fr: 'Veuillez revenir bientôt pour un accès complet.',
+      mi: 'Tēnā hoki mai anō kia wātea te uru katoa.',
+      ga: 'Fill ar ais go luath le haghaidh rochtain iomlán.',
+      hi: 'पूर्ण पहुंच के लिए कृपया जल्द ही वापस देखें।',
+      gd: 'Thig air ais a dh\'aithghearr airson làn chothrom.',
+      'en-AU': 'Please check back soon for full access.', 'en-NZ': 'Please check back soon for full access.', 'en-CA': 'Please check back soon for full access.', 'fr-CA': 'Veuillez revenir bientôt pour un accès complet.', 'en-ZA': 'Kom binnekort weer vir volle toegang.', af: 'Kom binnekort weer vir volle toegang.'
     },
     copyright: {
-      en: 'Kiwi-Ops – Provisional Dashboard Protocol.',
-      fr: 'Kiwi-Ops – Protocole de Tableau de Bord Provisoire.',
-      mi: 'Kiwi-Ops – Tikanga Papapātuhi Wāhanga.',
-      ga: 'Kiwi-Ops – Prótacal Painéil Sealadach.',
-      hi: 'कीवी-ऑप्स – अनंतिम डैशबोर्ड प्रोटोकॉल।',
-      gd: 'Kiwi-Ops – Protocol Deas-bhòrd Sealach.',
-      'en-AU': 'Kiwi-Ops – Provisional Dashboard Protocol.', 'en-NZ': 'Kiwi-Ops – Provisional Dashboard Protocol.', 'en-CA': 'Kiwi-Ops – Provisional Dashboard Protocol.', 'fr-CA': 'Kiwi-Ops – Protocole de Tableau de Bord Provisoire.', 'en-ZA': 'Kiwi-Ops – Voorlopige Dashboard Protokol.', af: 'Kiwi-Ops – Voorlopige Dashboard Protokol.'
+      en: 'Kiwi-Ops – Provisional Enrollment Protocol.',
+      fr: 'Kiwi-Ops – Protocole d\'Enrôlement Provisoire.',
+      mi: 'Kiwi-Ops – Tikanga Whakarēhita Wāhanga.',
+      ga: 'Kiwi-Ops – Prótacal Clárúcháin Sealadach.',
+      hi: 'कीवी-ऑप्स – अनंतिम नामांकन प्रोटोकॉल।',
+      gd: 'Kiwi-Ops – Protocol Clàraidh Sealach.',
+      'en-AU': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'en-NZ': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'en-CA': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'fr-CA': 'Kiwi-Ops – Protocole d\'Enrôlement Provisoire.', 'en-ZA': 'Kiwi-Ops – Voorlopige Inskrywing Protokol.', af: 'Kiwi-Ops – Voorlopige Inskrywing Protokol.'
     },
   },
 };
@@ -94,7 +103,7 @@ const getTranslation = <S extends keyof typeof allTranslations, K extends keyof 
 };
 
 
-export default function DashboardPage() {
+export default function RegisterPage() { // Le nom du composant reste RegisterPage
   const { theme } = useTheme();
   const { language } = useLanguage(); // Obtenez la langue courante
 
@@ -103,7 +112,7 @@ export default function DashboardPage() {
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
   const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF'; // Fond blanc pour le mode clair
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Fond des sections/cartes (pour la carte de développement)
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Fond des sections/cartes
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
   const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
@@ -139,8 +148,8 @@ export default function DashboardPage() {
         color: textColor,
         textShadow: `3px 3px 0px ${textShadowColor}`
       }}>
-        {getTranslation('dashboardPageBeta', 'mainTitleLine1', language)}<br />
-        {getTranslation('dashboardPageBeta', 'mainTitleLine2', language)}
+        {getTranslation('registerPageBeta', 'mainTitleLine1', language)}<br />
+        {getTranslation('registerPageBeta', 'mainTitleLine2', language)}
       </h1>
       <p style={{
         fontStyle: 'italic',
@@ -152,7 +161,7 @@ export default function DashboardPage() {
         borderBottom: `1px solid ${borderColor}`,
         paddingBottom: '1rem'
       }}>
-        {getTranslation('dashboardPageBeta', 'subtitle', language)}
+        {getTranslation('registerPageBeta', 'subtitle', language)}
       </p>
 
       {/* Carte d'information "En cours de développement" */}
@@ -180,7 +189,7 @@ export default function DashboardPage() {
           fontWeight: 'bold',
           textTransform: 'uppercase'
         }}>
-          {getTranslation('dashboardPageBeta', 'developmentTitle', language)}
+          {getTranslation('registerPageBeta', 'developmentTitle', language)}
         </h2>
         <p style={{
           fontSize: '1.2rem',
@@ -188,7 +197,7 @@ export default function DashboardPage() {
           color: mutedTextColor,
           maxWidth: '700px'
         }}>
-          {getTranslation('dashboardPageBeta', 'developmentMessage', language)}
+          {getTranslation('registerPageBeta', 'developmentMessage', language)}
         </p>
         <p style={{
           fontSize: '1.1rem',
@@ -196,12 +205,12 @@ export default function DashboardPage() {
           fontWeight: 'bold',
           color: warningText
         }}>
-          {getTranslation('dashboardPageBeta', 'betaTag', language)} – {getTranslation('dashboardPageBeta', 'stayTuned', language)}
+          {getTranslation('registerPageBeta', 'betaTag', language)} – {getTranslation('registerPageBeta', 'stayTuned', language)}
         </p>
       </section>
 
       <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
-        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('dashboardPageBeta', 'copyright', language)}
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('registerPageBeta', 'copyright', language)}
       </p>
     </div>
   );

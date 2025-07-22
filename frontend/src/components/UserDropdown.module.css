@@ -1,118 +1,157 @@
-/* Fichier: src/components/UserDropdown.module.css */
-
+/* ✅ Container principal : largeur encore réduite (-20px) */
 .dropdown {
-  position: absolute;
-  top: 100%; /* Le positionne juste en dessous du bouton parent */
-  left: 0;   /* Aligne le bord gauche du menu avec le bord gauche du bouton "o" */
+  position: fixed;
+  top: 30px;
+  left: 0;
 
-  background-color: var(--kiwi-background-section); /* Devrait être opaque, e.g., #F8F8F8 */
-  border: 1px solid var(--kiwi-border-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px var(--kiwi-shadow-color-card);
-  padding: 0.5rem 0;
-  min-width: 220px;
-  z-index: 1000; /* Assurez-vous qu'il est au-dessus de tout */
-  list-style: none;
-  margin: 0.5rem 0 0;
+  /* largeur finale : -50px par rapport à la sidebar ouverte */
+  width: calc(var(--sidebar-width-open) - 50px);
+
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+  z-index: 1500;
+
+  padding: 0;
+  margin: 30px;
+
   font-family: var(--font-courier-prime);
-  text-align: left;
-  transform-origin: top left;
-  /* Retire toutes les règles d'opacité, de transform ou de pointer-events spécifiques ici. */
-  /* C'est le composant parent (Sidebar.tsx) qui gère le isMenuOpen et donc le rendu/non-rendu. */
+  display: flex;
+  flex-direction: column;
+
+  /* coins légèrement arrondis */
+  border-radius: 12px;
+  overflow: hidden;
+}
+.dropdown {
+  font-family: inherit; /* hérite de la sidebar/globals */
 }
 
-/* Les styles pour les sections internes restent les mêmes, juste pour l'exhaustivité */
+/* ✅ Section profil : reste tout en haut */
 .profileSection {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.8rem 1.2rem;
-  border-bottom: 1px solid var(--kiwi-border-color);
-  margin-bottom: 0.5rem;
-  color: var(--kiwi-text-primary);
-  font-size: 0.95rem;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  color: var(--text-color);
+  background: var(--kiwi-background-section);
   font-weight: bold;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .profileIcon {
-  font-size: 1.5rem;
-  color: var(--kiwi-highlight-color);
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
 }
 
 .profileEmail {
+  flex: 1;
+  text-align: left;
   font-weight: normal;
-  color: var(--kiwi-text-secondary);
+  color: var(--nav-link-color);
+  font-size: 0.9rem;
 }
 
+/* ✅ Menu juste en dessous de profileSection */
 .menuList {
   list-style: none;
-  padding: 0;
+  padding: 0.4rem 0.6rem; /* même padding que les socialLinks */
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* même espacement que les réseaux sociaux */
 }
 
+/* ✅ Chaque item ressemble à un socialLink */
 .menuItem {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.8rem 1.2rem;
-  color: var(--kiwi-text-primary);
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  color: var(--nav-link-color);
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  font-weight: bold;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .menuItem:hover {
   background-color: var(--kiwi-hover-bg);
-  color: var(--kiwi-highlight-color);
+  color: var(--nav-link-hover-color);
 }
 
 .menuItem svg {
-  font-size: 1.1rem;
-  color: var(--kiwi-text-secondary);
+  width: 18px;
+  height: 18px;
+  color: var(--icon-color);
   transition: color 0.2s ease;
 }
 
 .menuItem:hover svg {
-  color: var(--kiwi-highlight-color);
+  color: var(--primary-color);
 }
 
+/* ✅ Déconnexion séparée visuellement mais même hover */
 .logoutItem {
-  color: var(--kiwi-button-danger-bg);
-  border-top: 1px solid var(--kiwi-border-color);
+  border-top: 1px solid var(--border-color);
   margin-top: 0.5rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
+  color: var(--primary-color);
 }
-
 .logoutItem:hover {
-  background-color: var(--kiwi-button-danger-hover-bg);
-  color: white;
+  background-color: var(--primary-dark-color);
+  color: #fff;
 }
-
 .logoutItem:hover svg {
-  color: white;
+  color: #fff;
 }
 
+/* ✅ Ligne séparatrice */
 .divider {
-  border-top: 1px solid var(--kiwi-border-color);
+  border-top: 1px solid var(--border-color);
   margin: 0.5rem 0;
 }
 
+/* ✅ Liens sociaux alignés comme menu items */
+/* ✅ Liens sociaux alignés comme menu items */
 .socialSection {
   display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  padding: 1rem 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem;
 }
 
 .socialLink {
-  color: var(--kiwi-text-secondary);
-  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--kiwi-text-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.socialLink svg {
+  width: 20px;
+  height: 20px;
   transition: color 0.2s ease;
 }
 
 .socialLink:hover {
-  color: var(--kiwi-highlight-color);
+  background-color: var(--primary-dark-color); /* Rouge foncé */
+  color: #fff; /* texte en blanc */
+}
+
+.socialLink:hover svg {
+  color: #fff; /* icône en blanc */
+}
+
+.socialName {
+  flex: 1;
+  text-align: left;
 }
