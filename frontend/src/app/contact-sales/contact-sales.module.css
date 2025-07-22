@@ -1,0 +1,168 @@
+/* Fichier: src/app/contact-sales/contact-sales.module.css */
+
+/* --- Styles de base de la page (réutilisés) --- */
+.pageContainer {
+  padding: 2rem 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--kiwi-text-primary);
+}
+
+.title {
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: bold;
+  color: var(--kiwi-text-primary);
+  text-shadow: var(--kiwi-text-shadow);
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  font-size: 1.15rem;
+  color: var(--kiwi-text-secondary);
+  margin-bottom: 3.5rem;
+  max-width: 85ch;
+  text-align: center;
+  border-bottom: 1px dashed var(--kiwi-border-color);
+  padding-bottom: 1.5rem;
+}
+
+/* --- Styles spécifiques au formulaire de contact --- */
+
+/* Conteneur principal du formulaire, inspiré de .nationCard */
+.formContainer {
+  width: 100%;
+  max-width: 700px; /* Taille adaptée pour un formulaire */
+  background-color: var(--kiwi-background-card);
+  border: 2px solid var(--kiwi-border-color);
+  padding: 2rem 2.5rem;
+  border-radius: 5px;
+  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Espace entre les groupes de champs */
+}
+
+/* Grille pour les champs côte à côte (prénom/nom) */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Par défaut une colonne */
+  gap: 1.5rem;
+}
+
+/* Passe à deux colonnes sur les écrans plus larges */
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Groupe contenant un label et un champ de saisie */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Espace entre le label et le champ */
+}
+
+.formLabel {
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  font-size: 0.95rem;
+  color: var(--kiwi-text-secondary);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.formInput,
+.formTextarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: transparent; /* Fond transparent pour hériter de .formContainer */
+  border: 2px solid var(--kiwi-border-color);
+  border-radius: 4px;
+  color: var(--kiwi-text-primary);
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--kiwi-highlight-color);
+  box-shadow: 0 0 5px var(--kiwi-highlight-color);
+}
+
+/* ✅ Code corrigé à copier/coller */
+/* Fichier: src/app/contact-sales/contact-sales.module.css */
+
+/* ... autres styles ... */
+
+.submitButton {
+  background-color: var(--kiwi-highlight-color, #007BFF);
+  
+  /* --- MODIFICATION ICI --- */
+  /* On remplace la couleur fixe par une variable, avec le blanc comme secours */
+  color: var(--kiwi-button-text-color, #FFFFFF); 
+  
+  font-family: var(--font-special-elite, 'Playfair Display', serif);
+  font-size: 1.2rem;
+  /* ... reste des styles du bouton ... */
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  align-self: center;
+}
+
+/* ... autres styles ... */
+
+.submitButton:hover {
+  transform: translateY(-4px);
+  /* Optionnel: assombrir la couleur au survol en utilisant un filtre */
+  filter: brightness(1.1);
+}
+
+.submitButton:hover {
+  transform: translateY(-4px);
+  /* Optionnel: assombrir la couleur au survol */
+  /* filter: brightness(0.9); */
+}
+
+/* Messages de statut (inspirés de .errorMessage) */
+.statusMessage {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  font-family: var(--font-courier-prime, 'Georgia', serif);
+  border-radius: 5px;
+  border: 1px dashed;
+}
+
+.statusSuccess {
+  color: #4caf50; /* Vert pour le succès */
+  border-color: #4caf50;
+}
+
+.statusError {
+  color: #fa755a; /* Rouge pour l'erreur */
+  border-color: #fa755a;
+}
+/* Passe à deux colonnes sur les écrans plus larges */
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
