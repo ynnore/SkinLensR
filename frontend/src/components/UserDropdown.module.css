@@ -1,4 +1,5 @@
 /* ✅ Container principal : largeur encore réduite (-20px) */
+/* ✅ Container principal : largeur encore réduite (-20px) */
 .dropdown {
   position: fixed;
   top: 30px;
@@ -22,6 +23,12 @@
   /* coins légèrement arrondis */
   border-radius: 12px;
   overflow: hidden;
+
+  /* --- AJOUTS ICI --- */
+  /* Position par défaut (quand la sidebar est ouverte) */
+  transform: translateX(0);
+  /* Ajoute une animation fluide pour un effet plus doux */
+  transition: transform 0.2s ease-in-out;
 }
 .dropdown {
   font-family: inherit; /* hérite de la sidebar/globals */
@@ -156,3 +163,14 @@
   text-align: left;
 }
 
+/* ... (tout le reste de votre code CSS pour les items, etc.) ... */
+
+/*
+ * ✅ DÉCALAGE CONDITIONNEL
+ * Cette règle s'applique uniquement lorsque le menu .dropdown se trouve
+ * à l'intérieur d'un élément ayant une classe contenant "Sidebar_closed".
+*/
+[class*="Sidebar_closed"] .dropdown {
+  /* Décale le menu de 80px vers la droite (la largeur de la sidebar fermée) */
+  transform: translateX(80px);
+}
