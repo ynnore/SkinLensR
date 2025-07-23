@@ -151,3 +151,29 @@
     font-size: 1rem;
   }
 }
+/* ✅ Styles du bouton d'installation */
+.installButton {
+  position: absolute; /* Positionnement absolu par rapport à .formWrapper */
+  top: 1.5rem;      /* Distance du haut */
+  right: 1.5rem;    /* Distance de la droite */
+  background: none;
+  border: none;
+  color: var(--kiwi-text-secondary); /* Couleur discrète */
+  font-size: 1.8rem; /* Taille de l'icône */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10; /* Assure qu'il est au-dessus des autres éléments */
+}
+
+.installButton:hover {
+  color: var(--kiwi-highlight-color); /* Mise en évidence au survol */
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+  .installButton {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+  }
+}

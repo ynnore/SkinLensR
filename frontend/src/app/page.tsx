@@ -5,10 +5,14 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useTheme } from '../context/ThemeContext'; // Chemin d'importation correct
-import styles from './page.module.css'; // <--- IMPORTE MAINTENANT page.module.css
+import { useTheme } from '@/context/ThemeContext'; // Chemin d'importation correct
+import styles from './page.module.css';
 
-export default function LoginPage() { // Nom de la fonction cohérent avec le rôle de la page
+// ✅ NOUVEAU : Import de l'icône d'installation et de FaDownload comme alternative
+import { FaDownload } from 'react-icons/fa'; // Une icône de téléchargement standard
+// import { GrInstallOption } from 'react-icons/gr'; // Décommentez si vous avez 'react-icons/gr' installé
+
+export default function LoginPage() {
   const { theme } = useTheme();
 
   const [email, setEmail] = useState('');
@@ -18,6 +22,7 @@ export default function LoginPage() { // Nom de la fonction cohérent avec le r�
   const router = useRouter();
 
   // Définition des couleurs à injecter comme variables CSS dans le style du div principal
+  // ... (vos définitions de couleurs restent inchangées)
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
   const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
@@ -59,11 +64,15 @@ export default function LoginPage() { // Nom de la fonction cohérent avec le r�
     setIsLoading(false);
   };
 
+  // ✅ Nouvelle fonction pour gérer le clic sur l'icône d'installation
+  const handleInstallClick = () => {
+    router.push('/install'); // Redirige vers la page d'installation
+  };
+
   return (
     <div
       className={styles.pageContainer}
       style={{
-        // Définition des variables CSS passées au module CSS
         '--kiwi-background-page': backgroundColorPage,
         '--kiwi-text-primary': textColor,
         '--kiwi-text-secondary': mutedTextColor,
@@ -83,11 +92,18 @@ export default function LoginPage() { // Nom de la fonction cohérent avec le r�
         '--kiwi-error-text': errorText,
         '--kiwi-error-border': errorBorder,
         '--kiwi-error-shadow': errorShadow,
-        '--font-special-elite': "'Playfair Display', serif", // Assurez-vous que ces polices sont définies globalement
-        '--font-courier-prime': "'Georgia', serif", // Assurez-vous que ces polices sont définies globalement
+        '--font-special-elite': "'Playfair Display', serif",
+        '--font-courier-prime': "'Georgia', serif",
       } as React.CSSProperties}
     >
       <div className={styles.formWrapper}>
+        {/* ✅ NOUVEAU : Le bouton/icône d'installation */}
+        <button className={styles.installButton} onClick={handleInstallClick} aria-label="Installer l'application">
+          {/* Utilisez GrInstallOption si disponible, sinon FaDownload */}
+          {/* {typeof GrInstallOption !== 'undefined' ? <GrInstallOption /> : <FaDownload />} */}
+          <FaDownload /> {/* Pour l'exemple, utilisons FaDownload par défaut */}
+        </button>
+
         <h1 className={styles.title}>
           Accès à la Mission
         </h1>
@@ -154,3 +170,7 @@ export default function LoginPage() { // Nom de la fonction cohérent avec le r�
     </div>
   );
 }
+
+    
+
+

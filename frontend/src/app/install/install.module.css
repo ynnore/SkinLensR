@@ -1,0 +1,67 @@
+/* Fichier: src/app/install/install.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height, 0px) - var(--footer-height, 0px)); /* Ajustez la hauteur */
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.container p {
+  font-size: 1rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.installButton {
+  background-color: var(--kiwi-highlight-color); /* Utilisez une couleur de votre thème */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: background-color 0.3s ease;
+}
+
+.installButton:hover {
+  background-color: darken(var(--kiwi-highlight-color), 10%); /* Ou une couleur de hover définie */
+}
+
+.appStoreLinks {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.appStoreLinks img {
+  height: 50px; /* Ajustez la taille */
+}
+
+/* --- Responsive (Mobile First) --- */
+@media (max-width: 768px) {
+  .container h1 {
+    font-size: 2rem;
+  }
+  .container p {
+    font-size: 0.9rem;
+  }
+  .installButton {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,62 @@
+      
+/* Fichier: src/app/drive/drive.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centré verticalement pour l'exemple */
+  min-height: calc(100vh - 120px); /* Ajustez si vous avez un header/footer fixe */
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+}
+
+.headline {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--kiwi-highlight-color); /* Utilisez une couleur de thème pour le titre */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Effet d'ombre */
+}
+
+.description {
+  font-size: 1.1rem;
+  max-width: 700px;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+}
+
+.placeholderSection {
+  padding: 2rem;
+  border: 2px dashed var(--kiwi-border-color);
+  border-radius: 10px;
+  color: var(--kiwi-text-secondary);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* --- Mobile First (Base) --- */
+@media (max-width: 768px) {
+  .headline {
+    font-size: 2rem;
+  }
+  .description {
+    font-size: 0.9rem;
+  }
+  .placeholderSection {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Styles pour tablettes */
+}
+
+@media (min-width: 1025px) {
+  /* Styles pour desktop */
+}
+
+    
+
+

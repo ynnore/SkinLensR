@@ -1,0 +1,40 @@
+      
+// Fichier: public/manifest.json
+
+{
+  "name": "Operation W App", // Nom complet de l'application
+  "short_name": "Opération W", // Nom affiché sous l'icône (si trop long)
+  "description": "Votre application de diagnostic et agentique pour l'Opération W.",
+  "start_url": "/", // L'URL qui s'ouvrira quand l'app sera lancée
+  "display": "standalone", // Mode d'affichage: "standalone" pour une expérience native (sans barre du navigateur)
+  "background_color": "#1f2937", // Couleur de fond au démarrage (pour éviter le flash blanc/noir)
+  "theme_color": "#0070f3", // Couleur du thème pour la barre de titre du système (si supporté)
+  "icons": [ // Icônes de différentes tailles pour l'écran d'accueil/bureau
+    {
+      "src": "/icons/icon-192x192.png", // Créez ces icônes dans public/icons/
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png", // Icône masquable pour Android
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
+
+    
+
+

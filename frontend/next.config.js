@@ -1,20 +1,19 @@
-// Fichier : next.config.js (Version Finale et Corrigée)
+      
+// Fichier: next.config.js
+
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true, // Enregistre le service worker
+  skipWaiting: true, // Force le nouveau service worker à prendre le contrôle immédiatement
+  disable: process.env.NODE_ENV === 'development', // Désactive le PWA en mode dev pour faciliter le debug
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 1. Pour optimiser les déploiements Docker pour Cloud Run
-  output: 'standalone',
-
-  // 2. Pour permettre l'importation de SVGs comme des composants React
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/i,
-      issuer: /\.[jt]sx?$/,
-      use: ['@svgr/webpack'],
-    });
-
-    return config;
-  },
+  // ... autres configurations de votre Next.js
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
+
+
+    

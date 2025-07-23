@@ -1,0 +1,110 @@
+/* Fichier: src/app/paquetages-militaires/paquetages.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+}
+
+.headline {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--kiwi-highlight-color);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.intro {
+  font-size: 1.2rem;
+  max-width: 800px;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  color: var(--kiwi-text-secondary);
+}
+
+.packagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 colonnes flexibles */
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+}
+
+.packageCard {
+  background-color: var(--kiwi-background-card);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.packageCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.packageName {
+  font-size: 1.8rem;
+  color: var(--kiwi-highlight-color);
+  margin-bottom: 1rem;
+}
+
+.packageDescription {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  flex-grow: 1; /* Permet à la description de prendre de la place */
+}
+
+.packageCta {
+  background-color: var(--kiwi-highlight-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.packageCta:hover {
+  background-color: darken(var(--kiwi-highlight-color), 10%); /* Nécessite un préprocesseur CSS ou une variable */
+}
+
+/* --- Mobile First (Base) --- */
+@media (max-width: 768px) {
+  .headline {
+    font-size: 2rem;
+  }
+  .intro {
+    font-size: 1rem;
+  }
+  .packagesGrid {
+    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+  }
+  .packageCard {
+    padding: 1.5rem;
+  }
+  .packageName {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .packagesGrid {
+    grid-template-columns: repeat(2, 1fr); /* Deux colonnes sur tablettes */
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Styles pour desktop (3 colonnes) */
+}
