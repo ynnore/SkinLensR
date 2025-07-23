@@ -336,3 +336,18 @@
     display: block;
   }
 }
+/* Dans votre fichier scan.module.css */
+
+/* ... (vos styles existants) ... */
+
+.buttonLabel {
+  margin-left: 5px; /* Petit espace entre l'icône et le texte */
+  white-space: nowrap; /* Empêche le texte de se couper */
+}
+
+/* Ajustez si besoin pour que les boutons s'alignent bien */
+.footerActionsLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espace entre les boutons */
+}
