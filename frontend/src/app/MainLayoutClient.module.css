@@ -1,36 +1,50 @@
+/* Fichier: src/app/MainLayoutClient.module.css */
+
+.mainLayoutContainer {
+  display: flex;
+}
+
 .mainContent {
-  margin-left: var(--sidebar-width-open); /* Décalage quand sidebar ouverte */
-  width: calc(100% - var(--sidebar-width-open)); /* Le contenu s’adapte */
-  padding: 20px;
-  transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
+  flex-grow: 1;
+  transition: margin-left 0.3s ease-in-out;
 }
 
-/* === Sidebar fermée = aucun espace réservé === */
-.mainContent.sidebarClosed {
-  margin-left: var(--sidebar-width-closed);
-  width: calc(100% - var(--sidebar-width-closed));
+/* Styles pour le mode mobile */
+.mobileBurgerButton {
+  display: none; /* Masqué par défaut */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1100;
+  background: #333;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
-/* === MOBILE : toujours plein écran === */
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.mobileOverlayActive {
+  display: block;
+}
+
 @media (max-width: 768px) {
-  .mainContent {
-    margin-left: 0;   /* Pas d’espace sur mobile */
-    width: 100vw;     /* Prend tout le viewport */
-    padding: 10px;    /* ou 0 si tu veux */
+  .mobileBurgerButton {
+    display: block;
   }
 
-  /* Spécifique au mobile quand la sidebar est fermée pour mainContent */
   .mainContent.sidebarClosed {
-    margin-left: 0;   /* Pas de décalage même si 'sidebarClosed' est appliqué */
-    width: 100%;
+    margin-left: 0;
   }
-}
-
-
-/* === SIDEBAR ESCAMOTÉE === */
-.sidebar.closed {
-  transform: translateX(-100%); /* Sort complètement de l’écran */
-  width: 0;                     /* Supprime sa largeur */
-  padding: 0;                   /* Plus de padding interne */
-  overflow: hidden;             /* Cache tout le contenu */
 }
