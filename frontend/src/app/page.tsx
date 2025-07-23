@@ -1,4 +1,3 @@
-      
 // src/app/page.tsx (Contient maintenant le code de la page de connexion)
 'use client';
 
@@ -8,9 +7,7 @@ import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext'; // Chemin d'importation correct
 import styles from './page.module.css';
 
-// ✅ NOUVEAU : Import de l'icône d'installation et de FaDownload comme alternative
-import { FaDownload } from 'react-icons/fa'; // Une icône de téléchargement standard
-// import { GrInstallOption } from 'react-icons/gr'; // Décommentez si vous avez 'react-icons/gr' installé
+import { FaDownload } from 'react-icons/fa'; // Icône de téléchargement
 
 export default function LoginPage() {
   const { theme } = useTheme();
@@ -22,14 +19,13 @@ export default function LoginPage() {
   const router = useRouter();
 
   // Définition des couleurs à injecter comme variables CSS dans le style du div principal
-  // ... (vos définitions de couleurs restent inchangées)
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#6b7280';
   const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
 
-  const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#ffffff'; // Fond blanc pur
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Gris très très clair pour les cartes
+  const backgroundColorPage = theme === 'dark' ? '#1f2937' : '#ffffff';
+  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8';
 
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.1)';
   const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.1)';
@@ -64,7 +60,6 @@ export default function LoginPage() {
     setIsLoading(false);
   };
 
-  // ✅ Nouvelle fonction pour gérer le clic sur l'icône d'installation
   const handleInstallClick = () => {
     router.push('/install'); // Redirige vers la page d'installation
   };
@@ -97,11 +92,8 @@ export default function LoginPage() {
       } as React.CSSProperties}
     >
       <div className={styles.formWrapper}>
-        {/* ✅ NOUVEAU : Le bouton/icône d'installation */}
         <button className={styles.installButton} onClick={handleInstallClick} aria-label="Installer l'application">
-          {/* Utilisez GrInstallOption si disponible, sinon FaDownload */}
-          {/* {typeof GrInstallOption !== 'undefined' ? <GrInstallOption /> : <FaDownload />} */}
-          <FaDownload /> {/* Pour l'exemple, utilisons FaDownload par défaut */}
+          <FaDownload />
         </button>
 
         <h1 className={styles.title}>
@@ -166,11 +158,14 @@ export default function LoginPage() {
             S'inscrire au bureau.
           </Link>
         </p>
+        
+        {/* ✅ NOUVEAU : Lien "Mot de passe oublié ?" */}
+        <p className={styles.forgotPasswordText}>
+          <Link href="/forgot-password" className={styles.link}>
+            Code secret perdu ?
+          </Link>
+        </p>
       </div>
     </div>
   );
 }
-
-    
-
-
