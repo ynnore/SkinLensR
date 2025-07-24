@@ -176,3 +176,170 @@
 [class*="Sidebar_closed"] .dropdown {
   transform: translateX(80px);
 }
+/* Fichier: src/components/UserDropdown.module.css */
+
+/* ✅ Container principal */
+.dropdown {
+  position: fixed;
+  top: 30px;
+  left: 0;
+  width: calc(var(--sidebar-width-open) - 50px);
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1500;
+  margin: 30px;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden; /* CRUCIAL pour l'effet */
+
+  transform: translateX(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+/* ✅ Section profil : devient le bouton cliquable */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  background: var(--kiwi-background-section);
+  font-weight: bold;
+  border-bottom: 1px solid var(--border-border-color); /* Note: fix double border */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 2;
+}
+.profileSection:hover {
+  background-color: var(--kiwi-hover-bg);
+}
+
+.profileIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary-color);
+}
+
+.profileEmail {
+  flex: 1;
+  text-align: left;
+  font-weight: normal;
+  color: var(--nav-link-color);
+  font-size: 0.9rem;
+}
+
+/* ✅ Icône chevron ("roulette") */
+.chevronIcon {
+  margin-left: auto;
+  transition: transform 0.3s ease-in-out;
+  color: var(--nav-link-color);
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ✅ Le container qui va coulisser (l'effet machine à sous) */
+.collapsibleContent {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out; 
+  background-color: var(--sidebar-bg); /* S'assure que le contenu a un fond */
+}
+
+.contentClosed {
+  max-height: 0;
+}
+.contentOpen {
+  max-height: 1000px; /* Assez grand pour tout contenir */
+}
+
+
+/* --- Styles pour le contenu du menu --- */
+.menuList {
+  list-style: none;
+  padding: 0.4rem 0.6rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem; /* Un peu plus d'espace pour le texte */
+  padding: 0.4rem 0.6rem;
+  color: var(--nav-link-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.menuItem:hover {
+  background-color: var(--kiwi-hover-bg);
+  color: var(--nav-link-hover-color);
+}
+.menuItem svg {
+  width: 18px;
+  height: 18px;
+  color: var(--icon-color);
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+.menuItem:hover svg {
+  color: var(--primary-color);
+}
+.logoutItem {
+  border-top: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  color: var(--primary-color);
+}
+.logoutItem:hover {
+  background-color: var(--primary-dark-color);
+  color: #fff;
+}
+.divider {
+  border-top: 1px solid var(--border-color);
+  margin: 0.5rem 0;
+}
+.socialSection { /* Cette section est maintenant dans stay-tuned-hub */
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.4rem 0.6rem;
+}
+.socialLink { /* Ces styles peuvent être supprimés si la section est bien retirée de UserDropdown.tsx */
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--kiwi-text-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.socialLink svg {
+  width: 20px;
+  height: 20px;
+  transition: color 0.2s ease;
+}
+.socialLink:hover {
+  background-color: var(--primary-dark-color);
+  color: #fff;
+}
+.socialLink:hover svg {
+  color: #fff;
+}
+.socialName {
+  flex: 1;
+  text-align: left;
+}
+
+/* --- RÈGLE CONDITIONNELLE INCHANGÉE --- */
+[class*="Sidebar_closed"] .dropdown {
+  transform: translateX(80px);
+}

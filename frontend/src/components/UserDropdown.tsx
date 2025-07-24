@@ -16,7 +16,7 @@ import {
   FaSignOutAlt, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaHandshake, FaThumbsUp, FaEnvelope,
   FaUserPlus, FaNewspaper, FaTruck, FaExclamationTriangle, FaRocket, FaLightbulb, FaUserCircle,
   FaChevronDown,
-  FaBullhorn // ✅ CORRECTION : Import de FaBullhorn ici. FaBroadcastTower n'est PAS importé.
+  FaBullhorn // Icône pour le hub Stay Tuned
 } from 'react-icons/fa';
 import { FaTiktok } from 'react-icons/fa6';
 
@@ -137,8 +137,7 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
         <ul className={styles.menuList}>
             <li>
                 <Link href="/stay-tuned-hub" className={styles.menuItem} onClick={handleLinkClick}>
-                    {/* ✅ CORRECTION : Utilisation de FaBullhorn (fiable) */}
-                    <FaBullhorn /> 
+                    <FaBullhorn /> {/* Icône pour le hub Stay Tuned */}
                     <span>{getTranslation('socials', 'followUs', language)}</span> {/* Réutilise "Follow Us" pour le label */}
                 </Link>
             </li>
