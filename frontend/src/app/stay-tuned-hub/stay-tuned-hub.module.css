@@ -1,0 +1,221 @@
+/* Fichier: src/app/stay-tuned-hub/stay-tuned-hub.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px); /* Ajustez selon votre layout global */
+  padding: 2rem;
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+  text-align: center;
+  box-sizing: border-box; /* Assure que padding est inclus dans la taille */
+}
+
+.contentWrapper {
+  background-color: var(--kiwi-background-section);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  max-width: 800px;
+  width: 100%;
+}
+
+.headline {
+  font-size: 2.5rem;
+  color: var(--kiwi-highlight-color);
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+.intro {
+  font-size: 1.1rem;
+  color: var(--kiwi-text-secondary);
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
+}
+
+/* Tabs */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--kiwi-border-color);
+  width: 100%;
+  max-width: 800px;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--kiwi-text-secondary);
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tabButton:hover {
+  color: var(--kiwi-text-primary);
+  border-color: rgba(var(--kiwi-highlight-color), 0.5);
+}
+
+.tabButton.activeTab {
+  color: var(--kiwi-highlight-color);
+  border-color: var(--kiwi-highlight-color);
+}
+
+.tabIcon {
+  font-size: 1.3rem;
+}
+
+.tabContent {
+  padding: 1.5rem 0;
+}
+
+.tabPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.panelTitle {
+  font-size: 1.8rem;
+  color: var(--kiwi-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+/* Social List */
+.socialList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center;
+  gap: 1.5rem; 
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--kiwi-text-secondary);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+.socialLink:hover {
+  color: var(--kiwi-highlight-color);
+}
+
+.socialLink svg {
+  font-size: 1.5rem; 
+}
+
+/* Inspiration List */
+.inspirationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inspirationLink {
+  color: var(--kiwi-text-primary);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.inspirationLink:hover {
+  color: var(--kiwi-highlight-color);
+  text-decoration: underline;
+}
+
+/* Styles pour la liste des réussites */
+.achievementsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: left; /* Alignement à gauche pour la liste */
+}
+
+.achievementsList li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.1rem;
+  color: var(--kiwi-text-primary);
+}
+
+.achievementsList li svg {
+  color: var(--kiwi-highlight-color); /* Couleur pour les icônes de succès */
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+
+/* --- Mobile First (Base) --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  .headline {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .intro {
+    font-size: 1rem;
+  }
+  .tabsContainer {
+    flex-direction: column; 
+    border-bottom: none;
+    align-items: center;
+  }
+  .tabButton {
+    width: 90%; 
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid transparent; 
+  }
+  .tabButton.activeTab {
+    border-bottom: 2px solid var(--kiwi-highlight-color);
+  }
+  .tabContent {
+    padding: 1rem 0;
+  }
+  .panelTitle {
+    font-size: 1.5rem;
+  }
+  .socialLink {
+    font-size: 1rem;
+  }
+  .socialLink svg {
+    font-size: 1.2rem;
+  }
+  .achievementsList li {
+    font-size: 1rem;
+  }
+}
+
+/* Ajustements pour les tablettes */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tabButton {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+  }
+}

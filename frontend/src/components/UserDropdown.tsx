@@ -1,21 +1,22 @@
+// Fichier: src/components/UserDropdown.tsx
 'use client';
 
-// ✅ Imports complétés avec useRef, useCallback, useOnClickOutside et useSound
 import React, { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/context/ThemeContext'; // Vérifier le chemin exact si '../' ou '@/'
+import { useLanguage } from '@/contexts/LanguageContext'; // Vérifier le chemin exact
 import { LanguageCode } from '@/types';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
-import useSound from 'use-sound';
+import useSound from 'use-sound'; // Assurez-vous que 'use-sound' est installé
 import styles from './UserDropdown.module.css';
 
 // Icônes
 import {
   FaSignOutAlt, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaHandshake, FaThumbsUp, FaEnvelope,
   FaUserPlus, FaNewspaper, FaTruck, FaExclamationTriangle, FaRocket, FaLightbulb, FaUserCircle,
-  FaChevronDown
+  FaChevronDown,
+  FaBullhorn // ✅ CORRECTION : Import de FaBullhorn ici. FaBroadcastTower n'est PAS importé.
 } from 'react-icons/fa';
 import { FaTiktok } from 'react-icons/fa6';
 
@@ -43,7 +44,7 @@ const allTranslations = {
   },
   contactLinks: {
     becomePartners: { en: 'Become partners', fr: 'Devenir partenaires', mi: 'Hoko hoa', ga: 'Bí i do chomhpháirtithe', hi: 'साझेदार बनें', gd: 'Bi nad chom-pàirtichean' },
-    feedback: { en: 'Feedback', fr: 'Feedback', mi: 'Urupare', ga: 'Aiseolas', hi: 'प्रतिक्रिया', gd: 'Fios air ais' },
+    feedback: { en: 'Feedback', fr: 'Feedback', mi: 'Urupare', ga: 'Aiseolas', hi: 'प्रतिकक्रिया', gd: 'Fios air ais' },
     talkToSales: { en: 'Talk to sales', fr: 'Parler à un commercial', mi: 'Kōrero ki te hoko', ga: 'Labhair le díolacháin', hi: 'बिक्री से बात करें', gd: 'Bruidhinn ri reic' },
   },
   socials: {
@@ -71,12 +72,10 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
   const { language } = useLanguage();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null); // ✅ La ref pour le clic extérieur
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ✅ Le son de la roulette
   const [playClickSound] = useSound('/sounds/roulette-click.mp3', { volume: 0.5 });
   
-  // ✅ Ferme le menu si on clique en dehors
   useOnClickOutside(dropdownRef, () => setIsMenuOpen(false));
 
   const toggleMenu = useCallback(() => {
@@ -101,7 +100,6 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
   const hoverBgColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)';
 
   return (
-    // ✅ La ref est attachée au conteneur principal
     <div className={styles.dropdown} ref={dropdownRef} style={{ '--kiwi-text-primary': textColor, '--kiwi-text-secondary': mutedTextColor, '--kiwi-border-color': borderColor, '--kiwi-hover-bg': hoverBgColor } as React.CSSProperties}>
       
       {/* Le bouton qui contrôle tout */}
@@ -114,7 +112,6 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
       {/* Le conteneur coulissant */}
       <div className={`${styles.collapsibleContent} ${isMenuOpen ? styles.contentOpen : styles.contentClosed}`}>
         
-        {/* Le contenu est identique à votre code */}
         <div className={styles.divider}></div>
         
         <ul className={styles.menuList}>
@@ -136,14 +133,15 @@ export default function UserDropdown({ onClose, userEmail }: UserDropdownProps) 
 
         <div className={styles.divider}></div>
         
+        {/* Le lien vers le Hub "Stay Tuned" remplace la section Socials */}
         <ul className={styles.menuList}>
-            <li><a href="https://x.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><XIcon /><span>{getTranslation('socials', 'followUs', language)}</span></a></li>
-            <li><a href="https://youtube.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaYoutube /><span>YouTube</span></a></li>
-            <li><a href="https://www.linkedin.com/company/kiwiops" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaLinkedin /><span>LinkedIn</span></a></li>
-            <li><a href="https://github.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaGithub /><span>GitHub</span></a></li>
-            <li><a href="https://www.instagram.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaInstagram /><span>Instagram</span></a></li>
-            <li><a href="https://www.tiktok.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaTiktok /><span>TikTok</span></a></li>
-            <li><a href="https://discord.gg/KiwiOpsCommunity" target="_blank" rel="noopener noreferrer" className={styles.menuItem} onClick={handleLinkClick}><FaDiscord /><span>{getTranslation('socials', 'joinDiscord', language)}</span></a></li>
+            <li>
+                <Link href="/stay-tuned-hub" className={styles.menuItem} onClick={handleLinkClick}>
+                    {/* ✅ CORRECTION : Utilisation de FaBullhorn (fiable) */}
+                    <FaBullhorn /> 
+                    <span>{getTranslation('socials', 'followUs', language)}</span> {/* Réutilise "Follow Us" pour le label */}
+                </Link>
+            </li>
         </ul>
 
         <div className={styles.divider}></div>
