@@ -15,7 +15,7 @@ import styles from './Sidebar.module.css'; // Contient le .dropdown global s'il 
 
 import { LanguageCode } from '@/types';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import LanguageSelector from './LanguageSelector';
 import UserDropdown from './UserDropdown';
 

@@ -4,13 +4,133 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useTheme } from '@/context/ThemeContext'; // Chemin d'importation correct
+import { useTheme } from '@/contexts/ThemeContext'; // Chemin d'importation correct
+// ✅ NOUVEAU : Import de useLanguage et LanguageCode
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageCode } from '@/types';
 import styles from './page.module.css';
-
 import { FaDownload } from 'react-icons/fa'; // Icône de téléchargement
+
+// ✅ OBJET ALLTRANSLATIONS COMPLET ET VÉRIFIÉ AVEC TOUTES LES LANGUES
+const allTranslations = {
+  loginPage: {
+    title: {
+      en: 'Access to Mission',
+      fr: 'Accès à la Mission',
+      mi: 'Te Urunga ki te Mihana',
+      ga: 'Rochtain ar an Misean',
+      hi: 'मिशन तक पहुंच',
+      gd: 'Cothrom air a’ Mhisean',
+      cy: 'Mynediad i Genhadaeth',
+      'en-AU': 'Access to Mission', 'en-NZ': 'Access to Mission', 'en-CA': 'Access to Mission', 'fr-CA': 'Accès à la Mission', 'en-ZA': 'Access to Mission', af: 'Toegang tot Missie',
+    },
+    emailLabel: {
+      en: 'TRANSMISSION ADDRESS',
+      fr: 'ADRESSE DE TRANSMISSION',
+      mi: 'Wāhi Tukunga',
+      ga: 'SEOLADH TARCHURTHA',
+      hi: 'प्रेषण पता',
+      gd: 'SEÒLADH TAR-CHUR',
+      cy: 'CYFEIRIAD TRAWSGYSTIAD',
+      'en-AU': 'TRANSMISSION ADDRESS', 'en-NZ': 'TRANSMISSION ADDRESS', 'en-CA': 'TRANSMISSION ADDRESS', 'fr-CA': 'ADRESSE DE TRANSMISSION', 'en-ZA': 'TRANSMISSIE ADRES', af: 'TRANSMISSIE ADRES',
+    },
+    passwordLabel: {
+      en: 'SECRET CODE',
+      fr: 'CODE SECRET',
+      mi: 'Waehere Huna',
+      ga: 'CÓD RÚNACH',
+      hi: 'गुप्त कोड',
+      gd: 'CÔD DÌOMHAIR',
+      cy: 'CÔD CYFRINACH',
+      'en-AU': 'SECRET CODE', 'en-NZ': 'SECRET CODE', 'en-CA': 'SECRET CODE', 'fr-CA': 'CODE SECRET', 'en-ZA': 'GEHEIM KODE', af: 'GEHEIM KODE',
+    },
+    submitButton: {
+      en: 'TRANSMIT',
+      fr: 'TRANSMETTRE',
+      mi: 'Tuku',
+      ga: 'TARCHUR',
+      hi: 'प्रेषित करें',
+      gd: 'TAR-CHUR',
+      cy: 'TRAWSGYSTIAD',
+      'en-AU': 'TRANSMIT', 'en-NZ': 'TRANSMIT', 'en-CA': 'TRANSMIT', 'fr-CA': 'TRANSMETTRE', 'en-ZA': 'VERSEND', af: 'VERSEND',
+    },
+    submitting: {
+      en: 'Transmitting...',
+      fr: 'Transmission...',
+      mi: 'E tuku ana...',
+      ga: 'Ag Tarchur...',
+      hi: 'प्रेषित कर रहा है...',
+      gd: 'A’ tar-chur...',
+      cy: 'Yn Trawsgyrru...',
+      'en-AU': 'Transmitting...', 'en-NZ': 'Transmitting...', 'en-CA': 'Transmitting...', 'fr-CA': 'Transmission...', 'en-ZA': 'Besig om te stuur...', af: 'Besig om te stuur...',
+    },
+    errorInvalid: {
+      en: 'Incorrect credentials. Access denied by HQ.',
+      fr: 'Identifiants incorrects. Accès refusé par le QG.',
+      mi: 'He he ngā tohu. Kua kore te uru e te HQ.',
+      ga: 'Dintiúirí míchearta. Rochtain diúltaithe ag an Cheanncheathrú.',
+      hi: 'गलत क्रेडेंशियल। मुख्यालय द्वारा पहुंच अस्वीकृत।',
+      gd: 'Teisteanasan ceàrr. Cha deach cead a thoirt seachad le HQ.',
+      cy: 'Manylion anghywir. Gwrthodir mynediad gan y Pencadlys.',
+      'en-AU': 'Incorrect credentials. Access denied by HQ.', 'en-NZ': 'Incorrect credentials. Access denied by HQ.', 'en-CA': 'Incorrect credentials. Access denied by HQ.', 'fr-CA': 'Identifiants incorrects. Accès refusé par le QG.', 'en-ZA': 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.', af: 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.',
+    },
+    footerNewUser: {
+      en: 'Not yet enrolled?',
+      fr: 'Pas encore enrôlé ?',
+      mi: 'Kāore anō kia rēhita?',
+      ga: 'Nach bhfuil cláraithe fós?',
+      hi: 'अभी तक नामांकित नहीं हैं?',
+      gd: 'Gun a bhith clàraichte fhathast?',
+      cy: 'Heb gofrestru eto?',
+      'en-AU': 'Not yet enrolled?', 'en-NZ': 'Not yet enrolled?', 'en-CA': 'Not yet enrolled?', 'fr-CA': 'Pas encore enrôlé ?', 'en-ZA': 'Nog nie ingeskryf nie?', af: 'Nog nie ingeskryf nie?',
+    },
+    footerRegisterLink: {
+      en: "Register at the office.",
+      fr: "S'inscrire au bureau.",
+      mi: 'Rēhita ki te tari.',
+      ga: 'Cláraigh ag an oifig.',
+      hi: 'कार्यालय में पंजीकरण करें।',
+      gd: 'Clàraich aig an oifis.',
+      cy: 'Cofrestrwch yn y swyddfa.',
+      'en-AU': "Register at the office.", 'en-NZ': "Register at the office.", 'en-CA': "Register at the office.", 'fr-CA': "S'inscrire au bureau.", 'en-ZA': "Registreer by die kantoor.", af: "Registreer by die kantoor.",
+    },
+    footerForgotPassword: {
+      en: 'Lost secret code?',
+      fr: 'Code secret perdu?',
+      mi: 'Waehere huna ngaro?',
+      ga: 'Cód rúnda caillte?',
+      hi: 'गुप्त कोड भूल गए?',
+      gd: 'Còd dìomhair air chall?',
+      cy: 'Cod cyfrinachol ar goll?',
+      'en-AU': 'Lost secret code?', 'en-NZ': 'Lost secret code?', 'en-CA': 'Lost secret code?', 'fr-CA': 'Code secret perdu?', 'en-ZA': 'Verlore geheime kode?', af: 'Verlore geheime kode?',
+    },
+    installAppLabel: {
+      en: 'Install App',
+      fr: 'Installer l\'Application',
+      mi: 'Tāuta Taupānga',
+      ga: 'Suiteáil Feidhmchlár',
+      hi: 'ऐप इंस्टॉल करें',
+      gd: 'Stàlaich Aplacaid',
+      cy: 'Gosod Ap',
+      'en-AU': 'Install App', 'en-NZ': 'Install App', 'en-CA': 'Install App', 'fr-CA': 'Installer l\'Application', 'en-ZA': 'Installeer App', af: 'Installeer App',
+    },
+  },
+};
+
+// ✅ NOUVEAU : Fonction de traduction
+function getTranslation<S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
+  section: S,
+  key: K,
+  lang: LanguageCode
+): string {
+  const translations = (allTranslations[section] as any)?.[key];
+  return translations?.[lang] || translations?.en || '';
+}
 
 export default function LoginPage() {
   const { theme } = useTheme();
+  // ✅ NOUVEAU : Obtenir la langue
+  const { language } = useLanguage();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +175,8 @@ export default function LoginPage() {
       console.log('Accès autorisé !');
       router.push('/dashboard');
     } else {
-      setError('Identifiants incorrects. Accès refusé par le QG.');
+      // ✅ Utilisation de la traduction pour le message d'erreur
+      setError(getTranslation('loginPage', 'errorInvalid', language));
     }
     setIsLoading(false);
   };
@@ -92,12 +213,12 @@ export default function LoginPage() {
       } as React.CSSProperties}
     >
       <div className={styles.formWrapper}>
-        <button className={styles.installButton} onClick={handleInstallClick} aria-label="Installer l'application">
+        <button className={styles.installButton} onClick={handleInstallClick} aria-label={getTranslation('loginPage', 'installAppLabel', language)}>
           <FaDownload />
         </button>
 
         <h1 className={styles.title}>
-          Accès à la Mission
+          {getTranslation('loginPage', 'title', language)}
         </h1>
 
         {error && (
@@ -109,7 +230,7 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="transmission" className={styles.label}>
-              ADRESSE DE TRANSMISSION
+              {getTranslation('loginPage', 'emailLabel', language)}
             </label>
             <input
               id="transmission"
@@ -126,7 +247,7 @@ export default function LoginPage() {
 
           <div className={styles.formGroup}>
             <label htmlFor="secret" className={styles.label}>
-              CODE SECRET
+              {getTranslation('loginPage', 'passwordLabel', language)}
             </label>
             <input
               id="secret"
@@ -147,22 +268,21 @@ export default function LoginPage() {
               disabled={isLoading}
               className={styles.submitButton}
             >
-              {isLoading ? 'Transmission...' : 'TRANSMETTRE'}
+              {isLoading ? getTranslation('loginPage', 'submitting', language) : getTranslation('loginPage', 'submitButton', language)}
             </button>
           </div>
         </form>
 
         <p className={styles.footerText}>
-          Pas encore enrôlé ?{' '}
+          {getTranslation('loginPage', 'footerNewUser', language)}{' '}
           <Link href="/inscription" className={styles.link}>
-            S'inscrire au bureau.
+            {getTranslation('loginPage', 'footerRegisterLink', language)}
           </Link>
         </p>
         
-        {/* ✅ NOUVEAU : Lien "Mot de passe oublié ?" */}
         <p className={styles.forgotPasswordText}>
           <Link href="/forgot-password" className={styles.link}>
-            Code secret perdu ?
+            {getTranslation('loginPage', 'footerForgotPassword', language)}
           </Link>
         </p>
       </div>

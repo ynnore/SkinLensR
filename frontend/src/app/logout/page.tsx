@@ -4,7 +4,7 @@
 import React, { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useTheme } from '@/context/ThemeContext'; // Assurez-vous du bon chemin
+import { useTheme } from '@/contexts/ThemeContext';// Assurez-vous du bon chemin
 import { useLanguage } from '@/contexts/LanguageContext'; // Assurez-vous du bon chemin
 import { LanguageCode } from '@/types';
 

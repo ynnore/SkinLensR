@@ -1,4 +1,4 @@
-/* Fichier: src/app/page.module.css (Contient maintenant les styles de la page de connexion) */
+/* Fichier: src/app/page.module.css */
 
 .pageContainer {
   padding: 2rem;
@@ -8,86 +8,88 @@
   align-items: center;
   justify-content: center; /* Centrer le formulaire verticalement */
   color: var(--kiwi-text-primary);
-  background-color: var(--kiwi-background-page); /* Lit la variable injectée par page.tsx */
-  font-family: var(--font-courier-prime); /* Lit la variable injectée par page.tsx */
+  background-color: var(--kiwi-background-page);
+  font-family: var(--font-courier-prime);
+  box-sizing: border-box; /* S'assure que padding est inclus dans la taille totale */
 }
 
 .formWrapper {
-  max-width: 500px; /* Largeur fixe pour le formulaire */
+  max-width: 500px;
   width: 100%;
   padding: 2.5rem;
-  border: 2px solid var(--kiwi-border-color); /* Lit la variable injectée par page.tsx */
-  border-radius: 8px; /* Rayon de bordure cohérent */
-  background-color: var(--kiwi-background-section); /* Lit la variable injectée par page.tsx */
-  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card); /* Lit la variable injectée par page.tsx */
-  box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur */
+  border: 2px solid var(--kiwi-border-color);
+  border-radius: 8px;
+  background-color: var(--kiwi-background-section);
+  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card);
+  box-sizing: border-box;
+  position: relative; /* Nécessaire pour le bouton d'installation */
 }
 
 .title {
-  font-family: var(--font-special-elite); /* Lit la variable injectée par page.tsx */
-  font-size: 2.8rem; /* Plus grand pour le titre principal */
+  font-family: var(--font-special-elite);
+  font-size: 2.8rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   text-align: center;
   font-weight: bold;
-  color: var(--kiwi-highlight-color); /* Lit la variable injectée par page.tsx */
-  text-shadow: var(--kiwi-text-shadow); /* Lit la variable injectée par page.tsx */
-  margin-bottom: 2rem; /* Espacement après le titre */
+  color: var(--kiwi-highlight-color);
+  text-shadow: var(--kiwi-text-shadow);
+  margin-bottom: 2rem;
 }
 
 .errorBox {
-  background-color: var(--kiwi-error-background); /* Lit la variable injectée par page.tsx */
-  color: var(--kiwi-error-text); /* Lit la variable injectée par page.tsx */
-  border: 1px solid var(--kiwi-error-border); /* Lit la variable injectée par page.tsx */
+  background-color: var(--kiwi-error-background);
+  color: var(--kiwi-error-text);
+  border: 1px solid var(--kiwi-error-border);
   border-radius: 4px;
   padding: 1rem 1.5rem;
   margin-bottom: 2rem;
   text-align: center;
   font-weight: bold;
-  box-shadow: 2px 2px 0px var(--kiwi-error-shadow); /* Lit la variable injectée par page.tsx */
+  box-shadow: 2px 2px 0px var(--kiwi-error-shadow);
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espacement entre les groupes de champs */
+  gap: 1.5rem;
 }
 
 .formGroup {
-  margin-bottom: 0; /* Géré par le gap sur .form */
+  margin-bottom: 0;
 }
 
 .label {
   display: block;
   margin-bottom: 0.6rem;
   font-weight: bold;
-  color: var(--kiwi-text-primary); /* Lit la variable injectée par page.tsx */
-  font-family: var(--font-courier-prime); /* Lit la variable injectée par page.tsx */
+  color: var(--kiwi-text-primary);
+  font-family: var(--font-courier-prime);
   font-size: 1.05rem;
   text-transform: uppercase;
 }
 
 .inputField {
   width: 100%;
-  padding: 0.9rem 1.2rem; /* Plus de padding pour le confort */
-  border: 1px solid var(--kiwi-input-border-color); /* Lit la variable injectée par page.tsx */
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--kiwi-input-border-color);
   border-radius: 4px;
-  background-color: var(--kiwi-input-background-color); /* Lit la variable injectée par page.tsx */
-  color: var(--kiwi-text-primary); /* Lit la variable injectée par page.tsx */
+  background-color: var(--kiwi-input-background-color);
+  color: var(--kiwi-text-primary);
   font-size: 1rem;
   box-sizing: border-box;
-  font-family: var(--font-courier-prime); /* Lit la variable injectée par page.tsx */
+  font-family: var(--font-courier-prime);
 }
 
 .inputField:focus {
   outline: none;
-  border-color: var(--kiwi-highlight-color); /* Lit la variable injectée par page.tsx */
-  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light); /* Lit la variable injectée par page.tsx */
+  border-color: var(--kiwi-highlight-color);
+  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light);
 }
 
 .submitButton {
-  background-color: var(--kiwi-button-primary-bg); /* Lit la variable injectée par page.tsx */
-  color: var(--kiwi-button-primary-text); /* Lit la variable injectée par page.tsx */
+  background-color: var(--kiwi-button-primary-bg);
+  color: var(--kiwi-button-primary-text);
   padding: 1.2rem 2rem;
   border: none;
   border-radius: 5px;
@@ -96,14 +98,14 @@
   cursor: pointer;
   text-transform: uppercase;
   transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
-  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button); /* Lit la variable injectée par page.tsx */
+  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
   width: 100%;
   margin-top: 1rem;
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--kiwi-button-primary-hover-bg); /* Lit la variable injectée par page.tsx */
-  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button); /* Lit la variable injectée par page.tsx */
+  background-color: var(--kiwi-button-primary-hover-bg);
+  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button);
 }
 
 .submitButton:disabled {
@@ -112,22 +114,47 @@
 }
 
 .footerText {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   text-align: center;
-  color: var(--kiwi-text-secondary); /* Lit la variable injectée par page.tsx */
+  color: var(--kiwi-text-secondary);
+  font-size: 0.95rem;
+}
+
+.forgotPasswordText {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: var(--kiwi-text-secondary);
   font-size: 0.95rem;
 }
 
 .link {
-  color: var(--kiwi-highlight-color); /* Lit la variable injectée par page.tsx */
+  color: var(--kiwi-highlight-color);
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.2s ease;
+  transition: color 0.3s ease;
 }
 
 .link:hover {
-  color: var(--kiwi-text-primary); /* Lit la variable injectée par page.tsx */
+  color: var(--kiwi-text-primary);
   text-decoration: underline;
+}
+
+/* Styles du bouton d'installation */
+.installButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--kiwi-text-secondary);
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.installButton:hover {
+  color: var(--kiwi-highlight-color);
 }
 
 /* Media Queries pour le Responsive Design */
@@ -150,57 +177,14 @@
     padding: 1rem 1.5rem;
     font-size: 1rem;
   }
-}
-/* ✅ Styles du bouton d'installation */
-.installButton {
-  position: absolute; /* Positionnement absolu par rapport à .formWrapper */
-  top: 1.5rem;      /* Distance du haut */
-  right: 1.5rem;    /* Distance de la droite */
-  background: none;
-  border: none;
-  color: var(--kiwi-text-secondary); /* Couleur discrète */
-  font-size: 1.8rem; /* Taille de l'icône */
-  cursor: pointer;
-  transition: color 0.3s ease;
-  z-index: 10; /* Assure qu'il est au-dessus des autres éléments */
-}
 
-.installButton:hover {
-  color: var(--kiwi-highlight-color); /* Mise en évidence au survol */
-}
-
-/* Responsive pour les petits écrans */
-@media (max-width: 768px) {
   .installButton {
     top: 1rem;
     right: 1rem;
     font-size: 1.5rem;
   }
-}
-/* Fichier: src/app/page.module.css */
-
-/* ... (vos styles existants) ... */
-
-.footerText {
-  margin-top: 1.5rem; /* Espace un peu plus le premier texte */
-  font-size: 0.9rem;
-  color: var(--kiwi-text-secondary);
-}
-
-.forgotPasswordText {
-  margin-top: 0.5rem; /* Petit espace entre les deux paragraphes */
-  font-size: 0.9rem;
-  color: var(--kiwi-text-secondary);
-}
-
-.link {
-  color: var(--kiwi-highlight-color); /* Utilise la couleur d'accentuation */
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.link:hover {
-  text-decoration: underline;
-  color: var(--kiwi-highlight-color-light); /* Couleur de survol plus claire */
+  
+  .footerText, .forgotPasswordText {
+    font-size: 0.9rem;
+  }
 }

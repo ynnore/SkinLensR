@@ -1,7 +1,7 @@
 'use client'; // Indique que ce composant est un Client Component
 
 import React from 'react';
-import { useTheme } from '../../../context/ThemeContext'; // Ajustez le chemin si nécessaire, remonte d'un niveau de plus
+import { useTheme } from '@/contexts/ThemeContext';// Ajustez le chemin si nécessaire, remonte d'un niveau de plus
 
 export default function FAQPage() {
   const { theme } = useTheme();

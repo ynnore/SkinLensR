@@ -1,18 +1,17 @@
-// src/app/layout.tsx
+// Fichier: src/app/layout.tsx
+
 import { Inter } from 'next/font/google';
-import { LanguageProvider } from '../contexts/LanguageContext';
-import { ThemeProvider } from '../context/ThemeContext';
-import MainLayoutClient from './MainLayoutClient'; // Importé ici
+import { MainLayoutClient } from './MainLayoutClient'; // Importation nommée
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'Operation W',
-  description: 'Votre application de diagnostic ',
+  title: "Operation W",
+  description: "Votre application de diagnostic",
 };
 
-// Ce script est crucial pour éviter le FOUC (Flash Of Unstyled Content) lors du changement de thème
+// ✅ CORRECTION : Le composant ThemeScript doit bien RETOURNER une balise JSX
 const ThemeScript = () => {
   const script = `
     (function() {
@@ -26,31 +25,25 @@ const ThemeScript = () => {
       } catch (e) {}
     })();
   `;
-  return <script dangerouslySetInnerHTML={{ __html: script }} />;
+  return <script dangerouslySetInnerHTML={{ __html: script }} />; // ✅ Le 'return' est crucial ici
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="fr" suppressHydrationWarning>
       <head>
-        {/* LA BALISE META VIEWPORT CORRECTEMENT PLACÉE ICI */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {/* Le script pour gérer le thème avant le rendu du corps */}
         <ThemeScript />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider>
-          <LanguageProvider>
-            {/* MainLayoutClient est le composant parent qui gérera le layout avec la sidebar */}
-            <MainLayoutClient>
-              {children}
-            </MainLayoutClient>
-          </LanguageProvider>
-        </ThemeProvider>
+      <body>
+        {/* MainLayoutClient est le SEUL enfant direct du body. Il contiendra les Providers. */}
+        <MainLayoutClient>
+          {children}
+        </MainLayoutClient>
       </body>
     </html>
   );

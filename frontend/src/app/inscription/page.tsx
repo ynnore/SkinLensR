@@ -3,7 +3,7 @@
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '../../context/ThemeContext'; // Importez le hook useTheme
+import { useTheme } from '@/contexts/ThemeContext'; // Importez le hook useTheme
 import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
 import { LanguageCode } from '@/types'; // Importez LanguageCode
 import styles from './inscription.module.css'; // Importez le CSS module

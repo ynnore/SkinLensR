@@ -3,9 +3,10 @@
 
 import React from 'react';
 import styles from './forgot-password.module.css';
-import { useTheme } from '@/context/ThemeContext'; // Assurez-vous du bon chemin
-import { useLanguage } from '@/contexts/LanguageContext'; // Assurez-vous du bon chemin
+import { useTheme } from '@/contexts/ThemeContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
+import { LanguageCode } from '@/types'; // ✅ CORRECTION : Import de LanguageCode
 
 // Traductions pour cette page
 const forgotPasswordTranslations = {

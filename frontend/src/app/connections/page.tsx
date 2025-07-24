@@ -1,7 +1,7 @@
 'use client'; // Indique que ce composant est un Client Component
 
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '../../context/ThemeContext'; // Assurez-vous que ce chemin est correct
+import { useTheme } from '@/contexts/ThemeContext'; // Assurez-vous que ce chemin est correct
 import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
 import { LanguageCode } from '@/types'; // Importez LanguageCode
 import styles from './connections.module.css'; // Importez le CSS module

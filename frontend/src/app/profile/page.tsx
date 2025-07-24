@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 // On importe les types que l'on vient de créer !
 import { UserProfile, AccreditationLevel } from '../../types/user';
 import styles from './profile.module.css'; // Importez le CSS module

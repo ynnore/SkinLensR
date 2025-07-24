@@ -4,7 +4,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useTheme } from '@/context/ThemeContext'; // Vérifier le chemin exact si '../' ou '@/'
+import { useTheme } from '@/contexts/ThemeContext'; // Vérifier le chemin exact si '../' ou '@/'
 import { useLanguage } from '@/contexts/LanguageContext'; // Vérifier le chemin exact
 import { LanguageCode } from '@/types';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
