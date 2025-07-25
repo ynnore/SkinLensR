@@ -1,8 +1,7 @@
-/* src/components/Sidebar.module.css */
+/* src/components/Sidebar.module.css (CORRIGÉ) */
 
-/* Variables globales supposées définies ailleurs dans :root (ex: globals.css) */
+/* ... (toutes vos règles CSS jusqu'à .footer restent les mêmes) ... */
 
-/* Sidebar par défaut */
 .sidebar {
   width: var(--sidebar-width-open);
   background-color: var(--sidebar-bg);
@@ -19,31 +18,16 @@
   overflow-y: auto;
   box-sizing: border-box;
   padding: 20px;
-  opacity: 1;
 }
-
-/* Sidebar fermée */
 .sidebar.closed {
   width: var(--sidebar-width-closed);
   padding: 15px 10px;
   align-items: center;
 }
-
-/* Bouton fermeture mobile */
+.mobileOpenButton,
 .mobileCloseButton {
-  display: none;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 1001;
+  display: none; /* Masqués par défaut */
 }
-
-/* Header de la sidebar */
 .header {
   display: flex;
   justify-content: space-between;
@@ -53,101 +37,50 @@
   padding-bottom: 15px;
   border-bottom: 1px solid var(--border-color);
 }
-
-/* Wrapper logo + toggle */
 .logoAndToggleButtonWrapper {
   display: flex;
   align-items: center;
 }
-
-/* Logo */
 .logoContainer {
   position: relative;
   flex-shrink: 0;
 }
-
 .logoButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  background: none; border: none; cursor: pointer; padding: 0;
 }
-
 .logo {
-  width: 40px;
-  height: 40px;
-  background-color: var(--primary-color);
-  color: rgb(231, 222, 222);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 1.2rem;
-  transition: background-color var(--transition-speed) ease;
+  width: 40px; height: 40px; background-color: var(--primary-color);
+  color: rgb(231, 222, 222); display: flex; justify-content: center;
+  align-items: center; border-radius: 50%; font-weight: bold;
+  font-size: 1.2rem; transition: background-color var(--transition-speed) ease;
 }
-
 .logo:hover {
   background-color: var(--primary-dark-color);
 }
-
-/* Menu utilisateur */
 .userMenu {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  background-color: var(--dropdown-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  min-width: 180px;
-  z-index: 99;
-  padding: 8px 0;
+  position: absolute; top: calc(100% + 10px); left: 0;
+  background-color: var(--dropdown-bg); border: 1px solid var(--border-color);
+  border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 180px; z-index: 99; padding: 8px 0;
 }
-
-.userMenu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.userMenu li {
-  margin: 0;
-}
-
+.userMenu ul { list-style: none; padding: 0; margin: 0; }
+.userMenu li { margin: 0; }
 .userMenuItem {
-  display: flex;
-  align-items: center;
-  padding: 10px 15px;
-  color: var(--text-color);
-  text-decoration: none;
-  background: none;
-  border: none;
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
+  display: flex; align-items: center; padding: 10px 15px;
+  color: var(--text-color); text-decoration: none; background: none;
+  border: none; width: 100%; text-align: left; cursor: pointer;
   transition: background-color var(--transition-speed) ease;
 }
-
-.userMenuItem:hover {
-  background-color: var(--hover-bg);
-}
-
-.userMenuItem svg {
-  margin-right: 10px;
-  font-size: 1.1rem;
-}
-
-/* Contrôles du header */
+.userMenuItem:hover { background-color: var(--hover-bg); }
+.userMenuItem svg { margin-right: 10px; font-size: 1.1rem; }
 .headerControls {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
-/* Boutons thème et toggle */
 .themeToggle,
-.headerToggleButton {
+.headerToggleButton,
+.mobileCloseButton { /* ✅ On applique le même style au bouton de fermeture mobile */
   background: none;
   border: none;
   color: var(--icon-color);
@@ -163,119 +96,63 @@
   width: 40px;
   height: 40px;
 }
-
 .themeToggle:hover,
-.headerToggleButton:hover {
+.headerToggleButton:hover,
+.mobileCloseButton:hover {
   background-color: var(--hover-bg);
 }
-
 .headerToggleButton {
   margin-left: auto;
 }
-
-/* Header réduit quand sidebar fermée */
 .sidebar.closed .header {
-  flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-  padding-bottom: 0;
-  border-bottom: none;
-  margin-bottom: 30px;
+  flex-direction: column; justify-content: center; gap: 15px;
+  padding-bottom: 0; border-bottom: none; margin-bottom: 30px;
 }
-
 .sidebar.closed .logo {
-  width: 30px;
-  height: 30px;
-  font-size: 1.2rem;
+  width: 30px; height: 30px; font-size: 1.2rem;
 }
-
 .sidebar.closed .headerControls {
   flex-direction: column;
   gap: 15px;
 }
-
-/* Navigation */
 .nav {
-  flex-grow: 1;
-  padding: 20px 0;
+  flex-grow: 1; padding: 20px 0;
 }
-
-.nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.nav li {
-  margin-bottom: 5px;
-}
-
+.nav ul { list-style: none; padding: 0; margin: 0; }
+.nav li { margin-bottom: 5px; }
 .navLink {
-  display: flex;
-  align-items: center;
-  padding: 12px 20px;
-  text-decoration: none;
-  color: var(--nav-link-color);
+  display: flex; align-items: center; padding: 12px 20px;
+  text-decoration: none; color: var(--nav-link-color);
   transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
-  border-radius: 6px;
-  margin: 0 10px;
-  white-space: nowrap;
+  border-radius: 6px; margin: 0 10px; white-space: nowrap;
 }
-
 .navLink:hover {
-  background-color: var(--hover-bg);
-  color: var(--nav-link-hover-color);
+  background-color: var(--hover-bg); color: var(--nav-link-hover-color);
 }
-
 .navLink.active {
-  background-color: var(--active-link-bg);
-  color: var(--active-link-color);
-  font-weight: bold;
+  background-color: var(--active-link-bg); color: var(--active-link-color); font-weight: bold;
 }
-
 .navIcon {
-  font-size: 1.2rem;
-  margin-right: 15px;
+  font-size: 1.2rem; margin-right: 15px;
   transition: margin-right var(--transition-speed) ease;
 }
-
-.sidebar.closed .navIcon {
-  margin-right: 0;
-}
-
+.sidebar.closed .navIcon { margin-right: 0; }
 .navLabel {
-  opacity: 1;
-  transition: opacity var(--transition-speed) ease, width var(--transition-speed) ease;
-  white-space: nowrap;
-  overflow: hidden;
-  width: auto;
+  opacity: 1; transition: opacity var(--transition-speed) ease, width var(--transition-speed) ease;
+  white-space: nowrap; overflow: hidden; width: auto;
 }
-
 .sidebar.closed .navLabel {
-  opacity: 0;
-  width: 0;
-  pointer-events: none;
+  opacity: 0; width: 0; pointer-events: none;
 }
-
-/* Footer */
 .footer {
-  margin-top: auto;
-  padding: 20px 0;
-  border-top: 1px solid var(--border-color);
-  flex-shrink: 0;
+  margin-top: auto; padding: 20px 0;
+  border-top: 1px solid var(--border-color); flex-shrink: 0;
 }
+.footer ul { list-style: none; padding: 0; margin: 0; }
+.footer li { margin-bottom: 5px; }
 
-.footer ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
-.footer li {
-  margin-bottom: 5px;
-}
-
-/* MEDIA QUERIES */
+/* ✅ MEDIA QUERIES SIMPLIFIÉES ET CORRIGÉES */
 
 @media (max-width: 768px) {
   .sidebar {
@@ -285,37 +162,52 @@
     box-shadow: none;
     padding: 20px;
     border-right: none;
-    opacity: 1;
   }
-
+  
   .sidebar:not(.closed) {
     transform: translateX(0);
   }
 
-  .mobileCloseButton {
-    display: flex;
-  }
-
+  /* Le bouton de toggle pour desktop est caché sur mobile */
   .headerToggleButton {
     display: none;
   }
 
+  /* Le bouton pour fermer la sidebar est visible sur mobile */
+  .mobileCloseButton {
+    display: flex;
+  }
+
+  /* Le bouton flottant pour OUVRIR la sidebar */
+  .mobileOpenButton {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 2000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* On affiche le bouton flottant SEULEMENT si la sidebar est fermée */
+  .sidebar.closed .mobileOpenButton {
+    display: flex;
+  }
+
+  /* On force le header à rester en ligne sur mobile */
   .sidebar .header {
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    margin-bottom: 30px;
-    padding-bottom: 15px;
   }
-
   .sidebar .headerControls {
     flex-direction: row;
-  }
-
-  .sidebar .logo {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
   }
 }

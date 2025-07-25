@@ -89,21 +89,24 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   ];
 
   return (
-    <aside className={`${styles.sidebar} ${!isOpen ? styles.closed : ''}`}>
-      {/* Bouton de fermeture sur mobile */}
-      <button onClick={toggleSidebar} className={styles.mobileCloseButton} aria-label="Fermer la barre latérale">
-        <FaTimes />
+<aside className={`${styles.sidebar} ${!isOpen ? styles.closed : ''}`}>
+
+      {/* BOUTON FLOTTANT POUR OUVRIR SUR MOBILE */}
+      {/* Ce bouton n'est visible que si la sidebar est fermée sur mobile */}
+      <button
+        onClick={toggleSidebar}
+        className={styles.mobileOpenButton}
+        aria-label="Ouvrir la barre latérale"
+      >
+        <FaFolderOpen />
       </button>
 
       <div className={styles.header}>
         <div className={styles.logoAndToggleButtonWrapper}>
           <div ref={menuRef} className={styles.logoContainer}>
-            {/* Bouton qui ouvre le dropdown (qui est UserDropdown.tsx) */}
             <button onClick={toggleMenu} className={styles.logoButton} aria-label="Ouvrir le menu utilisateur">
               <div className={styles.logo}>o</div>
             </button>
-
-            {/* ✅ Rend UserDropdown et lui passe une classe pour le styliser si nécessaire */}
             {isMenuOpen && (
               <UserDropdown
                 onClose={() => setMenuOpen(false)}
@@ -114,34 +117,39 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         </div>
 
         <div className={styles.headerControls}>
-          {/* Changer le thème */}
           <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Changer de thème">
             {theme === 'dark' ? <FaSun suppressHydrationWarning /> : <FaMoon suppressHydrationWarning />}
           </button>
 
-          {/* Sélecteur de langue */}
-          {/* La LanguageSelector utilise un dropdown interne, cette classe s'applique à lui */}
           <LanguageSelector
             currentLanguage={language}
             onSelectLanguage={setLanguage}
-            isSidebarOpen={isOpen} // Utile pour le responsive
-            // Ajoutez une classe spécifique si vous voulez la styliser comme un dropdown
-            // Par exemple, en lui passant propClassName={styles.dropdown}
+            isSidebarOpen={isOpen}
           />
 
-          {/* Ouvrir/fermer la sidebar */}
+          {/* ✅ BOUTON DE FERMETURE POUR MOBILE (DANS LE HEADER) */}
+          {/* Ce bouton est maintenant aligné avec les autres. Il ne s'affiche que sur mobile. */}
+          <button
+            onClick={toggleSidebar}
+            className={styles.mobileCloseButton}
+            aria-label="Fermer la barre latérale"
+          >
+            <FaFolder />
+          </button>
+          
+          {/* BOUTON POUR DESKTOP */}
+          {/* Ce bouton ne s'affiche que sur desktop. */}
           <button onClick={toggleSidebar} className={styles.headerToggleButton} aria-label="Basculer la barre latérale">
             {isOpen ? <FaFolder /> : <FaFolderOpen />}
           </button>
         </div>
       </div>
 
-      {/* Navigation principale */}
       <nav className={styles.nav}>
         <ul>
           {navLinks.map(({ id, href, label, icon: Icon }) => (
             <li key={id}>
-              <Link href={href} className={`${styles.navLink} ${ pathname === href ? styles.active : ''}`}>
+              <Link href={href} className={`${styles.navLink} ${pathname === href ? styles.active : ''}`}>
                 <Icon className={styles.navIcon} />
                 <span className={styles.navLabel}>{label}</span>
               </Link>
@@ -150,7 +158,6 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         </ul>
       </nav>
 
-      {/* Liens bas de sidebar */}
       <div className={styles.footer}>
         <ul>
           {footerLinks.map(({ id, href, label, icon: Icon }) => (
