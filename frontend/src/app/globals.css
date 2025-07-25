@@ -126,4 +126,47 @@ button {
   color: inherit;
 }
 
-    
+  /* Variables globales */
+:root {
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 60px; /* ou 0px si tu veux sidebar cachée */
+  --transition-speed: 0.3s;
+}
+
+/* === CONTENU PRINCIPAL (desktop) === */
+.mainContent {
+  margin-left: var(--sidebar-width-open);
+  width: calc(100% - var(--sidebar-width-open));
+  padding: 20px;
+  transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
+}
+
+/* Sidebar fermée : adapte la largeur du contenu principal */
+.mainContent.sidebarClosed {
+  margin-left: var(--sidebar-width-closed);
+  width: calc(100% - var(--sidebar-width-closed));
+}
+
+/* === MOBILE : toujours plein écran === */
+@media (max-width: 768px) {
+  .mainContent {
+    margin-left: 0;
+    width: 100%;
+    padding: 10px; /* modifie à ta convenance */
+  }
+}
+
+/* SIDEBAR ESCAMOTÉE */
+.sidebar.closed {
+  transform: translateX(-100%);
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Si tu utilises CSS pur, sépare la règle imbriquée comme ça : */
+.mainContent.sidebarClosed {
+  margin-left: var(--sidebar-width-closed);
+  width: calc(100% - var(--sidebar-width-closed));
+}
+  

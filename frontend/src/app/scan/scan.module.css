@@ -1,9 +1,30 @@
-/* Fichier: src/app/scan/scan.module.css */
+/* src/app/scan/scan.module.css */
 
 /* ========================================================
-   STRUCTURE PRINCIPALE
+   VARIABLES GLOBALES
+   Ces variables sont supposées définies dans globals.css ou ailleurs
    ======================================================== */
+/*
+:root {
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 60px;
+  --page-bg-color: #f0f2f5;
+  --text-primary-color: #111;
+  --text-secondary-color: #666;
+  --font-courier-prime-global: 'Courier Prime', monospace;
+  --bg-sidebar-color: #fff;
+  --border-color-global: #ddd;
+  --shadow-color-global: rgba(0, 0, 0, 0.1);
+  --color-background-secondary-global: #eaeaea;
+  --color-accent-blue-global: #007bff;
+  --hover-bg-color: #ddd;
+  --bg-main-color: #fff;
+}
+*/
 
+/* ========================================================
+   CONTENEUR PRINCIPAL
+   ======================================================== */
 .mainPageContainer {
   display: flex;
   height: 100vh;
@@ -14,8 +35,18 @@
   background-color: var(--page-bg-color);
   color: var(--text-primary-color);
   font-family: var(--font-courier-prime-global);
+
+  /* Décale le contenu pour laisser la place à la sidebar ouverte */
+  padding-left: var(--sidebar-width-open);
+  transition: padding-left 0.3s ease;
 }
 
+/* Quand la sidebar est fermée, réduit l’espace réservé */
+.mainPageContainer.sidebarClosed {
+  padding-left: var(--sidebar-width-closed);
+}
+
+/* Contenu principal (zone à droite de la sidebar) */
 .mainPageContentWrapper {
   flex-grow: 1;
   display: flex;
@@ -24,8 +55,10 @@
   width: 100%;
   padding: 2rem;
   box-sizing: border-box;
+  max-width: 100vw; /* Empêche débordement horizontal */
 }
 
+/* Conteneur du chat, centré et limité */
 .chatContainer {
   width: 100%;
   max-width: 1100px;
@@ -41,10 +74,7 @@
   margin: 0 auto;
 }
 
-/* ========================================================
-   HEADER DE LA PAGE PRINCIPALE
-   ======================================================== */
-
+/* Header de la page principale */
 .pageHeader {
   display: flex;
   justify-content: space-between;
@@ -79,6 +109,7 @@
   gap: 0.5rem;
 }
 
+/* Boutons plus et partager */
 .moreButton,
 .shareButton {
   background: transparent;
@@ -116,10 +147,7 @@
   padding: 0.5rem;
 }
 
-/* ========================================================
-   ZONE DE MESSAGES ET FOOTER DU CHAT
-   ======================================================== */
-
+/* Zone de messages */
 .messagesArea {
   flex-grow: 1;
   padding: 1.5rem;
@@ -194,11 +222,10 @@
   flex-shrink: 0;
 }
 
-/* ✅ Correctif ici : fermeture manquante et ajout de gap */
 .inputWrapper {
   display: flex;
   align-items: center;
-  gap: 0.5rem; /* espace entre input et bouton Send */
+  gap: 0.5rem;
   background-color: var(--bg-main-color);
   border: 1px solid var(--border-color-global);
   border-radius: 8px;
@@ -207,7 +234,7 @@
 }
 
 .inputWrapper input {
-  flex: 1; /* prend toute la place dispo mais garde l’espace pour le bouton */
+  flex: 1;
   background: transparent;
   border: none;
   outline: none;
@@ -228,7 +255,6 @@
   gap: 0.5rem;
 }
 
-/* Boutons d’action */
 .iconButton {
   background: none;
   border: none;
@@ -250,7 +276,6 @@
   background-color: var(--hover-bg-color);
 }
 
-/* Bouton d’envoi */
 .sendButton {
   background: none;
   border: none;
@@ -276,26 +301,19 @@
   background: none;
 }
 
-/* ========================================================
-   STYLES DES ICÔNES
-   ======================================================== */
-
+/* Icônes stylées */
 .gramophoneIcon {
   filter: grayscale(1) contrast(0) brightness(0.6);
   transition: filter 0.3s ease;
 }
 
-/* ========================================================
-   MEDIA QUERIES
-   ======================================================== */
+/* MEDIA QUERIES */
 
 @media (max-width: 768px) {
+  /* Conteneur passe en colonne et laisse toute la largeur */
   .mainPageContainer {
-    padding: 0;
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
     flex-direction: column;
+    padding-left: 0; /* plus de padding à gauche */
   }
 
   .mainPageContentWrapper {
