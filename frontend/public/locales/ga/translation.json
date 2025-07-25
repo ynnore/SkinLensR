@@ -1,11 +1,11 @@
 {
   "header": {
-    "missionStatement": "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
+    "missionStatement": "Tógtha ó tholláin Wellington i Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
     "beta": "Béite"
   },
   "sidebar": {
     "scan": "Scanadh",
-    "dashboard": "Painéal",
+    "dashboard": "Painéal na hOibríochtaí",
     "files": "Comhaid",
     "connections": "Naisc",
     "pay": "Íoc",
@@ -14,13 +14,13 @@
     "privacy_policy": "Polasaí Príobháideachais"
   },
   "userMenu": {
-    "profile": "Próifíl",
+    "profile": "Comhad an Gníomhaire",
     "accountSettings": "Socruithe Cuntais",
-    "logout": "Logáil Amach"
+    "logout": "Iarratas ar Shaoire"
   },
   "chat": {
-    "welcomeMessage": "Dia duit! Is mise Agent ☘️ R.O.C.K.. Conas is féidir liom cabhrú leat inniu?",
-    "thinking": "Tá Agent ☘️ R.O.C.K. ag smaoineamh...",
+    "welcomeMessage": "Dia duit! Is mise an Gníomhaire M.D. Conas is féidir liom cabhrú leat inniu?",
+    "thinking": "Tá an Gníomhaire M.D. ag smaoineamh...",
     "placeholder": "Clóscríobh do theachtaireacht..."
   },
   "loginPage": {
@@ -31,13 +31,13 @@
     "socialSeparator": "NÓ",
     "googleButton": "Lean ar aghaidh le Google",
     "githubButton": "Lean ar aghaidh le GitHub",
-    "signupPrompt": "Nach bhfuil tú cláraithe fós?",
+    "signupPrompt": "Níl tú cláraithe fós?",
     "signupLink": "Cláraigh ag an mbriogáid."
   },
   "signupPage": {
     "title": "Briogáid Clárúcháin",
     "preamble": "Táthar ag iarraidh ar ghníomhairí atá ag iarraidh páirt a ghlacadh foirm a líonadh thíos. Tá discréid ríthábhachtach.",
-    "nameLabel": "AINM CÓD",
+    "nameLabel": "ALIAS",
     "emailLabel": "SEOLADH TARCHURTHA (Ríomhphost)",
     "passwordLabel": "CÓD RÚNDA (Focal Faire)",
     "submitButton": "DEARBHÚ CLÁRÚCHÁIN",
@@ -48,8 +48,8 @@
     "loginLink": "Rochtain ar an bPost Ceannais."
   },
   "profilePage": {
-    "title": "Comhad Gníomhaire",
-    "labelName": "AINM CÓD",
+    "title": "Comhad an Gníomhaire",
+    "labelName": "ALIAS",
     "labelMatricule": "UIMHIR SEIRBHÍSE",
     "labelAccreditation": "LEIBHÉAL CREIDIÚNAITHE",
     "accreditationAgent": "Gníomhaire Allamuigh",
@@ -59,10 +59,10 @@
   },
   "logoutPage": {
     "title": "Iarratas ar Shaoire",
-    "preamble": "Gníomhaire, cuireadh d’iarratas ar shaoire isteach. Deimhnigh d’imtheacht ón bpost. Beidh do rochtain curtha ar fionraí go dtí do fhilleadh.",
-    "labelMatricule": "UIMHIR SEIRBHÍSE:",
-    "labelName": "AINM CÓD:",
-    "labelPoste": "POST REATHA:",
+    "preamble": "Gníomhaire, cuireadh d’iarratas ar shaoire isteach. Deimhnigh do imtheacht ón bpost. Beidh do rochtain curtha ar fionraí go dtí do fhilleadh.",
+    "labelMatricule": "UIMHIR SEIRBHÍSE :",
+    "labelName": "ALIAS :",
+    "labelPoste": "POST REATHA :",
     "buttonCancel": "CEALAIGH AGUS FILL AR AN SEIRBHÍS",
     "buttonConfirm": "DEARBHÚ AN IARRATAIS AGUS FÁG AN POST",
     "footer": "Tá discréid riachtanach, fiú ar shaoire."
@@ -81,7 +81,7 @@
     "headline": "Oibríocht W",
     "watch": "Féach",
     "intro": "Ag tosú le Oibríocht W",
-    "inputBar": "Clóscríobh anseo chun tasc a thabhairt do R.O.C.K."
+    "inputBar": "Clóscríobh anseo chun tasc a thabhairt don Gníomhaire M.D."
   },
   "helpPage": {
     "title": "PRÓTACAL CÚNAIMH — LÁRIONAD CABHRÚ KIWI-OPS —",
@@ -103,5 +103,31 @@
     "contactAccreditation": "Cúrsaí Creidiúnaithe",
     "contactConfidentiality": "\"Déileáiltear le gach cumarsáid leis an discréid agus an rúndacht is airde.\"",
     "footer": "© {{year}} Kiwi-Ops – Prótacal Cúnaimh Gníomhach."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "fr": "Paquet Cadet",
+      "en": "Cadet Package",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "fr": "Paquet Opératif",
+      "en": "Operative Package",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "fr": "Paquet Officier",
+      "en": "Officer Package",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }

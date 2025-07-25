@@ -11,10 +11,9 @@
   overflow: hidden;
   padding: 0;
   margin: 0;
-  /* Ces couleurs seront injectées via les variables passées par page.tsx */
-  background-color: var(--page-bg-color); /* Nouvelle variable */
-  color: var(--text-primary-color); /* Nouvelle variable */
-  font-family: var(--font-courier-prime-global); /* Nouvelle variable */
+  background-color: var(--page-bg-color);
+  color: var(--text-primary-color);
+  font-family: var(--font-courier-prime-global);
 }
 
 .mainPageContentWrapper {
@@ -34,16 +33,16 @@
   max-height: 900px;
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-sidebar-color); /* Utilise la variable passée */
-  border: 1px solid var(--border-color-global); /* Utilise la variable passée */
+  background-color: var(--bg-sidebar-color);
+  border: 1px solid var(--border-color-global);
   border-radius: 12px;
-  box-shadow: 0 8px 24px var(--shadow-color-global); /* Utilise la variable passée */
+  box-shadow: 0 8px 24px var(--shadow-color-global);
   overflow: hidden;
   margin: 0 auto;
 }
 
 /* ========================================================
-   HEADER DE LA PAGE PRINCIPALE (CELUI AVEC LE BOUTON HAMBURGER)
+   HEADER DE LA PAGE PRINCIPALE
    ======================================================== */
 
 .pageHeader {
@@ -54,7 +53,7 @@
   border-bottom: 1px solid var(--border-color-global);
   flex-shrink: 0;
   z-index: 500;
-  background-color: var(--page-bg-color); /* Utilise la variable passée */
+  background-color: var(--page-bg-color);
 }
 
 .headerLeft {
@@ -65,7 +64,7 @@
 
 .headerLeft span {
   font-size: 0.9rem;
-  color: var(--text-secondary-color); /* Utilise la variable passée */
+  color: var(--text-secondary-color);
 }
 
 .headerLeft h1 {
@@ -103,7 +102,7 @@
 
 .moreButton:hover,
 .shareButton:hover {
-  background-color: var(--hover-bg-color); /* Utilise la variable passée */
+  background-color: var(--hover-bg-color);
   border-color: var(--hover-bg-color);
 }
 
@@ -149,8 +148,8 @@
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  border: 1px solid var(--border-color-global); /* Utilise la variable passée */
-  background-color: var(--bg-input-color); /* Nouvelle variable */
+  border: 1px solid var(--border-color-global);
+  background-color: var(--bg-input-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,7 +174,7 @@
 }
 
 .assistantMessage .messageContent {
-  background-color: var(--color-background-secondary-global); /* Utilise la variable passée */
+  background-color: var(--color-background-secondary-global);
   color: var(--text-primary-color);
 }
 
@@ -185,7 +184,7 @@
 }
 
 .userMessage .messageContent {
-  background-color: var(--color-accent-blue-global); /* Utilise la variable passée */
+  background-color: var(--color-accent-blue-global);
   color: white;
 }
 
@@ -195,10 +194,12 @@
   flex-shrink: 0;
 }
 
+/* ✅ Correctif ici : fermeture manquante et ajout de gap */
 .inputWrapper {
   display: flex;
   align-items: center;
-  background-color: var(--bg-main-color); /* Utilise la variable passée */
+  gap: 0.5rem; /* espace entre input et bouton Send */
+  background-color: var(--bg-main-color);
   border: 1px solid var(--border-color-global);
   border-radius: 8px;
   padding: 0.5rem;
@@ -206,7 +207,7 @@
 }
 
 .inputWrapper input {
-  flex-grow: 1;
+  flex: 1; /* prend toute la place dispo mais garde l’espace pour le bouton */
   background: transparent;
   border: none;
   outline: none;
@@ -220,32 +221,36 @@
   justify-content: space-between;
 }
 
-.footerActionsLeft, .footerActionsRight {
+.footerActionsLeft,
+.footerActionsRight {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+/* Boutons d’action */
 .iconButton {
   background: none;
   border: none;
   color: var(--text-secondary-color);
   cursor: pointer;
-  padding: 0;
+  padding: 0 8px;
   font-size: 1.1rem;
   border-radius: 6px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
+  min-width: 36px;
   height: 36px;
   transition: background-color 0.2s;
+  gap: 6px;
 }
 
 .iconButton:hover {
   background-color: var(--hover-bg-color);
 }
 
+/* Bouton d’envoi */
 .sendButton {
   background: none;
   border: none;
@@ -253,7 +258,7 @@
   cursor: pointer;
   width: 36px;
   height: 36px;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   border-radius: 6px;
   display: flex;
   align-items: center;
@@ -272,26 +277,16 @@
 }
 
 /* ========================================================
-   STYLES DES ICÔNES (FILTRES DE COULEUR)
+   STYLES DES ICÔNES
    ======================================================== */
-
-/* Note: Ces global() ne sont pas nécessaires si vous utilisez des variables CSS */
-/* :global(html.dark) .robotAvatar {
-  filter: grayscale(1) contrast(0) brightness(0.6) !important;
-} */
 
 .gramophoneIcon {
   filter: grayscale(1) contrast(0) brightness(0.6);
   transition: filter 0.3s ease;
 }
 
-/* :global(html.dark) .gramophoneIcon {
-  filter: grayscale(1) contrast(0) invert(1) !important;
-} */
-
-
 /* ========================================================
-   MEDIA QUERIES (OPTIMISATION MOBILE)
+   MEDIA QUERIES
    ======================================================== */
 
 @media (max-width: 768px) {
@@ -335,19 +330,4 @@
   .mobileHamburgerButton {
     display: block;
   }
-}
-/* Dans votre fichier scan.module.css */
-
-/* ... (vos styles existants) ... */
-
-.buttonLabel {
-  margin-left: 5px; /* Petit espace entre l'icône et le texte */
-  white-space: nowrap; /* Empêche le texte de se couper */
-}
-
-/* Ajustez si besoin pour que les boutons s'alignent bien */
-.footerActionsLeft {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Espace entre les boutons */
 }

@@ -8,11 +8,18 @@ i18n
   .init({
     lng: 'fr', // Langue par défaut
     fallbackLng: 'fr', // Langue de secours
+    supportedLngs: ['fr', 'en', 'mi', 'ga', 'hi', 'gd'], // Langues supportées (fr, en, mi, ga, hi, gd)
     backend: {
       loadPath: '/locales/{{lng}}/translation.json', // Le chemin vers le fichier de traduction
     },
     interpolation: {
       escapeValue: false, // React échappe déjà les valeurs
+    },
+    missingKeyHandler: (lng, ns, key, fallbackValue) => {
+      console.warn(`Missing translation for key: ${key} in language: ${lng}`);
+    },
+    react: {
+      useSuspense: false, // Désactive la suspense pour les chargements de traduction
     },
   });
 

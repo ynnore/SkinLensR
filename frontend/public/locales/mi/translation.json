@@ -103,5 +103,31 @@
     "contactAccreditation": "Ngā take whakamanatanga",
     "contactConfidentiality": "\"Ka whakahaeretia ngā whakawhitiwhiti kōrero katoa me te tino tūmataiti me te ngākau matatika.\"",
     "footer": "© {{year}} Kiwi-Ops – Kei te kaha te kaupapa āwhina."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "fr": "Paquet Cadet",
+      "en": "Cadet Package",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "fr": "Paquet Opératif",
+      "en": "Operative Package",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "fr": "Paquet Officier",
+      "en": "Officer Package",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }

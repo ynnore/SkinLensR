@@ -19,7 +19,7 @@
     "logout": "Request Leave"
   },
   "chat": {
-    "welcomeMessage": "Hello! I'm A.L.A.N nod to Alan Turing,How can I help you today?",
+    "welcomeMessage": "Hello! I'm A.L.A.N nod to Alan Turing, How can I help you today?",
     "thinking": "Agent B is thinking...",
     "placeholder": "Compose your dispatch..."
   },
@@ -103,5 +103,31 @@
     "contactAccreditation": "Accreditation Matters",
     "contactConfidentiality": "\"All communications are handled with the utmost discretion and confidentiality.\"",
     "footer": "© {{year}} Kiwi-Ops – Assistance Protocol Active."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "fr": "Paquet Cadet",
+      "en": "Cadet Package",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "fr": "Paquet Opératif",
+      "en": "Operative Package",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "fr": "Paquet Officier",
+      "en": "Officer Package",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }

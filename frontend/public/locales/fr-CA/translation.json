@@ -1,107 +1,134 @@
 {
   "header": {
-    "missionStatement": "Inspirés par les Tunnelers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, émergera à la surface.",
-    "beta": "Bêta"
+    "missionStatement": "Air a bhrosnachadh le na Tunnelers Wellington of Arras, is e ar misean a bhith a’ togail san dorchadais na bhios a’ nochdadh air an uachdar san àm ri teachd.",
+    "beta": "Beta"
   },
   "sidebar": {
-    "scan": "Poste d’Écoute",
-    "dashboard": "Quartier Général",
-    "files": "Archives",
-    "connections": "Réseau d’Alliance",
-    "pay": "Intendance",
-    "settings": "Paramètres",
-    "terms": "Ordonnances",
-    "privacy_policy": "Politique de Confidentialité"
+    "scan": "Scanadh",
+    "dashboard": "Bòrd-stiùiridh",
+    "files": "Faidhlichean",
+    "connections": "Ceanglaichean",
+    "pay": "Pàigheadh",
+    "settings": "Suidheachaidhean",
+    "terms": "T&Cs",
+    "privacy_policy": "Poileasaidh Dìon Prìobhaideachd"
   },
   "userMenu": {
-    "profile": "Dossier Agent",
-    "accountSettings": "Paramètres du Compte",
-    "logout": "Demander une Permission"
+    "profile": "Fhaidhle an Luchd-cleachdaidh",
+    "accountSettings": "Suidheachaidhean Cunntais",
+    "logout": "Iarrtas Fàgail"
   },
   "chat": {
-    "welcomeMessage": "Bonjour ! Je suis A.L.A.N (clin d’œil à Alan Turing). Comment puis-je vous aider aujourd’hui ?",
-    "thinking": "L’Agent B réfléchit...",
-    "placeholder": "Rédigez votre dépêche..."
+    "welcomeMessage": "Halò! Is mise an Agent M.D. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+    "thinking": "Tha an Agent M.D. a’ smaoineachadh...",
+    "placeholder": "Sgrìobh do theachdaireachd..."
   },
   "loginPage": {
-    "title": "Accéder au Poste de Commandement",
-    "emailLabel": "Adresse de Transmission",
-    "passwordLabel": "Code Secret",
-    "submitButton": "Transmettre",
-    "socialSeparator": "OU",
-    "googleButton": "Continuer avec Google",
-    "githubButton": "Continuer avec GitHub",
-    "signupPrompt": "Pas encore enrôlé ?",
-    "signupLink": "Inscrivez-vous au bureau."
+    "title": "Cuir a-steach gu Stèisean Smachd",
+    "emailLabel": "Seòladh Post-D",
+    "passwordLabel": "Còd Dùbailte",
+    "submitButton": "Dèan Lodachadh",
+    "socialSeparator": "NO",
+    "googleButton": "Leantainn le Google",
+    "githubButton": "Leantainn le GitHub",
+    "signupPrompt": "Chan eil thu air clàradh? ",
+    "signupLink": "Clàraich aig an Stèisean Smachd."
   },
   "signupPage": {
-    "title": "Bureau d’Enregistrement",
-    "preamble": "Les agents souhaitant participer aux opérations sont priés de remplir le formulaire ci-dessous. La discrétion est primordiale.",
-    "nameLabel": "NOM DE CODE",
-    "emailLabel": "ADRESSE DE TRANSMISSION (E-mail)",
-    "passwordLabel": "CODE SECRET (Mot de passe)",
-    "submitButton": "CONFIRMER L’ENRÔLEMENT",
-    "loadingButton": "Enregistrement...",
-    "socialGoogle": "S’ENRÔLER AVEC GOOGLE",
-    "socialGithub": "S’ENRÔLER AVEC GITHUB",
-    "loginPrompt": "Vous avez déjà un numéro de service ?",
-    "loginLink": "Accéder au Poste de Commandement."
+    "title": "Clàradh ann am Stèisean Smachd",
+    "preamble": "Feumar luchd-dreuchd clàradh an-seo. Tha dìomhaireachd riatanach.",
+    "nameLabel": "ALIAS",
+    "emailLabel": "SEÒLADH POST-D",
+    "passwordLabel": "CÒD DÙBHAILT (Facal-faire)",
+    "submitButton": "CONFIRM CLÀRADH",
+    "loadingButton": "A’ Clàradh...",
+    "socialGoogle": "CLÀRAICH LE GOOGLE",
+    "socialGithub": "CLÀRAICH LE GITHUB",
+    "loginPrompt": "A bheil cunntas agad mu thràth?",
+    "loginLink": "Cuir a-steach gu Stèisean Smachd."
   },
   "profilePage": {
-    "title": "Dossier Agent",
-    "labelName": "NOM DE CODE",
-    "labelMatricule": "NUMÉRO DE SERVICE",
-    "labelAccreditation": "NIVEAU D’ACCREDITATION",
-    "accreditationAgent": "Agent de Terrain",
-    "accreditationOfficer": "Officier du Renseignement",
-    "accreditationCommander": "Commandant",
-    "commanderAccessMessage": "Accès commandement actif. Vous disposez des autorisations maximales."
+    "title": "Fhaidhle an Luchd-cleachdaidh",
+    "labelName": "ALIAS",
+    "labelMatricule": "ÀIREAMH SEIRBHEIS",
+    "labelAccreditation": "ÙRNUIGH CHRÌOCHNACH",
+    "accreditationAgent": "Luchd-dreuchd Fearainn",
+    "accreditationOfficer": "Oifigear na Rannsachadh",
+    "accreditationCommander": "Ceannard",
+    "commanderAccessMessage": "Faidhle an Ceannard ri fhaighinn. Tha clearance àrd agad."
   },
   "logoutPage": {
-    "title": "Demande de Permission",
-    "preamble": "Agent, votre demande de permission a été enregistrée. Confirmez votre départ de votre poste. Votre accès sera suspendu jusqu’à votre retour.",
-    "labelMatricule": "NUMÉRO DE SERVICE :",
-    "labelName": "NOM DE CODE :",
-    "labelPoste": "POSTE ACTUEL :",
-    "buttonCancel": "ANNULER ET REPRENDRE LE SERVICE",
-    "buttonConfirm": "CONFIRMER LA DEMANDE ET QUITTER LE POSTE",
-    "footer": "La discrétion est requise, même en permission."
+    "title": "Iarrtas Fàgail",
+    "preamble": "Luchd-dreuchd, chaidh do iarrtas fàgail a chuir a-steach. Feumaidh tu dearbhadh a dhèanamh air do dh'fhàgail. Bidh do chead a’ fàgail gu deireadh an t-sùim agad.",
+    "labelMatricule": "ÀIREAMH SEIRBHEIS:",
+    "labelName": "ALIAS:",
+    "labelPoste": "POSTA A-NIS:",
+    "buttonCancel": "BÙTH EADAR-DHEALAICH AGUS SÒNRAICH AN SEIRBHEIS",
+    "buttonConfirm": "DEARBH GU FAIDHAIL AGUS GABH AIR SEIRBHEIS",
+    "footer": "Feumaidh dìomhaireachd riaghailtean mar-thà."
   },
   "connectionsPage": {
-    "title": "Réseau d’Alliance",
-    "subtitle": "Visualisation du statut du réseau d’agents IA. Connexions actives et flux de données entre nations affichés ici.",
-    "statusActive": "Connexion Active",
-    "statusInactive": "Lien Non Établi"
+    "title": "Lìonra Aontaidh",
+    "subtitle": "Sealladh air staid lìonra na luchd-dreuchd IA. Tha ceanglaichean beò agus na freagairtean eadar na dùthchannan an seo.",
+    "statusActive": "Ceanglaiche beò",
+    "statusInactive": "Ceanglaiche neo-ghnìomhach"
   },
   "settingsPage": {
-    "mainTitle": "Paramètres",
-    "mainSubtitle": "Configurez votre compte et les paramètres de l’application ici."
+    "mainTitle": "Suidheachaidhean",
+    "mainSubtitle": "Riaghladh an cunntais is an aplacaid seo."
   },
   "welcome": {
-    "headline": "Opération W",
-    "watch": "Observer",
-    "intro": "Bien démarrer avec l’Opération W",
-    "inputBar": "Tapez ici pour donner une tâche à A.L.A.N"
+    "headline": "Obair W",
+    "watch": "Sealltainn",
+    "intro": "Tòisich le Obair W",
+    "inputBar": "Sgrìobh an seo airson taghadh àite a thoirt dha an Agent M.D."
   },
   "helpPage": {
-    "title": "PROTOCOLE D’ASSISTANCE — CENTRE D’AIDE KIWI-OPS —",
-    "description": "Accédez à la documentation, aux FAQ et aux canaux de support pour toutes vos requêtes opérationnelles.",
-    "faqTitle": "Questions Fréquentes (FAQ)",
-    "faqIntro": "Consultez les réponses aux interrogations les plus courantes de nos agents.",
-    "faq1Q": "Comment modifier mon code secret ?",
-    "faq1A": "Rendez-vous dans les \"Paramètres du QG\" (icône engrenage dans le menu latéral), puis naviguez vers la section \"Protocoles de Sécurité\". Vous pourrez y initier le changement.",
-    "faq2Q": "Où trouver les rapports de mission archivés ?",
-    "faq2A": "Les rapports sont accessibles via la section \"Dossiers Classifiés\" (icône dossier dans le menu latéral). Utilisez les filtres pour affiner votre recherche par catégorie ou date.",
-    "faq3Q": "Puis-je contribuer de nouveaux renseignements ?",
-    "faq3A": "Oui, la contribution de renseignements est encouragée. Le protocole de soumission est détaillé dans la section \"Opérations de Renseignement\" du manuel d’agent (disponible prochainement).",
-    "faqSeeAll": "Voir toutes les FAQ",
-    "contactTitle": "Contacter le Support du QG",
-    "contactIntro": "Si vous n’avez pas trouvé de réponse à votre requête, notre équipe est prête à vous assister.",
-    "contactInstruction": "Pour une assistance rapide, veuillez nous contacter via les canaux sécurisés ci-dessous :",
-    "contactGeneral": "Requêtes Générales",
-    "contactTechnical": "Problèmes Techniques",
-    "contactAccreditation": "Affaires d’Accréditation",
-    "contactConfidentiality": "\"Toute communication est traitée avec la plus haute discrétion et confidentialité.\"",
-    "footer": "© {{year}} Kiwi-Ops – Protocole d’Assistance Actif."
+    "title": "Ionad Taic — KIWI-OPS Protokol Taic —",
+    "description": "Faigh cothrom air na sgrìobhainnean, FAQ agus taic-ghnìomhach airson do iarrtasan.",
+    "faqTitle": "Ceistean Trèith (FAQ)",
+    "faqIntro": "Faigh freagairtean na ceistean as cudromaiche airson na luchd-dreuchd.",
+    "faq1Q": "Ciamar as urrainn dhomh atharrachadh mo chòd seòlaidh?",
+    "faq1A": "Rach don 'Stiùireadh air Stèisean Smachd' (icona de ghèar anns a’ bhàr taobh), agus cuir a-steach do 'Riaghailtean tèarainteachd'. Thèid atharrachadh a thoirt air do chòd seòlaidh.",
+    "faq2Q": "Càit am faigh mi an t-archiv an aithisg de mhiannan?",
+    "faq2A": "Tha an aithisg a’ tighinn anns an t-seòmar 'Faidhlichean Cuilbheart' (icona de fhaidhle ann an taobh), agus a’ cleachdadh na sgrùdaidhean air comharrachadh a rèir na pàirtean no na gnìomhan.",
+    "faq3Q": "Am faod mi fiosrachadh ùr a chur ris?",
+    "faq3A": "Tha, tha sinn a’ brosnachadh gu bheil fiosrachadh ùr air a chur ris. Tha an dòigh a-steach air a shònrachadh ann an 'Leabhar-làimhe Riaghailtean'.",
+    "faqSeeAll": "Faic a h-uile FAQ",
+    "contactTitle": "Cuir fios gu taic-ghnìomhach",
+    "contactIntro": "Ma tha ceist agad nach eil air fhreagairt, tha an sgioba againn air a bhith deònach a chuideachadh.",
+    "contactInstruction": "Airson taic sgiobalta, cuir fios thugainn tro na dreuchdan seachdaineach gu h-ìre:",
+    "contactGeneral": "Ceistean Cumanta",
+    "contactTechnical": "Ceistean Teicnigeach",
+    "contactAccreditation": "Ceistean mu chreideas",
+    "contactConfidentiality": "\"Thèid fiosrachadh a làimhseachadh leis a' phrìobhaideachd agus dìomhaireachd as motha.\"",
+    "footer": "© {{year}} Kiwi-Ops – Protokol Taic Gnìomhach."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "fr": "Paquet Cadet",
+      "en": "Cadet Package",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "fr": "Paquet Opératif",
+      "en": "Operative Package",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "fr": "Paquet Officier",
+      "en": "Officer Package",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }
+

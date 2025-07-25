@@ -5,11 +5,12 @@ export const dynamic = "force-dynamic";
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import styles from './scan.module.css';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link'; // Ajout de Link pour la navigation
 
-import { 
-  FaImage, FaKeyboard, FaMicrophone, FaPlayCircle, FaPlus, FaToolbox,
-  FaBullhorn 
-} from 'react-icons/fa';
+import { FaMicrophone, FaPlus, FaHeart } from "react-icons/fa"; // Importation des icônes de la bibliothèque 'fa'
+import { VscArrowUp } from "react-icons/vsc"; // Importation de l'icône flèche vers le haut
+
+
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -58,7 +59,7 @@ interface Message {
   content: string;
 }
 
-// ✅ TRADUCTIONS COMPLÈTES (ajout packagesPage.*)
+// ✅ TRADUCTIONS COMPLÈTES (ajout common.tools)
 const allTranslations = {
   header: {
     missionStatement: {
@@ -170,24 +171,106 @@ const allTranslations = {
   },
   packagesPage: {
     packageCadet: {
-      en: "Cadet Package", fr: "Pack Cadet", mi: "Mōkī Kāreti", ga: "Pacáiste Caidéata", hi: "कैडेट पैकेज", gd: "Pasgan Cadet", cy: "Pecyn Cadet",
-      'en-AU': "Cadet Package", 'en-NZ': "Cadet Package", 'en-CA': "Cadet Package", 'fr-CA': "Pack Cadet", 'en-ZA': "Kadet Pakket", af: "Kadet Pakket"
+      name: { 
+        en: "Cadet Package", fr: "Pack Cadet", mi: "Mōkī Kāreti", 
+        ga: "Pacáiste Caidéata", hi: "कैडेट पैकेज", gd: "Pasgan Cadet", cy: "Pecyn Cadet",
+        'en-AU': "Cadet Package", 'en-NZ': "Cadet Package", 'en-CA': "Cadet Package", 
+        'fr-CA': "Pack Cadet", 'en-ZA': "Kadet Pakket", af: "Kadet Pakket"
+      },
+      description: { 
+        en: "Basic social media analysis. Ideal for reconnaissance.", 
+        fr: "Analyse de base des réseaux sociaux. Idéal pour la reconnaissance.", 
+        mi: "Tātari pāpāho pāpori taketake. He pai mō te tirotiro.", 
+        ga: "Bun-anailís meán sóisialta. Ideal le haghaidh taiscéalaíochta.", 
+        hi: "बुनियादी सोशल मीडिया विश्लेषण। टोही के लिए आदर्श।", 
+        gd: "Bun-sgrùdadh meadhanan sòisealta. Feumail airson rannsachaidh.", 
+        cy: "Dadansoddiad cyfryngau cymdeithasol sylfaenol. Delfrydol ar gyfer cydnabod." 
+      },
+      cta: { 
+        en: "Access Briefing", fr: "Accéder au Briefing", mi: "Tuku Whakawāhanga", 
+        ga: "Rochtain ar an Fhaisnéis", hi: "ब्रीफिंग तक पहुंच", 
+        gd: "Faigh Cothrom air an Fhiosrachadh", cy: "Mynediad i Friffio" 
+      }
     },
     packageOperative: {
-      en: "Operative Package", fr: "Pack Opératif", mi: "Mōkī Kaiwhakahaere", ga: "Pacáiste Oibrí", hi: "ऑपरेटिव पैकेज", gd: "Pasgan Obrach", cy: "Pecyn Gweithredol",
-      'en-AU': "Operative Package", 'en-NZ': "Operative Package", 'en-CA': "Operative Package", 'fr-CA': "Pack Opératif", 'en-ZA': "Operatiewe Pakket", af: "Operatiewe Pakket"
+      name: { 
+        en: "Operative Package", fr: "Pack Opératif", mi: "Mōkī Kaiwhakahaere", 
+        ga: "Pacáiste Oibrí", hi: "ऑपरेटिव पैकेज", gd: "Pasgan Obrach", cy: "Pecyn Gweithredol",
+        'en-AU': "Operative Package", 'en-NZ': "Operative Package", 'en-CA': "Operative Package", 
+        'fr-CA': "Pack Opératif", 'en-ZA': "Operatiewe Pakket", af: "Operatiewe Pakket"
+      },
+      description: { 
+        en: "Deep dives into social trends, sentiment analysis, tactical content suggestions.", 
+        fr: "Plongées profondes dans les tendances sociales, analyse de sentiment, suggestions de contenu tactiques.", 
+        mi: "Rukunga hōhonu ki ngā ia pāpori, tātari kare-ā-roto, whakaaro ihirangi rautaki.", 
+        ga: "Tumadóireachtaí doimhne isteach i dtreochtaí sóisialta, anailís ar thuairimí, moltaí ábhair thaicticeacha.", 
+        hi: "सोशल ट्रेंड्स में गहरी डुबकी, भावना विश्लेषण, सामरिक सामग्री सुझाव।", 
+        gd: "Dàibhidhean domhainn a-steach do ghluasadan sòisealta, mion-sgrùdadh faireachdainn, molaidhean susbaint innleachdach.", 
+        cy: "Plymio dwfn i dueddiadau cymdeithasol, dadansoddiad teimladau, awgrymiadau cynnwys tactegol." 
+      },
+      cta: { 
+        en: "Activate Toolkit", fr: "Activer le Kit d'Outils", mi: "Whakahohe Pouaka Taputapu", 
+        ga: "Gníomhaigh an Trealamh", hi: "टूलकिट सक्रिय करें", 
+        gd: "Cuir an Inneal an Gnìomh", cy: "Ysgogi Pecyn Offer" 
+      }
     },
     packageOfficer: {
-      en: "Officer Package", fr: "Pack Officier", mi: "Mōkī Āpiha", ga: "Pacáiste Oifigeach", hi: "ऑफिसर पैकेज", gd: "Pasgan Oifigear", cy: "Pecyn Swyddog",
-      'en-AU': "Officer Package", 'en-NZ': "Officer Package", 'en-CA': "Officer Package", 'fr-CA': "Pack Officier", 'en-ZA': "Beampte Pakket", af: "Beampte Pakket"
+      name: { 
+        en: "Strategic Command", fr: "Commandement Stratégique", mi: "Whakahau Rautaki", 
+        ga: "Ceannasaíocht Straitéiseach", hi: "रणनीतिक कमांड", gd: "Òrdugh Ro-innleachdail", cy: "Gorchymyn Strategol",
+        'en-AU': "Strategic Command", 'en-NZ': "Strategic Command", 'en-CA': "Strategic Command", 
+        'fr-CA': "Commandement Stratégique", 'en-ZA': "Strategiese Bevel", af: "Strategiese Bevel"
+      },
+      description: { 
+        en: "Predictive analytics, full profile audits, AI-driven content generation.", 
+        fr: "Analyse prédictive, audits de profil complets, génération de contenu par IA.", 
+        mi: "Tātari matapae, arotake kōtaha katoa, hanga ihirangi nā AI.", 
+        ga: "Anailís thuarthach, iniúchtaí próifíle iomlána, giniúint ábhair atá tiomáinte ag AI.", 
+        hi: "भविष्य कहनेवाला विश्लेषण, पूर्ण प्रोफ़ाइल ऑडिट, एआई-संचालित सामग्री निर्माण।", 
+        gd: "Mion-sgrùdadh ro-innleachdail, sgrùdaidhean làn-phròifil, ginealach susbaint air a stiùireadh le AI.", 
+        cy: "Dadansoddiadau rhagfynegol, archwiliadau proffil llawn, cynhyrchu cynnwys a yrrir gan AI." 
+      },
+      cta: { 
+        en: "Request Access", fr: "Demander l'Accès", mi: "Tono Uru", 
+        ga: "Iarr Rochtain", hi: "पहुंच का अनुरोध करें", 
+        gd: "Iarr Cothrom", cy: "Gofyn Mynediad" 
+      }
+    },
+  },
+  // Nouvelle section pour les termes communs
+  common: {
+    tools: {
+      en: "tools",
+      fr: "outils",
+      mi: "taputapu",
+      ga: "uirlisí",
+      hi: "उपकरण",
+      gd: "inneal",
+      cy: "offer",
+      'en-AU': "tools", 'en-NZ': "tools", 'en-CA': "tools", 
+      'fr-CA': "outils", 'en-ZA': "tools", af: "tools"
     }
   }
 };
 
-function getTranslation(section: keyof typeof allTranslations, key: string, language: LanguageCode): string {
-  const sectionData = allTranslations[section] as Record<string, Record<string, string>>;
-  const translations = sectionData?.[key];
-  return translations?.[language] || translations?.en || '';
+// Fonction getTranslation améliorée pour gérer les sous-clés imbriquées
+function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
+  const keys = keyPath.split('.');
+  let value: any = allTranslations[section];
+  
+  // Parcours des clés imbriquées
+  for (const key of keys) {
+    if (!value || typeof value !== 'object') break;
+    value = value[key];
+  }
+
+  // Gestion des erreurs
+  if (typeof value !== 'object' || value === null || !('en' in value)) {
+    console.warn(`Translation missing for: ${section}.${keyPath} in language ${language}`);
+    return `[${keyPath}]`;
+  }
+
+  return value[language] || value.en || '';
 }
 
 // === Chat Interface ===
@@ -311,14 +394,30 @@ const ChatInterface: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* FOOTER */}
-      <footer className={styles.pageFooter}>
+       <footer className={styles.pageFooter}>
         <div className={styles.footerActionsLeft}>
-          {[FaImage, FaKeyboard, FaMicrophone, FaToolbox, FaPlus, FaBullhorn].map((Icon, i) => (
-            <button key={i} className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
-              <Icon />
+          {/* Bouton Microphone */}
+          <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
+            <FaMicrophone />
+          </button>
+
+          {/* Bouton Outils avec texte TOOLS et icône à droite */}
+  <Link href="/paquetages-militaires" passHref>
+  <button
+    className={styles.iconButton}
+    onClick={() => playSound(sounds.current.click)}
+    aria-label="Enjoy"
+  >
+    <FaHeart />
+  </button>
+</Link>
+
+         {/* Bouton Plus avec lien vers Drive */}
+          <Link href="/drive" passHref>
+            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
+              <FaPlus />
             </button>
-          ))}
+          </Link>
         </div>
 
         <div className={styles.inputWrapper}>
@@ -330,11 +429,12 @@ const ChatInterface: React.FC = () => {
             placeholder={getTranslation('chat', 'placeholder', language)}
           />
           <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
-            <FaPlayCircle />
+            <VscArrowUp />
           </button>
         </div>
       </footer>
     </div>
+
   );
 };
 

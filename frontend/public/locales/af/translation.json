@@ -93,7 +93,7 @@
     "faq2Q": "Waar kry ek die argiewe van sendingverslae?",
     "faq2A": "Die verslae is beskikbaar in die 'Geklassifiseerde Lêers' afdeling (lêer-ikoon in die sybalk). Gebruik die filters om jou soektog te verfyn volgens kategorie of datum.",
     "faq3Q": "Kan ek nuwe inligting bydra?",
-    "faq3A": "Ja, die bydrae van nuwe inligting word aangemoedig. Die indieningsproses word uiteengesit in die 'Intelligensie Operasies'-handboek (binnekort beskikbaar).",
+    "faq3A": "Ja, die bydrae van nuwe inligting word aangemoedig. Die indieningsproses word uiteengeset in die 'Intelligensie Operasies'-handboek (binnekort beskikbaar).",
     "faqSeeAll": "Sien alle FAQ’s",
     "contactTitle": "Kontak die Hoofkwartier Ondersteuning",
     "contactIntro": "As jy nie jou antwoord gekry het nie, is ons span gereed om jou te help.",
@@ -103,5 +103,32 @@
     "contactAccreditation": "Akkreditasiesake",
     "contactConfidentiality": "\"Alle kommunikasie word met die hoogste diskresie en vertroulikheid hanteer.\"",
     "footer": "© {{year}} Kiwi-Ops – Hulp Protokol Aktief."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "en": "Cadet Package",
+      "fr": "Paquet Cadet",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "en": "Operative Package",
+      "fr": "Paquet Opératif",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "en": "Officer Package",
+      "fr": "Paquet Officier",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }
+

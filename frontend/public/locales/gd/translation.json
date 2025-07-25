@@ -1,107 +1,133 @@
 {
   "header": {
-    "missionStatement": "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misneachd togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
+    "missionStatement": "Air a bhrosnachadh le na Tunnelers Wellington of Arras, is e ar misean a bhith a’ togail san dorchadais na bhios a’ nochdadh air an uachdar san àm ri teachd.",
     "beta": "Beta"
   },
   "sidebar": {
-    "scan": "Sgan",
-    "dashboard": "Deas-bhòrd",
+    "scan": "Scanadh",
+    "dashboard": "Bòrd-stiùiridh",
     "files": "Faidhlichean",
     "connections": "Ceanglaichean",
-    "pay": "Pàigh",
-    "settings": "Roghainnean",
-    "terms": "Teirmean",
-    "privacy_policy": "Poileasaidh Dìomhaireachd"
+    "pay": "Pàigheadh",
+    "settings": "Suidheachaidhean",
+    "terms": "T&Cs",
+    "privacy_policy": "Poileasaidh Dìon Prìobhaideachd"
   },
   "userMenu": {
-    "profile": "Pròifil",
-    "accountSettings": "Roghainnean Cunntais",
-    "logout": "Log a-mach"
+    "profile": "Fhaidhle an Luchd-cleachdaidh",
+    "accountSettings": "Suidheachaidhean Cunntais",
+    "logout": "Iarrtas Fàgail"
   },
   "chat": {
-    "welcomeMessage": "Halo! 'S mise Agent 🌸 T.H.O.R.N. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
-    "thinking": "Tha Agent 🌸 T.H.O.R.N. a' smaoineachadh...",
-    "placeholder": "Sgrìobh an teachdaireachd agad..."
+    "welcomeMessage": "Halò! Is mise an Agent M.D. Ciamar as urrainn dhomh do chuideachadh an-diugh?",
+    "thinking": "Tha an Agent M.D. a’ smaoineachadh...",
+    "placeholder": "Sgrìobh do theachdaireachd..."
   },
   "loginPage": {
-    "title": "Post-stiùiridh Inntrigidh",
-    "emailLabel": "Seòladh Sgaoilidh",
-    "passwordLabel": "Còd Dìomhair",
-    "submitButton": "Sgaoil",
+    "title": "Cuir a-steach gu Stèisean Smachd",
+    "emailLabel": "Seòladh Post-D",
+    "passwordLabel": "Còd Dùbailte",
+    "submitButton": "Dèan Lodachadh",
     "socialSeparator": "NO",
-    "googleButton": "Lean air adhart le Google",
-    "githubButton": "Lean air adhart le GitHub",
-    "signupPrompt": "Nach eil thu clàraichte fhathast?",
-    "signupLink": "Clàraich aig an oifis."
+    "googleButton": "Leantainn le Google",
+    "githubButton": "Leantainn le GitHub",
+    "signupPrompt": "Chan eil thu air clàradh? ",
+    "signupLink": "Clàraich aig an Stèisean Smachd."
   },
   "signupPage": {
-    "title": "Buidheann Clàraidh",
-    "preamble": "Tha dùil ri riochdairean a tha airson pàirt a ghabhail anns na h-obraichean am foirm gu h-ìosal a lìonadh. Tha discréid deatamach.",
-    "nameLabel": "AINM CÒD",
-    "emailLabel": "SEÒLADH SGÀOILIDH (Post-d)",
-    "passwordLabel": "CÒD DÌOMHAIR (Facal-faire)",
-    "submitButton": "DEARBH CLÀRADH",
-    "loadingButton": "A’ clàradh...",
+    "title": "Clàradh ann am Stèisean Smachd",
+    "preamble": "Feumar luchd-dreuchd clàradh an-seo. Tha dìomhaireachd riatanach.",
+    "nameLabel": "ALIAS",
+    "emailLabel": "SEÒLADH POST-D",
+    "passwordLabel": "CÒD DÙBHAILT (Facal-faire)",
+    "submitButton": "CONFIRM CLÀRADH",
+    "loadingButton": "A’ Clàradh...",
     "socialGoogle": "CLÀRAICH LE GOOGLE",
     "socialGithub": "CLÀRAICH LE GITHUB",
-    "loginPrompt": "A bheil àireamh seirbheis agad mar-thà?",
-    "loginLink": "Inntrigeadh dhan Phost-stiùiridh."
+    "loginPrompt": "A bheil cunntas agad mu thràth?",
+    "loginLink": "Cuir a-steach gu Stèisean Smachd."
   },
   "profilePage": {
-    "title": "Faidhle Riochdaire",
-    "labelName": "AINM CÒD",
+    "title": "Fhaidhle an Luchd-cleachdaidh",
+    "labelName": "ALIAS",
     "labelMatricule": "ÀIREAMH SEIRBHEIS",
-    "labelAccreditation": "ÌRE CREIDEIS",
-    "accreditationAgent": "Riochdaire Raoin",
-    "accreditationOfficer": "Oifigear Fiosrachaidh",
+    "labelAccreditation": "ÙRNUIGH CHRÌOCHNACH",
+    "accreditationAgent": "Luchd-dreuchd Fearainn",
+    "accreditationOfficer": "Oifigear na Rannsachadh",
     "accreditationCommander": "Ceannard",
-    "commanderAccessMessage": "Ruigsinneachd ceannardach gnìomhach. Tha cead iomlan agad."
+    "commanderAccessMessage": "Faidhle an Ceannard ri fhaighinn. Tha clearance àrd agad."
   },
   "logoutPage": {
     "title": "Iarrtas Fàgail",
-    "preamble": "Riochdaire, chaidh d’iarrtas fàgail a chlàradh. Dearbhaich do dh’fhàgail bhon phost agad. Thèid do ruigsinneachd a chur dheth gus an till thu.",
+    "preamble": "Luchd-dreuchd, chaidh do iarrtas fàgail a chuir a-steach. Feumaidh tu dearbhadh a dhèanamh air do dh'fhàgail. Bidh do chead a’ fàgail gu deireadh an t-sùim agad.",
     "labelMatricule": "ÀIREAMH SEIRBHEIS:",
-    "labelName": "AINM CÒD:",
-    "labelPoste": "POST LÀITHREACH:",
-    "buttonCancel": "SGUIR AGUS LEAN AIR SEIRBHEIS",
-    "buttonConfirm": "DEARBHAICH AN IARRTAS AGUS FÀG AM POST",
-    "footer": "Tha discréid riatanach, eadhon air saor-làithean."
+    "labelName": "ALIAS:",
+    "labelPoste": "POSTA A-NIS:",
+    "buttonCancel": "BÙTH EADAR-DHEALAICH AGUS SÒNRAICH AN SEIRBHEIS",
+    "buttonConfirm": "DEARBH GU FAIDHAIL AGUS GABH AIR SEIRBHEIS",
+    "footer": "Feumaidh dìomhaireachd riaghailtean mar-thà."
   },
   "connectionsPage": {
-    "title": "Lìonra Caidreachais",
-    "subtitle": "Sealladh air staid lìonra riochdairean AI. Tha ceanglaichean gnìomhach agus sruthan dàta eadar nàiseanan air an sealltainn an seo.",
-    "statusActive": "Ceangal Gnìomhach",
-    "statusInactive": "Gun Cheangal"
+    "title": "Lìonra Aontaidh",
+    "subtitle": "Sealladh air staid lìonra na luchd-dreuchd IA. Tha ceanglaichean beò agus na freagairtean eadar na dùthchannan an seo.",
+    "statusActive": "Ceanglaiche beò",
+    "statusInactive": "Ceanglaiche neo-ghnìomhach"
   },
   "settingsPage": {
-    "mainTitle": "Roghainnean",
-    "mainSubtitle": "Rèitich do chunntas agus roghainnean a’ phrògraim an seo."
+    "mainTitle": "Suidheachaidhean",
+    "mainSubtitle": "Riaghladh an cunntais is an aplacaid seo."
   },
   "welcome": {
-    "headline": "Obrachadh W",
-    "watch": "Coimhead",
-    "intro": "A’ tòiseachadh le Obrachadh W",
-    "inputBar": "Sgrìobh an-seo gus gnìomh a thoirt do T.H.O.R.N."
+    "headline": "Obair W",
+    "watch": "Sealltainn",
+    "intro": "Tòisich le Obair W",
+    "inputBar": "Sgrìobh an seo airson taghadh àite a thoirt dha an Agent M.D."
   },
   "helpPage": {
-    "title": "PRÒTACAL TAIC — IONAD COBHAIR KIWI-OPS —",
-    "description": "Ruigsinneachd air sgrìobhainnean, Ceistean Cumanta agus seanalan taic airson gach iarrtas obrachaidh.",
-    "faqTitle": "Ceistean Cumanta (FAQ)",
-    "faqIntro": "Lorg freagairtean air na ceistean as cumanta bho ar riochdairean.",
-    "faq1Q": "Ciamar as urrainn dhomh mo chòd dìomhair atharrachadh?",
-    "faq1A": "Rach gu 'Roghainnean Ceannardais' (ìomhaigh gèar sa chlàr-taoibh), an uairsin gu 'Pròtacalan Tèarainteachd'. Faodaidh tu an t-atharrachadh a thòiseachadh an sin.",
-    "faq2Q": "Càite am faigh mi aithisgean misean air an tasgadh?",
-    "faq2A": "Tha aithisgean rim faighinn tron earrann 'Faidhlichean Dìomhair' (ìomhaigh pasgain sa chlàr-taoibh). Cleachd sìoltachain airson roinn no ceann-là.",
+    "title": "Ionad Taic — KIWI-OPS Protokol Taic —",
+    "description": "Faigh cothrom air na sgrìobhainnean, FAQ agus taic-ghnìomhach airson do iarrtasan.",
+    "faqTitle": "Ceistean Trèith (FAQ)",
+    "faqIntro": "Faigh freagairtean na ceistean as cudromaiche airson na luchd-dreuchd.",
+    "faq1Q": "Ciamar as urrainn dhomh atharrachadh mo chòd seòlaidh?",
+    "faq1A": "Rach don 'Stiùireadh air Stèisean Smachd' (icona de ghèar anns a’ bhàr taobh), agus cuir a-steach do 'Riaghailtean tèarainteachd'. Thèid atharrachadh a thoirt air do chòd seòlaidh.",
+    "faq2Q": "Càit am faigh mi an t-archiv an aithisg de mhiannan?",
+    "faq2A": "Tha an aithisg a’ tighinn anns an t-seòmar 'Faidhlichean Cuilbheart' (icona de fhaidhle ann an taobh), agus a’ cleachdadh na sgrùdaidhean air comharrachadh a rèir na pàirtean no na gnìomhan.",
     "faq3Q": "Am faod mi fiosrachadh ùr a chur ris?",
-    "faq3A": "Faodaidh, tha fiosrachadh ùr air a bhrosnachadh. Tha am pròiseas aighneachd air a mhìneachadh anns an earrann 'Obrachaidhean Fiosrachaidh' (a’ tighinn a dh’aithghearr).",
-    "faqSeeAll": "Seall a h-uile FAQ",
-    "contactTitle": "Cuir Fios gu Taic Ceannardais",
-    "contactIntro": "Mura lorg thu freagairt don iarrtas agad, tha an sgioba againn deiseil gus do chuideachadh.",
-    "contactInstruction": "Airson taic luath, cuir fios thugainn tro na seanalan tèarainte gu h-ìosal:",
-    "contactGeneral": "Iarrtasan Coitcheann",
-    "contactTechnical": "Duilgheadasan Teicnigeach",
-    "contactAccreditation": "Cùisean Creideis",
-    "contactConfidentiality": "\"Tha gach conaltradh air a làimhseachadh leis a’ dhìomhaireachd agus an dìon as àirde.\"",
-    "footer": "© {{year}} Kiwi-Ops – Pròtacal Taic Gnìomhach."
+    "faq3A": "Tha, tha sinn a’ brosnachadh gu bheil fiosrachadh ùr air a chur ris. Tha an dòigh a-steach air a shònrachadh ann an 'Leabhar-làimhe Riaghailtean'.",
+    "faqSeeAll": "Faic a h-uile FAQ",
+    "contactTitle": "Cuir fios gu taic-ghnìomhach",
+    "contactIntro": "Ma tha ceist agad nach eil air fhreagairt, tha an sgioba againn air a bhith deònach a chuideachadh.",
+    "contactInstruction": "Airson taic sgiobalta, cuir fios thugainn tro na dreuchdan seachdaineach gu h-ìre:",
+    "contactGeneral": "Ceistean Cumanta",
+    "contactTechnical": "Ceistean Teicnigeach",
+    "contactAccreditation": "Ceistean mu chreideas",
+    "contactConfidentiality": "\"Thèid fiosrachadh a làimhseachadh leis a' phrìobhaideachd agus dìomhaireachd as motha.\"",
+    "footer": "© {{year}} Kiwi-Ops – Protokol Taic Gnìomhach."
+  },
+  "packagesPage": {
+    "packageCadet": {
+      "fr": "Paquet Cadet",
+      "en": "Cadet Package",
+      "mi": "Pākete Kadetī",
+      "ga": "Pacáiste an Chéadt",
+      "hi": "कैडेट पैकेज",
+      "gd": "Pacaidean Cadet"
+    },
+    "packageOperative": {
+      "fr": "Paquet Opératif",
+      "en": "Operative Package",
+      "mi": "Pākete Opere",
+      "ga": "Pacáiste Oibríoch",
+      "hi": "ऑपरेटिव पैकेज",
+      "gd": "Pacaidean Oibre"
+    },
+    "packageOfficer": {
+      "fr": "Paquet Officier",
+      "en": "Officer Package",
+      "mi": "Pākete Apiha",
+      "ga": "Pacáiste Oifigeach",
+      "hi": "अधिकारी पैकेज",
+      "gd": "Pacaidean Oifigeach"
+    }
   }
 }
