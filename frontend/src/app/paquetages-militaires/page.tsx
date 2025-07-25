@@ -1,4 +1,3 @@
-// Fichier: src/app/paquetages-militaires/page.tsx
 'use client';
 
 import React from 'react';
@@ -7,14 +6,12 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LanguageCode } from '@/types'; // Assurez-vous d'importer LanguageCode
 
-// Import des icônes pour la page des paquetages
-import { FaTrophy, FaAward } from 'react-icons/fa';
+// Import des icônes si besoin (non utilisés dans cet exemple)
+// import { FaTrophy, FaAward } from 'react-icons/fa';
 
-// ✅ NOUVEAU : Objet de traduction COMPLET pour cette page, intégré dans le modèle global
-// Idéalement, cet objet devrait être importé d'un fichier de traductions global
-// Pour l'instant, je le mets ici complet pour assurer la compilation.
+// ---- Objet de traduction ----
 const allTranslations = {
-  packagesPage: { // Nouvelle section spécifique à cette page
+  packagesPage: {
     headline: {
       en: "Military Packages",
       fr: "Paquetages Militaires",
@@ -36,38 +33,76 @@ const allTranslations = {
       'en-AU': "Unlock advanced agent capabilities tailored for your strategic operations.", 'en-NZ': "Unlock advanced agent capabilities tailored for your strategic operations.", 'en-CA': "Unlock advanced agent capabilities tailored for your strategic operations.", 'fr-CA': "Débloquez des capacités d'agent avancées, conçues pour vos opérations stratégiques.", 'en-ZA': "Ontsluit gevorderde agentvermoëns wat vir u strategiese bedrywighede aangepas is.", af: "Ontsluit gevorderde agentvermoëns wat vir u strategiese bedrywighede aangepas is.",
     },
     packageCadet: {
-      name: { en: "Cadet Briefing", fr: "Briefing Cadet", mi: "Whakawāhanga Kaitiaki", ga: "Faisnéis Cadet", hi: "कैडेट ब्रीफिंग", gd: "Fiosrachadh Coimiseanair", cy: "Briffio Cadet" },
-      description: { en: "Basic social media analysis. Ideal for reconnaissance.", fr: "Analyse de base des réseaux sociaux. Idéal pour la reconnaissance.", mi: "Tātari pāpāho pāpori taketake. He pai mō te tirotiro.", ga: "Bun-anailís meán sóisialta. Ideal le haghaidh taiscéalaíochta.", hi: "बुनियादी सोशल मीडिया विश्लेषण। टोही के लिए आदर्श।", gd: "Bun-sgrùdadh meadhanan sòisealta. Feumail airson rannsachaidh.", cy: "Dadansoddiad cyfryngau cymdeithasol sylfaenol. Delfrydol ar gyfer cydnabod." },
-      cta: { en: "Access Briefing", fr: "Accéder au Briefing", mi: "Tuku Whakawāhanga", ga: "Rochtain ar an Fhaisnéis", hi: "ब्रीफिंग तक पहुंच", gd: "Faigh Cothrom air an Fhiosrachadh", cy: "Mynediad i Friffio" }
+      name: {
+        en: "Cadet Briefing", fr: "Briefing Cadet", mi: "Whakawāhanga Kaitiaki", ga: "Faisnéis Cadet",
+        hi: "कैडेट ब्रीफिंग", gd: "Fiosrachadh Coimiseanair", cy: "Briffio Cadet"
+      },
+      description: {
+        en: "Basic social media analysis. Ideal for reconnaissance.", fr: "Analyse de base des réseaux sociaux. Idéal pour la reconnaissance.",
+        mi: "Tātari pāpāho pāpori taketake. He pai mō te tirotiro.", ga: "Bun-anailís meán sóisialta. Ideal le haghaidh taiscéalaíochta.",
+        hi: "बुनियादी सोशल मीडिया विश्लेषण। टोही के लिए आदर्श।", gd: "Bun-sgrùdadh meadhanan sòisealta. Feumail airson rannsachaidh.",
+        cy: "Dadansoddiad cyfryngau cymdeithasol sylfaenol. Delfrydol ar gyfer cydnabod."
+      },
+      cta: {
+        en: "Access Briefing", fr: "Accéder au Briefing", mi: "Tuku Whakawāhanga", ga: "Rochtain ar an Fhaisnéis",
+        hi: "ब्रीफिंग तक पहुंच", gd: "Faigh Cothrom air an Fhiosrachadh", cy: "Mynediad i Friffio"
+      }
     },
     packageOperative: {
-      name: { en: "Operative Toolkit", fr: "Kit d'Outils d'Opérateur", mi: "Pouaka Taputapu Kaiwhakahaere", ga: "Trealamh Oibreora", hi: "ऑपरेटिव टूलकिट", gd: "Inneal Obrachaidh", cy: "Pecyn Offer Gweithredwr" },
-      description: { en: "Deep dives into social trends, sentiment analysis, tactical content suggestions.", fr: "Plongées profondes dans les tendances sociales, analyse de sentiment, suggestions de contenu tactiques.", mi: "Rukunga hōhonu ki ngā ia pāpori, tātari kare-ā-roto, whakaaro ihirangi rautaki.", ga: "Tumadóireachtaí doimhne isteach i dtreochtaí sóisialta, anailís ar thuairimí, moltaí ábhair thaicticeacha.", hi: "सोशल ट्रेंड्स में गहरी डुबकी, भावना विश्लेषण, सामरिक सामग्री सुझाव।", gd: "Dàibhidhean domhainn a-steach do ghluasadan sòisealta, mion-sgrùdadh faireachdainn, molaidhean susbaint innleachdach.", cy: "Plymio dwfn i dueddiadau cymdeithasol, dadansoddiad teimladau, awgrymiadau cynnwys tactegol." },
-      cta: { en: "Activate Toolkit", fr: "Activer le Kit d'Outils", mi: "Whakahohe Pouaka Taputapu", ga: "Gníomhaigh an Trealamh", hi: "टूलकिट सक्रिय करें", gd: "Cuir an Inneal an Gnìomh", cy: "Ysgogi Pecyn Offer" }
+      name: {
+        en: "Operative Toolkit", fr: "Kit d'Outils d'Opérateur", mi: "Pouaka Taputapu Kaiwhakahaere", ga: "Trealamh Oibreora",
+        hi: "ऑपरेटिव टूलकिट", gd: "Inneal Obrachaidh", cy: "Pecyn Offer Gweithredwr"
+      },
+      description: {
+        en: "Deep dives into social trends, sentiment analysis, tactical content suggestions.",
+        fr: "Plongées profondes dans les tendances sociales, analyse de sentiment, suggestions de contenu tactiques.",
+        mi: "Rukunga hōhonu ki ngā ia pāpori, tātari kare-ā-roto, whakaaro ihirangi rautaki.",
+        ga: "Tumadóireachtaí doimhne isteach i dtreochtaí sóisialta, anailís ar thuairimí, moltaí ábhair thaicticeacha.",
+        hi: "सोशल ट्रेंड्स में गहरी डुबकी, भावना विश्लेषण, सामरिक सामग्री सुझाव।",
+        gd: "Dàibhidhean domhainn a-steach do ghluasadan sòisealta, mion-sgrùdadh faireachdainn, molaidhean susbaint innleachdach.",
+        cy: "Plymio dwfn i dueddiadau cymdeithasol, dadansoddiad teimladau, awgrymiadau cynnwys tactegol."
+      },
+      cta: {
+        en: "Activate Toolkit", fr: "Activer le Kit d'Outils", mi: "Whakahohe Pouaka Taputapu", ga: "Gníomhaigh an Trealamh",
+        hi: "टूलकिट सक्रिय करें", gd: "Cuir an Inneal an Gnìomh", cy: "Ysgogi Pecyn Offer"
+      }
     },
     packageOfficer: {
-      name: { en: "Strategic Command", fr: "Commandement Stratégique", mi: "Whakahau Rautaki", ga: "Ceannasaíocht Straitéiseach", hi: "रणनीतिक कमांड", gd: "Òrdugh Ro-innleachdail", cy: "Gorchymyn Strategol" },
-      description: { en: "Predictive analytics, full profile audits, AI-driven content generation.", fr: "Analyse prédictive, audits de profil complets, génération de contenu par IA.", mi: "Tātari matapae, arotake kōtaha katoa, hanga ihirangi nā AI.", ga: "Anailís thuarthach, iniúchtaí próifíle iomlána, giniúint ábhair atá tiomáinte ag AI.", hi: "भविष्य कहनेवाला विश्लेषण, पूर्ण प्रोफ़ाइल ऑडिट, एआई-संचालित सामग्री निर्माण।", gd: "Mion-sgrùdadh ro-innleachdail, sgrùdaidhean làn-phròifil, ginealach susbaint air a stiùireadh le AI.", cy: "Dadansoddiadau rhagfynegol, archwiliadau proffil llawn, cynhyrchu cynnwys a yrrir gan AI." },
-      cta: { en: "Request Access", fr: "Demander l'Accès", mi: "Tono Uru", ga: "Iarr Rochtain", hi: "पहुंच का अनुरोध करें", gd: "Iarr Cothrom", cy: "Gofyn Mynediad" }
+      name: {
+        en: "Strategic Command", fr: "Commandement Stratégique", mi: "Whakahau Rautaki", ga: "Ceannasaíocht Straitéiseach",
+        hi: "रणनीतिक कमांड", gd: "Òrdugh Ro-innleachdail", cy: "Gorchymyn Strategol"
+      },
+      description: {
+        en: "Predictive analytics, full profile audits, AI-driven content generation.",
+        fr: "Analyse prédictive, audits de profil complets, génération de contenu par IA.",
+        mi: "Tātari matapae, arotake kōtaha katoa, hanga ihirangi nā AI.",
+        ga: "Anailís thuarthach, iniúchtaí próifíle iomlána, giniúint ábhair atá tiomáinte ag AI.",
+        hi: "भविष्य कहनेवाला विश्लेषण, पूर्ण प्रोफ़ाइल ऑडिट, एआई-संचालित सामग्री निर्माण।",
+        gd: "Mion-sgrùdadh ro-innleachdail, sgrùdaidhean làn-phròifil, ginealach susbaint air a stiùireadh le AI.",
+        cy: "Dadansoddiadau rhagfynegol, archwiliadau proffil llawn, cynhyrchu cynnwys a yrrir gan AI."
+      },
+      cta: {
+        en: "Request Access", fr: "Demander l'Accès", mi: "Tono Uru", ga: "Iarr Rochtain",
+        hi: "पहुंच का अनुरोध करें", gd: "Iarr Cothrom", cy: "Gofyn Mynediad"
+      }
     },
   },
 };
 
-// ✅ NOUVEAU : Fonction de traduction (assurez-vous que LanguageCode est importé depuis '@/types')
-function getTranslation<S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
-  section: S, key: K, lang: LanguageCode
-): string {
-  const translations = (allTranslations[section] as any)?.[key]; // Accède à l'objet de traduction de la clé
-  // Si la traduction spécifique n'est pas un objet ou ne contient pas 'en', c'est une erreur.
-  if (typeof translations !== 'object' || translations === null || !('en' in translations)) {
-    console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
-    return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+// -------- La nouvelle fonction de traduction par chemin --------
+function getTranslationPath(path: string, lang: LanguageCode): string {
+  const keys = path.split('.');
+  let curr: any = allTranslations;
+  for (const key of keys) curr = curr?.[key];
+  // Gestion erreur
+  if (!curr || typeof curr !== 'object' || !('en' in curr)) {
+    console.warn(`Translation missing or invalid for: ${path} in language ${lang}`);
+    return `[Invalid Translation: ${path}]`;
   }
-  // Retourne la traduction pour la langue demandée, ou le fallback anglais
-  return translations[lang] || translations.en;
+  return curr[lang] || curr.en;
 }
 
-
+// -------- Le composant principal --------
 const PaquetagesMilitairesPage: React.FC = () => {
   const { language } = useLanguage();
   const { theme } = useTheme();
@@ -89,29 +124,51 @@ const PaquetagesMilitairesPage: React.FC = () => {
         '--kiwi-highlight-color': highlightColor,
       } as React.CSSProperties}
     >
-      <h1 className={styles.headline}>{getTranslation('packagesPage', 'headline', language)}</h1>
-      <p className={styles.intro}>{getTranslation('packagesPage', 'intro', language)}</p>
+      <h1 className={styles.headline}>
+        {getTranslationPath('packagesPage.headline', language)}
+      </h1>
+      <p className={styles.intro}>
+        {getTranslationPath('packagesPage.intro', language)}
+      </p>
 
       <div className={styles.packagesGrid}>
         {/* Paquetage Cadet */}
         <div className={styles.packageCard}>
-          <h2 className={styles.packageName}>{getTranslation('packagesPage', 'packageCadet', language)}</h2> {/* Correction: utilisation de 'packagesPage' */}
-          <p className={styles.packageDescription}>{getTranslation('packagesPage', 'packageCadet', language)}</p> {/* Correction */}
-          <button className={styles.packageCta}>{getTranslation('packagesPage', 'packageCadet', language)}</button> {/* Correction */}
+          <h2 className={styles.packageName}>
+            {getTranslationPath('packagesPage.packageCadet.name', language)}
+          </h2>
+          <p className={styles.packageDescription}>
+            {getTranslationPath('packagesPage.packageCadet.description', language)}
+          </p>
+          <button className={styles.packageCta}>
+            {getTranslationPath('packagesPage.packageCadet.cta', language)}
+          </button>
         </div>
 
         {/* Paquetage Opérateur */}
         <div className={styles.packageCard}>
-          <h2 className={styles.packageName}>{getTranslation('packagesPage', 'packageOperative', language)}</h2> {/* Correction */}
-          <p className={styles.packageDescription}>{getTranslation('packagesPage', 'packageOperative', language)}</p> {/* Correction */}
-          <button className={styles.packageCta}>{getTranslation('packagesPage', 'packageOperative', language)}</button> {/* Correction */}
+          <h2 className={styles.packageName}>
+            {getTranslationPath('packagesPage.packageOperative.name', language)}
+          </h2>
+          <p className={styles.packageDescription}>
+            {getTranslationPath('packagesPage.packageOperative.description', language)}
+          </p>
+          <button className={styles.packageCta}>
+            {getTranslationPath('packagesPage.packageOperative.cta', language)}
+          </button>
         </div>
 
         {/* Paquetage Officier */}
         <div className={styles.packageCard}>
-          <h2 className={styles.packageName}>{getTranslation('packagesPage', 'packageOfficer', language)}</h2> {/* Correction */}
-          <p className={styles.packageDescription}>{getTranslation('packagesPage', 'packageOfficer', language)}</p> {/* Correction */}
-          <button className={styles.packageCta}>{getTranslation('packagesPage', 'packageOfficer', language)}</button> {/* Correction */}
+          <h2 className={styles.packageName}>
+            {getTranslationPath('packagesPage.packageOfficer.name', language)}
+          </h2>
+          <p className={styles.packageDescription}>
+            {getTranslationPath('packagesPage.packageOfficer.description', language)}
+          </p>
+          <button className={styles.packageCta}>
+            {getTranslationPath('packagesPage.packageOfficer.cta', language)}
+          </button>
         </div>
       </div>
     </div>
