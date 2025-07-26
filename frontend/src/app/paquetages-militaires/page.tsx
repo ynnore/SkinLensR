@@ -8,21 +8,102 @@ import { LanguageCode } from '@/types';
 
 import { FaMicrophoneAlt, FaHands } from 'react-icons/fa';
 
-// ---- Objet de traduction (inchangé) ----
+// ---- Objet de traduction mis à jour et complété ----
 const allTranslations = {
   agentHeartPage: {
-    headline: { en: "Agent's Core", fr: "Cœur de l'Agent", mi: "Te Pokapū o te Āpiha", gd: "Crìoch an Neach-ionaid", ga: "Croí an Ghníomhaire", hi: "एजेंट का कोर", },
-    intro: { en: "To listen to our agents, discretion is appreciated. Please do not disturb others.", fr: "Pour écouter nos agents, la discrétion est appréciée. Veuillez à ne pas gêner les autres.", mi: "Ki te whakarongo ki ā mātou āpiha, e tika ana te noho puku. Kaua e whakararuraru i ētahi atu.", gd: "Gus èisteachd ris na riochdairean againn, thathas a' cur luach air cothromachd. Na cuir dragh air daoine eile.", ga: "Chun éisteacht lenár ngníomhairí, is mór againn discréid. Ná cuir isteach ar dhaoine eile, le do thoil.", hi: "हमारे एजेंटों को सुनने के लिए, विवेक की सराहना की जाती है। कृपया दूसरों को परेशान न करें।", },
+    headline: {
+      en: "Agent's Core",
+      fr: "Cœur de l'Agent",
+      mi: "Te Pokapū o te Āpiha",
+      gd: "Crìoch an Neach-ionaid",
+      ga: "Croí an Ghníomhaire",
+      hi: "एजेंट का कोर",
+      'fr-CA': "Noyau de l'Agent",
+      af: "Agent se Kern",
+    },
+    intro: {
+      en: "To listen to our agents, discretion is appreciated. Please do not disturb others.",
+      fr: "Pour écouter nos agents, la discrétion est appréciée. Veuillez à ne pas gêner les autres.",
+      mi: "Ki te whakarongo ki ā mātou āpiha, e tika ana te noho puku. Kaua e whakararuraru i ētahi atu.",
+      gd: "Gus èisteachd ris na riochdairean againn, thathas a' cur luach air cothromachd. Na cuir dragh air daoine eile.",
+      ga: "Chun éisteacht lenár ngníomhairí, is mór againn discréid. Ná cuir isteach ar dhaoine eile, le do thoil.",
+      hi: "हमारे एजेंटों को सुनने के लिए, विवेक की सराहना की जाती है। कृपया दूसरों को परेशान न करें।",
+      'fr-CA': "Pour écouter nos agents, la discrétion est de mise. Veuillez ne pas déranger les autres.",
+      af: "Om na ons agente te luister, word diskresie waardeer. Moet asseblief nie ander steur nie.",
+    },
     packageVoice: {
-      name: { en: "Agent's Voice", fr: "Voix de l'Agent", mi: "Te Reo o te Āpiha", gd: "Guth an Neach-ionaid", ga: "Guth an Ghníomhaire", hi: "एजेंट की आवाज़", },
-      description: { en: "Activate the microphone to transmit with a synthesized vocoder voice for covert operations.", fr: "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.", mi: "Whakahohehia te hopuorooro hei tuku kōrero mā te reo vocoder i hangaia mō ngā mahi huna.", gd: "Cuir am micreofon an gnìomh gus tar-chur le guth vocoder synthesized airson obraichean falaichte.", ga: "Gníomhachtaigh an micreafón chun tarchur le guth vocoder sintéisithe le haghaidh oibríochtaí ceilte.", hi: "गुप्त अभियानों के लिए संश्लेषित वोकोडर आवाज के साथ संचारित करने के लिए माइक्रोफोन को सक्रिय करें।", },
-      cta: { en: "Activate Vocoder", fr: "Activer Vocodeur", mi: "Whakahohe Vocoder", gd: "Cuir an Vocoder an Gnìomh", ga: "Gníomhachtaigh Vocoder", hi: "वोकोडर सक्रिय करें", },
-      ctaActive: { en: "Deactivate", fr: "Désactiver", mi: "Whakawetohia", gd: "Cuir dheth", ga: "Díghníomhachtaigh", hi: "निष्क्रिय करें", },
+      name: { 
+        en: "Agent's Voice", 
+        fr: "Voix de l'Agent",
+        mi: "Te Reo o te Āpiha",
+        gd: "Guth an Neach-ionaid",
+        ga: "Guth an Ghníomhaire",
+        hi: "एजेंट की आवाज़",
+        'fr-CA': "Voix de l'Agent",
+        af: "Agent se Stem",
+      },
+      description: {
+        en: "Activate the microphone to transmit with a synthesized vocoder voice for covert operations.",
+        fr: "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.",
+        mi: "Whakahohehia te hopuorooro hei tuku kōrero mā te reo vocoder i hangaia mō ngā mahi huna.",
+        gd: "Cuir am micreofon an gnìomh gus tar-chur le guth vocoder synthesized airson obraichean falaichte.",
+        ga: "Gníomhachtaigh an micreafón chun tarchur le guth vocoder sintéisithe le haghaidh oibríochtaí ceilte.",
+        hi: "गुप्त अभियानों के लिए संश्लेषित वोकोडर आवाज के साथ संचारित करने के लिए माइक्रोफोन को सक्रिय करें।",
+        'fr-CA': "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.",
+        af: "Aktiveer die mikrofoon om met 'n gesintetiseerde vocoder-stem vir geheime operasies uit te saai.",
+      },
+      cta: { 
+        en: "Activate Vocoder", 
+        fr: "Activer Vocodeur",
+        mi: "Whakahohe Vocoder",
+        gd: "Cuir an Vocoder an Gnìomh",
+        ga: "Gníomhachtaigh Vocoder",
+        hi: "वोकोडर सक्रिय करें",
+        'fr-CA': "Activer Vocodeur",
+        af: "Aktiveer Vocoder",
+      },
+      ctaActive: { 
+        en: "Deactivate", 
+        fr: "Désactiver",
+        mi: "Whakawetohia",
+        gd: "Cuir dheth",
+        ga: "Díghníomhachtaigh",
+        hi: "निष्क्रिय करें",
+        'fr-CA': "Désactiver",
+        af: "Deaktiveer",
+      },
     },
     packageSign: {
-      name: { en: "Silent Communication", fr: "Communication Silencieuse", mi: "Whakawhitiwhiti Kōrero Puku", gd: "Conaltradh Sàmhach", ga: "Cumarsáid Chiúin", hi: "मौन संचार", },
-      description: { en: "Use your webcam to communicate using sign language. (SignGemma technology coming soon).", fr: "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).", mi: "Whakamahia tō kāmera tukutuku ki te kōrero mā te reo tohu. (Kei te haere mai te hangarau SignGemma).", gd: "Cleachd an camara-lìn agad gus conaltradh a dhèanamh le cànan soidhnidh. (Teicneòlas SignGemma a' tighinn a dh'aithghearr).", ga: "Bain úsáid as do cheamara gréasáin chun cumarsáid a dhéanamh le teanga chomharthaíochta. (Teicneolaíocht SignGemma ag teacht go luath).", hi: "सांकेतिक भाषा का उपयोग करके संवाद करने के लिए अपने वेबकैम का उपयोग करें। (SignGemma तकनीक जल्द ही आ रही है)।", },
-      cta: { en: "Initialize", fr: "Initialiser", mi: "Tīmata", gd: "Tòisich", ga: "Tosaigh", hi: "आरंभ करें", },
+      name: { 
+        en: "Silent Communication", 
+        fr: "Communication Silencieuse",
+        mi: "Whakawhitiwhiti Kōrero Puku",
+        gd: "Conaltradh Sàmhach",
+        ga: "Cumarsáid Chiúin",
+        hi: "मौन संचार",
+        'fr-CA': "Communication Silencieuse",
+        af: "Stil Kommunikasie",
+      },
+      description: {
+        en: "Use your webcam to communicate using sign language. (SignGemma technology coming soon).",
+        fr: "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).",
+        mi: "Whakamahia tō kāmera tukutuku ki te kōrero mā te reo tohu. (Kei te haere mai te hangarau SignGemma).",
+        gd: "Cleachd an camara-lìn agad gus conaltradh a dhèanamh le cànan soidhnidh. (Teicneòlas SignGemma a' tighinn a dh'aithghearr).",
+        ga: "Bain úsáid as do cheamara gréasáin chun cumarsáid a dhéanamh le teanga chomharthaíochta. (Teicneolaíocht SignGemma ag teacht go luath).",
+        hi: "सांकेतिक भाषा का उपयोग करके संवाद करने के लिए अपने वेबकैम का उपयोग करें। (SignGemma तकनीक जल्द ही आ रही है)।",
+        'fr-CA': "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).",
+        af: "Gebruik jou webkamera om met gebaretaal te kommunikeer. (SignGemma-tegnologie kom binnekort).",
+      },
+      cta: { 
+        en: "Initialize", 
+        fr: "Initialiser",
+        mi: "Tīmata",
+        gd: "Tòisich",
+        ga: "Tosaigh",
+        hi: "आरंभ करें",
+        'fr-CA': "Initialiser",
+        af: "Inisialiseer",
+      },
     },
   },
 };
@@ -61,7 +142,6 @@ const AgentCorePage: React.FC = () => {
     };
   }, []);
 
-  // --- LOGIQUE DU VOCODER "MÉLODIQUE" ---
   const startVocoder = async () => {
     if (audioRefs.current) return;
     try {
@@ -69,7 +149,6 @@ const AgentCorePage: React.FC = () => {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const micSource = context.createMediaStreamSource(stream);
 
-      // --- Le son "robotique" (Wet/Traité) ---
       const carrier = context.createOscillator();
       carrier.type = 'sawtooth';
       carrier.frequency.setValueAtTime(110, context.currentTime);
@@ -88,7 +167,6 @@ const AgentCorePage: React.FC = () => {
       filter.connect(wetGain);
       wetGain.connect(context.destination);
 
-      // --- Votre voix "normale" (Dry/Sèche) pour la clarté ---
       const dryGain = context.createGain();
       dryGain.gain.setValueAtTime(0.25, context.currentTime);
 
