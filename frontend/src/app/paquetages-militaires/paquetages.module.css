@@ -79,6 +79,19 @@
 .packageCta:hover {
   background-color: darken(var(--kiwi-highlight-color), 10%); /* Nécessite un préprocesseur CSS ou une variable */
 }
+.textArea {
+  width: 100%;
+  min-height: 80px;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--kiwi-border-color);
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+}
 
 /* --- Mobile First (Base) --- */
 @media (max-width: 768px) {

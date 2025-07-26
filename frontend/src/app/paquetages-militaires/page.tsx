@@ -6,104 +6,21 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LanguageCode } from '@/types';
 
-import { FaMicrophoneAlt, FaHands } from 'react-icons/fa';
+// AJOUT : Icône pour le nouveau module de parole
+import { FaMicrophoneAlt, FaHands, FaVolumeUp } from 'react-icons/fa';
 
-// ---- Objet de traduction mis à jour et complété ----
+// ---- Objet de traduction mis à jour avec le nouveau module et toutes les langues ----
 const allTranslations = {
   agentHeartPage: {
-    headline: {
-      en: "Agent's Core",
-      fr: "Cœur de l'Agent",
-      mi: "Te Pokapū o te Āpiha",
-      gd: "Crìoch an Neach-ionaid",
-      ga: "Croí an Ghníomhaire",
-      hi: "एजेंट का कोर",
-      'fr-CA': "Noyau de l'Agent",
-      af: "Agent se Kern",
-    },
-    intro: {
-      en: "To listen to our agents, discretion is appreciated. Please do not disturb others.",
-      fr: "Pour écouter nos agents, la discrétion est appréciée. Veuillez à ne pas gêner les autres.",
-      mi: "Ki te whakarongo ki ā mātou āpiha, e tika ana te noho puku. Kaua e whakararuraru i ētahi atu.",
-      gd: "Gus èisteachd ris na riochdairean againn, thathas a' cur luach air cothromachd. Na cuir dragh air daoine eile.",
-      ga: "Chun éisteacht lenár ngníomhairí, is mór againn discréid. Ná cuir isteach ar dhaoine eile, le do thoil.",
-      hi: "हमारे एजेंटों को सुनने के लिए, विवेक की सराहना की जाती है। कृपया दूसरों को परेशान न करें।",
-      'fr-CA': "Pour écouter nos agents, la discrétion est de mise. Veuillez ne pas déranger les autres.",
-      af: "Om na ons agente te luister, word diskresie waardeer. Moet asseblief nie ander steur nie.",
-    },
-    packageVoice: {
-      name: { 
-        en: "Agent's Voice", 
-        fr: "Voix de l'Agent",
-        mi: "Te Reo o te Āpiha",
-        gd: "Guth an Neach-ionaid",
-        ga: "Guth an Ghníomhaire",
-        hi: "एजेंट की आवाज़",
-        'fr-CA': "Voix de l'Agent",
-        af: "Agent se Stem",
-      },
-      description: {
-        en: "Activate the microphone to transmit with a synthesized vocoder voice for covert operations.",
-        fr: "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.",
-        mi: "Whakahohehia te hopuorooro hei tuku kōrero mā te reo vocoder i hangaia mō ngā mahi huna.",
-        gd: "Cuir am micreofon an gnìomh gus tar-chur le guth vocoder synthesized airson obraichean falaichte.",
-        ga: "Gníomhachtaigh an micreafón chun tarchur le guth vocoder sintéisithe le haghaidh oibríochtaí ceilte.",
-        hi: "गुप्त अभियानों के लिए संश्लेषित वोकोडर आवाज के साथ संचारित करने के लिए माइक्रोफोन को सक्रिय करें।",
-        'fr-CA': "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.",
-        af: "Aktiveer die mikrofoon om met 'n gesintetiseerde vocoder-stem vir geheime operasies uit te saai.",
-      },
-      cta: { 
-        en: "Activate Vocoder", 
-        fr: "Activer Vocodeur",
-        mi: "Whakahohe Vocoder",
-        gd: "Cuir an Vocoder an Gnìomh",
-        ga: "Gníomhachtaigh Vocoder",
-        hi: "वोकोडर सक्रिय करें",
-        'fr-CA': "Activer Vocodeur",
-        af: "Aktiveer Vocoder",
-      },
-      ctaActive: { 
-        en: "Deactivate", 
-        fr: "Désactiver",
-        mi: "Whakawetohia",
-        gd: "Cuir dheth",
-        ga: "Díghníomhachtaigh",
-        hi: "निष्क्रिय करें",
-        'fr-CA': "Désactiver",
-        af: "Deaktiveer",
-      },
-    },
-    packageSign: {
-      name: { 
-        en: "Silent Communication", 
-        fr: "Communication Silencieuse",
-        mi: "Whakawhitiwhiti Kōrero Puku",
-        gd: "Conaltradh Sàmhach",
-        ga: "Cumarsáid Chiúin",
-        hi: "मौन संचार",
-        'fr-CA': "Communication Silencieuse",
-        af: "Stil Kommunikasie",
-      },
-      description: {
-        en: "Use your webcam to communicate using sign language. (SignGemma technology coming soon).",
-        fr: "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).",
-        mi: "Whakamahia tō kāmera tukutuku ki te kōrero mā te reo tohu. (Kei te haere mai te hangarau SignGemma).",
-        gd: "Cleachd an camara-lìn agad gus conaltradh a dhèanamh le cànan soidhnidh. (Teicneòlas SignGemma a' tighinn a dh'aithghearr).",
-        ga: "Bain úsáid as do cheamara gréasáin chun cumarsáid a dhéanamh le teanga chomharthaíochta. (Teicneolaíocht SignGemma ag teacht go luath).",
-        hi: "सांकेतिक भाषा का उपयोग करके संवाद करने के लिए अपने वेबकैम का उपयोग करें। (SignGemma तकनीक जल्द ही आ रही है)।",
-        'fr-CA': "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).",
-        af: "Gebruik jou webkamera om met gebaretaal te kommunikeer. (SignGemma-tegnologie kom binnekort).",
-      },
-      cta: { 
-        en: "Initialize", 
-        fr: "Initialiser",
-        mi: "Tīmata",
-        gd: "Tòisich",
-        ga: "Tosaigh",
-        hi: "आरंभ करें",
-        'fr-CA': "Initialiser",
-        af: "Inisialiseer",
-      },
+    headline: { en: "Agent's Core", fr: "Cœur de l'Agent", mi: "Te Pokapū o te Āpiha", gd: "Crìoch an Neach-ionaid", ga: "Croí an Ghníomhaire", hi: "एजेंट का कोर", 'fr-CA': "Noyau de l'Agent", af: "Agent se Kern" },
+    intro: { en: "To listen to our agents, discretion is appreciated. Please do not disturb others.", fr: "Pour écouter nos agents, la discrétion est appréciée. Veuillez à ne pas gêner les autres.", mi: "Ki te whakarongo ki ā mātou āpiha, e tika ana te noho puku. Kaua e whakararuraru i ētahi atu.", gd: "Gus èisteachd ris na riochdairean againn, thathas a' cur luach air cothromachd. Na cuir dragh air daoine eile.", ga: "Chun éisteacht lenár ngníomhairí, is mór againn discréid. Ná cuir isteach ar dhaoine eile, le do thoil.", hi: "हमारे एजेंटों को सुनने के लिए, विवेक की सराहना की जाती है। कृपया दूसरों को परेशान न करें।", 'fr-CA': "Pour écouter nos agents, la discrétion est de mise. Veuillez ne pas déranger les autres.", af: "Om na ons agente te luister, word diskresie waardeer. Moet asseblief nie ander steur nie." },
+    packageVoice: { name: { en: "Agent's Voice", fr: "Voix de l'Agent", mi: "Te Reo o te Āpiha", gd: "Guth an Neach-ionaid", ga: "Guth an Ghníomhaire", hi: "एजेंट की आवाज़", 'fr-CA': "Voix de l'Agent", af: "Agent se Stem" }, description: { en: "Activate the microphone to transmit with a synthesized vocoder voice for covert operations.", fr: "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.", mi: "Whakahohehia te hopuorooro hei tuku kōrero mā te reo vocoder i hangaia mō ngā mahi huna.", gd: "Cuir am micreofon an gnìomh gus tar-chur le guth vocoder synthesized airson obraichean falaichte.", ga: "Gníomhachtaigh an micreafón chun tarchur le guth vocoder sintéisithe le haghaidh oibríochtaí ceilte.", hi: "गुप्त अभियानों के लिए संश्लेषित वोकोडर आवाज के साथ संचारित करने के लिए माइक्रोफोन को सक्रिय करें।", 'fr-CA': "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.", af: "Aktiveer die mikrofoon om met 'n gesintetiseerde vocoder-stem vir geheime operasies uit te saai." }, cta: { en: "Activate Vocoder", fr: "Activer Vocodeur", mi: "Whakahohe Vocoder", gd: "Cuir an Vocoder an Gnìomh", ga: "Gníomhachtaigh Vocoder", hi: "वोकोडर सक्रिय करें", 'fr-CA': "Activer Vocodeur", af: "Aktiveer Vocoder" }, ctaActive: { en: "Deactivate", fr: "Désactiver", mi: "Whakawetohia", gd: "Cuir dheth", ga: "Díghníomhachtaigh", hi: "निष्क्रिय करें", 'fr-CA': "Désactiver", af: "Deaktiveer" } },
+    packageSign: { name: { en: "Silent Communication", fr: "Communication Silencieuse", mi: "Whakawhitiwhiti Kōrero Puku", gd: "Conaltradh Sàmhach", ga: "Cumarsáid Chiúin", hi: "मौन संचार", 'fr-CA': "Communication Silencieuse", af: "Stil Kommunikasie" }, description: { en: "Use your webcam to communicate using sign language. (SignGemma technology coming soon).", fr: "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).", mi: "Whakamahia tō kāmera tukutuku ki te kōrero mā te reo tohu. (Kei te haere mai te hangarau SignGemma).", gd: "Cleachd an camara-lìn agad gus conaltradh a dhèanamh le cànan soidhnidh. (Teicneòlas SignGemma a' tighinn a dh'aithghearr).", ga: "Bain úsáid as do cheamara gréasáin chun cumarsáid a dhéanamh le teanga chomharthaíochta. (Teicneolaíocht SignGemma ag teacht go luath).", hi: "सांकेतिक भाषा का उपयोग करके संवाद करने के लिए अपने वेबकैम का उपयोग करें। (SignGemma तकनीक जल्द ही आ रही है)।", 'fr-CA': "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).", af: "Gebruik jou webkamera om met gebaretaal te kommunikeer. (SignGemma-tegnologie kom binnekort)." }, cta: { en: "Initialize", fr: "Initialiser", mi: "Tīmata", gd: "Tòisich", ga: "Tosaigh", hi: "आरंभ करें", 'fr-CA': "Initialiser", af: "Inisialiseer" } },
+    packageSpeechTest: {
+      name: { en: "Voice Synthesis", fr: "Synthèse Vocale", mi: "Whakahua Reo", ga: "Sintéis Gutha", gd: "Sintéis Guth", hi: "वाणी संश्लेषण", 'fr-CA': "Synthèse Vocale", af: "Stemsintese" },
+      description: { en: "Test the agent's voice output. Type a message and press 'Speak'.", fr: "Testez la sortie vocale de l'agent. Tapez un message et appuyez sur 'Parler'.", mi: "Whakamātauria te putanga reo o te āpiha. Patohia he karere ka pēhi i te 'Kōrero'.", ga: "Tástáil aschur gutha an ghníomhaire. Clóscríobh teachtaireacht agus brúigh 'Labhair'.", gd: "Dèan deuchainn air toradh guth an neach-ionaid. Taidhp teachdaireachd agus brùth air 'Bruidhinn'.", hi: "एजेंट के वॉयस आउटपुट का परीक्षण करें। एक संदेश टाइप करें और 'बोलें' दबाएं।", 'fr-CA': "Testez la sortie vocale de l'agent. Écrivez un message et appuyez sur 'Parler'.", af: "Toets die agent se stemuitset. Tik 'n boodskap en druk 'Praat'." },
+      placeholder: { en: "Type text to synthesize...", fr: "Tapez le texte à synthétiser...", mi: "Patohia te kupu hei whakahua...", ga: "Clóscríobh téacs le sintéisiú...", gd: "Taidhp teacsa airson a cho-chur...", hi: "संश्लेषित करने के लिए टेक्स्ट टाइप करें...", 'fr-CA': "Écrivez le texte à synthétiser...", af: "Tik teks om te sintetiseer..." },
+      cta: { en: "Speak", fr: "Parler", mi: "Kōrero", ga: "Labhair", gd: "Bruidhinn", hi: "बोलें", 'fr-CA': "Parler", af: "Praat" },
     },
   },
 };
@@ -124,14 +41,11 @@ const AgentCorePage: React.FC = () => {
   const { theme } = useTheme();
 
   const [micStatus, setMicStatus] = useState<'idle' | 'active' | 'error'>('idle');
+  const [textToSpeak, setTextToSpeak] = useState("Hello, this is Agent Wellington speaking.");
+  
   const audioRefs = useRef<{
-    context: AudioContext;
-    stream: MediaStream;
-    carrier: OscillatorNode;
-    analyser: AnalyserNode;
-    animationFrameId: number;
-    dryGain: GainNode;
-    wetGain: GainNode;
+    context: AudioContext; stream: MediaStream; carrier: OscillatorNode;
+    analyser: AnalyserNode; animationFrameId: number; dryGain: GainNode; wetGain: GainNode;
   } | null>(null);
   
   useEffect(() => {
@@ -139,6 +53,7 @@ const AgentCorePage: React.FC = () => {
       if (audioRefs.current) {
         stopVocoder();
       }
+      window.speechSynthesis.cancel();
     };
   }, []);
 
@@ -148,56 +63,41 @@ const AgentCorePage: React.FC = () => {
       const context = new AudioContext();
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const micSource = context.createMediaStreamSource(stream);
-
       const carrier = context.createOscillator();
       carrier.type = 'sawtooth';
       carrier.frequency.setValueAtTime(110, context.currentTime);
-
       const analyser = context.createAnalyser();
       micSource.connect(analyser);
-
       const filter = context.createBiquadFilter();
       filter.type = 'bandpass';
       filter.Q.value = 15; 
-
       const wetGain = context.createGain();
       wetGain.gain.setValueAtTime(0.8, context.currentTime);
-
       carrier.connect(filter);
       filter.connect(wetGain);
       wetGain.connect(context.destination);
-
       const dryGain = context.createGain();
       dryGain.gain.setValueAtTime(0.25, context.currentTime);
-
       micSource.connect(dryGain);
       dryGain.connect(context.destination);
-
       carrier.start();
-      
       audioRefs.current = { context, stream, carrier, analyser, animationFrameId: 0, dryGain, wetGain };
-
       const dataArray = new Uint8Array(analyser.frequencyBinCount);
-      
       const update = () => {
         if (!audioRefs.current) return;
         analyser.getByteFrequencyData(dataArray);
         const averageVolume = dataArray.reduce((acc, val) => acc + val, 0) / dataArray.length;
         const filterFrequency = (averageVolume / 255) * 8000 + 200;
         filter.frequency.setValueAtTime(filterFrequency, context.currentTime);
-
         const scale = [261.63, 311.13, 349.23, 392.00, 466.16, 523.25];
         const noteIndex = Math.floor((averageVolume / 255) * (scale.length - 1));
         const targetFrequency = scale[noteIndex];
-
         if (targetFrequency) {
             audioRefs.current.carrier.frequency.linearRampToValueAtTime(targetFrequency, context.currentTime + 0.05);
         }
-
         audioRefs.current.animationFrameId = requestAnimationFrame(update);
       };
       update();
-
       setMicStatus('active');
     } catch (err) {
       console.error("Erreur d'accès au microphone:", err);
@@ -223,6 +123,18 @@ const AgentCorePage: React.FC = () => {
     } else {
       startVocoder();
     }
+  };
+
+  const handleSpeak = () => {
+    if (!('speechSynthesis' in window) || !textToSpeak.trim()) {
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'en-US';
+    utterance.pitch = 1.1;
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
   };
   
   const handleSignFeature = () => {
@@ -256,28 +168,32 @@ const AgentCorePage: React.FC = () => {
       <div className={styles.packagesGrid}>
         <div className={styles.packageCard}>
           <FaMicrophoneAlt className={styles.packageIcon} />
-          <h2 className={styles.packageName}>
-            {getTranslationPath('agentHeartPage.packageVoice.name', language)}
-          </h2>
-          <p className={styles.packageDescription}>
-            {getTranslationPath('agentHeartPage.packageVoice.description', language)}
-          </p>
+          <h2 className={styles.packageName}>{getTranslationPath('agentHeartPage.packageVoice.name', language)}</h2>
+          <p className={styles.packageDescription}>{getTranslationPath('agentHeartPage.packageVoice.description', language)}</p>
           <button className={styles.packageCta} onClick={handleVocoderToggle}>
-            {micStatus === 'active'
-              ? getTranslationPath('agentHeartPage.packageVoice.ctaActive', language)
-              : getTranslationPath('agentHeartPage.packageVoice.cta', language)
-            }
+            {micStatus === 'active' ? getTranslationPath('agentHeartPage.packageVoice.ctaActive', language) : getTranslationPath('agentHeartPage.packageVoice.cta', language)}
+          </button>
+        </div>
+
+        <div className={styles.packageCard}>
+          <FaVolumeUp className={styles.packageIcon} />
+          <h2 className={styles.packageName}>{getTranslationPath('agentHeartPage.packageSpeechTest.name', language)}</h2>
+          <p className={styles.packageDescription}>{getTranslationPath('agentHeartPage.packageSpeechTest.description', language)}</p>
+          <textarea
+            className={styles.textArea}
+            value={textToSpeak}
+            onChange={(e) => setTextToSpeak(e.target.value)}
+            placeholder={getTranslationPath('agentHeartPage.packageSpeechTest.placeholder', language)}
+          />
+          <button className={styles.packageCta} onClick={handleSpeak}>
+            {getTranslationPath('agentHeartPage.packageSpeechTest.cta', language)}
           </button>
         </div>
 
         <div className={styles.packageCard}>
           <FaHands className={styles.packageIcon} />
-          <h2 className={styles.packageName}>
-            {getTranslationPath('agentHeartPage.packageSign.name', language)}
-          </h2>
-          <p className={styles.packageDescription}>
-            {getTranslationPath('agentHeartPage.packageSign.description', language)}
-          </p>
+          <h2 className={styles.packageName}>{getTranslationPath('agentHeartPage.packageSign.name', language)}</h2>
+          <p className={styles.packageDescription}>{getTranslationPath('agentHeartPage.packageSign.description', language)}</p>
           <button className={styles.packageCta} onClick={handleSignFeature}>
             {getTranslationPath('agentHeartPage.packageSign.cta', language)}
           </button>
