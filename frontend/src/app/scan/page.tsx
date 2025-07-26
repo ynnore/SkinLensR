@@ -260,7 +260,7 @@ const ChatInterface: React.FC = () => {
   };
 
   const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff';
-  const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
+  const textColor = theme === 'dark' ? '#E0E0E0' : 'black';
 
   return (
     <div className={styles.chatContainer} style={{ background: backgroundColor, color: textColor }}>
@@ -296,7 +296,7 @@ const ChatInterface: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
-       <footer className={styles.pageFooter}>
+   <footer className={styles.pageFooter}>
         <div className={styles.footerActionsLeft}>
           <button
             className={styles.iconButton}
