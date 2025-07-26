@@ -1,112 +1,125 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './paquetages.module.css';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { LanguageCode } from '@/types'; // Assurez-vous d'importer LanguageCode
+import { LanguageCode } from '@/types';
 
-// Import des icônes si besoin (non utilisés dans cet exemple)
-// import { FaTrophy, FaAward } from 'react-icons/fa';
+// AJOUT : Import des icônes pour les nouvelles fonctionnalités
+import { FaHeartbeat, FaMicrophoneAlt, FaHands } from 'react-icons/fa';
 
-// ---- Objet de traduction ----
+// ---- Objet de traduction ENTIÈREMENT REVU ----
 const allTranslations = {
-  packagesPage: {
+  agentHeartPage: { // Le nom de la section a été changé pour correspondre au nouveau thème
     headline: {
-      en: "Military Packages",
-      fr: "Paquetages Militaires",
-      mi: "Ngā Pūtē Whawhai",
-      ga: "Pacáistí Míleata",
-      hi: "सैन्य पैकेज",
-      gd: "Pacaidean Armailteach",
-      cy: "Pecynnau Milwrol",
-      'en-AU': "Military Packages", 'en-NZ': "Military Packages", 'en-CA': "Military Packages", 'fr-CA': "Paquetages Militaires", 'en-ZA': "Militêre Pakkette", af: "Militêre Pakkette",
+      en: "Agent's Core",
+      fr: "Cœur de l'Agent",
     },
     intro: {
-      en: "Unlock advanced agent capabilities tailored for your strategic operations.",
-      fr: "Débloquez des capacités d'agent avancées, conçues pour vos opérations stratégiques.",
-      mi: "Wewete i ngā kaha āpiha matatau i hangaia mō ō mahi rautaki.",
-      ga: "Díghlasáil cumais ghníomhaireachta ardleibhéil atá oiriúnaithe do do chuid oibríochtaí straitéiseacha.",
-      hi: "अपनी रणनीतिक कार्रवाइयों के लिए विशेष रूप से तैयार उन्नत एजेंट क्षमताओं को अनलॉक करें।",
-      gd: "Fosgail comasan àidseant adhartach air an dèanamh freagarrach do dh’obraichean ro-innleachdail.",
-      cy: "Datgloi galluoedd asiant uwch wedi'u teilwra ar gyfer eich gweithrediadau strategol.",
-      'en-AU': "Unlock advanced agent capabilities tailored for your strategic operations.", 'en-NZ': "Unlock advanced agent capabilities tailored for your strategic operations.", 'en-CA': "Unlock advanced agent capabilities tailored for your strategic operations.", 'fr-CA': "Débloquez des capacités d'agent avancées, conçues pour vos opérations stratégiques.", 'en-ZA': "Ontsluit gevorderde agentvermoëns wat vir u strategiese bedrywighede aangepas is.", af: "Ontsluit gevorderde agentvermoëns wat vir u strategiese bedrywighede aangepas is.",
+      en: "Access the agent's advanced biometric and communication systems.",
+      fr: "Accédez aux systèmes biométriques et de communication avancés de l'agent.",
     },
-    packageCadet: {
-      name: {
-        en: "Cadet Briefing", fr: "Briefing Cadet", mi: "Whakawāhanga Kaitiaki", ga: "Faisnéis Cadet",
-        hi: "कैडेट ब्रीफिंग", gd: "Fiosrachadh Coimiseanair", cy: "Briffio Cadet"
-      },
+    packageHeart: {
+      name: { en: "Heartbeat", fr: "Rythme Cardiaque" },
       description: {
-        en: "Basic social media analysis. Ideal for reconnaissance.", fr: "Analyse de base des réseaux sociaux. Idéal pour la reconnaissance.",
-        mi: "Tātari pāpāho pāpori taketake. He pai mō te tirotiro.", ga: "Bun-anailís meán sóisialta. Ideal le haghaidh taiscéalaíochta.",
-        hi: "बुनियादी सोशल मीडिया विश्लेषण। टोही के लिए आदर्श।", gd: "Bun-sgrùdadh meadhanan sòisealta. Feumail airson rannsachaidh.",
-        cy: "Dadansoddiad cyfryngau cymdeithasol sylfaenol. Delfrydol ar gyfer cydnabod."
+        en: "Listen to the agent's real-time biometric rhythm. Steady and ready.",
+        fr: "Écoutez le rythme biométrique de l'agent en temps réel. Calme et prêt.",
       },
-      cta: {
-        en: "Access Briefing", fr: "Accéder au Briefing", mi: "Tuku Whakawāhanga", ga: "Rochtain ar an Fhaisnéis",
-        hi: "ब्रीफिंग तक पहुंच", gd: "Faigh Cothrom air an Fhiosrachadh", cy: "Mynediad i Friffio"
-      }
+      cta: { en: "Listen", fr: "Écouter" },
+      ctaStop: { en: "Stop", fr: "Arrêter" },
     },
-    packageOperative: {
-      name: {
-        en: "Operative Toolkit", fr: "Kit d'Outils d'Opérateur", mi: "Pouaka Taputapu Kaiwhakahaere", ga: "Trealamh Oibreora",
-        hi: "ऑपरेटिव टूलकिट", gd: "Inneal Obrachaidh", cy: "Pecyn Offer Gweithredwr"
-      },
+    packageVoice: {
+      name: { en: "Agent's Voice", fr: "Voix de l'Agent" },
       description: {
-        en: "Deep dives into social trends, sentiment analysis, tactical content suggestions.",
-        fr: "Plongées profondes dans les tendances sociales, analyse de sentiment, suggestions de contenu tactiques.",
-        mi: "Rukunga hōhonu ki ngā ia pāpori, tātari kare-ā-roto, whakaaro ihirangi rautaki.",
-        ga: "Tumadóireachtaí doimhne isteach i dtreochtaí sóisialta, anailís ar thuairimí, moltaí ábhair thaicticeacha.",
-        hi: "सोशल ट्रेंड्स में गहरी डुबकी, भावना विश्लेषण, सामरिक सामग्री सुझाव।",
-        gd: "Dàibhidhean domhainn a-steach do ghluasadan sòisealta, mion-sgrùdadh faireachdainn, molaidhean susbaint innleachdach.",
-        cy: "Plymio dwfn i dueddiadau cymdeithasol, dadansoddiad teimladau, awgrymiadau cynnwys tactegol."
+        en: "Activate the microphone to transmit with a synthesized vocoder voice for covert operations.",
+        fr: "Activez le microphone pour transmettre avec une voix de vocodeur pour les opérations secrètes.",
       },
-      cta: {
-        en: "Activate Toolkit", fr: "Activer le Kit d'Outils", mi: "Whakahohe Pouaka Taputapu", ga: "Gníomhaigh an Trealamh",
-        hi: "टूलकिट सक्रिय करें", gd: "Cuir an Inneal an Gnìomh", cy: "Ysgogi Pecyn Offer"
-      }
+      cta: { en: "Activate Microphone", fr: "Activer le Micro" },
+      ctaActive: { en: "Microphone Active", fr: "Micro Actif" },
     },
-    packageOfficer: {
-      name: {
-        en: "Strategic Command", fr: "Commandement Stratégique", mi: "Whakahau Rautaki", ga: "Ceannasaíocht Straitéiseach",
-        hi: "रणनीतिक कमांड", gd: "Òrdugh Ro-innleachdail", cy: "Gorchymyn Strategol"
-      },
+    packageSign: {
+      name: { en: "Silent Communication", fr: "Communication Silencieuse" },
       description: {
-        en: "Predictive analytics, full profile audits, AI-driven content generation.",
-        fr: "Analyse prédictive, audits de profil complets, génération de contenu par IA.",
-        mi: "Tātari matapae, arotake kōtaha katoa, hanga ihirangi nā AI.",
-        ga: "Anailís thuarthach, iniúchtaí próifíle iomlána, giniúint ábhair atá tiomáinte ag AI.",
-        hi: "भविष्य कहनेवाला विश्लेषण, पूर्ण प्रोफ़ाइल ऑडिट, एआई-संचालित सामग्री निर्माण।",
-        gd: "Mion-sgrùdadh ro-innleachdail, sgrùdaidhean làn-phròifil, ginealach susbaint air a stiùireadh le AI.",
-        cy: "Dadansoddiadau rhagfynegol, archwiliadau proffil llawn, cynhyrchu cynnwys a yrrir gan AI."
+        en: "Use your webcam to communicate using sign language. (SignGemma technology coming soon).",
+        fr: "Utilisez votre webcam pour communiquer en langage des signes. (Technologie SignGemma à venir).",
       },
-      cta: {
-        en: "Request Access", fr: "Demander l'Accès", mi: "Tono Uru", ga: "Iarr Rochtain",
-        hi: "पहुंच का अनुरोध करें", gd: "Iarr Cothrom", cy: "Gofyn Mynediad"
-      }
+      cta: { en: "Initialize", fr: "Initialiser" },
     },
   },
 };
 
-// -------- La nouvelle fonction de traduction par chemin --------
+// -------- La fonction de traduction (inchangée) --------
 function getTranslationPath(path: string, lang: LanguageCode): string {
   const keys = path.split('.');
   let curr: any = allTranslations;
   for (const key of keys) curr = curr?.[key];
-  // Gestion erreur
   if (!curr || typeof curr !== 'object' || !('en' in curr)) {
-    console.warn(`Translation missing or invalid for: ${path} in language ${lang}`);
-    return `[Invalid Translation: ${path}]`;
+    console.warn(`Translation missing for: ${path} in language ${lang}`);
+    return `[${path}]`;
   }
   return curr[lang] || curr.en;
 }
 
-// -------- Le composant principal --------
-const PaquetagesMilitairesPage: React.FC = () => {
+// -------- Le composant principal ENTIÈREMENT REVU --------
+const AgentCorePage: React.FC = () => {
   const { language } = useLanguage();
   const { theme } = useTheme();
 
+  // --- États pour les fonctionnalités interactives ---
+  const [isHeartbeatPlaying, setIsHeartbeatPlaying] = useState(false);
+  const [micStatus, setMicStatus] = useState<'idle' | 'active' | 'error'>('idle');
+  const heartSoundRef = useRef<HTMLAudioElement | null>(null);
+
+  // Initialisation du son du cœur
+  useEffect(() => {
+    // Assurez-vous d'avoir un son de battement de coeur en boucle ici
+    heartSoundRef.current = new Audio('/sounds/heartbeat_loop.mp3'); 
+    heartSoundRef.current.loop = true;
+
+    // Nettoyage : arrête le son quand on quitte la page
+    return () => {
+      heartSoundRef.current?.pause();
+    };
+  }, []);
+
+  // --- Gestionnaires d'événements ---
+  const toggleHeartbeat = () => {
+    const sound = heartSoundRef.current;
+    if (!sound) return;
+
+    if (isHeartbeatPlaying) {
+      sound.pause();
+    } else {
+      sound.play().catch(e => console.error("Heartbeat sound error:", e));
+    }
+    setIsHeartbeatPlaying(!isHeartbeatPlaying);
+  };
+
+  const handleMicAccess = async () => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      alert("Votre navigateur ne supporte pas l'accès au microphone.");
+      setMicStatus('error');
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Le micro est actif. Ici, vous intégreriez la logique du vocoder.
+      setMicStatus('active');
+      console.log("Microphone accessible. Stream:", stream);
+      // NOTE: Le stream doit être géré (par ex. stoppé) pour libérer le micro.
+    } catch (err) {
+      console.error("Erreur d'accès au microphone:", err);
+      setMicStatus('error');
+    }
+  };
+  
+  const handleSignFeature = () => {
+    alert(getTranslationPath('agentHeartPage.packageSign.description', language));
+  };
+
+
+  // --- Variables de style (inchangées) ---
   const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff';
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const cardBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8';
@@ -125,49 +138,58 @@ const PaquetagesMilitairesPage: React.FC = () => {
       } as React.CSSProperties}
     >
       <h1 className={styles.headline}>
-        {getTranslationPath('packagesPage.headline', language)}
+        {getTranslationPath('agentHeartPage.headline', language)}
       </h1>
       <p className={styles.intro}>
-        {getTranslationPath('packagesPage.intro', language)}
+        {getTranslationPath('agentHeartPage.intro', language)}
       </p>
 
       <div className={styles.packagesGrid}>
-        {/* Paquetage Cadet */}
+        {/* Module Cœur */}
         <div className={styles.packageCard}>
+          <FaHeartbeat className={styles.packageIcon} />
           <h2 className={styles.packageName}>
-            {getTranslationPath('packagesPage.packageCadet.name', language)}
+            {getTranslationPath('agentHeartPage.packageHeart.name', language)}
           </h2>
           <p className={styles.packageDescription}>
-            {getTranslationPath('packagesPage.packageCadet.description', language)}
+            {getTranslationPath('agentHeartPage.packageHeart.description', language)}
           </p>
-          <button className={styles.packageCta}>
-            {getTranslationPath('packagesPage.packageCadet.cta', language)}
+          <button className={styles.packageCta} onClick={toggleHeartbeat}>
+            {isHeartbeatPlaying 
+              ? getTranslationPath('agentHeartPage.packageHeart.ctaStop', language)
+              : getTranslationPath('agentHeartPage.packageHeart.cta', language)
+            }
           </button>
         </div>
 
-        {/* Paquetage Opérateur */}
+        {/* Module Voix */}
         <div className={styles.packageCard}>
+          <FaMicrophoneAlt className={styles.packageIcon} />
           <h2 className={styles.packageName}>
-            {getTranslationPath('packagesPage.packageOperative.name', language)}
+            {getTranslationPath('agentHeartPage.packageVoice.name', language)}
           </h2>
           <p className={styles.packageDescription}>
-            {getTranslationPath('packagesPage.packageOperative.description', language)}
+            {getTranslationPath('agentHeartPage.packageVoice.description', language)}
           </p>
-          <button className={styles.packageCta}>
-            {getTranslationPath('packagesPage.packageOperative.cta', language)}
+          <button className={styles.packageCta} onClick={handleMicAccess} disabled={micStatus === 'active'}>
+            {micStatus === 'active'
+              ? getTranslationPath('agentHeartPage.packageVoice.ctaActive', language)
+              : getTranslationPath('agentHeartPage.packageVoice.cta', language)
+            }
           </button>
         </div>
 
-        {/* Paquetage Officier */}
+        {/* Module Langage des Signes */}
         <div className={styles.packageCard}>
+          <FaHands className={styles.packageIcon} />
           <h2 className={styles.packageName}>
-            {getTranslationPath('packagesPage.packageOfficer.name', language)}
+            {getTranslationPath('agentHeartPage.packageSign.name', language)}
           </h2>
           <p className={styles.packageDescription}>
-            {getTranslationPath('packagesPage.packageOfficer.description', language)}
+            {getTranslationPath('agentHeartPage.packageSign.description', language)}
           </p>
-          <button className={styles.packageCta}>
-            {getTranslationPath('packagesPage.packageOfficer.cta', language)}
+          <button className={styles.packageCta} onClick={handleSignFeature}>
+            {getTranslationPath('agentHeartPage.packageSign.cta', language)}
           </button>
         </div>
       </div>
@@ -175,4 +197,4 @@ const PaquetagesMilitairesPage: React.FC = () => {
   );
 };
 
-export default PaquetagesMilitairesPage;
+export default AgentCorePage;

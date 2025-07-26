@@ -500,3 +500,112 @@ Ce planning est maintenant hyper-détaillé et se concentre sur les aspects audi
     display: block;
   }
 }
+/*
+========================================================
+   STYLES POUR LE MENU DÉROULANT DU BOUTON COEUR
+========================================================
+*/
+
+/* AJOUT : Le conteneur qui ancre le menu au-dessus du bouton. */
+.heartButtonContainer {
+  position: relative;
+  display: inline-block; /* Pour qu'il prenne juste la taille du bouton */
+}
+
+/* MODIFICATION COMPLÈTE : Le style du menu déroulant. */
+.dropdown {
+  /* Positionnement absolu par rapport à .heartButtonContainer */
+  position: absolute;
+
+  /* Se place juste au-dessus du bouton avec une marge de 8px */
+  bottom: calc(100% + 8px); 
+  
+  /* Se centre horizontalement au-dessus du bouton */
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* Largeur fixe et indépendante de toute sidebar */
+  width: 250px; 
+  
+  z-index: 1500;
+  background-color: var(--bg-sidebar-color); /* Assurez-vous que la variable est définie */
+  border: 1px solid var(--border-color-global);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px var(--shadow-color-global);
+  
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Nécessaire pour l'animation et les coins arrondis */
+
+  /* Vous pouvez ajouter une animation d'apparition si vous le souhaitez */
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
+/* --- Le reste de votre CSS pour le contenu du menu est BON, on le garde --- */
+/* (Section profil, effet de dépliage, liens de menu, etc.) */
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  background: var(--color-background-secondary-global);
+  border-bottom: 1px solid var(--border-color-global);
+  cursor: pointer;
+}
+
+.chevronIcon {
+  margin-left: auto;
+  transition: transform 0.3s ease-in-out;
+}
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.collapsibleContent {
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+.contentClosed {
+  max-height: 0;
+}
+.contentOpen {
+  max-height: 500px; /* Assez grand pour tout le contenu */
+}
+
+.menuList {
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--text-primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.menuItem:hover {
+  background-color: var(--hover-bg-color);
+}
