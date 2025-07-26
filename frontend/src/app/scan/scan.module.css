@@ -11,7 +11,147 @@
   --page-bg-color: #f0f2f5;
   --text-primary-color: #111;
   --text-secondary-color: #666;
-  --font-courier-prime-global: 'Courier Prime', monospace;
+  --font-courier-prime-global: 'Courier Prime', monospace;Branche de Travail : wellington
+Phase 0 : Stabilisation & UI Actuelle (Confirmée)
+
+    Objectif : Valider que la base actuelle est stable et que l'UI visible (incluant les icônes Mic, Cœur, Plus, et Bullhorn) est fonctionnelle.
+
+    Statut : Confirmé par la capture d'écran. Les routes /drive (bouton +) et /paquetages-militaires (bouton FaHeart) sont en place.
+
+Phase 1 : Analyse Concurrentielle & Stratégie Produit
+
+    Objectif : Valider la différenciation du "Superagent Wellington" et affiner la proposition de valeur et le pricing des "Paquetages Militaires".
+
+    Statut : En cours (vous faites votre benchmark du marché).
+
+Tâches Clés :
+
+    1.1 : Identification et Caractérisation des Concurrents Clés
+
+    1.2 : Benchmark des Fonctionnalités
+
+    1.3 : Tests "Mains dans le Cambouis"
+
+    1.4 : Analyse des Stratégies de Pricing et Monétisation
+
+    1.5 : Positionnement du "Superagent Wellington" & Affinement Stratégique
+
+Estimation : 2-3 jours
+Phase 2 : Frontend - Capacités Multimodales Audio (Le Point de Focalisation Actuel)
+
+    Objectif : Finaliser l'entrée et la sortie audio du chat pour une expérience utilisateur immersive et distinctive.
+
+    Impact : Donne la signature "Daft Punk" et "Sirène" à votre Superagent.
+
+Tâches Clés :
+
+    2.1 : Micro Vocoder "Daft Punk" (Input Vocal) :
+
+        Objectif : L'utilisateur parle dans le micro et entend sa voix transformée en temps réel, puis le texte apparaît dans la barre de saisie.
+
+        Technologie : Web Audio API (getUserMedia, AnalyserNode, OscillatorNode, BiquadFilterNode, GainNode) et Web Speech API (SpeechRecognition).
+
+        Implémentation : Finaliser la fonction handleMicClick dans scan/page.tsx pour :
+
+            Demander l'accès au micro.
+
+            Mettre en place le graphe Web Audio API pour le vocoder en temps réel. (C'est la partie "Daft Punk" la plus technique).
+
+            Démarrer la SpeechRecognition pour la transcription vocale.
+
+        Feedback UI : L'icône FaMicrophone doit changer de couleur (isRecording).
+
+    2.2 : Voicebox "Sirène" (Output Vocal) :
+
+        Objectif : L'agent "parle" ses réponses avec une voix synthétique et un effet de transmission.
+
+        Technologie : Web Speech API (SpeechSynthesisUtterance).
+
+        Implémentation : Finaliser la fonction speakAgentResponse dans scan/page.tsx. Assurer que le bouton FaBullhorn (qui est déjà visible) déclenche cette lecture.
+
+        Ajustement Audio : Affiner les paramètres de voix (pitch, rate) pour obtenir l'effet "sirène/transmission radio" souhaité.
+
+    2.3 : Finalisation des Sons (Restants) & Paywall :
+
+        Objectif : S'assurer que tous les sons sont correctement intégrés et que la logique de paywall est fonctionnelle.
+
+        Implémentation : Confirmer le son upload_image.mp3 sur le bouton FaPaperclip. Finaliser la logique de simulation de paywall avec old-church-bell.mp3 après un certain nombre de messages (déclenché dans handleSendMessage).
+
+Vérification : Le chat est pleinement multimodal (texte, audio input/output), tous les sons sont intégrés, et le paywall est simulé.
+
+Estimation : 3-5 jours (le vocoder en temps réel est la partie la plus technique ici)
+Phase 3 : Backend Global & Agentic Core (avec Revue GCP Approfondie)
+
+    Objectif : Développer toutes les APIs backend nécessaires et intégrer l'agent SigGemma via Hugging Face.
+
+Tâches Clés :
+
+    3.1 : Revue GCP - Préparation de l'Environnement Cloud (Skills Boost)
+
+        Comprendre les concepts de projets GCP, facturation, IAM.
+
+    3.2 : Backend - Authentification et Gestion Utilisateur (Flask)
+
+        Construire les APIs pour l'inscription, la connexion (JWT), la déconnexion, le profil, et la réinitialisation de mot de passe.
+
+        Choisir et configurer une base de données.
+
+    3.3 : Backend - Drive & Fichiers (Flask & Cloud Storage)
+
+        Construire les APIs pour l'upload, la liste, le téléchargement, la suppression de fichiers.
+
+        Intégrer Google Cloud Storage.
+
+    3.4 : Backend - Agentic Core (SigGemma & Hugging Face)
+
+        Obtenir et sécuriser l'API Key Hugging Face.
+
+        Modifier l'API Flask (main.py) pour appeler l'API Inference de Hugging Face (endpoint SigGemma), en gérant l'historique de conversation.
+
+        Insérer le "System Prompt" précis pour A.L.A.N. (Rôle, Personnalité, Tâche, Garde-fous).
+
+    3.5 : Spécialisation "Réseaux Sociaux" (Prompt Engineering) :
+
+        Définir des prompts SigGemma qui exploitent les capacités d'analyse des réseaux sociaux.
+
+Vérification : Toutes les APIs backend fonctionnent localement et se connectent à leurs services respectifs. L'agent répond avec SigGemma.
+
+Estimation : 7-10 jours
+Phase 4 : Déploiement GCP & Stores, Optimisation & Présentation
+
+    Objectif : Rendre l'application robuste, performante, déployée sur GCP, et prête pour une présentation percutante et une publication sur les stores.
+
+Tâches Clés :
+
+    4.1 : Revue GCP - Déploiement Conteneurisé (Skills Boost)
+
+        Conteneuriser toutes vos APIs Flask et les déployer sur Google Cloud Run.
+
+    4.2 : Revue GCP - Monitoring, Logging & Quotas (Skills Boost)
+
+        Mettre en place la surveillance de votre API Flask et de l'utilisation de Hugging Face/GCP.
+
+    4.3 : Optimisation et Performance Globale :
+
+        Analyser et optimiser la latence de bout en bout.
+
+    4.4 : Déploiement PWA ("Installable Web App") :
+
+        Confirmer la fonctionnalité PWA et le bouton "Installer l'App".
+
+    4.5 (Extension) : Déploiement sur App Stores via Native Wrapper :
+
+        Envelopper votre PWA Next.js (avec Capacitor) pour Android et soumettre au Google Play Store (en utilisant votre voucher !).
+
+    4.6 : Préparation pour la Présentation (MVP Avancé) :
+
+        Documentation du Projet, préparation du discours et de la démo.
+
+Vérification : Un Superagent opérationnel, stable, performant, déployé sur GCP et les stores.
+
+Estimation : 4-6 jours
+
+Ce planning est maintenant hyper-détaillé et se concentre sur les aspects audio et back-end que vous voulez activer. C'est un excellent chemin pour finaliser le Superagent !
   --bg-sidebar-color: #fff;
   --border-color-global: #ddd;
   --shadow-color-global: rgba(0, 0, 0, 0.1);
@@ -302,11 +442,22 @@
 }
 
 /* Icônes stylées */
+/* Fichier: src/app/scan/scan.module.css */
+
+/* ... (vos styles existants) ... */
+
 .gramophoneIcon {
-  filter: grayscale(1) contrast(0) brightness(0.6);
-  transition: filter 0.3s ease;
+  /* ✅ NOUVEAU FILTRE : Rendra l'icône grise en permanence */
+  filter: grayscale(150%) brightness(1.2); /* Rendre gris et légèrement plus lumineux */
+  transition: filter 0.3s ease, opacity 0.3s ease; /* Ajout d'une transition sur l'opacité */
 }
 
+/* Vous pouvez ajouter une classe pour le mode "muet" pour contrôler l'opacité */
+.gramophoneIconMuted {
+  opacity: 0.1;
+}
+
+/* ... (le reste de vos styles) ... */
 /* MEDIA QUERIES */
 
 @media (max-width: 768px) {

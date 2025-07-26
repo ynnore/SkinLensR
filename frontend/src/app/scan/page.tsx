@@ -5,12 +5,10 @@ export const dynamic = "force-dynamic";
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import styles from './scan.module.css';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link'; // Ajout de Link pour la navigation
+import Link from 'next/link';
 
-import { FaMicrophone, FaPlus, FaHeart } from "react-icons/fa"; // Importation des icônes de la bibliothèque 'fa'
-import { VscArrowUp } from "react-icons/vsc"; // Importation de l'icône flèche vers le haut
-
-
+import { FaPlus, FaHeart } from "react-icons/fa";
+import { VscArrowUp } from "react-icons/vsc";
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
@@ -59,7 +57,7 @@ interface Message {
   content: string;
 }
 
-// ✅ TRADUCTIONS COMPLÈTES (ajout common.tools)
+// === Traductions ===
 const allTranslations = {
   header: {
     missionStatement: {
@@ -139,132 +137,18 @@ const allTranslations = {
       'en-AU': 'Military Packages', 'en-NZ': 'Military Packages', 'en-CA': 'Military Packages', 'fr-CA': 'Paquetages Militaires', 'en-ZA': 'Militêre Pakkette', af: 'Militêre Pakkette',
     },
   },
-  welcome: {
-    headline: {
-      en: "Operation W", fr: "Opération W", mi: "Operesihona W", ga: "Oibríocht W", hi: "ऑपरेशन डब्ल्यू", gd: "Obrachadh W", cy: "Ymgyrch W",
-      'en-AU': "Operation W", 'en-NZ': "Operation W", 'en-CA': "Operation W", 'fr-CA': "Opération W", 'en-ZA': "Operasie W", af: "Operasie W",
-    },
-    watch: {
-      en: 'Watch', fr: 'Regarder', mi: 'Mātakitaki', ga: 'Féach', hi: 'देखो', gd: 'Coimhead', cy: 'Gwylio',
-      'en-AU': 'Watch', 'en-NZ': 'Watch', 'en-CA': 'Watch', 'fr-CA': 'Regarder', 'en-ZA': 'Watch', af: 'Kyk',
-    },
-    intro: {
-       en: 'Getting started with Operation W',
-      fr: 'Bien démarrer avec Opération W',
-      mi: 'Kei te timata ki Operation W',
-      ga: 'Ag tosú le Operation W',
-      hi: 'ऑपरेशन डब्ल्यू के साथ शुरुआत करना',
-      gd: 'A\' tòiseachadh le Operation W',
-      cy: 'Dechrau gyda Ymgyrch W',
-      'en-AU': 'Getting started with Operation W', 'en-NZ': 'Getting started with Operation W', 'en-CA': 'Getting started with Operation W', 'fr-CA': 'Bien démarrer avec Opération W', 'en-ZA': 'Begin met Operasie W', af: 'Begin met Operasie W',
-    },
-    inputBar: {
-      en: 'Type here to give a task to Agent K',
-      fr: "Tapez ici une tâche à confier à l'Agent K",
-      mi: 'Tāpaea tēnei ki Agent K',
-      ga: 'Clóscríobh anseo chun tasc a thabhairt do Agent K',
-      hi: 'यहां एजेंट के को एक कार्य देने के लिए टाइप करें',
-      gd: 'Sgrìobh an here gus gnìomh a thoirt do Agent K',
-      cy: 'Teipiwch yma i roi tasg i Asiant K',
-      'en-AU': 'Type here to give a task to Agent K', 'en-NZ': 'Type here to give a task to Agent K', 'en-CA': 'Type here to give a task to Agent K', 'fr-CA': "Tapez ici une tâche à confier à l'Agent K", 'en-ZA': 'Tik hier om Agent K \'n taak te gee', af: 'Tik hier om Agent K \'n taak te gee',
-    },
-  },
-  packagesPage: {
-    packageCadet: {
-      name: { 
-        en: "Cadet Package", fr: "Pack Cadet", mi: "Mōkī Kāreti", 
-        ga: "Pacáiste Caidéata", hi: "कैडेट पैकेज", gd: "Pasgan Cadet", cy: "Pecyn Cadet",
-        'en-AU': "Cadet Package", 'en-NZ': "Cadet Package", 'en-CA': "Cadet Package", 
-        'fr-CA': "Pack Cadet", 'en-ZA': "Kadet Pakket", af: "Kadet Pakket"
-      },
-      description: { 
-        en: "Basic social media analysis. Ideal for reconnaissance.", 
-        fr: "Analyse de base des réseaux sociaux. Idéal pour la reconnaissance.", 
-        mi: "Tātari pāpāho pāpori taketake. He pai mō te tirotiro.", 
-        ga: "Bun-anailís meán sóisialta. Ideal le haghaidh taiscéalaíochta.", 
-        hi: "बुनियादी सोशल मीडिया विश्लेषण। टोही के लिए आदर्श।", 
-        gd: "Bun-sgrùdadh meadhanan sòisealta. Feumail airson rannsachaidh.", 
-        cy: "Dadansoddiad cyfryngau cymdeithasol sylfaenol. Delfrydol ar gyfer cydnabod." 
-      },
-      cta: { 
-        en: "Access Briefing", fr: "Accéder au Briefing", mi: "Tuku Whakawāhanga", 
-        ga: "Rochtain ar an Fhaisnéis", hi: "ब्रीफिंग तक पहुंच", 
-        gd: "Faigh Cothrom air an Fhiosrachadh", cy: "Mynediad i Friffio" 
-      }
-    },
-    packageOperative: {
-      name: { 
-        en: "Operative Package", fr: "Pack Opératif", mi: "Mōkī Kaiwhakahaere", 
-        ga: "Pacáiste Oibrí", hi: "ऑपरेटिव पैकेज", gd: "Pasgan Obrach", cy: "Pecyn Gweithredol",
-        'en-AU': "Operative Package", 'en-NZ': "Operative Package", 'en-CA': "Operative Package", 
-        'fr-CA': "Pack Opératif", 'en-ZA': "Operatiewe Pakket", af: "Operatiewe Pakket"
-      },
-      description: { 
-        en: "Deep dives into social trends, sentiment analysis, tactical content suggestions.", 
-        fr: "Plongées profondes dans les tendances sociales, analyse de sentiment, suggestions de contenu tactiques.", 
-        mi: "Rukunga hōhonu ki ngā ia pāpori, tātari kare-ā-roto, whakaaro ihirangi rautaki.", 
-        ga: "Tumadóireachtaí doimhne isteach i dtreochtaí sóisialta, anailís ar thuairimí, moltaí ábhair thaicticeacha.", 
-        hi: "सोशल ट्रेंड्स में गहरी डुबकी, भावना विश्लेषण, सामरिक सामग्री सुझाव।", 
-        gd: "Dàibhidhean domhainn a-steach do ghluasadan sòisealta, mion-sgrùdadh faireachdainn, molaidhean susbaint innleachdach.", 
-        cy: "Plymio dwfn i dueddiadau cymdeithasol, dadansoddiad teimladau, awgrymiadau cynnwys tactegol." 
-      },
-      cta: { 
-        en: "Activate Toolkit", fr: "Activer le Kit d'Outils", mi: "Whakahohe Pouaka Taputapu", 
-        ga: "Gníomhaigh an Trealamh", hi: "टूलकिट सक्रिय करें", 
-        gd: "Cuir an Inneal an Gnìomh", cy: "Ysgogi Pecyn Offer" 
-      }
-    },
-    packageOfficer: {
-      name: { 
-        en: "Strategic Command", fr: "Commandement Stratégique", mi: "Whakahau Rautaki", 
-        ga: "Ceannasaíocht Straitéiseach", hi: "रणनीतिक कमांड", gd: "Òrdugh Ro-innleachdail", cy: "Gorchymyn Strategol",
-        'en-AU': "Strategic Command", 'en-NZ': "Strategic Command", 'en-CA': "Strategic Command", 
-        'fr-CA': "Commandement Stratégique", 'en-ZA': "Strategiese Bevel", af: "Strategiese Bevel"
-      },
-      description: { 
-        en: "Predictive analytics, full profile audits, AI-driven content generation.", 
-        fr: "Analyse prédictive, audits de profil complets, génération de contenu par IA.", 
-        mi: "Tātari matapae, arotake kōtaha katoa, hanga ihirangi nā AI.", 
-        ga: "Anailís thuarthach, iniúchtaí próifíle iomlána, giniúint ábhair atá tiomáinte ag AI.", 
-        hi: "भविष्य कहनेवाला विश्लेषण, पूर्ण प्रोफ़ाइल ऑडिट, एआई-संचालित सामग्री निर्माण।", 
-        gd: "Mion-sgrùdadh ro-innleachdail, sgrùdaidhean làn-phròifil, ginealach susbaint air a stiùireadh le AI.", 
-        cy: "Dadansoddiadau rhagfynegol, archwiliadau proffil llawn, cynhyrchu cynnwys a yrrir gan AI." 
-      },
-      cta: { 
-        en: "Request Access", fr: "Demander l'Accès", mi: "Tono Uru", 
-        ga: "Iarr Rochtain", hi: "पहुंच का अनुरोध करें", 
-        gd: "Iarr Cothrom", cy: "Gofyn Mynediad" 
-      }
-    },
-  },
-  // Nouvelle section pour les termes communs
-  common: {
-    tools: {
-      en: "tools",
-      fr: "outils",
-      mi: "taputapu",
-      ga: "uirlisí",
-      hi: "उपकरण",
-      gd: "inneal",
-      cy: "offer",
-      'en-AU': "tools", 'en-NZ': "tools", 'en-CA': "tools", 
-      'fr-CA': "outils", 'en-ZA': "tools", af: "tools"
-    }
-  }
+  // ... (le reste de vos traductions)
 };
 
-// Fonction getTranslation améliorée pour gérer les sous-clés imbriquées
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
   const keys = keyPath.split('.');
   let value: any = allTranslations[section];
   
-  // Parcours des clés imbriquées
   for (const key of keys) {
     if (!value || typeof value !== 'object') break;
     value = value[key];
   }
 
-  // Gestion des erreurs
   if (typeof value !== 'object' || value === null || !('en' in value)) {
     console.warn(`Translation missing for: ${section}.${keyPath} in language ${language}`);
     return `[${keyPath}]`;
@@ -282,30 +166,30 @@ const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isAmbianceMuted, setIsAmbianceMuted] = useState(true);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const muteButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Sons initialisés uniquement côté client
-  const sounds = useRef<{ click?: HTMLAudioElement; send?: HTMLAudioElement; typing?: HTMLAudioElement; ambiance?: HTMLAudioElement }>({});
+  const sounds = useRef<{ click?: HTMLAudioElement; send?: HTMLAudioElement; typing?: HTMLAudioElement; ambiance?: HTMLAudioElement; heart?: HTMLAudioElement }>({});
 
   const currentAgent = agentDetails[language] || agentDetails.default;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       sounds.current.click = new Audio('/sounds/click_ui.mp3');
-      sounds.current.send = new Audio('/sounds/morse_signal.mp3');
+      sounds.current.send = new Audio('/sounds/send_telegram.mp3');
       sounds.current.typing = new Audio('/sounds/typewriter_key.mp3');
       sounds.current.ambiance = new Audio('/sounds/gramophone_music.mp3');
-
-      if (sounds.current.ambiance) {
-        sounds.current.click!.volume = 0.6;
-        sounds.current.send!.volume = 0.7;
-        sounds.current.typing!.volume = 0.5;
+      sounds.current.heart = new Audio('/sounds/like_sound.mp3');
+      
+      if (sounds.current.click && sounds.current.send && sounds.current.typing && sounds.current.ambiance) {
+        sounds.current.click.volume = 0.6;
+        sounds.current.send.volume = 0.7;
+        sounds.current.typing.volume = 0.5;
         sounds.current.ambiance.volume = 0.1;
         sounds.current.ambiance.loop = true;
-        sounds.current.ambiance.muted = isMuted;
+        sounds.current.ambiance.muted = isAmbianceMuted;
       }
     }
 
@@ -318,17 +202,31 @@ const ChatInterface: React.FC = () => {
   }, [language]);
 
   useEffect(() => {
-    if (sounds.current.ambiance) sounds.current.ambiance.muted = isMuted;
-  }, [isMuted]);
+    if (sounds.current.ambiance) {
+      sounds.current.ambiance.muted = isAmbianceMuted;
+    }
+  }, [isAmbianceMuted]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
   const playSound = (sound?: HTMLAudioElement) => {
-    if (!isMuted && sound) {
+    if (sound) {
       sound.currentTime = 0;
-      sound.play().catch(() => {});
+      sound.play().catch(error => console.error("Error playing sound:", error));
+    }
+  };
+  
+  const handleHeartClick = () => {
+    const heartSound = sounds.current.heart;
+    if (heartSound) {
+      playSound(heartSound);
+      heartSound.onended = () => {
+        router.push('/paquetages-militaires');
+      };
+    } else {
+      router.push('/paquetages-militaires');
     }
   };
 
@@ -365,25 +263,28 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className={styles.chatContainer} style={{ background: backgroundColor, color: textColor }}>
-      {/* HEADER */}
       <header className={styles.pageHeader}>
         <div className={styles.headerLeft}>
           <span>{getTranslation('header', 'missionStatement', language)}</span>
         </div>
         <div className={styles.headerRight}>
           <button ref={muteButtonRef} onClick={() => {
-            const mute = !isMuted;
-            setIsMuted(mute);
-            if (!mute && sounds.current.ambiance) {
-              sounds.current.ambiance.play().catch(() => {});
+            const newMuteState = !isAmbianceMuted;
+            setIsAmbianceMuted(newMuteState);
+            const ambianceSound = sounds.current.ambiance;
+            if (ambianceSound) {
+              if (!newMuteState && ambianceSound.paused) {
+                ambianceSound.play().catch(err => console.error("Ambiance play error:", err));
+              } else if (newMuteState) {
+                ambianceSound.pause();
+              }
             }
           }} className={styles.iconButton}>
-            <img src="/images/gramophone.svg" alt="Gramophone" width={24} height={24} style={{ opacity: isMuted ? 0.6 : 1 }} />
+            <img src="/images/gramophone.svg" alt="Gramophone" width={24} height={24} />
           </button>
         </div>
       </header>
 
-      {/* MESSAGES */}
       <div className={styles.messagesArea}>
         {messages.map((msg, idx) => (
           <div key={idx} className={msg.role === 'user' ? styles.userMessage : styles.assistantMessage}>
@@ -396,23 +297,14 @@ const ChatInterface: React.FC = () => {
 
        <footer className={styles.pageFooter}>
         <div className={styles.footerActionsLeft}>
-          {/* Bouton Microphone */}
-          <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
-            <FaMicrophone />
+          <button
+            className={styles.iconButton}
+            onClick={handleHeartClick}
+            aria-label="Enjoy"
+          >
+            <FaHeart />
           </button>
 
-          {/* Bouton Outils avec texte TOOLS et icône à droite */}
-  <Link href="/paquetages-militaires" passHref>
-  <button
-    className={styles.iconButton}
-    onClick={() => playSound(sounds.current.click)}
-    aria-label="Enjoy"
-  >
-    <FaHeart />
-  </button>
-</Link>
-
-         {/* Bouton Plus avec lien vers Drive */}
           <Link href="/drive" passHref>
             <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
               <FaPlus />
@@ -434,7 +326,6 @@ const ChatInterface: React.FC = () => {
         </div>
       </footer>
     </div>
-
   );
 };
 

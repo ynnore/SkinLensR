@@ -98,7 +98,7 @@ export default function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
         className={styles.mobileOpenButton}
         aria-label="Ouvrir la barre latérale"
       >
-        <FaFolderOpen />
+        <FaKey />
       </button>
 
       <div className={styles.header}>
