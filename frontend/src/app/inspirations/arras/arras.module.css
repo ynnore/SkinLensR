@@ -1,0 +1,91 @@
+/* Fichier: src/app/inspirations/arras/arras.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */ /* Centré verticalement si le contenu est court, sinon pas nécessaire */
+  min-height: calc(100vh - 120px); /* Ajustez si vous avez un header/footer fixe */
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--kiwi-background-page);
+  color: var(--kiwi-text-primary);
+  box-sizing: border-box; /* S'assurer que le padding est inclus dans la largeur/hauteur */
+}
+
+.headline {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--kiwi-highlight-color); /* Couleur spécifique au thème Arras */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.description {
+  font-size: 1.1rem;
+  max-width: 800px;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  color: var(--kiwi-text-primary);
+}
+
+.contentSection {
+  background-color: var(--kiwi-background-card);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  width: 100%; /* S'assurer qu'il prend toute la largeur disponible */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left; /* Aligner le texte à gauche dans les sections de contenu */
+}
+
+.contentSection h2 {
+  font-size: 2rem;
+  color: var(--kiwi-highlight-color);
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--kiwi-highlight-color-light);
+  padding-bottom: 0.5rem;
+}
+
+.contentSection p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--kiwi-text-primary);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  .headline {
+    font-size: 2.5rem;
+  }
+  .description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  .contentSection {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .contentSection h2 {
+    font-size: 1.7rem;
+  }
+  .contentSection p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: 2rem;
+  }
+  .contentSection {
+    padding: 1rem;
+  }
+  .contentSection h2 {
+    font-size: 1.5rem;
+  }
+}

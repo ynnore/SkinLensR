@@ -1,17 +1,18 @@
-// Fichier: src/app/stay-tuned-hub/page.tsx
 'use client';
 
-// CORRECTION : La faute de frappe "inuseState" est corrigée en "{ useState }"
 import React, { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { LanguageCode } from '@/types';
 import styles from './stay-tuned-hub.module.css';
 
-import { 
-    FaTwitter, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaTiktok, 
+import {
+    FaTwitter, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaTiktok,
     FaMapMarkerAlt, FaGlobe, FaSearch
 } from 'react-icons/fa';
+
+// Import de Link pour la navigation interne de Next.js
+import Link from 'next/link';
 
 // SVG minimaliste pour X (inchangé)
 const XIcon = ({ size = 18 }: { size?: number }) => (
@@ -20,26 +21,143 @@ const XIcon = ({ size = 18 }: { size?: number }) => (
     </svg>
 );
 
-// Objet de traduction (inchangé)
+// Objet de traduction COMPLET (AVEC LES NOUVELLES TRADUCTIONS POUR LES TITRES DE SECTION)
 const allTranslations = {
     stayTuned: {
-        headline: { en: 'Stay Tuned: Operation W Intel Hub', fr: 'Restez Connecté : Centre d\'Intel Opération W', /* ... */ },
-        intro: { en: 'Your direct line to classified intel, social updates, and our core inspirations.', fr: 'Votre ligne directe pour l\'intel classifié, les mises à jour sociales, et nos inspirations fondamentales.', /* ... */ },
-        socialsTab: { en: 'Social Intel', fr: 'Intel Social', /* ... */ },
-        inspirationsTab: { en: 'Our Inspirations', fr: 'Nos Inspirations', /* ... */ },
-        rechercheTab: { en: 'Search Archives', fr: 'Rechercher', mi: 'Rapu', ga: 'Cuardaigh', hi: 'खोजें', gd: 'Rannsaich', cy: 'Chwilio', 'fr-CA': 'Rechercher', af: 'Soek Argiewe', },
+        headline: {
+            en: 'Stay Tuned: Operation W Intel Hub',
+            fr: 'Restez Connecté : Centre d\'Intel Opération W',
+            mi: 'Noho Tūrei: Te Whare Intel Mahi W',
+            hi: 'बने रहें: ऑपरेशन डब्ल्यू इंटेल हब',
+            ga: 'Fan Tiúin: Mol Intel Oibríocht W',
+            gd: 'Fuirich Tionail: Iomairt W Ionad Fiosrachaidh',
+            'fr-CA': 'Restez à l\'affût : Centre d\'intel Opération W',
+            'en-AU': 'Stay Tuned: Operation W Intel Hub',
+            'en-CA': 'Stay Tuned: Operation W Intel Hub',
+            'en-NZ': 'Stay Tuned: Operation W Intel Hub',
+            'en-ZA': 'Stay Tuned: Operation W Intel Hub',
+            af: 'Bly Ingesteld: Operasie W Intel Hub',
+        },
+        intro: {
+            en: 'Your direct line to classified intel, social updates, and our core inspirations.',
+            fr: 'Votre ligne directe pour l\'intel classifié, les mises à jour sociales, et nos inspirations fondamentales.',
+            mi: 'Tō rārangi tika ki te mōhiohio huna, ngā whakahōutanga pāpori, me ō mātou whakahihiri matua.',
+            hi: 'वर्गीकृत इंटेल, सामाजिक अपडेट, और हमारी मुख्य प्रेरणाओं के लिए आपकी सीधी रेखा।',
+            ga: 'Do líne dhíreach chuig intel aicmithe, nuashonruithe sóisialta, agus ár n-inspioráidí lárnacha.',
+            gd: 'Do loidhne dhìreach gu fiosrachadh clasaichte, ùrachaidhean sòisealta, agus ar brosnachaidhean bunaiteach.',
+            'fr-CA': 'Votre ligne directe pour l\'intel classifié, les mises à jour sociales, et nos inspirations fondamentales.',
+            'en-AU': 'Your direct line to classified intel, social updates, and our core inspirations.',
+            'en-CA': 'Your direct line to classified intel, social updates, and our core inspirations.',
+            'en-NZ': 'Your direct line to classified intel, social updates, and our core inspirations.',
+            'en-ZA': 'Your direct line to classified intel, social updates, and our core inspirations.',
+            af: 'U direkte lyn na geklassifiseerde intel, sosiale opdaterings, en ons kerninspirasies.',
+        },
+        socialsTab: {
+            en: 'Social Intel',
+            fr: 'Intel Social',
+            mi: 'Intel Hapori',
+            hi: 'सामाजिक इंटेल',
+            ga: 'Intel Sóisialta',
+            gd: 'Intel Sòisealta',
+            cy: 'Gwybodaeth Gymdeithasol',
+            'fr-CA': 'Intel Social',
+            af: 'Sosiale Intel',
+        },
+        inspirationsTab: { // Ce libellé est utilisé pour l'onglet ET le titre de section
+            en: 'Our Inspirations',
+            fr: 'Nos Inspirations',
+            mi: 'Ō Mātou Whakahihiri',
+            hi: 'हमारी प्रेरणाएँ',
+            ga: 'Ár nInspioráidí',
+            gd: 'Na Brosnachaidhean Againn',
+            cy: 'Ein Hysbrydoliaethau',
+            'fr-CA': 'Nos Inspirations',
+            af: 'Ons Inspirasies',
+        },
+        rechercheTab: {
+            en: 'Search Archives',
+            fr: 'Rechercher',
+            mi: 'Rapu',
+            ga: 'Cuardaigh',
+            hi: 'खोजें',
+            gd: 'Rannsaich',
+            cy: 'Chwilio',
+            'fr-CA': 'Rechercher',
+            af: 'Soek Argiewe',
+        },
+        // NOUVELLE CLÉ DE TRADUCTION POUR LE TITRE DE LA SECTION SOCIALS
+        socialSectionTitle: {
+            en: 'Mission Social Networks',
+            fr: 'Réseaux Sociaux de la Mission',
+            mi: 'Ngā Whatunga Pāpori Misioni',
+            hi: 'मिशन सोशल नेटवर्क',
+            ga: 'Líonraí Sóisialta Misean',
+            gd: 'Lìonraidhean Sòisealta Misean',
+            'fr-CA': 'Réseaux Sociaux de la Mission',
+            af: 'Sending Sosiale Netwerke',
+        },
     },
     inspirations: {
-        wellingtonTunnelers: { en: 'Wellington Tunnelers (Arras)', fr: 'Tunneliers de Wellington (Arras)' },
-        notreDameLorette: { en: 'Notre-Dame-de-Lorette (French National Necropolis)', fr: 'Nécropole Nationale de Notre-Dame-de-Lorette' },
+        arrasMemorials: {
+            en: 'Arras (General Memorials)',
+            fr: 'Arras (Mémoriaux Généraux)',
+            mi: 'Arras (Ngā Mahara Whānui)',
+            hi: 'अर्रास (सामान्य स्मारक)',
+            ga: 'Arras (Cuimneacháin Ghinearálta)',
+            gd: 'Arras (Carragh-cuimhne Coitcheann)',
+        },
+        wellingtonTunnelers: {
+            en: 'Wellington Tunnelers (Strategic Communication)',
+            fr: 'Tunneliers de Wellington (Communication Stratégique)',
+            mi: 'Ngā Tunneler o Pōneke (Whakawhiti Kōrero Rautaki)',
+            hi: 'वेलिंगटन सुरंगकर्मी (रणनीतिक संचार)',
+            ga: 'Tollánairí Wellington (Cumarsáid Straitéiseach)',
+            gd: 'Cladhairean Wellington (Conaltradh Ro-innleachdail)',
+        },
+        notreDameLorette: {
+            en: 'Notre-Dame-de-Lorette (French National Necropolis)',
+            fr: 'Nécropole Nationale de Notre-Dame-de-Lorette',
+            mi: 'Nécropole Nationale de Notre-Dame-de-Lorette',
+            hi: 'नोत्र-दाम-डे-लोरेट (फ्रांसीसी राष्ट्रीय कब्रिस्तान)',
+            ga: 'Nécropole Nationale de Notre-Dame-de-Lorette',
+            gd: 'Nécropole Nationale de Notre-Dame-de-Lorette',
+        },
         wellingtonUrl: 'https://en.wikipedia.org/wiki/Wellington_Tunnel',
         loretteUrl: 'https://en.wikipedia.org/wiki/Notre-Dame-de-Lorette_French_National_Cemetery',
     },
     recherche: {
-        headline: { en: 'Search Mission Archives', fr: 'Rechercher dans les Archives' },
-        placeholder: { en: 'Enter keyword, agent name, or mission date...', fr: 'Entrez un mot-clé, nom d\'agent, ou date de mission...' },
-        loading: { en: 'Searching classified archives...', fr: 'Recherche dans les archives classifiées...' },
-        noResults: { en: 'No documents found for', fr: 'Aucun document trouvé pour' },
+        headline: {
+            en: 'Search Mission Archives',
+            fr: 'Rechercher dans les Archives',
+            mi: 'Rapu i ngā Putunga Misioni',
+            hi: 'मिशन अभिलेखागार खोजें',
+            ga: 'Cuardaigh Cartlanna Misin',
+            gd: 'Rannsaich Tasglannan Misean',
+        },
+        placeholder: {
+            en: 'Enter keyword, agent name, or mission date...',
+            fr: 'Entrez un mot-clé, nom d\'agent, ou date de mission...',
+            mi: 'Whakauruhia he kupumatua, ingoa kaihoko, rā misioni rānei...',
+            hi: 'कीवर्ड, एजेंट का नाम, या मिशन की तारीख दर्ज करें...',
+            ga: 'Cuir isteach eochairfhocal, ainm gníomhaire, nó dáta misin...',
+            gd: 'Cuir a-steach facal-luirg, ainm riochdaire, no ceann-latha misean...',
+        },
+        loading: {
+            en: 'Searching classified archives...',
+            fr: 'Recherche dans les archives classifiées...',
+            mi: 'Te rapu i ngā putunga huna...',
+            hi: 'वर्गीकृत अभिलेखागार खोज रहा है...',
+            ga: 'Ag cuardach cartlann aicmithe...',
+            gd: 'A\' rannsachadh tasglannan clasaichte...',
+        },
+        noResults: {
+            en: 'No documents found for',
+            fr: 'Aucun document trouvé pour',
+            mi: 'Karekau he tuhinga i kitea mo',
+            hi: 'के लिए कोई दस्तावेज़ नहीं मिला',
+            ga: 'Níor aimsíodh aon doiciméad do',
+            gd: 'Cha deach sgrìobhainn sam bith a lorg airson',
+        },
     },
 };
 
@@ -83,8 +201,8 @@ const StayTunedHubPage: React.FC = () => {
     const highlightColor = theme === 'dark' ? '#0070f3' : '#0070f3';
 
     return (
-        <div 
-            className={styles.container} 
+        <div
+            className={styles.container}
             style={{
                 '--kiwi-background-page': backgroundColor,
                 '--kiwi-text-primary': textColor,
@@ -98,19 +216,19 @@ const StayTunedHubPage: React.FC = () => {
                 <p className={styles.intro}>{getTranslation('stayTuned', 'intro', language)}</p>
 
                 <div className={styles.tabsContainer}>
-                    <button 
+                    <button
                         className={`${styles.tabButton} ${activeTab === 'socials' ? styles.activeTab : ''}`}
                         onClick={() => setActiveTab('socials')}
                     >
                         {getTranslation('stayTuned', 'socialsTab', language)}
                     </button>
-                    <button 
+                    <button
                         className={`${styles.tabButton} ${activeTab === 'inspirations' ? styles.activeTab : ''}`}
                         onClick={() => setActiveTab('inspirations')}
                     >
                         {getTranslation('stayTuned', 'inspirationsTab', language)}
                     </button>
-                    <button 
+                    <button
                         className={`${styles.tabButton} ${activeTab === 'recherche' ? styles.activeTab : ''}`}
                         onClick={() => setActiveTab('recherche')}
                     >
@@ -121,7 +239,8 @@ const StayTunedHubPage: React.FC = () => {
                 <div className={styles.tabContent}>
                     {activeTab === 'socials' && (
                         <div className={styles.tabPanel}>
-                            <h2 className={styles.panelTitle}>Réseaux Sociaux de la Mission</h2>
+                            {/* Titre traduit pour les réseaux sociaux */}
+                            <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'socialSectionTitle', language)}</h2>
                             <ul className={styles.socialList}>
                                 <li><a href="https://x.com/KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><XIcon /><span>X (Twitter)</span></a></li>
                                 <li><a href="https://youtube.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaYoutube /><span>YouTube</span></a></li>
@@ -136,10 +255,30 @@ const StayTunedHubPage: React.FC = () => {
 
                     {activeTab === 'inspirations' && (
                         <div className={styles.tabPanel}>
-                            <h2 className={styles.panelTitle}>Nos Racines Opérationnelles</h2>
+                            {/* Titre remplacé par "Nos Inspirations" via la clé de traduction */}
+                            <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'inspirationsTab', language)}</h2>
                             <ul className={styles.inspirationList}>
-                                <li><a href={getTranslation('inspirations', 'wellingtonUrl', language)} target="_blank" rel="noopener noreferrer" className={styles.inspirationLink}><FaMapMarkerAlt /><span>{getTranslation('inspirations', 'wellingtonTunnelers', language)}</span></a></li>
-                                <li><a href={getTranslation('inspirations', 'loretteUrl', language)} target="_blank" rel="noopener noreferrer" className={styles.inspirationLink}><FaGlobe /><span>{getTranslation('inspirations', 'notreDameLorette', language)}</span></a></li>
+                                {/* Lien pour Arras (Mémoriaux généraux) */}
+                                <li>
+                                    <Link href="/inspirations/arras" className={styles.inspirationLink}>
+                                        <FaMapMarkerAlt />
+                                        <span>{getTranslation('inspirations', 'arrasMemorials', language)}</span>
+                                    </Link>
+                                </li>
+                                {/* Lien pour Wellington Tunnelers (Stratégie) */}
+                                <li>
+                                    <Link href="/inspirations/wellington" className={styles.inspirationLink}>
+                                        <FaMapMarkerAlt />
+                                        <span>{getTranslation('inspirations', 'wellingtonTunnelers', language)}</span>
+                                    </Link>
+                                </li>
+                                {/* Lien pour Notre-Dame de Lorette */}
+                                <li>
+                                    <Link href="/inspirations/lorette" className={styles.inspirationLink}>
+                                        <FaGlobe />
+                                        <span>{getTranslation('inspirations', 'notreDameLorette', language)}</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
                     )}
