@@ -22,3 +22,4 @@ yarn-error.log*
 .env*.local
 .vercel
 .gitattributes
+frontend.code-workspace

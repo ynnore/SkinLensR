@@ -92,7 +92,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* Social List */
+/* Social List (inchangé) */
 .socialList {
   list-style: none;
   padding: 0;
@@ -121,7 +121,7 @@
   font-size: 1.5rem; 
 }
 
-/* Inspiration List */
+/* Inspiration List (inchangé) */
 .inspirationList {
   list-style: none;
   padding: 0;
@@ -144,33 +144,66 @@
   text-decoration: underline;
 }
 
-/* Styles pour la liste des réussites */
-.achievementsList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  text-align: left; /* Alignement à gauche pour la liste */
-}
+/* SUPPRIMÉ : Les anciens styles pour .achievementsList ne sont plus nécessaires */
 
-.achievementsList li {
+
+/* AJOUTÉ : Nouveaux styles pour la barre de recherche */
+.searchWrapper {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  font-size: 1.1rem;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--kiwi-background-page);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 8px;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0.75rem;
+  color: var(--kiwi-text-primary);
+  font-size: 1rem;
+}
+
+.searchInput::placeholder {
+    color: var(--kiwi-text-secondary);
+}
+
+.searchButton {
+  background: none;
+  border: none;
+  color: var(--kiwi-text-secondary);
+  cursor: pointer;
+  padding: 0.75rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.searchButton:hover {
+  background-color: var(--kiwi-hover-bg);
   color: var(--kiwi-text-primary);
 }
 
-.achievementsList li svg {
-  color: var(--kiwi-highlight-color); /* Couleur pour les icônes de succès */
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.searchButton svg {
+    font-size: 1.2rem;
+}
+
+.searchResults {
+  width: 100%;
+  text-align: left;
 }
 
 
-/* --- Mobile First (Base) --- */
+/* --- Responsive (Base) --- */
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
@@ -207,11 +240,51 @@
   .socialLink svg {
     font-size: 1.2rem;
   }
-  .achievementsList li {
-    font-size: 1rem;
-  }
+  /* SUPPRIMÉ : .achievementsList li n'est plus nécessaire ici */
+}
+/* AJOUT : Nouveaux styles pour les résultats de la recherche */
+.loadingMessage, .noResultsMessage {
+  color: var(--kiwi-text-secondary);
+  font-style: italic;
+  margin-top: 1rem;
 }
 
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.resultItem {
+  background-color: var(--kiwi-background-page);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resultItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.resultTitle {
+  font-size: 1.1rem;
+  color: var(--kiwi-highlight-color);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.resultSnippet {
+  font-size: 0.9rem;
+  color: var(--kiwi-text-secondary);
+  margin-bottom: 0;
+  line-height: 1.6;
+}
 /* Ajustements pour les tablettes */
 @media (min-width: 769px) and (max-width: 1024px) {
   .tabButton {
