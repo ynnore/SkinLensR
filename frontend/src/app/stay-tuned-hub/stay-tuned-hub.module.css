@@ -285,6 +285,132 @@
   margin-bottom: 0;
   line-height: 1.6;
 }
+/* Fichier: src/app/stay-tuned-hub/stay-tuned-hub.module.css */
+
+/* ... (styles existants) ... */
+
+.panelContentText {
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 800px; /* Ajoute une largeur maximale pour le texte long */
+  margin: 1.5rem auto; /* Centre le texte et ajoute de l'espace */
+  color: var(--kiwi-text-primary);
+}
+
+.largeIcon {
+  font-size: 3rem; /* Grande taille pour les icônes des nouvelles sections */
+  color: var(--kiwi-highlight-color);
+  margin: 1.5rem 1rem;
+}
+
+.iconGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* Espace entre les icônes */
+  margin-top: 2rem;
+}
+
+/* Ajustements pour la barre d'onglets pour accueillir plus d'éléments */
+.tabsContainer {
+  display: flex;
+  flex-wrap: wrap; /* Permet aux onglets de passer à la ligne sur petits écrans */
+  justify-content: center; /* Centre les onglets */
+  margin-top: 2rem;
+  border-bottom: 2px solid var(--kiwi-border-color);
+  padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 1000px; /* Limite la largeur de la barre d'onglets */
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--kiwi-text-primary);
+  position: relative;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  flex-shrink: 0; /* Empêche les boutons de se réduire */
+}
+
+.tabButton::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -2px;
+  width: 0;
+  height: 3px;
+  background-color: var(--kiwi-highlight-color);
+  transition: width 0.3s ease;
+}
+
+.tabButton:hover {
+  color: var(--kiwi-highlight-color);
+}
+
+.tabButton.activeTab {
+  color: var(--kiwi-highlight-color);
+}
+
+.tabButton.activeTab::after {
+  width: 100%;
+}
+
+/* Réajustement pour les écrans plus petits */
+@media (max-width: 768px) {
+  .tabsContainer {
+    flex-direction: column; /* Les onglets s'empilent */
+    align-items: stretch; /* S'étirent pour remplir la largeur */
+  }
+
+  .tabButton {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .tabButton::after {
+    width: 80% !important; /* L'indicateur actif peut être plus petit en mode empilé */
+    left: 10%;
+    transform: translateX(0);
+  }
+
+  .panelTitle {
+    font-size: 1.8rem;
+  }
+
+  .panelContentText {
+    font-size: 0.9rem;
+    margin: 1rem auto;
+  }
+
+  .largeIcon {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+    .headline {
+        font-size: 2.2rem;
+    }
+    .intro {
+        font-size: 0.9rem;
+    }
+    .panelTitle {
+        font-size: 1.5rem;
+    }
+    .largeIcon {
+        font-size: 2rem;
+        margin: 1rem 0.5rem;
+    }
+    .iconGroup {
+        gap: 1rem;
+    }
+}
 /* Ajustements pour les tablettes */
 @media (min-width: 769px) and (max-width: 1024px) {
   .tabButton {
