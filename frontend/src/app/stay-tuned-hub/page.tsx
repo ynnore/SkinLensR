@@ -8,8 +8,9 @@ import styles from './stay-tuned-hub.module.css';
 
 import {
     FaTwitter, FaDiscord, FaYoutube, FaLinkedin, FaGithub, FaInstagram, FaTiktok,
-    FaMapMarkerAlt, FaGlobe, FaSearch, FaRocket, FaHandshake, FaLightbulb
-} from 'react-icons/fa'; // Ajout de FaRocket, FaHandshake, FaLightbulb
+    FaMapMarkerAlt, FaGlobe, FaSearch, FaRocket, FaHandshake, FaLightbulb,
+    FaRobot // Ajout de l'icône de robot
+} from 'react-icons/fa';
 
 // Import de Link pour la navigation interne de Next.js
 import Link from 'next/link';
@@ -38,20 +39,22 @@ const allTranslations = {
             'en-ZA': 'Kiwi-ops Mission Control: The Strategic Hub',
             af: 'Kiwi-ops Sendingbeheer: Die Strategiese Spil',
         },
-        intro: {
-            en: 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
-            fr: 'Votre ligne directe vers notre vision fondamentale, nos principes opérationnels et notre trajectoire future. Découvrez comment nous naviguons dans l\'écosystème des utilisateurs, partenaires et investisseurs avec des stratégies basées sur l\'IA.',
-            mi: 'Tō rārangi tika ki tō mātou tirohanga matua, ngā mātāpono whakahaere, me te ara ā-mua. Rapua me pēhea mātou e whakatere ai i te pūnaha rauropi o ngā kaiwhakamahi, hoa mahi, me ngā kaipupuri pūtea me ngā rautaki e hāpai ana i te IA.',
-            hi: 'हमारे मुख्य दृष्टिकोण, परिचालन सिद्धांतों और भविष्य की दिशा के लिए आपकी सीधी रेखा। जानें कि हम एआई-संचालित रणनीतियों के साथ उपयोगकर्ताओं, भागीदारों और निवेशकों के पारिस्थितिकी तंत्र को कैसे नेविगेट करते हैं।',
-            ga: 'Do líne dhíreach lenár bhfís lárnach, prionsabail oibríochta, agus conair amach anseo. Faigh amach conas a nascfaimid éiceachóras na n-úsáideoirí, na gcomhpháirtithe, agus na n-infheisteoirí le straitéisí faoi stiúir AI.',
-            gd: 'Do loidhne dhìreach gu ar prìomh lèirsinn, prionnsapalan obrachaidh, agus slighe san àm ri teachd. Faigh a-mach mar a bhios sinn a\' seòladh eag-shiostam luchd-cleachdaidh, com-pàirtichean, agus luchd-tasgaidh le ro-innleachdan air an stiùireadh le AI.',
-            'fr-CA': 'Votre ligne directe vers notre vision fondamentale, nos principes opérationnels et notre trajectoire future. Découvrez comment nous naviguons dans l\'écosystème des utilisateurs, partenaires et investisseurs avec des stratégies basées sur l\'IA.',
-            'en-AU': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
-            'en-CA': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
-            'en-NZ': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
-            'en-ZA': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
-            af: 'U direkte lyn na ons kernvisie, operasionele beginsels, en toekomstige trajek. Ontdek hoe ons die ekosisteem van gebruikers, vennote, en beleggers navigeer met KI-gedrewe strategieë.',
-        },
+       intro: {
+    en: 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
+    // CORRECTION ICI : "Notre ligne directe vers" a été supprimé.
+    fr: 'Notre vision fondamentale, nos principes opérationnels et notre trajectoire future. Découvrez comment nous naviguons dans l\'écosystème des utilisateurs, partenaires et investisseurs avec des stratégies basées sur l\'IA.',
+    mi: 'Tō rārangi tika ki te mōhiohio huna, ngā whakahōutanga pāpori, me ō mātou whakahihiri matua.',
+    hi: 'हमारे मुख्य दृष्टिकोण, परिचालन सिद्धांतों और भविष्य की दिशा के लिए आपकी सीधी रेखा। जानें कि हम एआई-संचालित रणनीतियों के साथ उपयोगकर्ताओं, भागीदारों और निवेशकों के पारिस्थितिकी तंत्र को कैसे नेविगेट करते हैं।',
+    ga: 'Do líne dhíreach lenár bhfís lárnach, prionsabail oibríochta, agus conair amach anseo. Faigh amach conas a nascfaimid éiceachóras na n-úsáideoirí, na gcomhphàirtichean, agus na n-infheisteoirí le straitéisí faoi stiúir AI.',
+    gd: 'Do loidhne dhìreach gu ar prìomh lèirsinn, prionnsapalan obrachaidh, agus slighe san àm ri teachd. Faigh a-mach mar a bhios sinn a\' seòladh eag-shiostam luchd-cleachdaidh, com-pàirtichean, agus luchd-tasgaidh le ro-innleachdan air an stiùireadh le AI.',
+    // CORRECTION ICI : "Notre ligne directe vers" a été supprimé pour fr-CA aussi.
+    'fr-CA': 'Notre vision fondamentale, nos principes opérationnels et notre trajectoire future. Découvrez comment nous naviguons dans l\'écosystème des utilisateurs, partenaires et investisseurs avec des stratégies basées sur l\'IA.',
+    'en-AU': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
+    'en-CA': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
+    'en-NZ': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
+    'en-ZA': 'Your direct line to our core vision, operational principles, and future trajectory. Discover how we navigate the ecosystem of users, partners, and investors with AI-driven strategies.',
+    af: 'U direkte lyn na ons kernvisie, operasionele beginsels, en toekomstige trajek. Ontdek hoe ons die ekosisteem van gebruikers, vennote, en beleggers navigeer met KI-gedrewe strategieë.',
+},
         socialsTab: {
             en: 'Social Intel',
             fr: 'Intel Social',
@@ -85,17 +88,17 @@ const allTranslations = {
             'fr-CA': 'Rechercher',
             af: 'Soek Argiewe',
         },
-        socialSectionTitle: { // TITRE DE LA SECTION RÉSEAUX SOCIAUX
+        socialSectionTitle: {
             en: 'Mission Social Networks',
             fr: 'Réseaux Sociaux de la Mission',
             mi: 'Ngā Whatunga Pāpori Misioni',
             hi: 'मिशन सोशल नेटवर्क',
-            ga: 'Líonraí Sóisialta Misean',
+            ga: 'Líonraí Sóisealta Misean',
             gd: 'Lìonraidhean Sòisealta Misean',
             'fr-CA': 'Réseaux Sociaux de la Mission',
             af: 'Sending Sosiale Netwerke',
         },
-        // NOUVELLES TRADUCTIONS POUR LES SECTIONS STRATÉGIQUES
+        // NOUVELLES CLÉS DE TRADUCTION POUR LES SECTIONS STRATÉGIQUES
         visionMissionTab: {
             en: 'Our Vision & Mission',
             fr: 'Notre Vision & Mission',
@@ -120,7 +123,7 @@ const allTranslations = {
             ga: 'AI & Straitéis Ghníomhaíoch',
             gd: 'AI & Ro-innleachd Gnìomhach',
         },
-        // Contenus pour les nouvelles sections
+        // Contenus pour les nouvelles sections générales du Hub Stratégique
         missionSectionHeadline: {
             en: 'Our Core Mission: Orchestrating Intelligence',
             fr: 'Notre Mission Fondamentale : Orchestrer l\'Intelligence',
@@ -129,14 +132,15 @@ const allTranslations = {
             ga: 'Ár gCód Misean: Intleacht a Eagrú',
             gd: 'Ar Prìomh Mhisean: Fiosrachadh a Cho-òrdanachadh',
         },
-        missionSectionContent: {
-            en: 'Kiwi-ops is dedicated to transforming complex data into actionable intelligence, empowering users, partners, and investors with predictive insights and streamlined operations. We aim to create an autonomous, intelligent agent that drives efficiency and growth.',
-            fr: 'Kiwi-ops se consacre à transformer des données complexes en intelligence actionnable, en dotant les utilisateurs, partenaires et investisseurs d\'informations prédictives et d\'opérations rationalisées. Nous visons à créer un agent autonome et intelligent qui favorise l\'efficacité et la croissance.',
-            mi: 'E whakatapua ana a Kiwi-ops ki te huri i ngā raraunga uaua ki te māramatanga ka taea te mahi, e whakamana ana i ngā kaiwhakamahi, ngā hoa mahi, me ngā kaipupuri pūtea me ngā mōhiohio matapae me ngā mahi whakahaere. Ka whai mātou ki te waihanga i tētahi kaihoko motuhake, mārama hoki e whakatairanga ana i te pai o te mahi me te tipu.',
-            hi: 'किवी-ऑप्स जटिल डेटा को कार्रवाई योग्य बुद्धिमत्ता में बदलने के लिए समर्पित है, जो उपयोगकर्ताओं, भागीदारों और निवेशकों को भविष्य कहनेवाला अंतर्दृष्टि और सुव्यवस्थित संचालन के साथ सशक्त बनाता है। हमारा लक्ष्य एक स्वायत्त, बुद्धिमान एजेंट बनाना है जो दक्षता और विकास को बढ़ावा देता है।',
-            ga: 'Tá Kiwi-ops tiomnaithe do shonraí casta a chlaochlú go hintleacht inghníomhaithe, ag cumhachtú úsáideoirí, comhpháirtithe, agus infheisteoirí le léargais réamhaisnéiseacha agus oibríochtaí sruthlínithe. Tá sé mar aidhm againn gníomhaire uathrialach, cliste a chruthú a thiomáineann éifeachtúlacht agus fás.',
-            gd: 'Tha Kiwi-ops air a choisrigeadh do dhàta iom-fhillte a thionndadh gu fiosrachadh gnìomhach, a\' toirt cumhachd do luchd-cleachdaidh, com-pàirtichean, agus luchd-tasgaidh le lèirsinn ro-innseach agus gnìomhachd sgiobalta. Tha sinn ag amas air neach-ionaid fèin-riaghlaidh, tuigseach a chruthachadh a tha a\' stiùireadh èifeachdas agus fàs.',
-        },
+       missionSectionContent: {
+    en: 'Kiwi-ops is dedicated to transforming complex data into actionable intelligence, empowering users, partners, and investors with predictive insights and streamlined operations. We aim to create an autonomous, intelligent agent that drives efficiency and growth.',
+    // CORRECTION ICI : "à transformer" remplacé par "par la transformation"
+    fr: 'Kiwi-ops se consacre à la transformation de données complexes en intelligence actionnable, en dotant les utilisateurs, partenaires et investisseurs d\'informations prédictives et d\'opérations rationalisées. Nous visons à créer un agent autonome et intelligent qui favorise l\'efficacité et la croissance.',
+    mi: 'E whakatapua ana a Kiwi-ops ki te huri i ngā raraunga uaua ki te māramatanga ka taea te mahi, e whakamana ana i ngā kaiwhakamahi, ngā hoa mahi, me ngā kaipupuri pūtea me ngā mōhiohio matapae me ngā mahi whakahaere. Ka whai mātou ki te waihanga i tētahi kaihoko motuhake, mārama hoki e whakatairanga ana i te pai o te mahi me te tipu.',
+    hi: 'किवी-ऑप्स जटिल डेटा को कार्रवाई योग्य बुद्धिमत्ता में बदलने के लिए समर्पित है, जो उपयोगकर्ताओं, भागीदारों और निवेशकों को भविष्य कहनेवाला अंतर्दृष्टि और सुव्यवस्थित संचालन के साथ सशक्त बनाता है। हमारा लक्ष्य एक स्वायत्त, बुद्धिमान एजेंट बनाना है जो दक्षता और विकास को बढ़ावा देता है।',
+    ga: 'Tá Kiwi-ops tiomnaithe do shonraí casta a chlaochlú go hintleacht inghníomhaithe, ag cumhachtú úsáideoirí, comhpháirtithe, agus infheisteoirí le léargais réamhaisnéiseacha agus oibríochtaí sruthlínithe. Tá sé mar aidhm againn gníomhaire uathrialach, cliste a chruthú a thiomáineann éifeachtúlacht agus fás.',
+    gd: 'Tha Kiwi-ops air a choisrigeadh do dhàta iom-fhillte a thionndadh gu fiosrachadh gnìomhach, a\' toirt cumhachd do luchd-cleachdaidh, com-pàirtichean, agus luchd-tasgaidh le lèirsinn ro-innseach agus gnìomhachd sgiobalta. Tha sinn ag amas air neach-ionaid fèin-riaghlaidh, tuigseach a chruthachadh a tha a\' stiùireadh èifeachdas agus fàs.',
+},
         ecosystemSectionHeadline: {
             en: 'Ecosystem & Value Proposition',
             fr: 'Écosystème & Proposition de Valeur',
@@ -166,9 +170,34 @@ const allTranslations = {
             fr: 'Inspirés par les "stratégies de poussée" militaires – déploiement proactif, synthèse rapide du renseignement et action décisive – nos agents IA sont conçus pour fonctionner avec autonomie. Ils collectent, traitent et agissent sur les données avec une intervention humaine minimale, assurant une allocation optimale des ressources et une résolution préemptive des problèmes. Ce comportement agentique permet à Kiwi-ops d\'être non seulement un outil, mais une entité dynamique et intelligente.',
             mi: 'I whakahihiri e ngā "rautaki pana" a te hoia – te tuku mahi, te whakahiatotanga o te mōhiohio, me te mahi whakatau – kua hoahoatia ā mātou kaihoko IA kia mahi motuhake. Ka kohi, ka tukatuka, ka mahi hoki i runga i ngā raraunga me te iti rawa o te wawaotanga a te tangata, me te whakarite i te tohatoha rauemi tino pai me te whakaoti rapanga i mua. Ka taea e tēnei whanonga kaiwhakahaere a Kiwi-ops kia kore noa hei taputapu, engari hei hinonga hihiri, mārama hoki.',
             hi: 'सैन्य "पुश रणनीतियों" से प्रेरित होकर – सक्रिय परिनियोजन, तीव्र बुद्धिमत्ता संश्लेषण, और निर्णायक कार्रवाई – हमारे एआई एजेंटों को स्वायत्तता के साथ काम करने के लिए डिज़ाइन किया गया है। वे न्यूनतम मानवीय हस्तक्षेप के साथ डेटा एकत्र करते हैं, संसाधित करते हैं और उस पर कार्य करते हैं, जिससे इष्टतम संसाधन आवंटन और पूर्वव्यापी समस्या-समाधान सुनिश्चित होता है। यह एजेंटिक व्यवहार किवी-ऑप्स को न केवल एक उपकरण, बल्कि एक गतिशील, बुद्धिमान इकाई बनने की अनुमति देता है।',
-            ga: 'Arna spreagadh ag "straitéisí brú" míleata – imscaradh réamhghníomhach, sintéis tapa faisnéise, agus gníomh cinnte – tá ár ngníomhairí AI deartha chun oibriú le huathriail. Bailíonn, próiseálann, agus gníomhaíonn siad ar shonraí le hidirghabháil íosta dhaonna, ag cinntiú leithdháileadh acmhainní barrmhaith agus réiteach fadhbanna réamhghníomhach. Ligeann an t-iompar gníomhaíoch seo do Kiwi-ops a bheith ní hamháin mar uirlis, ach mar eintiteas dinimiciúil, cliste.',
+            ga: 'Arna spreagadh ag "straitéisí brú" míleata – imscaradh réamhghníomhach, sintéis tapa faisnéise, agus gníomh cinnte – tá ár ngníomhairí AI deartha chun oibriú le huathriail. Bailíonn, próiseálann, agus gníomhaíonn siad ar shonraí le hidirghabháil íosta dhaonna, ag cinntiú leithdháileadh acmhainní barrmhaith agus réiteach fadhbanna réamhghníomhach. Ligeann an t-iompar gníomhaíoch seo do Kiwi-ops a bhith ní hamháin mar uirlis, ach mar eintiteas dinimiciúil, cliste.',
             gd: 'Air a bhrosnachadh le "ro-innleachdan putaidh" armailteach – cleachdadh ro-ghnìomhach, co-chur fiosrachaidh luath, agus gnìomh cinnteach – tha na riochdairean AI againn air an dealbhadh gus obrachadh gu fèin-riaghlaidh. Bidh iad a\' cruinneachadh, a\' giullachd, agus a\' gnìomhachadh air dàta le glè bheag de eadar-theachd daonna, a\' dèanamh cinnteach gu bheil cuairteachadh stòrasan as fheàrr agus fuasgladh cheistean ro-ghnìomhach. Tha an giùlan gnìomhach seo a\' leigeil le Kiwi-ops a bhith chan e a-mhàin inneal, ach eintiteas fiùghantach, tuigseach.',
         },
+        // NOUVELLES TRADUCTIONS POUR LA FONCTIONNALITÉ DE GÉNÉRATION DE POSTS IA
+        aiPostGenSectionHeadline: {
+            en: 'AI-Powered Social Content Generation',
+            fr: 'Génération de Contenu Social Assistée par l\'IA',
+            mi: 'Te Whakapuakitanga Ihirangi Hapori e Hāpai ana i te IA',
+            hi: 'एआई-संचालित सामाजिक सामग्री निर्माण',
+            ga: 'Gineadh Ábhar Sóisialta faoi Chumas AI',
+            gd: 'Gineadh Susbaint Sòisealta le Cumhachd AI',
+        },
+        aiPostGenSectionDescription: {
+            en: 'Our upcoming AI agent will soon help you craft compelling social media posts, adapting content for each platform (Twitter, LinkedIn, Instagram, etc.) based on your strategic inputs and our core vision. Stay tuned!',
+            fr: 'Notre futur agent IA vous aidera bientôt à créer des posts percutants pour les réseaux sociaux, en adaptant le contenu à chaque plateforme (Twitter, LinkedIn, Instagram, etc.) en fonction de vos inputs stratégiques et de notre vision fondamentale. Restez connecté !',
+            mi: 'Ka awhina tō mātou kaihoko IA ā muri ake nei ki te hanga i ngā pou pāpori whakahihiri, e urutau ana i te ihirangi mō ia papa (Twitter, LinkedIn, Instagram, me ētahi atu) i runga i ō tātau tāuru rautaki me tō mātou tirohanga matua. Noho tūrei!',
+            hi: 'हमारा आगामी एआई एजेंट जल्द ही आपको आकर्षक सोशल मीडिया पोस्ट बनाने में मदद करेगा, जो आपके रणनीतिक इनपुट और हमारी मुख्य दृष्टि के आधार पर प्रत्येक प्लेटफॉर्म (ट्विटर, लिंक्डइन, इंस्टाग्राम, आदि) के लिए सामग्री को अनुकूलित करेगा। बने रहें!',
+            ga: 'Go luath, cabhróidh ár ngníomhaire AI leat postálacha meán sóisialta láidre a chruthú, ag oiriúnú an ábhair do gach ardán (Twitter, LinkedIn, Instagram, srl.) bunaithe ar d\'ionchuir straitéiseacha agus ár bhfís lárnach. Fan tiúin!',
+            gd: 'A dh\'aithghearr, cuidichidh an riochdaire AI againn thu a\' cruthachadh puist meadhanan sòisealta tarraingeach, ag atharrachadh susbaint airson gach àrd-ùrlar (Twitter, LinkedIn, Instagram, msaa.) stèidhichte air na cur-a-steach ro-innleachdail agad agus ar prìomh lèirsinn. Fuirichibh deiseil!',
+        },
+        featureOnBuilding: {
+            en: 'Feature in Development',
+            fr: 'Fonctionnalité en Cours de Développement',
+            mi: 'Āhuatanga kei te Whakawhanaketanga',
+            hi: 'विकास में सुविधा',
+            ga: 'Gnéithe á bhForbairt',
+            gd: 'Feart fo Leasachadh',
+        }
     },
     inspirations: {
         arrasMemorials: {
@@ -245,8 +274,7 @@ const StayTunedHubPage: React.FC = () => {
     const { language } = useLanguage();
     const { theme } = useTheme();
 
-    // Ajout de 'visionMission', 'ecosystem', 'aiStrategy' aux tabs possibles
-    const [activeTab, setActiveTab] = useState<'socials' | 'inspirations' | 'recherche' | 'visionMission' | 'ecosystem' | 'aiStrategy'>('visionMission'); // Défaut sur la nouvelle section Mission
+    const [activeTab, setActiveTab] = useState<'socials' | 'inspirations' | 'recherche' | 'visionMission' | 'ecosystem' | 'aiStrategy'>('visionMission');
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -336,7 +364,6 @@ const StayTunedHubPage: React.FC = () => {
                         <div className={styles.tabPanel}>
                             <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'missionSectionHeadline', language)}</h2>
                             <p className={styles.panelContentText}>{getTranslation('stayTuned', 'missionSectionContent', language)}</p>
-                            {/* Tu peux ajouter des icônes ou des visuels ici pour symboliser la mission */}
                             <FaRocket className={styles.largeIcon} />
                         </div>
                     )}
@@ -346,7 +373,6 @@ const StayTunedHubPage: React.FC = () => {
                         <div className={styles.tabPanel}>
                             <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'ecosystemSectionHeadline', language)}</h2>
                             <p className={styles.panelContentText}>{getTranslation('stayTuned', 'ecosystemSectionContent', language)}</p>
-                            {/* Icônes pour représenter les utilisateurs, partenaires, investisseurs */}
                             <div className={styles.iconGroup}>
                                 <FaHandshake className={styles.largeIcon} />
                                 <FaLightbulb className={styles.largeIcon} />
@@ -359,11 +385,10 @@ const StayTunedHubPage: React.FC = () => {
                         <div className={styles.tabPanel}>
                             <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'aiStrategySectionHeadline', language)}</h2>
                             <p className={styles.panelContentText}>{getTranslation('stayTuned', 'aiStrategySectionContent', language)}</p>
-                            {/* Ici, tu pourrais ajouter des schémas simplifiés ou d'autres icônes */}
                         </div>
                     )}
 
-                    {/* SECTION EXISTANTE: RÉSEAUX SOCIAUX */}
+                    {/* SECTION EXISTANTE: RÉSEAUX SOCIAUX (MODIFIÉE POUR INCLURE LA FEATURE EN DÉVELOPPEMENT) */}
                     {activeTab === 'socials' && (
                         <div className={styles.tabPanel}>
                             <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'socialSectionTitle', language)}</h2>
@@ -376,30 +401,40 @@ const StayTunedHubPage: React.FC = () => {
                                 <li><a href="https://www.tiktok.com/@KiwiOps" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaTiktok /><span>TikTok</span></a></li>
                                 <li><a href="https://discord.gg/KiwiOpsCommunity" target="_blank" rel="noopener noreferrer" className={styles.socialLink}><FaDiscord /><span>Discord</span></a></li>
                             </ul>
+
+                            {/* NOUVELLE SECTION: FEATURE DE GÉNÉRATION DE POSTS IA EN COURS DE DÉVELOPPEMENT */}
+                            <div className={styles.featureBuildingSection}>
+                                <h3 className={styles.featureBuildingTitle}>
+                                    <FaRobot className={styles.featureBuildingIcon} />
+                                    {getTranslation('stayTuned', 'aiPostGenSectionHeadline', language)}
+                                </h3>
+                                <p className={styles.featureBuildingDescription}>
+                                    {getTranslation('stayTuned', 'aiPostGenSectionDescription', language)}
+                                </p>
+                                <span className={styles.featureBuildingStatus}>
+                                    {getTranslation('stayTuned', 'featureOnBuilding', language)}
+                                </span>
+                            </div>
                         </div>
                     )}
 
                     {/* SECTION EXISTANTE: INSPIRATIONS */}
                     {activeTab === 'inspirations' && (
                         <div className={styles.tabPanel}>
-                            {/* Titre remplacé par "Nos Inspirations" via la clé de traduction */}
                             <h2 className={styles.panelTitle}>{getTranslation('stayTuned', 'inspirationsTab', language)}</h2>
                             <ul className={styles.inspirationList}>
-                                {/* Lien pour Arras (Mémoriaux généraux) */}
                                 <li>
                                     <Link href="/inspirations/arras" className={styles.inspirationLink}>
                                         <FaMapMarkerAlt />
                                         <span>{getTranslation('inspirations', 'arrasMemorials', language)}</span>
                                     </Link>
                                 </li>
-                                {/* Lien pour Wellington Tunnelers (Stratégie) */}
                                 <li>
                                     <Link href="/inspirations/wellington" className={styles.inspirationLink}>
                                         <FaMapMarkerAlt />
                                         <span>{getTranslation('inspirations', 'wellingtonTunnelers', language)}</span>
                                     </Link>
                                 </li>
-                                {/* Lien pour Notre-Dame de Lorette */}
                                 <li>
                                     <Link href="/inspirations/lorette" className={styles.inspirationLink}>
                                         <FaGlobe />

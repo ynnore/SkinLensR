@@ -1,80 +1,73 @@
 /* Fichier: src/app/contact-sales/contact-sales.module.css */
 
-/* --- Styles de base de la page (réutilisés) --- */
+/* --- Styles de base de la page (Mobile-First) --- */
 .pageContainer {
-  padding: 2rem 2.5rem;
+  padding: 1.5rem 1rem; /* Padding réduit pour les petits écrans */
   max-width: 1000px;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: calc(100vh - 120px); /* Ajusté pour prendre en compte un header/footer */
   display: flex;
   flex-direction: column;
   align-items: center;
   color: var(--kiwi-text-primary);
+  background-color: var(--kiwi-background-page); /* Assure que le fond de page est bien appliqué */
+  box-sizing: border-box; /* S'assurer que le padding est inclus dans la largeur */
 }
 
 .title {
   font-family: var(--font-special-elite, 'Playfair Display', serif);
-  font-size: 3rem;
+  font-size: 2.5rem; /* Aligné sur le headline de stay-tuned-hub */
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px; /* Ajusté */
   text-align: center;
   font-weight: bold;
-  color: var(--kiwi-text-primary);
-  text-shadow: var(--kiwi-text-shadow);
-  margin-bottom: 1rem;
+  color: var(--kiwi-highlight-color); /* Utilisation de la variable highlight */
+  text-shadow: var(--kiwi-text-shadow); /* Utilise la variable d'ombre */
+  margin-bottom: 0.8rem;
 }
 
 .subtitle {
   font-family: var(--font-courier-prime, 'Georgia', serif);
-  font-size: 1.15rem;
+  font-size: 0.9rem; /* Aligné sur l'intro de stay-tuned-hub */
   color: var(--kiwi-text-secondary);
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
   max-width: 85ch;
   text-align: center;
   border-bottom: 1px dashed var(--kiwi-border-color);
-  padding-bottom: 1.5rem;
+  padding-bottom: 1rem;
 }
 
 /* --- Styles spécifiques au formulaire de contact --- */
 
-/* Conteneur principal du formulaire, inspiré de .nationCard */
 .formContainer {
   width: 100%;
-  max-width: 700px; /* Taille adaptée pour un formulaire */
+  max-width: 700px;
   background-color: var(--kiwi-background-card);
   border: 2px solid var(--kiwi-border-color);
-  padding: 2rem 2.5rem;
+  padding: 1.5rem;
   border-radius: 5px;
-  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-card);
+  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-card); /* Utilise la variable d'ombre de carte */
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espace entre les groupes de champs */
+  gap: 1rem;
 }
 
-/* Grille pour les champs côte à côte (prénom/nom) */
+/* Grille pour les champs côte à côte (prénom/nom) - Mobile First (une colonne par défaut) */
 .formGrid {
   display: grid;
-  grid-template-columns: 1fr; /* Par défaut une colonne */
-  gap: 1.5rem;
+  grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+  gap: 1rem;
 }
 
-/* Passe à deux colonnes sur les écrans plus larges */
-@media (min-width: 768px) {
-  .formGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-/* Groupe contenant un label et un champ de saisie */
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem; /* Espace entre le label et le champ */
+  gap: 0.4rem;
 }
 
 .formLabel {
   font-family: var(--font-courier-prime, 'Georgia', serif);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--kiwi-text-secondary);
   text-transform: uppercase;
   font-weight: bold;
@@ -83,11 +76,11 @@
 .formInput,
 .formTextarea {
   width: 100%;
-  padding: 0.8rem 1rem;
-  background-color: transparent; /* Fond transparent pour hériter de .formContainer */
+  padding: 0.8rem 1rem; /* Padding pour le contenu */
+  background-color: var(--kiwi-background-input); /* NOUVEAU: Fond des inputs pour la visibilité */
   border: 2px solid var(--kiwi-border-color);
   border-radius: 4px;
-  color: var(--kiwi-text-primary);
+  color: var(--kiwi-text-primary); /* Couleur du texte saisi */
   font-family: var(--font-courier-prime, 'Georgia', serif);
   font-size: 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -97,58 +90,40 @@
 .formTextarea:focus {
   outline: none;
   border-color: var(--kiwi-highlight-color);
-  box-shadow: 0 0 5px var(--kiwi-highlight-color);
+  box-shadow: 0 0 5px var(--kiwi-highlight-color-light);
 }
 
-/* ✅ Code corrigé à copier/coller */
-/* Fichier: src/app/contact-sales/contact-sales.module.css */
-
-/* ... autres styles ... */
-
 .submitButton {
-  background-color: var(--kiwi-highlight-color, #007BFF);
-  
-  /* --- MODIFICATION ICI --- */
-  /* On remplace la couleur fixe par une variable, avec le blanc comme secours */
-  color: var(--kiwi-button-text-color, #FFFFFF); 
-  
+  background-color: var(--kiwi-highlight-color); /* Couleur du bouton */
+  color: var(--kiwi-button-text-color); /* Couleur du texte (blanc sur le bleu vif) */
   font-family: var(--font-special-elite, 'Playfair Display', serif);
-  font-size: 1.2rem;
-  /* ... reste des styles du bouton ... */
+  font-size: 1.1rem; /* Taille harmonisée avec stay-tuned-hub tabs */
   border: none;
-  padding: 1rem 2rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
-  align-self: center;
-}
-
-/* ... autres styles ... */
-
-.submitButton:hover {
-  transform: translateY(-4px);
-  /* Optionnel: assombrir la couleur au survol en utilisant un filtre */
-  filter: brightness(1.1);
+  gap: 0.6rem;
+  align-self: center; /* Centrer le bouton dans le formulaire */
 }
 
 .submitButton:hover {
-  transform: translateY(-4px);
-  /* Optionnel: assombrir la couleur au survol */
-  /* filter: brightness(0.9); */
+  transform: translateY(-2px);
+  filter: brightness(1.1); /* Assombrir un peu au survol pour un effet subtil */
 }
 
-/* Messages de statut (inspirés de .errorMessage) */
+/* Messages de statut */
 .statusMessage {
   text-align: center;
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 0.8rem;
   font-family: var(--font-courier-prime, 'Georgia', serif);
   border-radius: 5px;
   border: 1px dashed;
+  font-size: 0.9rem;
 }
 
 .statusSuccess {
@@ -160,9 +135,83 @@
   color: #fa755a; /* Rouge pour l'erreur */
   border-color: #fa755a;
 }
-/* Passe à deux colonnes sur les écrans plus larges */
+
+/* --- Media Queries pour les écrans plus larges (Tablettes & Desktop) --- */
+
+/* Pour les tablettes et plus (min-width: 480px est une bonne étape intermédiaire) */
+@media (min-width: 480px) {
+  .pageContainer {
+    padding: 2rem 1.5rem;
+  }
+  .title {
+    font-size: 2.8rem; /* Légèrement plus grand */
+  }
+  .subtitle {
+    font-size: 1rem; /* Légèrement plus grand */
+  }
+  .formContainer {
+    padding: 2rem;
+    gap: 1.2rem;
+  }
+  .formGroup {
+    gap: 0.5rem;
+  }
+  .formLabel {
+    font-size: 0.9rem;
+  }
+  .formInput,
+  .formTextarea {
+    padding: 0.9rem 1.1rem; /* Plus grand */
+    font-size: 1rem;
+  }
+  .submitButton {
+    font-size: 1.2rem; /* Plus grand */
+    padding: 1rem 1.8rem;
+    gap: 0.7rem;
+  }
+  .statusMessage {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+
+
+/* Pour les grands écrans (min-width: 768px, Desktop) */
 @media (min-width: 768px) {
+  .pageContainer {
+    padding: 2.5rem;
+  }
+  .title {
+    font-size: 3rem; /* Reviens à la taille desktop originale */
+    letter-spacing: 2px;
+  }
+  .subtitle {
+    font-size: 1.15rem; /* Reviens à la taille desktop originale */
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.5rem;
+  }
+  .formContainer {
+    padding: 2.5rem;
+    gap: 1.5rem;
+  }
   .formGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; /* Deux colonnes sur desktop */
+    gap: 1.5rem;
+  }
+  .formGroup {
+    gap: 0.5rem;
+  }
+  .formLabel {
+    font-size: 0.95rem;
+  }
+  .formInput,
+  .formTextarea {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+  }
+  .submitButton {
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    gap: 0.8rem;
   }
 }
