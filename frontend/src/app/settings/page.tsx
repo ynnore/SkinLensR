@@ -104,6 +104,9 @@ export default function SettingsPage() {
   const { theme } = useTheme();
   const { language } = useLanguage(); // Obtenez la langue courante
 
+  // C'est la ligne à vérifier !
+  console.log('Langue active détectée sur SettingsPage:', language);
+
   // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
@@ -118,6 +121,7 @@ export default function SettingsPage() {
   const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Rouge pour l'alerte de développement
   const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Bordure pour l'alerte de développement
 
+  
   return (
     <div style={{
       padding: '2rem',
