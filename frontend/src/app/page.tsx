@@ -1,11 +1,9 @@
-// src/app/page.tsx (Contient maintenant le code de la page de connexion)
 'use client';
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext'; // Chemin d'importation correct
-// ✅ NOUVEAU : Import de useLanguage et LanguageCode
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
 import styles from './page.module.css';
@@ -69,10 +67,26 @@ const allTranslations = {
       fr: 'Identifiants incorrects. Accès refusé par le QG.',
       mi: 'He he ngā tohu. Kua kore te uru e te HQ.',
       ga: 'Dintiúirí míchearta. Rochtain diúltaithe ag an Cheanncheathrú.',
-      hi: 'गलत क्रेडेंशियल। मुख्यालय द्वारा पहुंच अस्वीकृत।',
+      hi: 'गलat क्रेडेंशियल। मुख्यालय द्वारा पहुंच अस्वीकृत।',
       gd: 'Teisteanasan ceàrr. Cha deach cead a thoirt seachad le HQ.',
       cy: 'Manylion anghywir. Gwrthodir mynediad gan y Pencadlys.',
       'en-AU': 'Incorrect credentials. Access denied by HQ.', 'en-NZ': 'Incorrect credentials. Access denied by HQ.', 'en-CA': 'Incorrect credentials. Access denied by HQ.', 'fr-CA': 'Identifiants incorrects. Accès refusé par le QG.', 'en-ZA': 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.', af: 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.',
+    },
+    errorGeneric: { // ✅ AJOUTÉ: Message d'erreur générique
+      en: 'Mission control experienced an anomaly. Please try again.',
+      fr: 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
+      mi: 'He hapa i te mana o te misioni. Whakamātauria anō.',
+      ga: 'Bhí aimhrialtacht ag rialú an mhisin. Bain triail eile as.',
+      hi: 'मिशन नियंत्रण में एक विसंगति का अनुभव हुआ। कृपया पुनः प्रयास करें।',
+      gd: 'Bha ana-cothrom aig smachd misean. Feuch a-rithist.',
+      cy: 'Profodd rheolaeth cenhadaeth anomaledd. Rhowch gynnig arall arni.',
+      'en-AU': 'Mission control experienced an anomaly. Please try again.',
+      'en-NZ': 'Mission control experienced an anomaly. Please try again.',
+      'en-CA': 'Mission control experienced an anomaly. Please try again.',
+      'fr-CA': 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
+      // ✅ CORRECTION ICI : Utilisation de guillemets doubles pour les chaînes contenant des apostrophes
+      'en-ZA': "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
+      af: "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
     },
     footerNewUser: {
       en: 'Not yet enrolled?',
@@ -129,7 +143,6 @@ function getTranslation<S extends keyof typeof allTranslations, K extends keyof 
 
 export default function LoginPage() {
   const { theme } = useTheme();
-  // ✅ NOUVEAU : Obtenir la langue
   const { language } = useLanguage();
 
   const [email, setEmail] = useState('');
@@ -170,15 +183,40 @@ export default function LoginPage() {
     setIsLoading(true);
     setError(null);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    if (email === 'user@example.com' && password === 'password') {
-      console.log('Accès autorisé !');
-      router.push('/dashboard');
-    } else {
-      // ✅ Utilisation de la traduction pour le message d'erreur
-      setError(getTranslation('loginPage', 'errorInvalid', language));
+    try {
+      // Crée un objet FormData pour correspondre à OAuth2PasswordRequestForm de FastAPI
+      const formData = new URLSearchParams();
+      formData.append('username', email); // FastAPI s'attend à 'username' pour l'email
+      formData.append('password', password);
+
+      const response = await fetch('http://localhost:8000/token', { // Assurez-vous que votre backend tourne sur ce port
+        method: 'POST',
+        headers: {
+          // IMPORTANT : Le type de contenu pour form_data est 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(), // Convertit l'objet URLSearchParams en chaîne
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Stocke le token JWT (par exemple dans localStorage pour un démarrage rapide)
+        // Pour la production, envisagez des HttpOnly Cookies ou un système plus robuste.
+        localStorage.setItem('access_token', data.access_token);
+        console.log('Connexion réussie ! Token:', data.access_token);
+        router.push('/dashboard'); // Redirige vers le tableau de bord
+      } else {
+        const errorData = await response.json();
+        // Utilise le message d'erreur du backend s'il est disponible, sinon une traduction générique
+        setError(errorData.detail || getTranslation('loginPage', 'errorInvalid', language));
+        console.error('Échec de la connexion:', errorData);
+      }
+    } catch (err) {
+      console.error('Erreur réseau ou inattendue:', err);
+      setError(getTranslation('loginPage', 'errorGeneric', language)); // Message d'erreur générique pour les erreurs réseau
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleInstallClick = () => {
