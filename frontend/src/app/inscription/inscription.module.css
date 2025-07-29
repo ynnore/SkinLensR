@@ -46,6 +46,23 @@
   line-height: 1.5;
 }
 
+/* ✅ NOUVEAU: Styles pour les messages d'erreur et de succès */
+.errorBox, .successBox {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px; /* Espace avant le formulaire */
+  font-weight: 600;
+  text-align: center;
+  /* Les couleurs et ombres spécifiques sont définies en ligne dans le composant page.tsx
+     via les variables CSS, donc pas besoin de les répéter ici,
+     sauf si vous voulez des valeurs par défaut pour les tests CSS. */
+}
+
+.errorBox p, .successBox p {
+    margin: 0; /* Supprime la marge par défaut des paragraphes à l'intérieur des boîtes */
+}
+
+
 .form {
   display: flex;
   flex-direction: column;
