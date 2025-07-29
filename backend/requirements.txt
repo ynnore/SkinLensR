@@ -1,8 +1,10 @@
-Flask
-Flask-CORS
-gunicorn
+fastapi
+uvicorn
 python-dotenv
-google-adk
-google-cloud-aiplatform 
-googletrans==4.0.0-rc1
-google-cloud-aiplatform
+psycopg2-binary
+sqlalchemy
+alembic
+passlib[bcrypt]
+python-jose[cryptography]
+email-validator
+sqlalchemy-utils

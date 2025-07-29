@@ -1,24 +1,29 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
+from sqlalchemy import engine_from_config, pool, create_engine
 
 from alembic import context
 
-# ADDED IMPORTS START
+# ==============================================================================
+# ✅ DÉBUT DES MODIFICATIONS POUR LA RÉSOLUTION DES IMPORTS ET DU PYTHONPATH
+# Ces lignes DOIVENT être au début, avant toute importation de vos modèles 'app.models'
+# ==============================================================================
 import sys
 import os
-# ... (autres imports existants) ...
+
+# Ajoute le chemin vers le répertoire 'backend' au PYTHONPATH.
+# Cela permet à Python de trouver les modules comme 'app' quand Alembic est exécuté.
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+# Importe la classe Base et tous tes modèles pour qu'Alembic les découvre.
+# Ils doivent être importés ICI, après l'ajustement du sys.path.
 from app.models.base import Base
 from app.models.user import User
-from app.models.legal_document import LegalDocument, UserLegalAgreement # <-- AJOUTE CET IMPORT
-# Ajoute le dossier parent (backend) au PYTHONPATH pour que Python puisse trouver 'app.models'
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
-# Importe la classe Base et tes modèles pour qu'Alembic les découvre
-from app.models.base import Base
-from app.models.user import User # Importe ton premier modèle User
-# ADDED IMPORTS END
+from app.models.legal_document import LegalDocument
+from app.models.agent_document import AgentDocument
+# ==============================================================================
+# ✅ FIN DES MODIFICATIONS
+# ==============================================================================
 
 
 # this is the Alembic Config object, which provides
@@ -76,13 +81,7 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
-    # connectable = engine_from_config(
-    #     config.get_section(config.config_ini_section, {}),
-    #     prefix="sqlalchemy.",
-    #     poolclass=pool.NullPool,
-    # )
-    # MODIFIED: Use the URL from the config directly, it's simpler for single DB
-    connectable = create_engine(config.get_main_option("sqlalchemy.url")) # <-- Import create_engine
+    connectable = create_engine(config.get_main_option("sqlalchemy.url"))
 
     with connectable.connect() as connection:
         context.configure(
@@ -91,10 +90,6 @@ def run_migrations_online() -> None:
 
         with context.begin_transaction():
             context.run_migrations()
-
-# ADDED import create_engine
-from sqlalchemy import create_engine # <-- Ajoute cet import en fin de fichier ou en haut
-                                    # (ici en bas pour minimiser les conflits avec le template original)
 
 
 if context.is_offline_mode():
