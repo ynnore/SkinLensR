@@ -6,7 +6,7 @@ from app.models.base import Base # Assurez-vous que le chemin est correct
 
 # Définissez la dimension de votre vecteur d'embedding ici.
 # Les modèles d'embeddings ont des dimensions fixes (ex: OpenAI text-embedding-ada-002 a 1536)
-VECTOR_DIMENSION = 1536 # Exemple: dimension pour OpenAI text-embedding-ada-002
+VECTOR_DIMENSION = 384 # ✅ REMPLACEZ 1536 par 384 # Exemple: dimension pour OpenAI text-embedding-ada-002
 
 class AgentDocument(Base):
     __tablename__ = "agent_documents"

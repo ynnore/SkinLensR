@@ -1,75 +1,135 @@
-# Python
+# ================================================
+# Fichier .gitignore pour le projet SkinLensR
+# ================================================
+
+# ------------------------------------------------
+# Fichiers et répertoires d'environnement/secret
+# ------------------------------------------------
+
+# Fichiers d'environnement (très important de les ignorer !)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Clés API ou de service (CRITIQUE : Ne jamais committer !)
+key.json
+# Ajoutez ici d'autres fichiers contenant des secrets, par exemple:
+# credentials.json
+# service_account.json
+
+# Répertoires d'environnement virtuel Python
+venv/
+.venv/
+env/
+# Le .env/ est aussi ignoré par le .env au-dessus si c'est un fichier.
+
+
+# ------------------------------------------------
+# Fichiers et artefacts Python générés
+# ------------------------------------------------
+
+# Cache de compilation Python
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers générés par setuptools
 *.egg-info/
 *.egg
-*.pyo
-venv*/
-.env
-key.json
+*.whl
+.installed.cfg
+build/
+dist/
 
-# Node.js / Next.js
+# Fichiers de log Python
+*.log
+
+# Caches pip
+.pip/
+pip-wheel-metadata/
+
+# Fichiers spécifiques à Alembic
+alembic/versions/*.pyc
+
+
+# ------------------------------------------------
+# Fichiers et répertoires Node.js / Next.js
+# ------------------------------------------------
+
+# Dépendances Node.js
 node_modules/
+
+# Répertoires de build Next.js
 .next/
+out/
+
+# Fichiers de log des gestionnaires de paquets
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# VSCode
+
+# ------------------------------------------------
+# Fichiers d'éditeur/IDE
+# ------------------------------------------------
+
+# VS Code
 .vscode/
 
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-.Python
-pip-wheel-metadata/
-.installed.cfg
-*.egg
-*.whl
-
-# Environnement virtuel
-venv/
-env/
-.venv/
-.env/
-.env.local
-
-# Fichiers IDE / Éditeur
-.vscode/
+# IntelliJ / PyCharm (si vous utilisez un IDE JetBrains)
 .idea/
+
+# Fichiers de sauvegarde d'éditeur (Vim, Emacs, etc.)
 *.swp
 *.swo
 *~
-# Ajoutez Skinlens.code-workspace si c'est spécifique à votre machine
-# Skinlens.code-workspace
+
+
+# ------------------------------------------------
+# Fichiers de ressources spécifiques au projet
+# ------------------------------------------------
 
 # Fichiers générés par Blender
 *.blend1
 *.blend2
 # Ajoutez d'autres sauvegardes auto de Blender si besoin
 
-# Fichiers temporaires / Uploads / Renders locaux
+# Dossiers d'uploads ou de sorties générées par l'application
 uploads/
 output/
-output_renders/ # Si vous ne voulez pas commiter les exemples de rendus
-# skinlensr-blender-worker:latest # Ceci n'est pas un fichier mais un nom d'image Docker
+output_renders/
 
-# Fichiers de modèle volumineux (considérez Git LFS si vous devez les versionner)
+# Fichiers de modèle d'IA volumineux
 model.h5
-model.json # Si très gros ou généré, sinon vous pouvez le garder
+model.json # Si ce sont des fichiers générés/volumineux, sinon vous pouvez les versionner.
+# Si ces fichiers sont essentiels au fonctionnement mais sont volumineux,
+# envisagez Git LFS (Large File Storage) plutôt que de les ignorer.
 
-# Captures d'écran de test ou fichiers temporaires personnels
+# Captures d'écran ou fichiers temporaires personnels
 Screenshot Try.png
 screenshot.png
 
-# Fichiers liés au build Docker qui ne sont pas le Dockerfile lui-même
-# (par exemple, les images exportées, mais vous ne devriez pas commiter d'images Docker)
 
+# ------------------------------------------------
+# Fichiers et entrées à clarifier
+# ------------------------------------------------
+
+# `skinlensr-blender-worker:latest` : Ceci est un nom d'image Docker,
+# non un fichier ou répertoire à ignorer par Git. Vous pouvez le supprimer.
+
+# `chat_app_flask/*.json` (répété 3 fois) :
+# Ces entrées semblent provenir d'un autre projet (`chat_app_flask`).
+# Si ce projet `SkinLensR` n'est PAS `chat_app_flask`, ces lignes sont inutiles
+# et pourraient potentiellement ignorer des fichiers JSON pertinents dans ce projet.
+# Veuillez les supprimer si elles ne s'appliquent pas à SkinLensR.
+
+
+# ------------------------------------------------
 # Fichiers système
-.DS_Store
-Thumbs.db
+# ------------------------------------------------
 
-chat_app_flask/*.json
-chat_app_flask/*.json
-chat_app_flask/*.json
+.DS_Store # macOS
+Thumbs.db # Windows

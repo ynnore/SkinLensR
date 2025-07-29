@@ -76,7 +76,7 @@ class AgentDocumentResponse(AgentDocumentBase):
     id: int
     embedding: List[float]
     created_at: datetime
-    updated_at: datetime
+updated_at: Optional[datetime] # ✅ Rendre updated_at optionnel
 
     class Config:
         from_attributes = True

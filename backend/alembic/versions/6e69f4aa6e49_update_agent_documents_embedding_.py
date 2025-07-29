@@ -1,18 +1,20 @@
-"""Create agent_documents table with pgvector type
+      
+"""Update agent_documents embedding dimension to 384 for local model
 
-Revision ID: ecef1ec2b947
+Revision ID: 6e69f4aa6e49
 Revises: 27a519208a33
-Create Date: 2025-07-29 08:02:01.767706
+Create Date: 2025-07-29 11:40:11.166613
 
 """
 from typing import Sequence, Union
 
 from alembic import op
-import sqlalchemy as sa
+import sqlalchemy as sa # ✅ CETTE LIGNE MANQUANTE DOIT ÊTRE ICI
+import pgvector.sqlalchemy
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'ecef1ec2b947'
+revision: str = '6e69f4aa6e49'
 down_revision: Union[str, None] = '27a519208a33'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,7 +27,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('source', sa.String(), nullable=True),
-    sa.Column('embedding', pgvector.sqlalchemy.vector.VECTOR(dim=1536), nullable=False),
+    sa.Column('embedding', pgvector.sqlalchemy.VECTOR(dim=384), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')
@@ -43,3 +45,5 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_agent_documents_id'), table_name='agent_documents')
     op.drop_table('agent_documents')
     # ### end Alembic commands ###
+
+    
