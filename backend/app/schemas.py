@@ -1,16 +1,15 @@
-      
 # backend/app/schemas.py
 from pydantic import BaseModel, EmailStr
+from typing import List, Optional
 from datetime import datetime
-from typing import Optional
 
 # --- Schémas pour les utilisateurs ---
 class UserBase(BaseModel):
-    email: EmailStr # S'assure que le champ est un format d'email valide
-    role: Optional[str] = "user" # Rôle par défaut, peut être écrasé
+    email: EmailStr
+    role: Optional[str] = "user"
 
 class UserCreate(UserBase):
-    password: str # Le mot de passe en texte brut lors de l'inscription
+    password: str
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -18,10 +17,8 @@ class UserLogin(BaseModel):
 
 class UserResponse(UserBase):
     id: int
-    # hashed_password: str # Ne pas exposer le mot de passe hashé dans les réponses publiques
-
     class Config:
-        from_attributes = True # Ancien 'orm_mode = True' pour la compatibilité avec SQLAlchemy
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str
@@ -33,13 +30,13 @@ class TokenData(BaseModel):
 
 # --- Schémas pour les documents légaux ---
 class LegalDocumentBase(BaseModel):
-    type: str # Ex: "CGU", "Privacy Policy"
-    version: str # Ex: "1.0", "2024-07-29"
-    language: str # Ex: "en", "fr", "af"
-    content: str # Le contenu du document (texte brut ou Markdown)
+    type: str
+    version: str
+    language: str
+    content: str
 
 class LegalDocumentCreate(LegalDocumentBase):
-    pass # Pas de champs supplémentaires pour la création
+    pass
 
 class LegalDocumentResponse(LegalDocumentBase):
     id: int
@@ -50,7 +47,7 @@ class LegalDocumentResponse(LegalDocumentBase):
 
 class UserLegalAgreementCreate(BaseModel):
     document_id: int
-    agreed: bool = True # Devrait toujours être True pour un accord
+    agreed: bool = True
 
 class UserLegalAgreementResponse(BaseModel):
     id: int
@@ -62,4 +59,24 @@ class UserLegalAgreementResponse(BaseModel):
     class Config:
         from_attributes = True
 
-    
+
+# ==============================================================================
+# NOUVEAUX SCHÉMAS POUR LES DOCUMENTS DE L'AGENT
+# ==============================================================================
+
+class AgentDocumentBase(BaseModel):
+    title: str
+    content: str
+    source: Optional[str] = None
+
+class AgentDocumentCreate(AgentDocumentBase):
+    pass
+
+class AgentDocumentResponse(AgentDocumentBase):
+    id: int
+    embedding: List[float]
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True

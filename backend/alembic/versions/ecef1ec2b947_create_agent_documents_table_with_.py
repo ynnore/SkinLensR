@@ -1,8 +1,8 @@
-"""Create agent_documents table with embedding vector
+"""Create agent_documents table with pgvector type
 
-Revision ID: 7f4a122b9a86
+Revision ID: ecef1ec2b947
 Revises: 27a519208a33
-Create Date: 2025-07-29 07:06:16.240210
+Create Date: 2025-07-29 08:02:01.767706
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '7f4a122b9a86'
+revision: str = 'ecef1ec2b947'
 down_revision: Union[str, None] = '27a519208a33'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,7 +25,7 @@ def upgrade() -> None:
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('source', sa.String(), nullable=True),
-    sa.Column('embedding', app.models.agent_document.VectorType(length=1536), nullable=False),
+    sa.Column('embedding', pgvector.sqlalchemy.vector.VECTOR(dim=1536), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=True),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id')

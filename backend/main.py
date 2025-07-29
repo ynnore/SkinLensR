@@ -10,6 +10,11 @@ from app.database import get_db, engine # Importe le moteur aussi pour la créat
 from app.models.base import Base # Pour créer les tables au démarrage si elles n'existent pas
 from app import schemas, crud, auth # Importe les modules schemas, crud et auth
 
+# ✅ NOUVEAUX IMPORTS POUR LES EMBEDDINGS ET DOCUMENTS D'AGENT
+from app.embeddings import get_embedding
+from app.models.agent_document import AgentDocument
+from app.models.agent_document import VECTOR_DIMENSION # Pour la vérification de la dimension du vecteur
+
 # --- Utilitaires de Base de Données ---
 # Cette fonction est utile pour créer toutes les tables définies par SQLAlchemy
 # au démarrage de l'application. Idéal pour le développement, mais les migrations
@@ -200,3 +205,50 @@ async def record_user_agreement(
     # db.commit() # N'oubliez pas de committer les changements si vous faites cela
 
     return crud.record_user_agreement(db=db, user_id=current_user.id, document_id=agreement.document_id)
+
+# ==============================================================================
+# ✅ NOUVELLES ROUTES POUR LA GESTION DES DOCUMENTS D'AGENT (RAG)
+# ==============================================================================
+
+@app.post("/agent-documents/", response_model=schemas.AgentDocumentResponse, status_code=status.HTTP_201_CREATED)
+async def create_agent_document_and_embedding(
+    doc_data: schemas.AgentDocumentCreate, # Utilise le schéma AgentDocumentCreate
+    db: Session = Depends(get_db),
+    # Si vous voulez restreindre cette route aux administrateurs, décommentez la ligne ci-dessous:
+    current_admin: schemas.UserResponse = Depends(get_current_admin_user) # Nécessite d'être admin
+):
+    # Vous pouvez ajouter ici une logique pour vérifier les doublons par titre ou source
+    # existing_doc = db.query(AgentDocument).filter(AgentDocument.title == doc_data.title).first()
+    # if existing_doc:
+    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Document with this title already exists")
+
+    # 1. Générer l'embedding du contenu du document
+    embedding = get_embedding(doc_data.content)
+    if not embedding:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate embedding for the document.")
+    
+    # S'assurer que la dimension du vecteur correspond à celle attendue par la base de données
+    # VECTOR_DIMENSION est maintenant importé, donc cette vérification est possible
+    if len(embedding) != VECTOR_DIMENSION:
+         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Embedding dimension mismatch: expected {VECTOR_DIMENSION}, got {len(embedding)}. Please check your embedding model configuration.")
+
+
+    # 2. Créer l'entrée dans la base de données
+    db_document = AgentDocument(
+        title=doc_data.title,
+        content=doc_data.content,
+        source=doc_data.source,
+        embedding=embedding # Le vecteur d'embedding généré
+    )
+    db.add(db_document)
+    db.commit()
+    db.refresh(db_document) # Rafraîchit l'objet pour obtenir l'ID et les timestamps
+
+    return db_document
+
+@app.get("/agent-documents/{document_id}", response_model=schemas.AgentDocumentResponse)
+async def get_agent_document(document_id: int, db: Session = Depends(get_db)):
+    document = db.query(AgentDocument).filter(AgentDocument.id == document_id).first()
+    if not document:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Agent document not found")
+    return document
