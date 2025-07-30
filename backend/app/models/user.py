@@ -1,8 +1,8 @@
 # backend/app/models/user.py
-from sqlalchemy import Column, Integer, String # <-- AJOUTE CET IMPORT
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
-from app.models.base import Base # <-- ASSURE-TOI QUE CETTE LIGNE EST PRÉSENTE ET CORRECTE
+from app.models.base import Base # Assure-toi que ce chemin est correct
 
 class User(Base):
     __tablename__ = "users" # Nom de la table dans la base de données
@@ -13,6 +13,7 @@ class User(Base):
     role = Column(String, default="user") # 'user', 'partner', 'investor', 'admin'
 
     # Relation inverse vers UserLegalAgreement
+    # Assurez-vous que 'UserLegalAgreement' est bien le nom de la classe de votre modèle
     legal_agreements = relationship("UserLegalAgreement", back_populates="user")
 
     # Une représentation pour l'affichage (optionnel, mais utile)

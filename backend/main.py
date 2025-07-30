@@ -10,7 +10,11 @@ from app.database import get_db, engine # Importe le moteur aussi pour la créat
 from app.models.base import Base # Pour créer les tables au démarrage si elles n'existent pas
 from app import schemas, crud, auth # Importe les modules schemas, crud et auth
 
-# ✅ NOUVEAUX IMPORTS POUR LES EMBEDDINGS ET DOCUMENTS D'AGENT
+# ✅ IMPORTS NÉCESSAIRES POUR LES DOCUMENTS LÉGAUX ET LES ACCORDS UTILISATEURS
+from app.models.legal_document import LegalDocument # Importation directe du modèle LegalDocument
+from app.models.user_legal_agreement import UserLegalAgreement # Importation du modèle UserLegalAgreement
+
+# ✅ IMPORTS POUR LES EMBEDDINGS ET DOCUMENTS D'AGENT
 from app.embeddings import get_embedding
 from app.models.agent_document import AgentDocument
 from app.models.agent_document import VECTOR_DIMENSION # Pour la vérification de la dimension du vecteur
@@ -20,6 +24,8 @@ from app.models.agent_document import VECTOR_DIMENSION # Pour la vérification d
 # au démarrage de l'application. Idéal pour le développement, mais les migrations
 # Alembic sont préférables pour la production.
 def create_tables():
+    # Assurez-vous que tous vos modèles sont importés et enregistrés avec Base.metadata
+    # et que les relations sont bien définies avant d'appeler create_all.
     Base.metadata.create_all(bind=engine)
 
 # Gestionnaire de contexte pour le cycle de vie de l'application (startup/shutdown)
@@ -148,7 +154,8 @@ async def create_legal_document(
     current_admin: schemas.UserResponse = Depends(get_current_admin_user) # Seuls les admins peuvent créer
 ):
     # Vérifier si la version existe déjà pour ce type/langue
-    existing_doc = crud.get_legal_document(db, doc.type, doc.language, doc.version)
+    # Ici, on utilise la fonction CRUD pour la vérification
+    existing_doc = crud.get_legal_document_by_details(db, doc.type, doc.language, doc.version)
     if existing_doc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Document version already exists for this type and language")
     return crud.create_legal_document(db=db, doc=doc)
@@ -159,19 +166,22 @@ async def get_legal_documents(
     language: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    # Retourne toutes les versions si aucun filtre n'est appliqué
-    # Ou filtre par type et langue
-    # Assurez-vous que 'auth.LegalDocument' est bien le modèle SQLAlchemy approprié
-    documents = db.query(auth.LegalDocument).all()
+    # Utilisez une logique de filtrage plus propre via le CRUD si possible,
+    # ou une requête SQLAlchemy directe avec des filtres.
+    # Ici, j'utilise LegalDocument directement pour les requêtes de liste.
+    query = db.query(LegalDocument)
     if type:
-        documents = [d for d in documents if d.type == type]
+        query = query.filter(LegalDocument.type == type)
     if language:
-        documents = [d for d in documents if d.language == language]
+        query = query.filter(LegalDocument.language == language)
+    
+    documents = query.all()
     return documents
 
 @app.get("/legal-documents/latest", response_model=schemas.LegalDocumentResponse)
 async def get_latest_legal_document(doc_type: str, lang: str, db: Session = Depends(get_db)):
-    doc = crud.get_legal_document(db, doc_type, lang)
+    # Utilise la fonction CRUD pour obtenir le dernier document
+    doc = crud.get_latest_legal_document(db, doc_type, lang)
     if not doc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Latest legal document not found")
     return doc
@@ -184,27 +194,38 @@ async def record_user_agreement(
     current_user: schemas.UserResponse = Depends(get_current_user)
 ):
     # S'assurer que le document existe
-    # Assurez-vous que 'auth.LegalDocument' est bien le modèle SQLAlchemy approprié
-    doc = db.query(auth.LegalDocument).filter(auth.LegalDocument.id == agreement.document_id).first()
-    if not doc:
+    # Utilisation de LegalDocument directement, assurez-vous que l'import est présent
+    db_document = db.query(LegalDocument).filter(LegalDocument.id == agreement.document_id).first()
+    if not db_document:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Legal document not found")
 
-    # Optionnel: marquer les anciens accords comme non-derniers pour ce type de document si besoin
-    # Ceci est un commentaire et doit être implémenté si la logique est requise
-    #
-    # Exemple de logique pour marquer les anciens accords:
-    # from app.models.user_legal_agreement import UserLegalAgreement # Assurez-vous d'importer le modèle UserLegalAgreement
-    #
-    # existing_agreements = db.query(UserLegalAgreement).filter(
-    #     UserLegalAgreement.user_id == current_user.id,
-    #     UserLegalAgreement.document.has(type=doc.type) # Ceci nécessite une relation configurée
-    # ).all()
-    #
-    # for ag in existing_agreements:
-    #    ag.is_latest_version_agreed = False
-    # db.commit() # N'oubliez pas de committer les changements si vous faites cela
+    # Vérifier si l'utilisateur a déjà accepté ce document
+    existing_agreement = crud.get_user_agreements_for_document(db, current_user.id, agreement.document_id)
 
-    return crud.record_user_agreement(db=db, user_id=current_user.id, document_id=agreement.document_id)
+    if existing_agreement:
+        # Si l'accord existe et n'est pas marqué comme la dernière version, le mettre à jour.
+        if not existing_agreement.is_latest_version_agreed:
+            existing_agreement.agreed_at = datetime.utcnow() # Mettre à jour la date d'accord
+            existing_agreement.is_latest_version_agreed = True # Marquer comme dernière version
+            db.commit()
+            db.refresh(existing_agreement)
+            return existing_agreement
+        else:
+            # Si c'est déjà la dernière version acceptée, retourner l'accord existant.
+            return existing_agreement
+    else:
+        # Enregistrer un nouvel accord pour l'utilisateur courant
+        return crud.record_user_agreement(db=db, user_id=current_user.id, document_id=agreement.document_id)
+
+# Route pour récupérer tous les accords d'un utilisateur
+@app.get("/users/me/agreements/", response_model=List[schemas.UserLegalAgreementResponse])
+async def get_my_agreements(
+    db: Session = Depends(get_db),
+    current_user: schemas.UserResponse = Depends(get_current_user)
+):
+    # Utilisation de la fonction CRUD pour récupérer tous les accords de l'utilisateur courant
+    agreements = crud.get_all_agreements_by_user(db, current_user.id)
+    return agreements
 
 # ==============================================================================
 # ✅ NOUVELLES ROUTES POUR LA GESTION DES DOCUMENTS D'AGENT (RAG)
