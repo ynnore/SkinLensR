@@ -243,8 +243,8 @@ const ChatInterface: React.FC = () => {
     // Déterminez l'URL du backend en fonction de l'environnement
     // Assurez-vous que le port (8000) est correct et que l'endpoint '/ask' correspond à votre backend
     const backendUrl = process.env.NODE_ENV === 'production'
-      ? 'https://api.kiwi-ops.com/ask' // URL de production
-      : 'http://localhost:8000/ask'; // URL de développement local
+      ? 'https://api.kiwi-ops.com/scan' // URL de production
+      : 'http://localhost:8000/scan'; // URL de développement local
 
     fetch(backendUrl, {
       method: 'POST',
