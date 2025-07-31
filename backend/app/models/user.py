@@ -1,8 +1,12 @@
 # backend/app/models/user.py
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-
 from app.models.base import Base # Assure-toi que ce chemin est correct
+legal_agreements = relationship(
+    "UserLegalAgreement",
+    back_populates="user",
+    cascade="all, delete-orphan"
+)
 
 class User(Base):
     __tablename__ = "users" # Nom de la table dans la base de données
@@ -19,3 +23,4 @@ class User(Base):
     # Une représentation pour l'affichage (optionnel, mais utile)
     def __repr__(self):
         return f"<User(id={self.id}, email='{self.email}', role='{self.role}')>"
+

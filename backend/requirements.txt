@@ -13,5 +13,6 @@ sqlalchemy-utils
 numpy
 transformers
 sentence-transformers
-pgvector
+pgvector==0.2.1
 google-cloud-aiplatform
+chromadb
