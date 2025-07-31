@@ -43,22 +43,22 @@ app = FastAPI(
 # Configuration CORS
 # Permet aux requêtes provenant de ces origines d'accéder à votre API.
 # C'est essentiel pour que votre frontend Next.js puisse communiquer avec le backend.
+# Liste des origines autorisées
 origins = [
     "http://localhost:3000",       # Pour le développement local du frontend Next.js
-    "https://kiwi-ops.com",        # Votre domaine de production pour le frontend
-    "https://www.kiwi-ops.com",    # Votre domaine www pour le frontend
-    "https://api.kiwi-ops.com",    # Si votre frontend appelle l'API depuis ce domaine (peut être redondant)
+    "https://kiwi-ops.com",        # Domaine de production
+    "https://www.kiwi-ops.com",    # Domaine www de production
+    "https://api.kiwi-ops.com",    # Domaine API de production (optionnel)
 ]
 
-# Ajout du middleware CORS pour gérer les requêtes cross-origin
+# Ajout du middleware CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,       # Permet l'envoi de cookies et d'en-têtes d'autorisation
-    allow_methods=["*"],          # Autorise toutes les méthodes HTTP (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],          # Autorise toutes les en-têtes
+    allow_credentials=True,  # Autorise l'envoi des cookies et des en-têtes d'autorisation
+    allow_methods=["*"],     # Autorise toutes les méthodes HTTP
+    allow_headers=["*"],     # Autorise tous les en-têtes
 )
-
 # Schéma de sécurité OAuth2 pour la gestion des tokens JWT
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
