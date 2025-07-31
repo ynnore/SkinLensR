@@ -6,7 +6,6 @@
 FROM python:3.8-slim-buster AS builder
 
 # Définir le répertoire de travail pour l'étape de build
-# WORKDIR est relatif au répertoire où docker buildx est exécuté (backend/)
 WORKDIR /app/backend
 
 # Copier le fichier requirements.txt depuis la racine du contexte de build (backend/)
@@ -16,14 +15,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copier le reste du code source de l'application
-# Les chemins sources sont relatifs au contexte de build (backend/)
-# Les chemins de destination sont relatifs au WORKDIR actuel (/app/backend)
+# Copier le reste du code source de l'application.
+# Comme le WORKDIR est /app/backend, les chemins COPY sont relatifs à la racine du contexte de build (backend/)
 COPY app/ ./app/
 COPY main.py .
 COPY alembic/ ./alembic/
-# COPY .env .  <-- RETIRÉ : Le fichier .env n'est pas copié ici.
-# Les secrets (comme la clé JWT) et les variables d'environnement critiques
+# Le fichier .env n'est PAS copié ici. Les secrets et variables d'environnement critiques
 # doivent être gérés via les variables d'environnement ou les secrets de Cloud Run lors du déploiement.
 
 # ====================================================================
@@ -35,24 +32,23 @@ FROM python:3.8-slim-buster
 WORKDIR /app/backend
 
 # Copier les dépendances installées de l'étape "builder"
-# Ces chemins sont corrects pour copier depuis l'image builder
 COPY --from=builder /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin 
-# Copier le code de l'application backend qui a été préparé dans l'étape builder
+# Copier le code de l'application backend préparé dans l'étape builder
 # Ces chemins sont corrects car le WORKDIR est /app/backend et le contexte de build est backend/
 COPY --from=builder /app/backend/app/ ./app/
 COPY --from=builder /app/backend/main.py .
 COPY --from=builder /app/backend/alembic/ ./alembic/
-# Le fichier .env n'est pas copié ici, car les secrets et variables d'environnement
-# doivent être gérés via Cloud Run (--set-env-vars, --update-secrets).
+# Pas besoin de copier .env ici.
 
-# Définir le PYTHONPATH pour que Python puisse trouver vos modules dans /app/backend/app/
-ENV PYTHONPATH="/app/backend:${PYTHONPATH}"
+# Définir PYTHONPATH pour que Python puisse trouver vos modules dans /app/backend/app/
+# Il est préférable de définir PYTHONPATH explicitement pour le dossier app.
+ENV PYTHONPATH="/app/backend/app" 
 
 # Exposer le port sur lequel l'application FastAPI écoute.
-# Cloud Run fournira la variable d'environnement PORT, donc Gunicorn doit l'utiliser.
-# L'instruction EXPOSE est informative et n'a pas d'impact direct sur l'exécution du conteneur.
-# EXPOSE 8000 # Ce port sera remplacé par $PORT de Cloud Run
+# Cloud Run injecte la variable d'environnement PORT, donc Gunicorn doit l'utiliser.
+# L'instruction EXPOSE est informative.
+# EXPOSE 8000
 
 # Commande pour démarrer l'application avec Gunicorn et Uvicorn workers
 # --bind 0.0.0.0:$PORT : Lie Gunicorn à toutes les interfaces sur le port fourni par Cloud Run.

@@ -11,7 +11,6 @@ from app.database import get_db, engine
 from app.models.base import Base
 from app import schemas, crud, auth
 
-# Assurez-vous que app/embeddings.py contient bien get_embedding et get_llm_response
 from app.embeddings import get_embedding, get_llm_response
 from app.models.agent_document import AgentDocument
 from app.models.agent_document import VECTOR_DIMENSION
