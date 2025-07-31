@@ -9,6 +9,4 @@ python-jose[cryptography]
 email-validator
 sqlalchemy-utils
 gunicorn
-# ... autres dépendances ...
 pgvector
-# ...

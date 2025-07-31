@@ -240,25 +240,70 @@ const ChatInterface: React.FC = () => {
     setInputValue('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        { role: 'assistant', content: `Ceci est une réponse simulée de ${currentAgent.name}.` }
-      ]);
-      setIsLoading(false);
-    }, 1200);
+    // Déterminez l'URL du backend en fonction de l'environnement
+    // Assurez-vous que le port (8000) est correct et que l'endpoint '/ask' correspond à votre backend
+    const backendUrl = process.env.NODE_ENV === 'production'
+      ? 'https://api.kiwi-ops.com/ask' // URL de production
+      : 'http://localhost:8000/ask'; // URL de développement local
+
+    fetch(backendUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Le backend s'attend à recevoir un objet JSON avec une clé 'query'
+      body: JSON.stringify({ query: newMessage.content }),
+    })
+      .then(res => {
+        if (!res.ok) {
+          // Si la réponse n'est pas OK (ex: 404, 500), lance une erreur
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json(); // Convertit la réponse en JSON
+      })
+      .then(data => {
+        // Met à jour les messages avec la réponse de l'assistant
+        setMessages(prev => [
+          ...prev,
+          { role: 'assistant', content: data.response }
+        ]);
+        setIsLoading(false); // Désactive l'indicateur de chargement
+      })
+      .catch(err => {
+        // Gère les erreurs lors de l'appel fetch ou de la conversion JSON
+        console.error('Error from backend:', err);
+        let errorMessage = "Erreur lors de la communication avec le serveur.";
+        if (err instanceof Error) {
+          errorMessage = err.message; // Utilise le message d'erreur s'il s'agit d'un objet Error
+        } else if (typeof err === 'string') {
+          errorMessage = err; // Utilise le message s'il est déjà une chaîne
+        }
+        setMessages(prev => [
+          ...prev,
+          { role: 'assistant', content: `Erreur : ${errorMessage}` }
+        ]);
+        setIsLoading(false); // Désactive l'indicateur de chargement
+      });
   };
 
+  // Gère la touche Entrée pour envoyer le message et les frappes de touches pour les sons
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    // Joue un son de frappe pour chaque caractère tapé (sauf si c'est une touche spéciale)
     if (e.key.length === 1) playSound(sounds.current.typing);
-    if (e.key === 'Enter' && !isLoading) handleSendMessage();
+    // Si la touche Entrée est pressée et que le chargement n'est pas actif, envoie le message
+    if (e.key === 'Enter' && !isLoading) {
+        e.preventDefault(); // Empêche le comportement par défaut (ex: rechargement de page dans certains contextes)
+        handleSendMessage();
+    }
   };
 
+  // Fonction pour obtenir l'URL de l'avatar approprié
   const getAvatar = (role: 'user' | 'assistant') => {
     const src = role === 'user' ? (userAvatarsMapping[language] || userAvatarsMapping.default) : currentAgent.avatarPath;
-    return <img src={src} alt={role === 'user' ? 'User' : currentAgent.name} />;
+    return <img src={src} alt={role === 'user' ? 'User' : currentAgent.name} className={styles.avatarImage} />; // Ajout d'une classe pour le style de l'image
   };
 
+  // Définit les couleurs en fonction du thème
   const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff';
   const textColor = theme === 'dark' ? '#E0E0E0' : 'black';
 
@@ -269,18 +314,23 @@ const ChatInterface: React.FC = () => {
           <span>{getTranslation('header', 'missionStatement', language)}</span>
         </div>
         <div className={styles.headerRight}>
-          <button ref={muteButtonRef} onClick={() => {
-            const newMuteState = !isAmbianceMuted;
-            setIsAmbianceMuted(newMuteState);
-            const ambianceSound = sounds.current.ambiance;
-            if (ambianceSound) {
-              if (!newMuteState && ambianceSound.paused) {
-                ambianceSound.play().catch(err => console.error("Ambiance play error:", err));
-              } else if (newMuteState) {
-                ambianceSound.pause();
+          <button
+            ref={muteButtonRef}
+            onClick={() => {
+              const newMuteState = !isAmbianceMuted;
+              setIsAmbianceMuted(newMuteState);
+              const ambianceSound = sounds.current.ambiance;
+              if (ambianceSound) {
+                if (!newMuteState && ambianceSound.paused) {
+                  ambianceSound.play().catch(err => console.error("Ambiance play error:", err));
+                } else if (newMuteState) {
+                  ambianceSound.pause();
+                }
               }
-            }
-          }} className={styles.iconButton}>
+            }}
+            className={styles.iconButton}
+            aria-label={isAmbianceMuted ? "Unmute ambiance" : "Mute ambiance"}
+          >
             <img src="/images/gramophone.svg" alt="Gramophone" width={24} height={24} />
           </button>
         </div>
@@ -293,6 +343,7 @@ const ChatInterface: React.FC = () => {
             <p className={styles.messageContent}>{msg.content}</p>
           </div>
         ))}
+        {/* Div pour faire défiler automatiquement vers le bas */}
         <div ref={messagesEndRef} />
       </div>
 
@@ -301,13 +352,13 @@ const ChatInterface: React.FC = () => {
           <button
             className={styles.iconButton}
             onClick={handleHeartClick}
-            aria-label="Enjoy"
+            aria-label="Go to military packages"
           >
             <FaHeart />
           </button>
 
           <Link href="/drive" passHref>
-            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)}>
+            <button className={styles.iconButton} onClick={() => playSound(sounds.current.click)} aria-label="Add content">
               <FaPlus />
             </button>
           </Link>
@@ -320,8 +371,9 @@ const ChatInterface: React.FC = () => {
             onChange={e => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={getTranslation('chat', 'placeholder', language)}
+            aria-label="Message input"
           />
-          <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading}>
+          <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading} aria-label="Send message">
             <VscArrowUp />
           </button>
         </div>
