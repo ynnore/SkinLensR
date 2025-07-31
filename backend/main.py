@@ -240,22 +240,22 @@ async def get_agent_document(document_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Agent document not found")
     return document
 
-@app.post("/ask", response_model=schemas.AgentResponse)
-async def ask_agent(query_data: schemas.AgentQuery, db: Session = Depends(get_db)):
+@app.post("/scan", response_model=schemas.AgentResponse)
+async def scan_agent(query_data: schemas.AgentQuery, db: Session = Depends(get_db)):
     """
     Traite une requête utilisateur pour l'agent conversationnel (RAG).
     Génère un embedding pour la requête, trouve les documents similaires,
     construit un contexte et utilise un LLM pour générer une réponse.
     """
-    query_embedding = get_embedding(query_data.query) # Obtient l'embedding de la requête utilisateur
+    query_embedding = get_embedding(query_data.query)  # Obtient l'embedding de la requête utilisateur
     if not query_embedding:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate embedding for the query.")
 
     # Récupère les documents les plus similaires à la requête en utilisant la distance cosinus de l'embedding
     similar_documents = (
         db.query(AgentDocument)
-        .order_by(AgentDocument.embedding.cosine_distance(query_embedding)) # Tri par similarité
-        .limit(query_data.top_k) # Limite le nombre de résultats
+        .order_by(AgentDocument.embedding.cosine_distance(query_embedding))  # Tri par similarité
+        .limit(query_data.top_k)  # Limite le nombre de résultats
         .all()
     )
 
@@ -265,7 +265,7 @@ async def ask_agent(query_data: schemas.AgentQuery, db: Session = Depends(get_db
 
     # Construit le texte de contexte à partir des documents trouvés
     context_text = "\n\n".join([doc.content for doc in similar_documents])
-    
+
     # Crée le prompt final pour le LLM, incluant le contexte et la question de l'utilisateur
     prompt = (
         f"Utilise les informations suivantes pour répondre à la question :\n\n"
@@ -277,4 +277,4 @@ async def ask_agent(query_data: schemas.AgentQuery, db: Session = Depends(get_db
     # Appelle la fonction get_llm_response pour obtenir la réponse du modèle de langage
     llm_response = get_llm_response(prompt)
 
-    return {"response": llm_response} # Retourne la réponse dans le format attendu
+    return {"response": llm_response}  # Retourne la réponse dans le format attendu
