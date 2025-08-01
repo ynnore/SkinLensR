@@ -1,27 +1,20 @@
-# backend/app/embeddings.py
 from typing import List
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
 # --- Configuration du Modèle d'Embedding ---
-# 'all-MiniLM-L6-v2' est un modèle SentenceTransformer populaire, léger et performant.
-# Il sera téléchargé automatiquement la première fois que le modèle sera chargé.
-# Sa dimension d'embedding est de 384.
-# Vous pouvez choisir d'autres modèles si nécessaire, mais ajustez VECTOR_DIMENSION en conséquence.
-MODEL_NAME = 'all-MiniLM-L6-v2'
-VECTOR_DIMENSION = 384 # Dimension pour 'all-MiniLM-L6-v2'
+MODEL_NAME = 'all-MiniLM-L6-v2'  # Modèle SentenceTransformer
+VECTOR_DIMENSION = 384  # Dimension d'embedding pour 'all-MiniLM-L6-v2'
 
 # Initialise le modèle SentenceTransformer une seule fois au démarrage du module.
-# Cela évite de recharger le modèle à chaque appel de fonction, ce qui serait très inefficace.
+# Cela évite de recharger le modèle à chaque appel de fonction.
 try:
     print(f"Chargement du modèle d'embedding : {MODEL_NAME}...")
     model = SentenceTransformer(MODEL_NAME)
     print("Modèle d'embedding chargé avec succès.")
 except Exception as e:
     print(f"Erreur lors du chargement du modèle d'embedding '{MODEL_NAME}': {e}")
-    # Dans un environnement de production, vous pourriez vouloir gérer cette erreur
-    # plus rigoureusement (ex: lever une exception fatale, fallback sur un modèle par défaut)
-    model = None # Assure que 'model' est défini, même en cas d'erreur
+    model = None  # Assure que 'model' est défini même en cas d'erreur.
 
 # --- Fonctions pour les Embeddings et les Réponses LLM ---
 
@@ -35,28 +28,32 @@ def get_embedding(text: str) -> List[float]:
         return []
 
     try:
-        # encode() retourne un array numpy
+        # Encode retourne un array numpy
         embedding_np = model.encode(text)
-        # Convertit l'array numpy en liste de floats, comme spécifié par le type hint List[float]
-        return embedding_np.tolist()
+        # Convertit l'array numpy en liste de floats
+        return embedding_np.tolist()  # Assure une conversion en liste Python standard
     except Exception as e:
         print(f"Erreur lors de la génération de l'embedding (local): {e}")
-        return [] # Retourne une liste vide en cas d'erreur
+        return []  # Retourne une liste vide en cas d'erreur
 
 def get_llm_response(prompt: str) -> str:
     """
     Placeholder pour la fonction qui interroge un LLM.
-    Actuellement, elle retourne simplement un message indiquant que la fonctionnalité est à implémenter.
-    Vous devrez remplacer ceci par un appel à une API LLM (comme OpenAI, Hugging Face, etc.)
-    ou à un modèle local si vous en utilisez un.
+    Remplacez cela par un appel à une API LLM (comme OpenAI, Hugging Face, etc.)
     """
-    print(f"Appel à get_llm_response avec le prompt : {prompt[:100]}...") # Affiche le début du prompt pour le débogage
-    # --- IMPLÉMENTATION À FAIRE ICI ---
-    # Exemple : si vous utilisiez OpenAI, ce serait quelque chose comme :
-    # from openai import OpenAI
-    # client = OpenAI()
-    # response = client.chat.completions.create(...)
-    # return response.choices[0].message.content
+    print(f"Appel à get_llm_response avec le prompt : {prompt[:100]}...")  # Affiche le début du prompt pour le débogage
 
-    # Pour l'instant, retournons un message indiquant que la fonctionnalité doit être implémentée.
-    return "La fonctionnalité de réponse du LLM n'est pas encore implémentée. Utilisez le contexte pour votre réponse."
+    # Exemple d'intégration future avec un LLM (comme OpenAI)
+    try:
+        # Exemple avec OpenAI (vous devrez avoir installé le client OpenAI et une clé API)
+        # from openai import OpenAI
+        # client = OpenAI(api_key="votre_clé_api")
+        # response = client.Completion.create(prompt=prompt, max_tokens=100)
+        # return response.choices[0].text.strip()
+
+        # Pour l'instant, on retourne une réponse par défaut.
+        return "La fonctionnalité de réponse du LLM n'est pas encore implémentée. Utilisez le contexte pour votre réponse."
+    except Exception as e:
+        print(f"Erreur lors de l'appel au LLM : {e}")
+        return "Erreur lors de l'appel au modèle LLM."
+
