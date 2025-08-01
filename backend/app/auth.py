@@ -7,7 +7,16 @@ from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
-from app.dependencies import get_db  # À adapter selon ton arborescence exacte
+# backend/app/auth.py
+# ... (vos imports existants) ...
+
+# Ligne problématique à changer :
+# from app.dependencies import get_db
+
+# Ligne correcte :
+from app.database import get_db # <-- CORRECTION ICI
+
+# ... (le reste de votre auth.py) ...  # À adapter selon ton arborescence exacte
 from app.models.user import User     # Assure-toi que le modèle User existe bien
 
 router = APIRouter()
