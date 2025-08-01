@@ -1,47 +1,53 @@
-      
-# backend/app/auth.py
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
-from passlib.context import CryptContext
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
+from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 
-# Configuration pour le hachage des mots de passe
-# 'bcrypt' est recommandé pour sa sécurité
+from app.dependencies import get_db  # À adapter selon ton arborescence exacte
+from app.models.user import User     # Assure-toi que le modèle User existe bien
+
+router = APIRouter()
+
+# --- Configuration mot de passe et JWT ---
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Clé secrète pour signer les JWT (À CHANGER EN PRODUCTION ! Utilisez une variable d'environnement)
-SECRET_KEY = "YOUR_SUPER_SECRET_KEY" # REMPLACEZ CECI PAR UNE VRAIE CLÉ SECRÈTE !
-ALGORITHM = "HS256" # Algorithme de signature pour JWT
-ACCESS_TOKEN_EXPIRE_MINUTES = 30 # Durée de validité du token d'accès
+SECRET_KEY = "YOUR_SUPER_SECRET_KEY"  # À remplacer par une variable d'environnement
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# --- Fonctions de hachage des mots de passe ---
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+# --- Fonctions mot de passe ---
 def verify_password(plain_password, hashed_password):
-    """Vérifie si un mot de passe en texte brut correspond à un mot de passe haché."""
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password):
-    """Hache un mot de passe en texte brut."""
     return pwd_context.hash(password)
 
 # --- Fonctions JWT ---
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
-    """Crée un jeton d'accès JWT."""
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def decode_access_token(token: str):
-    """Décode et valide un jeton d'accès JWT."""
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
+        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
-        return None # Le token est invalide ou expiré
+        return None
 
-    
+# --- Route /login ---
+@router.post("/login")
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.username == form_data.username).first()
+
+    if not user or not verify_password(form_data.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    access_token = create_access_token(data={"sub": user.username})
+    return {"access_token": access_token, "token_type": "bearer"}

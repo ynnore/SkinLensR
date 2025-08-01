@@ -1,13 +1,11 @@
-# backend/app/models/user_legal_agreement.py
-
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.models.base import Base
 
-
 class UserLegalAgreement(Base):
     __tablename__ = "user_legal_agreements"
+    __table_args__ = {'extend_existing': True}  # Ajout de cette ligne
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), index=True, nullable=False)

@@ -1,26 +1,17 @@
-# backend/app/models/user.py
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
-from app.models.base import Base # Assure-toi que ce chemin est correct
-legal_agreements = relationship(
-    "UserLegalAgreement",
-    back_populates="user",
-    cascade="all, delete-orphan"
-)
+from app.models.base import Base  # Vérifie que ce chemin est correct
 
 class User(Base):
-    __tablename__ = "users" # Nom de la table dans la base de données
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)  # Ajouté
     email = Column(String, unique=True, index=True)
-    hashed_password = Column(String)
-    role = Column(String, default="user") # 'user', 'partner', 'investor', 'admin'
+    password = Column(String)  # ⚠️ renommé depuis hashed_password
+    role = Column(String, default="user")
 
-    # Relation inverse vers UserLegalAgreement
-    # Assurez-vous que 'UserLegalAgreement' est bien le nom de la classe de votre modèle
     legal_agreements = relationship("UserLegalAgreement", back_populates="user")
 
-    # Une représentation pour l'affichage (optionnel, mais utile)
     def __repr__(self):
-        return f"<User(id={self.id}, email='{self.email}', role='{self.role}')>"
-
+        return f"<User(id={self.id}, username='{self.username}', role='{self.role}')>"
