@@ -53,15 +53,22 @@
   margin-bottom: 20px; /* Espace avant le formulaire */
   font-weight: 600;
   text-align: center;
-  /* Les couleurs et ombres spécifiques sont définies en ligne dans le composant page.tsx
-     via les variables CSS, donc pas besoin de les répéter ici,
-     sauf si vous voulez des valeurs par défaut pour les tests CSS. */
+  color: white;
+}
+
+.errorBox {
+  background-color: #f8d7da; /* Rouge clair */
+  border: 1px solid #f5c6cb; /* Bordure rouge clair */
+}
+
+.successBox {
+  background-color: #d4edda; /* Vert clair */
+  border: 1px solid #c3e6cb; /* Bordure verte claire */
 }
 
 .errorBox p, .successBox p {
-    margin: 0; /* Supprime la marge par défaut des paragraphes à l'intérieur des boîtes */
+  margin: 0; /* Supprime la marge par défaut des paragraphes à l'intérieur des boîtes */
 }
-
 
 .form {
   display: flex;
