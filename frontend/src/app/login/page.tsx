@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext'; // Importez le hook useTheme
 import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
 import { LanguageCode } from '@/types'; // Importez LanguageCode
-import styles from './inscription.module.css'; // Importez le CSS module
+import styles from './login.module.css';
+ // Importez le CSS module
 
 // ✅ OBJET ALLTRANSLATIONS COMPLET ET VÉRIFIÉ AVEC TOUTES LES LANGUES
 const allTranslations = {

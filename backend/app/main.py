@@ -14,7 +14,12 @@ from app import schemas, crud, auth
 from app.embeddings import get_embedding, get_llm_response
 from app.models.agent_document import AgentDocument
 from app.models.agent_document import VECTOR_DIMENSION
+from app.auth import router as auth_router  # ← importe ton router ici
 
+app = FastAPI()
+
+# Monte les routes
+app.include_router(auth_router)
 # --- Utilitaires de Base de Données ---
 def create_tables():
     Base.metadata.create_all(bind=engine)
