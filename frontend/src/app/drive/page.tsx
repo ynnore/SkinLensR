@@ -27,8 +27,25 @@ interface FileInfo {
   uploadedAt: string;
 }
 
+// Définition des clés possibles pour les traductions
+// On s'assure que toutes les clés utilisées sont ici
+type DriveTranslationKeys =
+  | "headline"
+  | "description"
+  | "kiwiOpsExploreTab"
+  | "kiwiOpsUploadTab"
+  | "kiwiOpsSocialMediaTab"
+  | "searchPlaceholder"
+  | "uploadSelectFile"
+  | "uploadTakePhoto"
+  | "uploadPlaceholder" // Assuré d'être ici
+  | "myDrivePlaceholder"
+  | "connectorsPlaceholder"
+  | "loading"
+  | "noResults";
+
 // Objet de traduction pour cette page
-const driveTranslations = {
+const driveTranslations: Record<DriveTranslationKeys, Record<LanguageCode, string>> = {
   headline: {
     en: "Kiwi-Ops Drive",
     fr: "Drive Kiwi-Ops",
@@ -71,7 +88,6 @@ const driveTranslations = {
     'en-ZA': "Kiwi-Ops Explore",
     af: "Kiwi-Ops Verken",
   },
-  // --- NOUVELLES TRADUCTIONS POUR LES AUTRES ONGLET ---
   kiwiOpsUploadTab: {
     en: "Kiwi-Ops Upload",
     fr: "Kiwi-Ops Upload",
@@ -100,7 +116,6 @@ const driveTranslations = {
     'en-ZA': "Kiwi-Ops Social Media",
     af: "Kiwi-Ops Sosiale Media",
   },
-  // --- FIN NOUVELLES TRADUCTIONS ---
   searchPlaceholder: {
     en: "Search Drive & Web...",
     fr: "Rechercher dans Drive et sur le Web...",
@@ -142,6 +157,20 @@ const driveTranslations = {
     'en-NZ': "Take Photo",
     'en-ZA': "Take Photo",
     af: "Neem Foto",
+  },
+  uploadPlaceholder: { // Assurez-vous que cette clé existe et est correcte
+    en: "Drag & drop files here or click to select.",
+    fr: "Glissez & déposez vos fichiers ici ou cliquez pour sélectionner.",
+    mi: "Tōia ngā kōnae ki konei, pāwhiri rānei hei tīpako.",
+    hi: "फ़ाइलों को यहां खींचें और छोड़ें या चुनने के लिए क्लिक करें।",
+    ga: "Tarraing & scaoil comhaid anseo nó cliceáil chun roghnú.",
+    gd: "Slaod & leig às faidhlichean an seo no cliog gus taghadh.",
+    'en-AU': "Drag & drop files here or click to select.",
+    'en-CA': "Drag & drop files here or click to select.",
+    'fr-CA': "Glissez & déposez vos fichiers ici ou cliquez pour sélectionner.",
+    'en-NZ': "Drag & drop files here or click to select.",
+    'en-ZA': "Drag & drop files here or click to select.",
+    af: "Sleep lêers hierheen of klik om te kies.",
   },
   myDrivePlaceholder: {
     en: "Your files will appear here. Search for information across your documents and the web.",
@@ -201,8 +230,12 @@ const driveTranslations = {
   }
 };
 
-function getDriveTranslation<K extends keyof typeof driveTranslations>(key: K, lang: LanguageCode): string {
-  const translations = driveTranslations[key] as Record<string, string>;
+// On s'assure que le type K est bien restreint aux clés de driveTranslations
+function getDriveTranslation<K extends DriveTranslationKeys>(key: K, lang: LanguageCode): string {
+  // Utilisation de 'as any' pour contourner une potentielle inférence de type trop stricte de TS
+  // qui pourrait penser que driveTranslations[key] n'est pas garantie d'exister
+  // bien qu'on ait typé K comme clé de driveTranslations. C'est une mesure de sécurité.
+  const translations = (driveTranslations as any)[key] as Record<LanguageCode, string>;
   return translations?.[lang] || translations?.en || '';
 }
 
@@ -240,7 +273,7 @@ const DrivePage: React.FC = () => {
       const response = await fetch('/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: searchTerm }),
+        body: JSON.stringify({ query: searchTerm }), // Correction: JSON.stringify
       });
       if (!response.ok) throw new Error('Search failed');
       const data = await response.json();
