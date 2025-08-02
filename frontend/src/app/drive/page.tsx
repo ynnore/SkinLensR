@@ -1,151 +1,319 @@
-// Fichier: src/app/drive/page.tsx
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './drive.module.css';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { LanguageCode } from '@/types'; // Import de LanguageCode
+import { LanguageCode } from '@/types';
 
-// Icônes pour les onglets
-import { FaCloudUploadAlt, FaFolderOpen, FaLink } from 'react-icons/fa';
+// Icônes supplémentaires nécessaires
+import { FaCloudUploadAlt, FaFolderOpen, FaLink, FaSearch, FaCamera, FaSpinner } from 'react-icons/fa';
+// Pour "Kiwi-Ops Social Media", une icône comme FaRss, FaTwitter, FaInstagram, ou une icône personnalisée serait appropriée.
+// Ici, j'utilise FaLink comme placeholder, mais vous pourriez vouloir la changer.
+import { FaNewspaper } from 'react-icons/fa'; // Exemple d'icône pour Social Media
+
+// Définition des types pour la recherche et les fichiers (simplifié)
+interface SearchResult {
+  title: string;
+  summary: string;
+  sources: string[];
+}
+
+interface FileInfo {
+  id: string;
+  name: string;
+  type: 'file' | 'folder';
+  size: number;
+  uploadedAt: string;
+}
 
 // Objet de traduction pour cette page
 const driveTranslations = {
   headline: {
-    en: "My Secret Drive",
-    fr: "Mon Drive Secret",
-    mi: "Tōku Pūmanawa Ngū", // Maori: My Secret Drive
-    hi: "मेरी गुप्त ड्राइव", // Hindi: My Secret Drive
-    ga: "Mo Dhriofa Rúnda", // Irish: My Secret Drive
-    gd: "Mo Dhraibh Dhìomhair", // Scottish Gaelic: My Secret Drive
-    'en-AU': "My Secret Drive", // Australian English
-    'en-CA': "My Secret Drive", // Canadian English
-    'fr-CA': "Mon Drive Secret", // Canadian French
-    'en-NZ': "My Secret Drive", // New Zealand English
-    'en-ZA': "My Secret Drive", // South African English
-    af: "My Geheime Dryf", // Afrikaans
+    en: "Kiwi-Ops Drive",
+    fr: "Drive Kiwi-Ops",
+    mi: "Tōku Pūmanawa Ngū",
+    hi: "मेरी गुप्त ड्राइव",
+    ga: "Mo Dhriofa Rúnda",
+    gd: "Mo Dhraibh Dhìomhair",
+    'en-AU': "Kiwi-Ops Drive",
+    'en-CA': "Kiwi-Ops Drive",
+    'fr-CA': "Drive Kiwi-Ops",
+    'en-NZ': "Kiwi-Ops Drive",
+    'en-ZA': "Kiwi-Ops Drive",
+    af: "My Geheime Dryf",
   },
   description: {
-    en: "Secure storage for your classified mission files. Upload, save, and delete documents here.",
-    fr: "Stockage sécurisé pour vos dossiers de mission classifiés. Téléchargez, sauvegardez et supprimez des documents ici.",
-    mi: "He wāhi rongoa haumaru mō ō kōnae misioni huna. Tukuna ake, tiakina, mukua ngā tuhinga ki konei.",
-    hi: "आपके वर्गीकृत मिशन फ़ाइलों के लिए सुरक्षित भंडारण। दस्तावेज़ यहां अपलोड करें, सहेजें और हटाएँ।",
-    ga: "Stóráil shlán do chomhaid misean aicmithe. Uaslódáil, sábháil, agus scrios doiciméid anseo.",
-    gd: "Stòras tèarainte airson do fhaidhlichean misean clasaichte. Luchdaich suas, sàbhail, agus sguab às sgrìobhainnean an seo.",
-    'en-AU': "Secure storage for your classified mission files. Upload, save, and delete documents here.",
-    'en-CA': "Secure storage for your classified mission files. Upload, save, and delete documents here.",
-    'fr-CA': "Stockage sécurisé pour vos dossiers de mission classifiés. Téléchargez, sauvegardez et supprimez des documents ici.",
-    'en-NZ': "Secure storage for your classified mission files. Upload, save, and delete documents here.",
-    'en-ZA': "Secure storage for your classified mission files. Upload, save, and delete documents here.",
-    af: "Veilige stoorplek vir u geklassifiseerde missielêers. Laai, stoor en verwyder dokumente hier.",
+    en: "Secure and intelligent storage for your classified mission files. Upload, organize, search, and analyze your data.",
+    fr: "Stockage sécurisé et intelligent pour vos dossiers de mission classifiés. Téléchargez, organisez, recherchez et analysez vos données.",
+    mi: "He wāhi rongoa haumaru me te mohio mō ō kōnae misioni huna. Tukuna ake, whakarōpū, rapua, me tātari ō raraunga.",
+    hi: "आपकी वर्गीकृत मिशन फ़ाइलों के लिए सुरक्षित और बुद्धिमान भंडारण। अपने डेटा को अपलोड करें, व्यवस्थित करें, खोजें और विश्लेषण करें।",
+    ga: "Stóráil shlán agus chliste do chomhaid misean aicmithe. Uaslódáil, eagraigh, déan cuardach, agus déan anailís ar do shonraí.",
+    gd: "Stòras tèarainte agus spaideil airson do fhaidhlichean misean clasaichte. Luchdaich suas, eagraich, rannsaich, agus dèan mion-sgrùdadh air an dàta agad.",
+    'en-AU': "Secure and intelligent storage for your classified mission files. Upload, organize, search, and analyze your data.",
+    'en-CA': "Secure and intelligent storage for your classified mission files. Upload, organize, search, and analyze your data.",
+    'fr-CA': "Stockage sécurisé et intelligent pour vos dossiers de mission classifiés. Téléchargez, organisez, recherchez et analysez vos données.",
+    'en-NZ': "Secure and intelligent storage for your classified mission files. Upload, organize, search, and analyze your data.",
+    'en-ZA': "Secure and intelligent storage for your classified mission files. Upload, organize, search, and analyze your data.",
+    af: "Veilige en intelligente stoorplek vir u geklassifiseerde missielêers. Laai, organiseer, soek en analiseer u data.",
   },
-  uploadTab: {
-    en: "Upload Files",
-    fr: "Télécharger des Fichiers",
-    mi: "Tukuna Kōnae",
-    hi: "फ़ाइलें अपलोड करें",
-    ga: "Uaslódáil Comhaid",
-    gd: "Luchdaich Suas Faidhlichean",
-    'en-AU': "Upload Files",
-    'en-CA': "Upload Files",
-    'fr-CA': "Télécharger des Fichiers",
-    'en-NZ': "Upload Files",
-    'en-ZA': "Upload Files",
-    af: "Laai Lêers Op",
+  kiwiOpsExploreTab: {
+    en: "Kiwi-Ops Explore",
+    fr: "Kiwi-Ops Explore",
+    mi: "Kiwi-Ops Tirotiro",
+    hi: "कीवी-ऑप्स एक्सप्लोर",
+    ga: "Kiwi-Ops Iniúchadh",
+    gd: "Kiwi-Ops Rannsachadh",
+    'en-AU': "Kiwi-Ops Explore",
+    'en-CA': "Kiwi-Ops Explore",
+    'fr-CA': "Kiwi-Ops Explore",
+    'en-NZ': "Kiwi-Ops Explore",
+    'en-ZA': "Kiwi-Ops Explore",
+    af: "Kiwi-Ops Verken",
   },
-  myDriveTab: {
-    en: "My Drive",
-    fr: "Mon Drive",
-    mi: "Tōku Pūmanawa",
-    hi: "मेरी ड्राइव",
-    ga: "Mo Dhriofa",
-    gd: "Mo Dhraibh",
-    'en-AU': "My Drive",
-    'en-CA': "My Drive",
-    'fr-CA': "Mon Drive",
-    'en-NZ': "My Drive",
-    'en-ZA': "My Drive",
-    af: "My Skyf",
+  // --- NOUVELLES TRADUCTIONS POUR LES AUTRES ONGLET ---
+  kiwiOpsUploadTab: {
+    en: "Kiwi-Ops Upload",
+    fr: "Kiwi-Ops Upload",
+    mi: "Kiwi-Ops Tukunga",
+    hi: "कीवी-ऑप्स अपलोड",
+    ga: "Kiwi-Ops Uaslódáil",
+    gd: "Kiwi-Ops Luchdaich Suas",
+    'en-AU': "Kiwi-Ops Upload",
+    'en-CA': "Kiwi-Ops Upload",
+    'fr-CA': "Kiwi-Ops Upload",
+    'en-NZ': "Kiwi-Ops Upload",
+    'en-ZA': "Kiwi-Ops Upload",
+    af: "Kiwi-Ops Laai Op",
   },
-  connectorsTab: {
-    en: "Connectors",
-    fr: "Connecteurs",
-    mi: "Hononga",
-    hi: "कनेक्टर्स",
-    ga: "Nascairí",
-    gd: "Luchd-Ceangail",
-    'en-AU': "Connectors",
-    'en-CA': "Connectors",
-    'fr-CA': "Connecteurs",
-    'en-NZ': "Connectors",
-    'en-ZA': "Connectors",
-    af: "Konnektors",
+  kiwiOpsSocialMediaTab: {
+    en: "Kiwi-Ops Social Media",
+    fr: "Kiwi-Ops Social Media",
+    mi: "Kiwi-Ops Pāpāho Pāpori",
+    hi: "कीवी-ऑप्स सोशल मीडिया",
+    ga: "Kiwi-Ops Na Meáin Shóisialta",
+    gd: "Kiwi-Ops Meadhanan Sòisealta",
+    'en-AU': "Kiwi-Ops Social Media",
+    'en-CA': "Kiwi-Ops Social Media",
+    'fr-CA': "Kiwi-Ops Médias Sociaux",
+    'en-NZ': "Kiwi-Ops Social Media",
+    'en-ZA': "Kiwi-Ops Social Media",
+    af: "Kiwi-Ops Sosiale Media",
   },
-  uploadPlaceholder: {
-    en: "Drag & drop files here or click to select.",
-    fr: "Glissez & déposez vos fichiers ici ou cliquez pour sélectionner.",
-    mi: "Tōia ngā kōnae ki konei, pāwhiri rānei hei tīpako.",
-    hi: "फ़ाइलों को यहां खींचें और छोड़ें या चुनने के लिए क्लिक करें।",
-    ga: "Tarraing & scaoil comhaid anseo nó cliceáil chun roghnú.",
-    gd: "Slaod & leig às faidhlichean an seo no cliog gus taghadh.",
-    'en-AU': "Drag & drop files here or click to select.",
-    'en-CA': "Drag & drop files here or click to select.",
-    'fr-CA': "Glissez & déposez vos fichiers ici ou cliquez pour sélectionner.",
-    'en-NZ': "Drag & drop files here or click to select.",
-    'en-ZA': "Drag & drop files here or click to select.",
-    af: "Sleep lêers hierheen of klik om te kies.",
+  // --- FIN NOUVELLES TRADUCTIONS ---
+  searchPlaceholder: {
+    en: "Search Drive & Web...",
+    fr: "Rechercher dans Drive et sur le Web...",
+    mi: "Rapua Drive me Web...",
+    hi: "ड्राइव और वेब खोजें...",
+    ga: "Cuardaigh Drive & Gréasán...",
+    gd: "Rannsaich Drive & Lìn...",
+    'en-AU': "Search Drive & Web...",
+    'en-CA': "Search Drive & Web...",
+    'fr-CA': "Rechercher dans Drive et sur le Web...",
+    'en-NZ': "Search Drive & Web...",
+    'en-ZA': "Search Drive & Web...",
+    af: "Soek Drive & Web...",
+  },
+  uploadSelectFile: {
+    en: "Select File",
+    fr: "Sélectionner un Fichier",
+    mi: "Tīpakohia he Kōnae",
+    hi: "फ़ाइल चुनें",
+    ga: "Roghnaigh Comhad",
+    gd: "Tagh Faidhle",
+    'en-AU': "Select File",
+    'en-CA': "Select File",
+    'fr-CA': "Sélectionner un Fichier",
+    'en-NZ': "Select File",
+    'en-ZA': "Select File",
+    af: "Kies Lêer",
+  },
+  uploadTakePhoto: {
+    en: "Take Photo",
+    fr: "Prendre une Photo",
+    mi: "Tangohia he Whakaahua",
+    hi: "फोटो लें",
+    ga: "Tóg Grianghraf",
+    gd: "Gabh Dealbh",
+    'en-AU': "Take Photo",
+    'en-CA': "Take Photo",
+    'fr-CA': "Prendre une Photo",
+    'en-NZ': "Take Photo",
+    'en-ZA': "Take Photo",
+    af: "Neem Foto",
   },
   myDrivePlaceholder: {
-    en: "Your classified files will appear here.",
-    fr: "Vos dossiers classifiés apparaîtront ici.",
-    mi: "Ka puta mai ō kōnae huna ki konei.",
-    hi: "आपकी वर्गीकृत फ़ाइलें यहां दिखाई देंगी।",
-    ga: "Tiocfaidh do chomhaid aicmithe anseo.",
-    gd: "Nochdaidh na faidhlichean clasaichte agad an seo.",
-    'en-AU': "Your classified files will appear here.",
-    'en-CA': "Your classified files will appear here.",
-    'fr-CA': "Vos dossiers classifiés apparaîtront ici.",
-    'en-NZ': "Your classified files will appear here.",
-    'en-ZA': "Your classified files will appear here.",
-    af: "U geklassifiseerde lêers sal hier verskyn.",
+    en: "Your files will appear here. Search for information across your documents and the web.",
+    fr: "Vos fichiers apparaîtront ici. Recherchez des informations dans vos documents et sur le web.",
+    mi: "Ka puta mai ō kōnae ki konei. Rapua ngā mōhiohio puta noa i ō tuhinga me te paetukutuku.",
+    hi: "आपकी फ़ाइलें यहां दिखाई देंगी। अपने दस्तावेज़ों और वेब पर जानकारी खोजें।",
+    ga: "Beidh do chomhaid le feiceáil anseo. Cuardaigh faisnéis thar do dhoiciméid agus an gréasán.",
+    gd: "Bidh na faidhlichean agad a’ nochdadh an seo. Lorg fiosrachadh tro na sgrìobhainnean agad agus an lìon.",
+    'en-AU': "Your files will appear here. Search for information across your documents and the web.",
+    'en-CA': "Your files will appear here. Search for information across your documents and the web.",
+    'fr-CA': "Vos fichiers apparaîtront ici. Recherchez des informations dans vos documents et sur le web.",
+    'en-NZ': "Your files will appear here. Search for information across your documents and the web.",
+    'en-ZA': "Your files will appear here. Search for information across your documents and the web.",
+    af: "U lêers sal hier verskyn. Soek na inligting oor u dokumente en die web.",
   },
   connectorsPlaceholder: {
-    en: "Connect your cloud storage or other services.",
-    fr: "Connectez vos stockages cloud ou autres services.",
-    mi: "Hononga atu i tō rokiroki kapua, i ētahi atu ratonga rānei.",
-    hi: "अपनी क्लाउड स्टोरेज या अन्य सेवाओं को कनेक्ट करें।",
-    ga: "Ceangail do stóráil scamall nó seirbhísí eile.",
-    gd: "Ceangail do stòradh sgòthan no seirbheisean eile.",
-    'en-AU': "Connect your cloud storage or other services.",
-    'en-CA': "Connect your cloud storage or other services.",
-    'fr-CA': "Connectez vos stockages cloud ou autres services.",
-    'en-NZ': "Connect your cloud storage or other services.",
-    'en-ZA': "Connect your cloud storage or other services.",
-    af: "Koppel u wolkberging of ander dienste.",
+    en: "Connect your cloud storage or other services to integrate them into your Drive.",
+    fr: "Connectez vos stockages cloud ou autres services pour les intégrer à votre Drive.",
+    mi: "Hononga atu i tō rokiroki kapua, i ētahi atu ratonga rānei hei whakauru atu ki tō Pūmanawa.",
+    hi: "अपनी क्लाउड स्टोरेज या अन्य सेवाओं को अपने ड्राइव में एकीकृत करने के लिए कनेक्ट करें।",
+    ga: "Ceangail do stóráil scamall nó seirbhísí eile chun iad a chomhtháthú i do Thiomáint.",
+    gd: "Ceangail do stòradh sgòthan no seirbheisean eile gus an amalachadh a-steach do do Draibh.",
+    'en-AU': "Connect your cloud storage or other services to integrate them into your Drive.",
+    'en-CA': "Connect your cloud storage or other services to integrate them into your Drive.",
+    'fr-CA': "Connectez vos stockages cloud ou autres services pour les intégrer à votre Drive.",
+    'en-NZ': "Connect your cloud storage or other services to integrate them into your Drive.",
+    'en-ZA': "Connect your cloud storage or other services to integrate them into your Drive.",
+    af: "Koppel u wolkberging of ander dienste om dit in u Dryf te integreer.",
   },
+  loading: {
+    en: "Loading...",
+    fr: "Chargement...",
+    mi: "Kei te utaina...",
+    hi: "लोड हो रहा है...",
+    ga: "Ag luchtú...",
+    gd: "A' luchdachadh...",
+    'en-AU': "Loading...",
+    'en-CA': "Loading...",
+    'fr-CA': "Chargement...",
+    'en-NZ': "Loading...",
+    'en-ZA': "Loading...",
+    af: "Laai...",
+  },
+  noResults: {
+    en: "No results found.",
+    fr: "Aucun résultat trouvé.",
+    mi: "Karekau he hua i kitea.",
+    hi: "कोई परिणाम नहीं मिला।",
+    ga: "Ní bhfuarthas aon torthaí.",
+    gd: "Cha deachaidh toraidhean sam bith a lorg.",
+    'en-AU': "No results found.",
+    'en-CA': "No results found.",
+    'fr-CA': "Aucun résultat trouvé.",
+    'en-NZ': "No results found.",
+    'en-ZA': "No results found.",
+    af: "Geen resultate gevind nie.",
+  }
 };
 
 function getDriveTranslation<K extends keyof typeof driveTranslations>(key: K, lang: LanguageCode): string {
   const translations = driveTranslations[key] as Record<string, string>;
-  // La logique de fallback est déjà bonne : essaye la langue spécifique, puis l'anglais par défaut, puis vide.
   return translations?.[lang] || translations?.en || '';
 }
+
+// Met à jour le type pour les onglets
+type ActiveTab = 'kiwiOpsExplore' | 'kiwiOpsUpload' | 'kiwiOpsSocialMedia';
 
 const DrivePage: React.FC = () => {
   const { language } = useLanguage();
   const { theme } = useTheme();
 
-  const [activeTab, setActiveTab] = useState<'upload' | 'myDrive' | 'connectors'>('myDrive');
+  // Initialisation de l'onglet actif avec la nouvelle valeur
+  const [activeTab, setActiveTab] = useState<ActiveTab>('kiwiOpsExplore');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isLoadingSearch, setIsLoadingSearch] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [myFiles, setMyFiles] = useState<FileInfo[]>([]);
 
-  // Définition des couleurs basée sur le thème
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const performSearch = async () => {
+    if (!searchTerm.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    setIsLoadingSearch(true);
+    try {
+      const response = await fetch('/api/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchTerm }),
+      });
+      if (!response.ok) throw new Error('Search failed');
+      const data = await response.json();
+      setSearchResults(data.results || []);
+    } catch (error) {
+      console.error("Error performing search:", error);
+    } finally {
+      setIsLoadingSearch(false);
+    }
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      performSearch();
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchTerm]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFilePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleFileUpload = async (fileToUpload: File) => {
+    if (!fileToUpload) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', fileToUpload);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!response.ok) throw new Error('Upload failed');
+      const result = await response.json();
+      console.log("Upload successful:", result);
+      setMyFiles(prevFiles => [...prevFiles, { id: result.id, name: fileToUpload.name, type: 'file', size: fileToUpload.size, uploadedAt: new Date().toISOString() }]);
+      setSelectedFile(null);
+      setFilePreview(null);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const encryptFileClientSide = async (file: File): Promise<ArrayBuffer | null> => {
+    console.log("Simulating client-side encryption for:", file.name);
+    return new ArrayBuffer(file.size);
+  };
+
+  const handleUploadButtonClick = async () => {
+    if (!selectedFile) {
+      fileInputRef.current?.click();
+      return;
+    }
+    handleFileUpload(selectedFile);
+  };
+
   const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff';
   const textColor = theme === 'dark' ? '#E0E0E0' : '#111827';
   const cardBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8';
   const borderColor = theme === 'dark' ? '#555555' : '#e5e7eb';
-  const highlightColor = theme === 'dark' ? '#0070f3' : '#0070f3'; // Couleur de surbrillance
-  const highlightColorLight = theme === 'dark' ? 'rgba(0,112,243,0.3)' : 'rgba(0,112,243,0.1)'; // Version plus claire
-
+  const highlightColor = theme === 'dark' ? '#0070f3' : '#0070f3';
+  const highlightColorLight = theme === 'dark' ? 'rgba(0,112,243,0.3)' : 'rgba(0,112,243,0.1)';
 
   return (
     <div
@@ -160,47 +328,171 @@ const DrivePage: React.FC = () => {
       } as React.CSSProperties}
     >
       <h1 className={styles.headline}>{getDriveTranslation('headline', language)}</h1>
+      <p className={styles.description}>{getDriveTranslation('description', language)}</p>
 
-      {/* Barre d'onglets */}
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder={getDriveTranslation('searchPlaceholder', language)}
+          className={styles.searchInput}
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+        <FaSearch className={styles.searchIcon} onClick={performSearch} />
+      </div>
+
+      {searchTerm && searchResults.length > 0 && (
+        <div className={`${styles.tabContent} ${styles.resultsContent}`}>
+          <div className={styles.tabPanel}>
+            <h3 className={styles.resultsTitle}>Search Results</h3>
+            {searchResults.map((result, index) => (
+              <div key={index} className={styles.resultCard}>
+                <h4>{result.title}</h4>
+                <p>{result.summary}</p>
+                <div className={styles.sources}>
+                  <strong>Sources:</strong>
+                  <ul>
+                    {result.sources.map((source, srcIndex) => (
+                      <li key={srcIndex}><a href={source} target="_blank" rel="noopener noreferrer">{source}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      {searchTerm && !isLoadingSearch && searchResults.length === 0 && (
+        <div className={`${styles.tabContent} ${styles.resultsContent}`}>
+          <div className={styles.tabPanel}>
+             <p className={styles.placeholderText}>{getDriveTranslation('noResults', language)}</p>
+          </div>
+        </div>
+      )}
+      {isLoadingSearch && (
+         <div className={`${styles.tabContent} ${styles.resultsContent}`}>
+          <div className={styles.tabPanel}>
+             <p className={styles.placeholderText}><FaSpinner className={styles.spinnerIcon} /> {getDriveTranslation('loading', language)}</p>
+          </div>
+        </div>
+      )}
+
       <div className={styles.tabsContainer}>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'myDrive' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('myDrive')}
+        {/* Kiwi-Ops Explore (anciennement My Drive) */}
+        <button
+          className={`${styles.tabButton} ${activeTab === 'kiwiOpsExplore' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('kiwiOpsExplore')}
         >
           <FaFolderOpen className={styles.tabIcon} />
-          {getDriveTranslation('myDriveTab', language)}
+          {getDriveTranslation('kiwiOpsExploreTab', language)}
         </button>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'upload' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('upload')}
+        {/* Kiwi-Ops Upload */}
+        <button
+          className={`${styles.tabButton} ${activeTab === 'kiwiOpsUpload' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('kiwiOpsUpload')}
         >
           <FaCloudUploadAlt className={styles.tabIcon} />
-          {getDriveTranslation('uploadTab', language)}
+          {getDriveTranslation('kiwiOpsUploadTab', language)} {/* Utilisation de la nouvelle traduction */}
         </button>
-        <button 
-          className={`${styles.tabButton} ${activeTab === 'connectors' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('connectors')}
+        {/* Kiwi-Ops Social Media (anciennement Connectors) */}
+        <button
+          className={`${styles.tabButton} ${activeTab === 'kiwiOpsSocialMedia' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('kiwiOpsSocialMedia')}
         >
-          <FaLink className={styles.tabIcon} />
-          {getDriveTranslation('connectorsTab', language)}
+          <FaNewspaper className={styles.tabIcon} /> {/* Icône pour "Social Media" */}
+          {getDriveTranslation('kiwiOpsSocialMediaTab', language)} {/* Utilisation de la nouvelle traduction */}
         </button>
       </div>
 
-      {/* Contenu de l'onglet actif */}
       <div className={styles.tabContent}>
-        {activeTab === 'myDrive' && (
+        {activeTab === 'kiwiOpsExplore' && (
           <div className={styles.tabPanel}>
-            <p className={styles.placeholderText}>{getDriveTranslation('myDrivePlaceholder', language)}</p>
+            {myFiles.length === 0 ? (
+              <p className={styles.placeholderText}>{getDriveTranslation('myDrivePlaceholder', language)}</p>
+            ) : (
+              <div className={styles.fileList}>
+                {myFiles.map(file => (
+                  <div key={file.id} className={styles.fileItem}>
+                    <FaFolderOpen className={styles.fileIcon} />
+                    <span className={styles.fileName}>{file.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
-        {activeTab === 'upload' && (
+
+        {activeTab === 'kiwiOpsUpload' && (
           <div className={styles.tabPanel}>
-            <p className={styles.placeholderText}>{getDriveTranslation('uploadPlaceholder', language)}</p>
+            <div className={styles.uploadOptions}>
+              <button
+                className={`${styles.uploadButton} ${styles.fileButton}`}
+                onClick={() => fileInputRef.current?.click()}
+                disabled={uploading}
+              >
+                <FaFolderOpen className={styles.tabIcon} />
+                {getDriveTranslation('uploadSelectFile', language)}
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+                accept="image/*, application/pdf, .txt, .doc, .docx, .ppt, .pptx, .xls, .xlsx"
+              />
+
+              <label
+                htmlFor="camera-input"
+                className={`${styles.uploadButton} ${styles.cameraButton}`}
+              >
+                <FaCamera className={styles.tabIcon} />
+                {getDriveTranslation('uploadTakePhoto', language)}
+              </label>
+              <input
+                id="camera-input"
+                type="file"
+                capture="environment"
+                accept="image/*"
+                ref={cameraInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
+            </div>
+
+            {selectedFile && (
+              <div className={styles.previewContainer}>
+                {filePreview && (
+                  <div className={styles.filePreviewWrapper}>
+                    <p>Preview:</p>
+                    {selectedFile.type.startsWith('image/') ? (
+                      <img src={filePreview} alt="File Preview" className={styles.filePreview} />
+                    ) : (
+                      <div className={styles.filePreviewPlaceholder}>
+                        {selectedFile.name} ({Math.round(selectedFile.size / 1024)} KB)
+                      </div>
+                    )}
+                  </div>
+                )}
+                <button
+                  className={styles.uploadButtonPrimary}
+                  onClick={handleUploadButtonClick}
+                  disabled={uploading || !selectedFile}
+                >
+                  {uploading ? getDriveTranslation('loading', language) : 'Upload & Process'}
+                </button>
+              </div>
+            )}
+
+            {!selectedFile && (
+              <p className={styles.placeholderText}>{getDriveTranslation('uploadPlaceholder', language)}</p>
+            )}
           </div>
         )}
-        {activeTab === 'connectors' && (
+
+        {activeTab === 'kiwiOpsSocialMedia' && (
           <div className={styles.tabPanel}>
-            <p className={styles.placeholderText}>{getDriveTranslation('connectorsPlaceholder', language)}</p>
+            {/* Remplacer le placeholder par le contenu spécifique de "Kiwi-Ops Social Media" */}
+            <p className={styles.placeholderText}>Connect and manage your social media accounts here.</p>
           </div>
         )}
       </div>

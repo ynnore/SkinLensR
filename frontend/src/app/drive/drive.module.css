@@ -1,23 +1,21 @@
-      
 /* Fichier: src/app/drive/drive.module.css */
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centré verticalement pour l'exemple */
-  min-height: calc(100vh - 120px); /* Ajustez si vous avez un header/footer fixe */
   padding: 2rem;
   text-align: center;
   background-color: var(--kiwi-background-page);
   color: var(--kiwi-text-primary);
+  min-height: calc(100vh - 120px); /* Ajustez si vous avez un header/footer fixe */
 }
 
 .headline {
   font-size: 3rem;
   margin-bottom: 1.5rem;
   color: var(--kiwi-highlight-color); /* Utilisez une couleur de thème pour le titre */
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Effet d'ombre */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre subtile */
 }
 
 .description {
@@ -25,38 +23,409 @@
   max-width: 700px;
   line-height: 1.6;
   margin-bottom: 3rem;
+  color: var(--kiwi-text-primary);
 }
 
-.placeholderSection {
+/* --- Section Recherche --- */
+.searchContainer {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Ajustez la largeur selon vos préférences */
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.5rem; /* Espace pour l'icône */
+  font-size: 1rem;
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 25px; /* Bordures arrondies pour un look moderne */
+  background-color: var(--kiwi-background-card); /* Utilise la couleur de fond des cartes */
+  color: var(--kiwi-text-primary);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--kiwi-highlight-color);
+  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light); /* Effet de focus */
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  color: var(--kiwi-text-secondary); /* Couleur plus discrète pour l'icône */
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.searchIcon:hover {
+  color: var(--kiwi-highlight-color);
+}
+
+/* --- Section Onglets --- */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espace entre les boutons d'onglet */
+  margin-bottom: 2.5rem;
+  width: 100%;
+  overflow-x: auto; /* Permet le défilement horizontal sur mobile si beaucoup d'onglets */
+  padding-bottom: 10px; /* Espace pour que le défilement ne coupe pas les onglets */
+}
+
+.tabButton {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  background-color: transparent; /* Fond transparent par défaut */
+  color: var(--kiwi-text-secondary); /* Couleur texte secondaire pour les onglets inactifs */
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 20px; /* Bordures arrondies */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espace entre l'icône et le texte */
+  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap; /* Empêche le texte de passer à la ligne */
+}
+
+.tabButton:hover {
+  background-color: var(--kiwi-highlight-color-light); /* Survol léger */
+  color: var(--kiwi-highlight-color);
+}
+
+.tabButton.activeTab {
+  background-color: var(--kiwi-highlight-color); /* Fond de l'onglet actif */
+  color: #ffffff; /* Texte blanc sur l'onglet actif */
+  font-weight: bold;
+}
+
+.tabIcon {
+  font-size: 1.1rem;
+}
+
+/* --- Contenu des Onglets --- */
+.tabContent {
+  width: 100%;
+  max-width: 800px; /* Largeur max pour le contenu */
+  margin-top: 1rem;
+  border-radius: 15px; /* Arrondis pour la zone de contenu */
+  background-color: var(--kiwi-background-card); /* Fond des cartes */
   padding: 2rem;
-  border: 2px dashed var(--kiwi-border-color);
-  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour détacher le contenu */
+  border: 1px solid var(--kiwi-border-color);
+}
+
+.tabPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px; /* Hauteur minimale pour un aspect visuel */
+}
+
+.placeholderText {
+  font-size: 1.2rem;
   color: var(--kiwi-text-secondary);
   font-style: italic;
-  font-size: 0.9rem;
 }
 
-/* --- Mobile First (Base) --- */
+/* Styles spécifiques pour l'onglet Upload */
+.uploadOptions {
+  display: flex;
+  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne sur petit écran */
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.uploadButton,
+.fileButton,
+.cameraButton {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fileButton,
+.cameraButton {
+  background-color: var(--kiwi-highlight-color);
+  color: #ffffff;
+}
+
+.fileButton:hover,
+.cameraButton:hover {
+  background-color: #005bb5; /* Un peu plus foncé pour le hover */
+  transform: translateY(-2px);
+}
+
+.uploadButtonPrimary {
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background-color: var(--kiwi-highlight-color);
+  color: #ffffff;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
+}
+
+.uploadButtonPrimary:hover {
+  background-color: #005bb5;
+  transform: translateY(-2px);
+}
+
+.uploadButtonPrimary:disabled {
+  background-color: var(--kiwi-border-color);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.previewContainer {
+  margin-top: 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filePreviewWrapper {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--kiwi-background-page); /* Fond contrasté pour la prévisualisation */
+  border: 1px dashed var(--kiwi-border-color);
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.filePreviewWrapper p {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--kiwi-text-secondary);
+}
+
+.filePreview {
+  max-width: 100%;
+  max-height: 300px; /* Limite la hauteur de l'image */
+  height: auto;
+  border-radius: 8px;
+  object-fit: contain; /* Assure que l'image est contenue sans déformation */
+}
+
+.filePreviewPlaceholder {
+  font-size: 1rem;
+  color: var(--kiwi-text-secondary);
+}
+
+/* Styles pour les résultats de recherche */
+.resultsContent {
+  margin-top: 1rem;
+  background-color: var(--kiwi-background-card);
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--kiwi-border-color);
+  text-align: left; /* Alignement texte à gauche pour les résultats */
+}
+
+.resultsTitle {
+  font-size: 1.5rem;
+  color: var(--kiwi-highlight-color);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--kiwi-border-color);
+  padding-bottom: 0.5rem;
+}
+
+.resultCard {
+  background-color: var(--kiwi-background-page); /* Fond légèrement différent pour chaque carte */
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--kiwi-border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.resultCard h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--kiwi-highlight-color);
+}
+
+.resultCard p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: var(--kiwi-text-secondary);
+}
+
+.sources {
+  font-size: 0.85rem;
+}
+
+.sources strong {
+  color: var(--kiwi-text-primary);
+}
+
+.sources ul {
+  list-style: disc;
+  margin-left: 20px;
+  padding-left: 0;
+}
+
+.sources li {
+  margin-bottom: 5px;
+  color: var(--kiwi-text-secondary);
+}
+
+.sources a {
+  color: var(--kiwi-highlight-color);
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.sources a:hover {
+  color: #005bb5;
+}
+
+/* Styles pour l'affichage des fichiers dans "Mon Drive" */
+.fileList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Grille réactive */
+  gap: 15px;
+  width: 100%;
+  text-align: left;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem;
+  background-color: var(--kiwi-background-page);
+  border: 1px solid var(--kiwi-border-color);
+  border-radius: 10px;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+.fileItem:hover {
+  background-color: var(--kiwi-highlight-color-light);
+  border-color: var(--kiwi-highlight-color);
+}
+
+.fileIcon {
+  font-size: 1.5rem;
+  color: var(--kiwi-highlight-color);
+}
+
+.fileName {
+  font-weight: 500;
+  color: var(--kiwi-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+/* Icône de chargement */
+.spinnerIcon {
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Media Queries --- */
+
+/* Styles pour petits écrans (mobiles) */
 @media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
   .headline {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   .description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  .searchContainer {
+    margin-bottom: 1.5rem;
+  }
+  .searchInput {
+    padding: 0.7rem 1rem 0.7rem 2rem;
+  }
+  .tabsContainer {
+    gap: 8px;
+    padding-bottom: 10px;
+  }
+  .tabButton {
+    padding: 0.6rem 1rem;
     font-size: 0.9rem;
   }
-  .placeholderSection {
+  .tabContent {
     padding: 1.5rem;
+  }
+  .uploadOptions {
+    flex-direction: column; /* Empile les boutons d'upload */
+    gap: 10px;
+  }
+  .uploadButton, .uploadButtonPrimary {
+    width: 100%;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+  .filePreviewWrapper {
+    width: 95%;
+  }
+  .fileList {
+    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+  }
+  .resultCard {
+    padding: 1rem;
   }
 }
 
+/* Styles pour écrans moyens (tablettes) */
 @media (min-width: 769px) and (max-width: 1024px) {
-  /* Styles pour tablettes */
+  .headline {
+    font-size: 2.8rem;
+  }
+  .tabContent {
+    padding: 1.8rem;
+  }
+  .fileList {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
+/* Styles pour grands écrans (desktops) */
 @media (min-width: 1025px) {
-  /* Styles pour desktop */
+  .container {
+    padding: 2.5rem 3rem;
+  }
+  .headline {
+    font-size: 3.5rem;
+  }
+  .tabContent {
+    padding: 2.5rem;
+  }
 }
-
-    
-
-

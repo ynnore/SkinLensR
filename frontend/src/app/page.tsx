@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext'; // Chemin d'importation correct
@@ -72,7 +72,7 @@ const allTranslations = {
       cy: 'Manylion anghywir. Gwrthodir mynediad gan y Pencadlys.',
       'en-AU': 'Incorrect credentials. Access denied by HQ.', 'en-NZ': 'Incorrect credentials. Access denied by HQ.', 'en-CA': 'Incorrect credentials. Access denied by HQ.', 'fr-CA': 'Identifiants incorrects. Accès refusé par le QG.', 'en-ZA': 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.', af: 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.',
     },
-    errorGeneric: {
+    errorGeneric: { // ✅ AJOUTÉ: Message d'erreur générique
       en: 'Mission control experienced an anomaly. Please try again.',
       fr: 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
       mi: 'He hapa i te mana o te misioni. Whakamātauria anō.',
@@ -84,6 +84,7 @@ const allTranslations = {
       'en-NZ': 'Mission control experienced an anomaly. Please try again.',
       'en-CA': 'Mission control experienced an anomaly. Please try again.',
       'fr-CA': 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
+      // ✅ CORRECTION ICI : Utilisation de guillemets doubles pour les chaînes contenant des apostrophes
       'en-ZA': "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
       af: "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
     },
@@ -176,6 +177,7 @@ export default function LoginPage() {
   const errorBorder = theme === 'dark' ? '#CC0000' : '#FF0000';
   const errorShadow = theme === 'dark' ? 'rgba(204,0,0,0.4)' : 'rgba(255,0,0,0.2)';
 
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -190,31 +192,35 @@ export default function LoginPage() {
       const response = await fetch('http://localhost:8000/token', { // Assurez-vous que votre backend tourne sur ce port
         method: 'POST',
         headers: {
+          // IMPORTANT : Le type de contenu pour form_data est 'application/x-www-form-urlencoded'
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: formData.toString(),
+        body: formData.toString(), // Convertit l'objet URLSearchParams en chaîne
       });
 
       if (response.ok) {
         const data = await response.json();
+        // Stocke le token JWT (par exemple dans localStorage pour un démarrage rapide)
+        // Pour la production, envisagez des HttpOnly Cookies ou un système plus robuste.
         localStorage.setItem('access_token', data.access_token);
         console.log('Connexion réussie ! Token:', data.access_token);
-        router.push('/dashboard');
+        router.push('/dashboard'); // Redirige vers le tableau de bord
       } else {
         const errorData = await response.json();
+        // Utilise le message d'erreur du backend s'il est disponible, sinon une traduction générique
         setError(errorData.detail || getTranslation('loginPage', 'errorInvalid', language));
         console.error('Échec de la connexion:', errorData);
       }
     } catch (err) {
       console.error('Erreur réseau ou inattendue:', err);
-      setError(getTranslation('loginPage', 'errorGeneric', language));
+      setError(getTranslation('loginPage', 'errorGeneric', language)); // Message d'erreur générique pour les erreurs réseau
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleInstallClick = () => {
-    router.push('/install');
+    router.push('/install'); // Redirige vers la page d'installation
   };
 
   return (
