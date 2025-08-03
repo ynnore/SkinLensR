@@ -1,4 +1,5 @@
 # backend/main.py
+
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -7,25 +8,57 @@ from typing import List, Optional, AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
+# Assurez-vous que ces imports sont corrects et que les fichiers existent
 from app.database import get_db, engine
 from app.models.base import Base
 from app import schemas, crud, auth
-
+from app.models.user import User
+from app.models.legal_document import LegalDocument
+from app.models.user_legal_agreement import UserLegalAgreement
+from app.schemas import UserCreate, LegalDocumentCreate, UserLegalAgreementCreate, UserResponse, Token, AgentDocumentCreate, AgentResponse, AgentQuery
 from app.embeddings import get_embedding, get_llm_response
 from app.models.agent_document import AgentDocument
 from app.models.agent_document import VECTOR_DIMENSION
-from app.auth import router as auth_router  # ← importe ton router ici
+from app.auth import router as auth_router
 
-app = FastAPI()
+# --- Initialisation unique de l'application FastAPI ---
+app = FastAPI(
+    title="Kiwi-ops Backend API",
+    description="API pour la gestion stratégique, l'authentification, les documents légaux et les agents IA de Kiwi-ops.",
+    version="0.1.0",
+    lifespan=asynccontextmanager(lambda app_instance: lifespan(app_instance)) # Correctement passé
+)
 
-# Monte les routes
+# --- Configuration CORS ---
+# Ajoutez le middleware CORS IMMEDIATEMENT APRES l'initialisation de FastAPI.
+# C'est crucial pour que les requêtes du frontend (sur une origine différente) soient autorisées.
+origins = [
+    "http://localhost:3000",  # Origine de votre frontend local Next.js
+    "http://127.0.0.1:8000",  # Origine de votre backend local (pour Swagger UI)
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Autorise toutes les méthodes HTTP (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Autorise tous les headers
+)
+
+# Montez vos routeurs APRES l'initialisation de FastAPI ET l'ajout du middleware CORS
 app.include_router(auth_router)
-# --- Utilitaires de Base de Données ---
-def create_tables():
-    Base.metadata.create_all(bind=engine)
+# Si vous avez d'autres routeurs pour les documents légaux ou agents, incluez-les ici
+# Par exemple :
+# from app.routers.legal_documents import router as legal_document_router
+# from app.routers.agent_documents import router as agent_router
+# app.include_router(legal_document_router)
+# app.include_router(agent_router)
 
-# Gestionnaire de contexte pour le cycle de vie de l'application
-@asynccontextmanager
+
+# --- Utilitaires de Base de Données ---
+# La fonction create_tables() n'est plus nécessaire ici car le lifespan gère la création des tables.
+
+# --- Gestionnaire de contexte pour le cycle de vie de l'application ---
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     print("Application démarre...")
     # Utilisez l'engine pour create_all(), pas get_db()
@@ -37,31 +70,11 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     print("Application s'arrête...")
 
 
-# Initialise l'application FastAPI
-app = FastAPI(
-    title="Kiwi-ops Backend API",
-    description="API pour la gestion stratégique, l'authentification, les documents légaux et les agents IA de Kiwi-ops.",
-    version="0.1.0",
-    lifespan=lifespan
-)
-
-# Configuration CORS
-origins = [
-    "http://localhost:3000",
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Schéma de sécurité OAuth2
+# --- Schéma de sécurité OAuth2 ---
+# Le tokenUrl doit correspondre au chemin de la route POST qui génère le token.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Dépendances d'Authentification
+# --- Dépendances d'Authentification ---
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -78,7 +91,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     if user is None:
         raise credentials_exception
 
-    # DEBUGGING
     print(f"DEBUG in get_current_user: Token Payload: {payload}")
     print(f"DEBUG in get_current_user: User from DB - Email: {user.email}, Role: {user.role}")
 
@@ -140,7 +152,7 @@ async def read_users_me(current_user: schemas.UserResponse = Depends(get_current
 async def create_legal_document(
     doc: schemas.LegalDocumentCreate,
     db: Session = Depends(get_db),
-    current_admin: schemas.UserResponse = Depends(get_current_admin_user)
+    current_admin: schemas.UserResponse = Depends(get_current_admin_user) # Assure que l'utilisateur est admin
 ):
     existing_doc = crud.get_legal_document(db, doc.type, doc.language, doc.version)
     if existing_doc:
@@ -153,8 +165,7 @@ async def get_legal_documents(
     language: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    # Assurez-vous que 'LegalDocument' est importé depuis app.models.legal_document
-    documents = db.query(LegalDocument).all() # Utilisation correcte du modèle importé
+    documents = db.query(LegalDocument).all()
     if type:
         documents = [d for d in documents if d.type == type]
     if language:
@@ -163,7 +174,7 @@ async def get_legal_documents(
 
 @app.get("/legal-documents/latest", response_model=schemas.LegalDocumentResponse)
 async def get_latest_legal_document(doc_type: str, lang: str, db: Session = Depends(get_db)):
-    doc = crud.get_legal_document(db, doc_type, lang)
+    doc = crud.get_latest_legal_document(db, doc_type, lang)
     if not doc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Latest legal document not found")
     return doc
@@ -173,20 +184,11 @@ async def get_latest_legal_document(doc_type: str, lang: str, db: Session = Depe
 async def record_user_agreement(
     agreement: schemas.UserLegalAgreementCreate,
     db: Session = Depends(get_db),
-    current_user: schemas.UserResponse = Depends(get_current_user)
+    current_user: schemas.UserResponse = Depends(get_current_user) # Assure que l'utilisateur est authentifié
 ):
-    # Assurez-vous que 'LegalDocument' est importé depuis app.models.legal_document
     doc = db.query(LegalDocument).filter(LegalDocument.id == agreement.document_id).first()
     if not doc:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Legal document not found")
-
-    # Assurez-vous que 'UserLegalAgreement' est importé depuis app.models.user_legal_agreement
-    # Exemple de logique pour marquer les anciens accords (commenté pour la simplicité)
-    # existing_agreements = db.query(UserLegalAgreement).filter(UserLegalAgreement.user_id == current_user.id).all()
-    # for ag in existing_agreements:
-    #     if ag.document.type == doc.type:
-    #         ag.is_latest_version_agreed = False
-    # db.commit()
 
     return crud.record_user_agreement(db=db, user_id=current_user.id, document_id=agreement.document_id)
 
@@ -195,16 +197,17 @@ async def record_user_agreement(
 # ROUTES POUR LA GESTION DES DOCUMENTS D'AGENT (RAG) - AVEC PGVECTOR SEUL
 # ==============================================================================
 
-@app.post("/agent-documents/", response_model=schemas.AgentDocumentResponse, status_code=status.HTTP_201_CREATED)
-async def create_agent_document_and_embedding(
-    doc_data: schemas.AgentDocumentCreate,
+@app.post("/scan", response_model=schemas.AgentResponse, status_code=status.HTTP_201_CREATED) # CHANGEMENT ICI: Le chemin est maintenant /scan
+async def scan_agent( # Renommé la fonction pour être plus descriptif
+    query_data: schemas.AgentQuery,
     db: Session = Depends(get_db),
-    current_admin: schemas.UserResponse = Depends(get_current_admin_user)
+    current_admin: schemas.UserResponse = Depends(get_current_admin_user) # Assure que l'utilisateur est admin
 ):
-    embedding = get_embedding(doc_data.content)
-    if not embedding:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate embedding for the document.")
+    query_embedding = get_embedding(query_data.query)
+    if not query_embedding:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to generate embedding for the query.")
     
+    # Vérifier la dimension de l'embedding par rapport à la configuration (VECTOR_DIMENSION)
     if len(embedding) != VECTOR_DIMENSION:
          raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Embedding dimension mismatch: expected {VECTOR_DIMENSION}, got {len(embedding)}. Please check your embedding model configuration.")
 
@@ -236,7 +239,7 @@ async def ask_agent(query_data: schemas.AgentQuery, db: Session = Depends(get_db
     similar_documents = (
         db.query(AgentDocument)
         .order_by(AgentDocument.embedding.cosine_distance(query_embedding))
-        .limit(query_data.top_k)
+        .limit(query_data.top_k) # Assurez-vous que 'top_k' est dans schemas.AgentQuery
         .all()
     )
 

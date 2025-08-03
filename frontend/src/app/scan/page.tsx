@@ -1,6 +1,4 @@
-'use client';
-
-export const dynamic = "force-dynamic";
+'use client';'use client';
 
 import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import styles from './scan.module.css';
@@ -62,8 +60,8 @@ interface Message {
 const allTranslations = {
   header: {
     missionStatement: {
-      fr: "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.",
       en: "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
+      fr: "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.",
       mi: "He mea whakahihiri mai i ngā kaikeri o raro o Te Whanganui-a-Tara ki Arras, ko tā mātou kaupapa he hanga i roto i te atarangi i ngā mea ka puta ki te mata āpōpopo.",
       ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
@@ -240,11 +238,11 @@ const ChatInterface: React.FC = () => {
     setInputValue('');
     setIsLoading(true);
 
-    // Déterminez l'URL du backend en fonction de l'environnement
-    // Assurez-vous que le port (8000) est correct et que l'endpoint '/ask' correspond à votre backend
+    // --- CORRECTION ICI ---
+    // Assurez-vous que l'URL pointe vers le bon endpoint de votre backend (/scan)
     const backendUrl = process.env.NODE_ENV === 'production'
-      ? 'https://api.kiwi-ops.com/scan' // URL de production
-      : 'http://localhost:8000/scan'; // URL de développement local
+      ? 'https://api.kiwi-ops.com/scan' // L'URL de production de votre backend (si elle est différente)
+      : 'http://localhost:8000/scan';   // L'URL locale de votre backend
 
     fetch(backendUrl, {
       method: 'POST',
@@ -274,9 +272,9 @@ const ChatInterface: React.FC = () => {
         console.error('Error from backend:', err);
         let errorMessage = "Erreur lors de la communication avec le serveur.";
         if (err instanceof Error) {
-          errorMessage = err.message; // Utilise le message d'erreur s'il s'agit d'un objet Error
+          errorMessage = err.message;
         } else if (typeof err === 'string') {
-          errorMessage = err; // Utilise le message s'il est déjà une chaîne
+          errorMessage = err;
         }
         setMessages(prev => [
           ...prev,
@@ -288,11 +286,9 @@ const ChatInterface: React.FC = () => {
 
   // Gère la touche Entrée pour envoyer le message et les frappes de touches pour les sons
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    // Joue un son de frappe pour chaque caractère tapé (sauf si c'est une touche spéciale)
     if (e.key.length === 1) playSound(sounds.current.typing);
-    // Si la touche Entrée est pressée et que le chargement n'est pas actif, envoie le message
     if (e.key === 'Enter' && !isLoading) {
-        e.preventDefault(); // Empêche le comportement par défaut (ex: rechargement de page dans certains contextes)
+        e.preventDefault();
         handleSendMessage();
     }
   };
@@ -300,7 +296,7 @@ const ChatInterface: React.FC = () => {
   // Fonction pour obtenir l'URL de l'avatar approprié
   const getAvatar = (role: 'user' | 'assistant') => {
     const src = role === 'user' ? (userAvatarsMapping[language] || userAvatarsMapping.default) : currentAgent.avatarPath;
-    return <img src={src} alt={role === 'user' ? 'User' : currentAgent.name} className={styles.avatarImage} />; // Ajout d'une classe pour le style de l'image
+    return <img src={src} alt={role === 'user' ? 'User' : currentAgent.name} className={styles.avatarImage} />;
   };
 
   // Définit les couleurs en fonction du thème
@@ -343,7 +339,6 @@ const ChatInterface: React.FC = () => {
             <p className={styles.messageContent}>{msg.content}</p>
           </div>
         ))}
-        {/* Div pour faire défiler automatiquement vers le bas */}
         <div ref={messagesEndRef} />
       </div>
 
@@ -372,6 +367,11 @@ const ChatInterface: React.FC = () => {
             onKeyDown={handleKeyDown}
             placeholder={getTranslation('chat', 'placeholder', language)}
             aria-label="Message input"
+            style={{ // Ajout de styles inline pour s'assurer que les propriétés du thème sont appliquées
+              backgroundColor: theme === 'dark' ? '#1F1F2A' : '#FFFFFF',
+              color: theme === 'dark' ? '#E0E0E0' : 'black',
+              borderColor: theme === 'dark' ? '#444444' : '#CCCCCC',
+            }}
           />
           <button className={styles.sendButton} onClick={handleSendMessage} disabled={isLoading} aria-label="Send message">
             <VscArrowUp />

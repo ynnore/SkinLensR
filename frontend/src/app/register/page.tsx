@@ -1,216 +1,279 @@
-'use client'; // Indique que ce composant est un Client Component
+'use client';
 
-import React from 'react';
-import { useTheme } from '@/contexts/ThemeContext'; // Assurez-vous que ce chemin est correct
-import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
-import { LanguageCode } from '@/types'; // Importez LanguageCode
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+// Importer usePathname pour obtenir le chemin actuel, et useRouter pour la navigation
+import { usePathname, useRouter } from 'next/navigation'; 
+import { useTheme } from '@/contexts/ThemeContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageCode } from '@/types';
+import { CheckCircle, XCircle, Circle } from 'lucide-react'; // Icônes pour indiquer l'état
 
-// Définitions des traductions pour cette page BETA (inscription/register)
+import styles from './register.module.css'; // Assurez-vous que ce chemin est correct
+
+// --- Traductions ---
 const allTranslations = {
-  registerPageBeta: { // Section spécifique pour cette page simplifiée (REGISTER)
-    mainTitleLine1: {
-      en: 'Registration Bureau',
-      fr: 'Bureau d\'Inscription',
-      mi: 'Tari Whakarēhita',
-      ga: 'Biúró Clárúcháin',
-      hi: 'पंजीकरण ब्यूरो',
-      gd: 'Biùro Clàraidh',
-      'en-AU': 'Registration Bureau', 'en-NZ': 'Registration Bureau', 'en-CA': 'Registration Bureau', 'fr-CA': 'Bureau d\'Inscription', 'en-ZA': 'Registrasiekantoor', af: 'Registrasiekantoor'
-    },
-    mainTitleLine2: {
-      en: '— Enrollment Protocols —',
-      fr: '— Protocoles d\'Enrôlement —',
-      mi: '— Tikanga Whakarēhita —',
-      ga: '— Prótacail Clárúcháin —',
-      hi: '— नामांकन प्रोटोकॉल —',
-      gd: '— Protocolan Clàraidh —',
-      'en-AU': '— Enrollment Protocols —', 'en-NZ': '— Enrollment Protocols —', 'en-CA': '— Enrollment Protocols —', 'fr-CA': '— Protocoles d\'Enrôlement —', 'en-ZA': '— Inskrywing Protokolle —', af: '— Inskrywing Protokolle —'
-    },
-    subtitle: {
-      en: '"Streamlined procedures for agent registration and onboarding."',
-      fr: '"Procédures simplifiées pour l\'enregistrement et l\'intégration des agents."',
-      mi: '"Ngā tukanga māmā mō te rēhita me te whakauru āpiha."',
-      ga: '"Nósanna imeachta simplithe le haghaidh clárúcháin agus ionduchtú gníomhaire."',
-      hi: '"एजेंट पंजीकरण और ऑनबोर्डिंग के लिए सुव्यवस्थित प्रक्रियाएं।"',
-      gd: '"Modhan sìmplidhe airson clàradh agus tòiseachadh àidseant."',
-      'en-AU': '"Streamlined procedures for agent registration and onboarding."', 'en-NZ': '"Streamlined procedures for agent registration and onboarding."', 'en-CA': '"Streamlined procedures for agent registration and onboarding."', 'fr-CA': '"Procédures simplifiées pour l\'enregistrement et l\'intégration des agents."', 'en-ZA': '"Vaartbelynde prosedures vir agentregistrasie en instap."', af: '"Vaartbelynde prosedures vir agentregistrasie en instap."'
-    },
-    developmentTitle: {
-      en: 'Enrollment Module Under Development',
-      fr: 'Module d\'Enrôlement en Cours de Développement',
-      mi: 'Kōwae Whakarēhita kei te Whakawhanake',
-      ga: 'Modúl Clárúcháin Faoi Fhorbairt',
-      hi: 'नामांकन मॉड्यूल विकास में है',
-      gd: 'Modal Clàraidh fo Leasachadh',
-      'en-AU': 'Enrollment Module Under Development', 'en-NZ': 'Enrollment Module Under Development', 'en-CA': 'Enrollment Module Under Development', 'fr-CA': 'Module d\'Enrôlement en Cours de Développement', 'en-ZA': 'Inskrywingsmodule Onder Ontwikkeling', af: 'Inskrywingsmodule Onder Ontwikkeling'
-    },
-    betaTag: {
-      en: 'Beta Version',
-      fr: 'Version Bêta',
-      mi: 'Putanga Bêta',
-      ga: 'Leagan Béite',
-      hi: 'बीटा संस्करण',
-      gd: 'Tionndadh Beta',
-      'en-AU': 'Beta Version', 'en-NZ': 'Beta Version', 'en-CA': 'Beta Version', 'fr-CA': 'Version Bêta', 'en-ZA': 'Beta Weergawe', af: 'Beta Weergawe'
-    },
-    developmentMessage: {
-      en: 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.',
-      fr: 'Les protocoles d\'enrôlement et d\'authentification des agents sont en cours de finalisation pour une intégration robuste et sécurisée. La fonctionnalité d\'inscription complète sera bientôt disponible.',
-      mi: 'Kei te whakatika ngā tikanga rēhita me te whakamana āpiha mō te whakauru kaha me te haumaru. Ka wātea kētia te mahi rēhita katoa.',
-      ga: 'Tá na prótacail clárúcháin agus fíordheimhnithe gníomhaire á gcríochnú le haghaidh ionduchtú láidir slán. Beidh feidhmchlár clárúcháin iomlán ar fáil go luath.',
-      hi: 'एजेंट नामांकन और प्रमाणीकरण प्रोटोकॉल मजबूत और सुरक्षित ऑनबोर्डिंग के लिए अंतिम रूप दिए जा रहे हैं। पूर्ण पंजीकरण कार्यक्षमता जल्द ही उपलब्ध होगी।',
-      gd: 'Tha protocolan clàraidh is dearbhaidh àidseant gan cur gu crìch airson bòrd-obrach làidir is tèarainte. Bidh làn ghnìomhachd clàraidh ri fhaighinn a dh’aithghearr.',
-      'en-AU': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'en-NZ': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'en-CA': 'The agent enrollment and authentication protocols are being finalized for robust and secure onboarding. Full registration functionality will be available soon.', 'fr-CA': 'Les protocoles d\'enrôlement et d\'authentification des agents sont en cours de finalisation pour une intégration robuste et sécurisée. La fonctionnalité d\'inscription complète sera bientôt disponible.', 'en-ZA': 'Die agentinskrywings- en verifikasieprotokolle word gefinaliseer vir robuuste en veilige instap. Volle registrasiefunksionaliteit sal binnekort beskikbaar wees.', af: 'Die agentinskrywings- en verifikasieprotokolle word gefinaliseer vir robuuste en veilige instap. Volle registrasiefunksionaliteit sal binnekort beskikbaar wees.'
-    },
-    stayTuned: {
-      en: 'Please check back soon for full access.',
-      fr: 'Veuillez revenir bientôt pour un accès complet.',
-      mi: 'Tēnā hoki mai anō kia wātea te uru katoa.',
-      ga: 'Fill ar ais go luath le haghaidh rochtain iomlán.',
-      hi: 'पूर्ण पहुंच के लिए कृपया जल्द ही वापस देखें।',
-      gd: 'Thig air ais a dh\'aithghearr airson làn chothrom.',
-      'en-AU': 'Please check back soon for full access.', 'en-NZ': 'Please check back soon for full access.', 'en-CA': 'Please check back soon for full access.', 'fr-CA': 'Veuillez revenir bientôt pour un accès complet.', 'en-ZA': 'Kom binnekort weer vir volle toegang.', af: 'Kom binnekort weer vir volle toegang.'
-    },
-    copyright: {
-      en: 'Kiwi-Ops – Provisional Enrollment Protocol.',
-      fr: 'Kiwi-Ops – Protocole d\'Enrôlement Provisoire.',
-      mi: 'Kiwi-Ops – Tikanga Whakarēhita Wāhanga.',
-      ga: 'Kiwi-Ops – Prótacal Clárúcháin Sealadach.',
-      hi: 'कीवी-ऑप्स – अनंतिम नामांकन प्रोटोकॉल।',
-      gd: 'Kiwi-Ops – Protocol Clàraidh Sealach.',
-      'en-AU': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'en-NZ': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'en-CA': 'Kiwi-Ops – Provisional Enrollment Protocol.', 'fr-CA': 'Kiwi-Ops – Protocole d\'Enrôlement Provisoire.', 'en-ZA': 'Kiwi-Ops – Voorlopige Inskrywing Protokol.', af: 'Kiwi-Ops – Voorlopige Inskrywing Protokol.'
-    },
+  onboarding: {
+    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', ga: 'Logáil', hi: 'लॉग इन', gd: 'Log a-steach', 'en-AU': 'Login', 'fr-CA': 'Connexion', 'en-ZA': 'Login' },
+    stepRegister: { en: 'Register', fr: 'Inscription', mi: 'Rēhita', ga: 'Clárú', hi: 'पंजीकरण', gd: 'Clàradh', 'en-AU': 'Register', 'fr-CA': 'Inscription', 'en-ZA': 'Registrasie' },
+    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de Confidentialité', mi: 'Kaupapahere Tūmataiti', ga: 'Polasaí Príobháideachta', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', 'en-AU': 'Privacy Policy', 'fr-CA': 'Politique de Confidentialité', 'en-ZA': 'Privaatheidbeleid' },
+    stepTerms: { en: 'Terms of Service', fr: 'Conditions d\'Utilisation', mi: 'Ngā Ture Whakamahi', ga: 'Téarmaí Seirbhís', hi: 'सेवा की शर्तें', gd: 'Teirmichean Seirbheis', 'en-AU': 'Terms of Service', 'en-CA': 'Terms of Service', 'fr-CA': 'Conditions d\'Utilisation', 'en-ZA': 'Diensvoorwaardes', af: 'Diensvoorwaardes' },
+    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', ga: 'Suíomhanna', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', 'en-AU': 'Settings', 'en-NZ': 'Settings', 'en-CA': 'Settings', 'fr-CA': 'Paramètres', 'en-ZA': 'Instellings', af: 'Instellings' },
+    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', 'en-AU': 'Pricing', 'en-NZ': 'Pricing', 'en-CA': 'Pricing', 'fr-CA': 'Tarifs', 'en-ZA': 'Prysbelle', af: 'Prysbelle' },
+    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', ga: 'Íocaíocht', hi: 'भुगतान', gd: 'Pàigheadh', 'en-AU': 'Payment', 'en-NZ': 'Payment', 'en-CA': 'Payment', 'fr-CA': 'Paiement', 'en-ZA': 'Betaling', af: 'Betaling' },
+    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', 'en-AU': 'Profile', 'en-NZ': 'Profile', 'en-CA': 'Profile', 'fr-CA': 'Profil', 'en-ZA': 'Profiel', af: 'Profiel' },
+    statusCompleted: { en: 'Completed', fr: 'Terminé', mi: 'Kua Oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnaichte', 'en-AU': 'Completed', 'fr-CA': 'Terminé', 'en-ZA': 'Voltooid', af: 'Voltooid' },
+    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Ke Tatari ana', ga: 'Ar Fuireach', hi: 'लंबित', gd: 'A’ feitheamh', 'en-AU': 'Pending', 'fr-CA': 'En attente', 'en-ZA': 'Hangende', af: 'Hangende' },
+    statusCurrent: { en: 'Current Step', fr: 'Étape actuelle', mi: 'Te Takiwa o Naianei', ga: 'Céim Reatha', hi: 'वर्तमान चरण', gd: 'An Ceum An-dràsta', 'en-AU': 'Current Step', 'fr-CA': 'Étape actuelle', 'en-ZA': 'Huidige Stap', af: 'Huidige Stap' }
   },
+  // ... (autres traductions pour header, chat) ...
 };
 
-// Fonction de traduction générique
-const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
-  section: S,
-  key: K,
-  lang: LanguageCode
-): string => {
-  const sectionTranslations = allTranslations[section];
-  if (!sectionTranslations) {
-    console.warn(`Translation section not found: ${String(section)}`);
-    return `[Missing Section: ${String(section)}]`;
+function getTranslation(section: keyof typeof allTranslations, keyPath: string, lang: LanguageCode): string {
+  const keys = keyPath.split('.');
+  let value: any = allTranslations[section];
+  
+  for (const key of keys) {
+    if (!value || typeof value !== 'object') break;
+    value = value[key];
   }
-  const specificTranslations = sectionTranslations[key];
-  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
-    console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
-    return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+
+  if (typeof value !== 'object' || value === null || !('en' in value)) {
+    console.warn(`Translation missing or invalid for: ${section}.${keyPath} in language ${lang}`);
+    return `[Invalid Translation: ${section}.${keyPath}]`;
   }
-  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+
+  return (value as { [l: string]: string })[lang] || (value as { [l: string]: string }).en || '';
 };
 
+interface Step {
+  path: string;
+  labelKey: string;
+  icon: React.ElementType;
+  iconColor?: string;
+  statusKey?: string;
+  isCurrent?: boolean;
+  isDisabled?: boolean;
+}
 
-export default function RegisterPage() { // Le nom du composant reste RegisterPage
+export default function RegisterPage() {
+  const { language } = useLanguage();
   const { theme } = useTheme();
-  const { language } = useLanguage(); // Obtenez la langue courante
+  const router = useRouter(); // Garder useRouter si vous en avez besoin pour router.push
 
-  // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
+  // Utiliser usePathname pour obtenir le chemin actuel
+  const currentPath = usePathname(); 
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
+
+  // Définition des étapes du flux
+  const onboardingSteps: Step[] = [
+    { path: '/login', labelKey: 'stepLogin', icon: Circle, isDisabled: false },
+    { path: '/register', labelKey: 'stepRegister', icon: Circle, isDisabled: false },
+    { path: '/privacy-policy', labelKey: 'stepPrivacyPolicy', icon: Circle, isDisabled: true },
+    { path: '/terms', labelKey: 'stepTerms', icon: Circle, isDisabled: true },
+    { path: '/settings', labelKey: 'stepSettings', icon: Circle, isDisabled: true },
+    { path: '/pricing', labelKey: 'stepPricing', icon: Circle, isDisabled: true },
+    { path: '/pay', labelKey: 'stepPay', icon: Circle, isDisabled: true },
+    { path: '/profile', labelKey: 'stepProfile', icon: Circle, isDisabled: true },
+  ];
+
+  // Mettre à jour l'état de l'étape active lorsque le chemin change
+  useEffect(() => {
+    // currentPath est mis à jour automatiquement par usePathname, donc on peut l'utiliser directement.
+    const currentIndex = onboardingSteps.findIndex(step => step.path === currentPath);
+    if (currentIndex !== -1) {
+      setActiveStepIndex(currentIndex);
+    } else {
+      // Si le chemin actuel n'est pas une étape définie, on ne change pas l'index.
+      // Cela maintient l'indicateur sur la dernière étape atteinte.
+    }
+  }, [currentPath, onboardingSteps]); // Dépendances : currentPath et onboardingSteps
+
+
+  // Fonction pour déterminer l'état de l'étape (icône, couleur, statut)
+  const getStepStatus = (step: Step, index: number) => {
+    // Les étapes sont considérées comme complétées si leur index est inférieur à l'index de l'étape active ET qu'elles ne sont pas désactivées.
+    const isCompleted = index < activeStepIndex && !step.isDisabled;
+    // L'étape est actuelle si son index correspond à activeStepIndex ET qu'elle n'est pas désactivée.
+    const isCurrent = index === activeStepIndex && !step.isDisabled;
+
+    if (step.isDisabled) {
+      return { icon: XCircle, color: 'gray', status: getTranslation('onboarding', 'statusPending', language) };
+    }
+    if (isCurrent) {
+      return { icon: Circle, color: 'blue', status: getTranslation('onboarding', 'statusCurrent', language) };
+    }
+    if (isCompleted) {
+      return { icon: CheckCircle, color: 'green', status: getTranslation('onboarding', 'statusCompleted', language) };
+    }
+    return { icon: XCircle, color: 'red', status: getTranslation('onboarding', 'statusPending', language) };
+  };
+
+  // Styles basés sur le thème
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
-  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF'; // Fond blanc pour le mode clair
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Fond des sections/cartes
-  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
-  const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
-  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF';
+  const separatorColor = theme === 'dark' ? '#444444' : '#DDDDDD';
+  const progressTrackColor = theme === 'dark' ? '#4A90E2' : '#0070f3';
 
-  const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3'; // Fond léger pour l'alerte
-  const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Rouge pour l'alerte de développement
-  const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Bordure pour l'alerte de développement
+  // Styles pour le bloc de développement
+  const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3';
+  const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000';
+  const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
 
   return (
     <div style={{
       padding: '2rem',
-      maxWidth: '1000px', // Largeur adaptée pour le contenu
+      maxWidth: '1000px',
       margin: '0 auto',
-      lineHeight: '1.6',
-      fontSize: '1rem',
-      color: textColor,
-      fontFamily: "'Arial', sans-serif",
       backgroundColor: backgroundColorPage,
+      color: textColor,
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'flex-start',
+      fontFamily: "'Arial', sans-serif",
     }}>
-      <h1 style={{
-        marginBottom: '1rem',
-        fontSize: '3.8rem',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontFamily: "'Playfair Display', serif",
-        textTransform: 'uppercase',
-        letterSpacing: '3px',
-        color: textColor,
-        textShadow: `3px 3px 0px ${textShadowColor}`
-      }}>
-        {getTranslation('registerPageBeta', 'mainTitleLine1', language)}<br />
-        {getTranslation('registerPageBeta', 'mainTitleLine2', language)}
-      </h1>
-      <p style={{
-        fontStyle: 'italic',
-        marginBottom: '3rem',
-        textAlign: 'center',
-        color: mutedTextColor,
-        fontSize: '1.2rem',
-        maxWidth: '80%',
-        borderBottom: `1px solid ${borderColor}`,
-        paddingBottom: '1rem'
-      }}>
-        {getTranslation('registerPageBeta', 'subtitle', language)}
-      </p>
-
-      {/* Carte d'information "En cours de développement" */}
-      <section style={{
-        width: '100%',
-        marginTop: '3rem',
-        padding: '2rem',
-        border: `2px dashed ${warningBorder}`,
-        borderRadius: '8px',
-        backgroundColor: warningBackground,
-        color: warningText,
-        textAlign: 'center',
-        boxShadow: `4px 4px 0px ${shadowColorCard}`,
+      {/* Barre de progression visuelle */}
+      <div style={{
         display: 'flex',
-        flexDirection: 'column',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '200px',
+        width: '100%',
+        marginBottom: '3rem',
+        padding: '1rem 0',
+        borderBottom: `1px solid ${borderColor}`,
+        position: 'relative',
       }}>
-        <h2 style={{
-          fontSize: '2rem',
-          marginBottom: '1rem',
+        {onboardingSteps.map((step, index) => {
+          const { icon: IconComponent, color, status: stepStatus } = getStepStatus(step, index);
+          const isLastStep = index === onboardingSteps.length - 1;
+
+          return (
+            <React.Fragment key={step.path}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  flex: 1,
+                  textAlign: 'center',
+                  cursor: step.isDisabled ? 'not-allowed' : 'pointer',
+                  opacity: step.isDisabled ? 0.6 : 1,
+                  padding: '0.5rem',
+                }}
+                onClick={() => {
+                  if (!step.isDisabled) {
+                    router.push(step.path); // Utilise le router pour la navigation
+                  }
+                }}
+              >
+                <div style={{
+                  width: '40px', height: '40px', borderRadius: '50%',
+                  backgroundColor: color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '0.5rem',
+                  border: `2px solid ${theme === 'dark' ? '#FFFFFF' : '#000000'}`,
+                  position: 'relative',
+                }}>
+                  <IconComponent size={24} color={theme === 'dark' ? '#1A1A2E' : '#FFFFFF'} />
+                  <span style={{
+                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                    fontSize: '0.8rem', color: theme === 'dark' ? '#1A1A2E' : '#FFFFFF', fontWeight: 'bold'
+                  }}>{index + 1}</span>
+                </div>
+                <span style={{
+                  fontSize: '0.9rem',
+                  color: step.isCurrent ? highlightColor : mutedTextColor,
+                  fontWeight: step.isCurrent ? 'bold' : 'normal',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {getTranslation('onboarding', step.labelKey as any, language)}
+                </span>
+                {stepStatus && <span style={{ fontSize: '0.7rem', color: mutedTextColor }}>({stepStatus})</span>}
+              </div>
+
+              {!isLastStep && (
+                <div style={{
+                  flexGrow: 1,
+                  height: '2px',
+                  backgroundColor: separatorColor,
+                  marginLeft: '0.5rem', marginRight: '0.5rem',
+                  position: 'relative',
+                }}>
+                  <div style={{
+                    position: 'absolute', top: '-4px', left: '0', height: '100%',
+                    width: (index < activeStepIndex) ? '100%' : '0%',
+                    backgroundColor: progressTrackColor,
+                    transition: 'width 0.3s ease-in-out',
+                  }}></div>
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+
+      {/* Contenu principal de la page */}
+      {currentPath === '/register' && (
+        <div style={{
+          width: '100%',
+          marginTop: '3rem',
+          padding: '2rem',
+          border: `2px dashed ${warningBorder}`,
+          borderRadius: '8px',
+          backgroundColor: warningBackground,
           color: warningText,
-          fontFamily: "'Playfair Display', serif",
-          fontWeight: 'bold',
-          textTransform: 'uppercase'
+          textAlign: 'center',
+          boxShadow: `4px 4px 0px ${shadowColorCard}`,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '200px',
         }}>
-          {getTranslation('registerPageBeta', 'developmentTitle', language)}
-        </h2>
-        <p style={{
-          fontSize: '1.2rem',
-          fontStyle: 'italic',
-          color: mutedTextColor,
-          maxWidth: '700px'
-        }}>
-          {getTranslation('registerPageBeta', 'developmentMessage', language)}
-        </p>
-        <p style={{
-          fontSize: '1.1rem',
-          marginTop: '1.5rem',
-          fontWeight: 'bold',
-          color: warningText
-        }}>
-          {getTranslation('registerPageBeta', 'betaTag', language)} – {getTranslation('registerPageBeta', 'stayTuned', language)}
-        </p>
-      </section>
+          <h2 style={{
+            fontSize: '2rem',
+            marginBottom: '1rem',
+            color: warningText,
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
+          }}>
+            {getTranslation('onboarding', 'developmentTitle', language)}
+          </h2>
+          <p style={{
+            fontSize: '1.2rem',
+            fontStyle: 'italic',
+            color: mutedTextColor,
+            maxWidth: '700px'
+          }}>
+            {getTranslation('onboarding', 'developmentMessage', language)}
+          </p>
+          <p style={{
+            fontSize: '1.1rem',
+            marginTop: '1.5rem',
+            fontWeight: 'bold',
+            color: warningText
+          }}>
+            {getTranslation('onboarding', 'betaTag', language)} – {getTranslation('onboarding', 'stayTuned', language)}
+          </p>
+        </div>
+      )}
+      {/* Vous devrez ajouter des conditions similaires pour les autres étapes si vous voulez afficher du contenu dynamique pour chacune */}
+      {/* Exemple pour la page de connexion (/login) : */}
+      {currentPath === '/login' && (
+        <div style={{ width: '100%', marginTop: '3rem' }}>
+          <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Bienvenue sur la page de connexion</h2>
+          <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page de connexion...</p>
+          {/* Intégrer ici le formulaire de connexion */}
+        </div>
+      )}
 
       <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
-        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('registerPageBeta', 'copyright', language)}
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('onboarding', 'copyright', language)}
       </p>
     </div>
   );
