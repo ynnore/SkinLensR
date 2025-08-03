@@ -13,7 +13,12 @@ def get_user_by_email(db: Session, email: str) -> Optional[User]:
 
 def create_user(db: Session, user: UserCreate, hashed_password: str) -> User:
     """Crée un nouvel utilisateur dans la base de données."""
-    db_user = User(email=user.email, hashed_password=hashed_password, role=user.role)
+    db_user = User(
+        username=user.email,  # <-- On assigne l'email au champ 'username'
+        email=user.email,
+        hashed_password=hashed_password,
+        role=user.role
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
