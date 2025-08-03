@@ -1,15 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-// Importer usePathname pour obtenir le chemin actuel, et useRouter pour la navigation
 import { usePathname, useRouter } from 'next/navigation'; 
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
-import { CheckCircle, XCircle, Circle } from 'lucide-react'; // Icônes pour indiquer l'état
-
-import styles from './register.module.css'; // Assurez-vous que ce chemin est correct
+import { CheckCircle, XCircle, Circle } from 'lucide-react';
+import styles from './register.module.css'; 
 
 // --- Traductions ---
 const allTranslations = {
@@ -24,9 +22,14 @@ const allTranslations = {
     stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', 'en-AU': 'Profile', 'en-NZ': 'Profile', 'en-CA': 'Profile', 'fr-CA': 'Profil', 'en-ZA': 'Profiel', af: 'Profiel' },
     statusCompleted: { en: 'Completed', fr: 'Terminé', mi: 'Kua Oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnaichte', 'en-AU': 'Completed', 'fr-CA': 'Terminé', 'en-ZA': 'Voltooid', af: 'Voltooid' },
     statusPending: { en: 'Pending', fr: 'En attente', mi: 'Ke Tatari ana', ga: 'Ar Fuireach', hi: 'लंबित', gd: 'A’ feitheamh', 'en-AU': 'Pending', 'fr-CA': 'En attente', 'en-ZA': 'Hangende', af: 'Hangende' },
-    statusCurrent: { en: 'Current Step', fr: 'Étape actuelle', mi: 'Te Takiwa o Naianei', ga: 'Céim Reatha', hi: 'वर्तमान चरण', gd: 'An Ceum An-dràsta', 'en-AU': 'Current Step', 'fr-CA': 'Étape actuelle', 'en-ZA': 'Huidige Stap', af: 'Huidige Stap' }
+    statusCurrent: { en: 'Current Step', fr: 'Étape actuelle', mi: 'Te Takiwa o Naianei', ga: 'Céim Reatha', hi: 'वर्तमान चरण', gd: 'An Ceum An-dràsta', 'en-AU': 'Current Step', 'fr-CA': 'Étape actuelle', 'en-ZA': 'Huidige Stap', af: 'Huidige Stap' },
+    // Ajout des nouvelles traductions manquantes
+    developmentTitle: { en: 'Under Construction', fr: 'En construction', mi: 'Kei Hangaia', ga: 'Faoin Tógáil', hi: 'निर्माणाधीन', gd: 'Fo Thogail', 'en-AU': 'Under Construction', 'fr-CA': 'En construction', 'en-ZA': 'Onder Konstruksie' },
+    developmentMessage: { en: 'This page is currently in development. Please check back later!', fr: 'Cette page est en cours de développement. Veuillez revenir plus tard !', mi: 'Kei te whakawhanaketia tēnei whārangi. Tēnā koa hoki mai ā muri atu!', ga: 'Tá an leathanach seo á fhorbairt faoi láthair. Tar ar ais níos déanaí!', hi: 'यह पृष्ठ वर्तमान में विकास के अधीन है। कृपया बाद में पुनः जांचें!', gd: 'Tha an duilleag seo ga leasachadh an-dràsta. Feuch an tilleas tu a-rithist!', 'en-AU': 'This page is currently in development. Please check back later!', 'fr-CA': 'Cette page est en cours de développement. Veuillez revenir plus tard !', 'en-ZA': 'Hierdie bladsy is tans onder ontwikkeling. Kom asseblief later terug!' },
+    betaTag: { en: 'BETA', fr: 'BÊTA', mi: 'WHAKAMĀTAUTAU', ga: 'BÉITE', hi: 'बीटा', gd: 'BÈTA', 'en-AU': 'BETA', 'fr-CA': 'BÊTA', 'en-ZA': 'BÊTA' },
+    stayTuned: { en: 'Stay tuned for updates!', fr: 'Restez à l\'écoute pour les mises à jour !', mi: 'Kia mataara mo nga whakahoutanga!', ga: 'Fan socair le nuashonruithe!', hi: 'अद्यतनों के लिए बने रहें!', gd: 'Cùm sùil air ùrachaidhean!', 'en-AU': 'Stay tuned for updates!', 'fr-CA': 'Restez à l\'écoute pour les mises à jour !', 'en-ZA': 'Bly ingeskakel vir opdaterings!' },
+    copyright: { en: 'All rights reserved', fr: 'Tous droits réservés', mi: 'Kua rāhuitia ngā motika katoa', ga: 'Gach ceart ar cosaint', hi: 'सर्वाधिकार सुरक्षित', gd: 'Gach còir glèidhte', 'en-AU': 'All rights reserved', 'fr-CA': 'Tous droits réservés', 'en-ZA': 'Alle regte voorbehou' }
   },
-  // ... (autres traductions pour header, chat) ...
 };
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, lang: LanguageCode): string {
@@ -59,13 +62,10 @@ interface Step {
 export default function RegisterPage() {
   const { language } = useLanguage();
   const { theme } = useTheme();
-  const router = useRouter(); // Garder useRouter si vous en avez besoin pour router.push
-
-  // Utiliser usePathname pour obtenir le chemin actuel
+  const router = useRouter();
   const currentPath = usePathname(); 
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
-  // Définition des étapes du flux
   const onboardingSteps: Step[] = [
     { path: '/login', labelKey: 'stepLogin', icon: Circle, isDisabled: false },
     { path: '/register', labelKey: 'stepRegister', icon: Circle, isDisabled: false },
@@ -77,24 +77,17 @@ export default function RegisterPage() {
     { path: '/profile', labelKey: 'stepProfile', icon: Circle, isDisabled: true },
   ];
 
-  // Mettre à jour l'état de l'étape active lorsque le chemin change
   useEffect(() => {
-    // currentPath est mis à jour automatiquement par usePathname, donc on peut l'utiliser directement.
+    if (!currentPath) return;
+
     const currentIndex = onboardingSteps.findIndex(step => step.path === currentPath);
     if (currentIndex !== -1) {
       setActiveStepIndex(currentIndex);
-    } else {
-      // Si le chemin actuel n'est pas une étape définie, on ne change pas l'index.
-      // Cela maintient l'indicateur sur la dernière étape atteinte.
     }
-  }, [currentPath, onboardingSteps]); // Dépendances : currentPath et onboardingSteps
+  }, [currentPath, onboardingSteps]);
 
-
-  // Fonction pour déterminer l'état de l'étape (icône, couleur, statut)
   const getStepStatus = (step: Step, index: number) => {
-    // Les étapes sont considérées comme complétées si leur index est inférieur à l'index de l'étape active ET qu'elles ne sont pas désactivées.
     const isCompleted = index < activeStepIndex && !step.isDisabled;
-    // L'étape est actuelle si son index correspond à activeStepIndex ET qu'elle n'est pas désactivée.
     const isCurrent = index === activeStepIndex && !step.isDisabled;
 
     if (step.isDisabled) {
@@ -116,8 +109,10 @@ export default function RegisterPage() {
   const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF';
   const separatorColor = theme === 'dark' ? '#444444' : '#DDDDDD';
   const progressTrackColor = theme === 'dark' ? '#4A90E2' : '#0070f3';
+  
+  // Correction: Utilisation de progressTrackColor comme highlightColor
+  const highlightColor = progressTrackColor; 
 
-  // Styles pour le bloc de développement
   const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3';
   const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000';
   const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000';
@@ -166,7 +161,7 @@ export default function RegisterPage() {
                 }}
                 onClick={() => {
                   if (!step.isDisabled) {
-                    router.push(step.path); // Utilise le router pour la navigation
+                    router.push(step.path);
                   }
                 }}
               >
@@ -186,7 +181,8 @@ export default function RegisterPage() {
                 </div>
                 <span style={{
                   fontSize: '0.9rem',
-                  color: step.isCurrent ? highlightColor : mutedTextColor,
+                  // Correction: Utilisation de highlightColor définie plus haut
+                  color: step.isCurrent ? highlightColor : mutedTextColor, 
                   fontWeight: step.isCurrent ? 'bold' : 'normal',
                   whiteSpace: 'nowrap',
                 }}>
@@ -262,13 +258,11 @@ export default function RegisterPage() {
           </p>
         </div>
       )}
-      {/* Vous devrez ajouter des conditions similaires pour les autres étapes si vous voulez afficher du contenu dynamique pour chacune */}
-      {/* Exemple pour la page de connexion (/login) : */}
+      
       {currentPath === '/login' && (
         <div style={{ width: '100%', marginTop: '3rem' }}>
           <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Bienvenue sur la page de connexion</h2>
           <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page de connexion...</p>
-          {/* Intégrer ici le formulaire de connexion */}
         </div>
       )}
 
