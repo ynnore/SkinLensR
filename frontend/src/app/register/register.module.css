@@ -1,5 +1,6 @@
 /* Fichier: src/app/register/registerFlow.module.css */
 
+/* Styles généraux de la page */
 .pageContainer {
   padding: 2rem;
   min-height: 100vh;
@@ -9,15 +10,11 @@
   justify-content: flex-start; /* Commencer en haut */
   color: var(--kiwi-text-primary);
   background-color: var(--kiwi-background-page);
-  font-family: var(--font-arial); /* Assurez-vous que cette police est disponible ou ajustez-la */
+  font-family: var(--font-arial); /* Assurez-vous que cette police est disponible */
   box-sizing: border-box;
 }
 
-/* Conteneur pour le stepper et le contenu principal */
-/* Les styles sont principalement appliqués inline pour une meilleure gestion du thème dynamique. */
-/* Si des styles globaux sont nécessaires, ils iraient ici. */
-
-/* Styles pour le header général (contenant la mission et les icônes) */
+/* Styles pour le header général (mission, icônes) */
 .pageHeader {
   display: flex;
   justify-content: space-between;
@@ -92,14 +89,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Nécessaire pour le positionnement du numéro de step */
+  position: relative;
 }
 
 .avatarImage {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover; /* Assure que l'image remplit le cercle */
+  object-fit: cover;
 }
 
 .messageContent {
@@ -110,13 +107,13 @@
 }
 
 .userMessage .messageContent {
-  border-bottom-left-radius: 0; /* Arrondi différent pour le message utilisateur */
-  background-color: var(--kiwi-background-section); /* Utilise la couleur de fond définie */
+  border-bottom-left-radius: 0;
+  background-color: var(--kiwi-background-section);
 }
 
 .assistantMessage .messageContent {
-  border-bottom-right-radius: 0; /* Arrondi différent pour le message assistant */
-  background-color: var(--kiwi-background-section); /* Utilise la couleur de fond définie */
+  border-bottom-right-radius: 0;
+  background-color: var(--kiwi-background-section);
 }
 
 .pageFooter {
@@ -140,16 +137,16 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
-  margin: 0 1rem; /* Espace entre les actions et l'input */
+  margin: 0 1rem;
   position: relative;
 }
 
 .inputWrapper input {
   width: 100%;
   padding: 0.8rem 1.2rem;
-  padding-right: 3.5rem; /* Espace pour le bouton send */
+  padding-right: 3.5rem;
   border: 1px solid var(--kiwi-input-border-color);
-  border-radius: 20px; /* Bordure arrondie pour le champ de chat */
+  border-radius: 20px;
   background-color: var(--kiwi-input-background-color);
   color: var(--kiwi-text-primary);
   font-size: 1rem;
@@ -182,7 +179,7 @@
 }
 
 .sendButton:hover:not(:disabled) {
-  background-color: var(--kiwi-highlight-color-darker); /* Assurez-vous que cette variable existe ou ajustez */
+  background-color: var(--kiwi-highlight-color-darker);
 }
 
 .sendButton:disabled {
@@ -190,7 +187,7 @@
   cursor: not-allowed;
 }
 
-/* Styles pour les messages d'erreur/succès (si réintroduits dans d'autres étapes) */
+/* Styles pour les messages d'erreur/succès */
 .errorBox, .successBox {
   border-radius: 4px;
   padding: 1rem 1.5rem;
@@ -212,22 +209,120 @@
   border: 1px solid var(--kiwi-success-border);
 }
 
-/* Media Queries pour le Responsive Design */
+/* --- Styles pour la Barre de Progression (Stepper) --- */
+
+/* Conteneur principal de la barre de progression */
+.stepperContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--kiwi-separator-color);
+  position: relative;
+}
+
+/* Style pour chaque élément d'étape (cercle + label + statut) */
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1; /* Permet à chaque étape de prendre une partie égale de l'espace */
+  text-align: center;
+  cursor: pointer; /* Indique que c'est cliquable */
+  padding: 0.5rem;
+  position: relative; /* Nécessaire pour le positionnement du numéro de step */
+}
+
+.stepItem.isDisabled { /* Style pour les étapes désactivées */
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Conteneur du cercle pour l'icône */
+.stepIconContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  /* La couleur de fond et la bordure seront appliquées via style inline dans le composant React */
+  position: relative;
+}
+
+.stepIcon {
+  /* Les styles de l'icône elle-même sont gérés par lucide-react */
+}
+
+/* Le span pour le numéro de l'étape */
+.stepNumber {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: bold;
+  /* La couleur sera appliquée via style inline */
+}
+
+/* Le label de l'étape (texte) */
+.stepLabel {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.stepLabel.isCurrent { /* Style pour le label de l'étape actuelle */
+  font-weight: bold;
+}
+
+/* Le span pour le statut (Completed, Pending, etc.) */
+.stepStatus {
+  font-size: 0.7rem;
+  color: var(--kiwi-text-muted);
+}
+
+/* Le séparateur entre les étapes */
+.stepSeparator {
+  flex-grow: 1; /* Permet au séparateur de s'étirer */
+  height: 2px; /* Hauteur de la ligne horizontale */
+  background-color: var(--kiwi-separator-color);
+  margin: 0 0.5rem; /* Espace horizontal entre le séparateur et les étapes */
+  position: relative;
+}
+
+/* La barre de progression qui avance */
+.stepProgress {
+  position: absolute;
+  top: -4px; /* Positionné au milieu de la bordure du séparateur */
+  left: 0;
+  height: 100%;
+  background-color: var(--kiwi-progress-track-color); /* Variable pour la couleur de progression */
+  transition: width 0.3s ease-in-out; /* Animation douce */
+}
+
+/* --- Media Queries pour le Responsive Design --- */
 @media (max-width: 768px) {
+  /* Ajustements généraux pour les petits écrans */
   .pageContainer {
     padding: 1rem;
   }
 
+  /* Le titre de la page */
   .title {
     font-size: 2.2rem;
   }
 
+  /* Le préambule ou texte d'introduction */
   .preamble {
     font-size: 1rem;
     max-width: 100%;
   }
 
-  .formWrapper { /* Styles spécifiques si vous réintroduisez le formulaire */
+  /* Styles pour les formulaires si vous en réintroduisez */
+  .formWrapper {
     padding: 1.5rem;
     border-radius: 0;
     box-shadow: none;
@@ -238,6 +333,7 @@
     padding: 1rem 1.5rem;
   }
 
+  /* Ajustements pour les éléments du chat sur mobile */
   .inputWrapper {
     margin: 0 0.5rem;
   }
@@ -247,7 +343,7 @@
     height: 30px;
   }
 
-  .messagesArea { /* Styles pour la zone de chat si elle était ici */
+  .messagesArea {
     padding: 0.5rem;
   }
 
@@ -263,5 +359,53 @@
   .messageContent {
     padding: 0.6rem 0.9rem;
     font-size: 0.9rem;
+  }
+
+  /* --- Styles Responsive pour la Barre de Progression --- */
+
+  /* Rendre le conteneur de la barre de progression en colonne */
+  .stepperContainer {
+    flex-direction: column; /* Les étapes seront empilées verticalement */
+    align-items: center; /* Centrer les éléments dans la colonne */
+    margin-bottom: 1.5rem;
+    padding: 0.5rem 0;
+  }
+
+  /* L'élément étape individuel prend toute la largeur */
+  .stepItem {
+     flex: none; /* Ne pas s'étirer */
+     width: 100%; /* Prendre toute la largeur disponible */
+     margin-bottom: 1rem; /* Espacement entre les étapes */
+  }
+
+  /* Si une étape est désactivée, appliquer le style */
+  .stepItem.isDisabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Le séparateur devient un espace vertical entre les étapes */
+  .stepSeparator {
+    flex-grow: 0; /* Ne pas s'étirer en hauteur */
+    height: 10px; /* Hauteur de l'espace vertical */
+    width: 2px; /* Largeur de la ligne verticale */
+    margin: 0.5rem 0; /* Espacement vertical */
+    background-color: var(--kiwi-separator-color); /* Couleur du séparateur */
+  }
+
+  /* Ajuster le conteneur de progression pour qu'il soit vertical */
+  .stepProgress {
+    position: absolute;
+    top: 0; /* Commencer en haut du séparateur */
+    left: -4px; /* Positionné à côté du séparateur */
+    height: 100%; /* Prend toute la hauteur de l'espace vertical */
+    width: 2px; /* La largeur du séparateur devient la hauteur de la progression */
+    background-color: var(--kiwi-progress-track-color); /* Couleur de progression */
+    transition: width 0.3s ease-in-out; /* Animation douce */
+  }
+  
+  /* S'assurer que le dernier séparateur n'est pas affiché s'il n'est pas nécessaire */
+  .stepSeparator:last-of-type {
+    display: none;
   }
 }
