@@ -109,3 +109,15 @@
   font-size: 0.8rem;
   color: var(--kiwi-text-secondary);
 }
+@media (min-width: 768px) {
+  .steps-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .steps-container {
+    display: flex;
+    justify-content: center;
+  }
+}

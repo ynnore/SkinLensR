@@ -3,56 +3,87 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 // Importer usePathname et useRouter
-import { usePathname, useRouter } from 'next/navigation'; 
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types';
+import { LanguageCode } from '@/types'; // Assurez-vous que ce type est correctement défini
 import { CheckCircle, XCircle, Circle } from 'lucide-react';
 
 import styles from './register.module.css'; // Assurez-vous que le chemin est correct
 
 // --- Traductions ---
 const allTranslations = {
-  onboarding: {
-    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', ga: 'Logáil', hi: 'लॉग इन', gd: 'Log a-steach', 'en-AU': 'Login', 'fr-CA': 'Connexion', 'en-ZA': 'Login' },
-    stepRegister: { en: 'Register', fr: 'Inscription', mi: 'Rēhita', ga: 'Clárú', hi: 'पंजीकरण', gd: 'Clàradh', 'en-AU': 'Register', 'fr-CA': 'Inscription', 'en-ZA': 'Registrasie' },
-    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de Confidentialité', mi: 'Kaupapahere Tūmataiti', ga: 'Polasaí Príobháideachta', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', 'en-AU': 'Privacy Policy', 'fr-CA': 'Politique de Confidentialité', 'en-ZA': 'Privaatheidbeleid' },
-    stepTerms: { en: 'Terms of Service', fr: 'Conditions d\'Utilisation', mi: 'Ngā Ture Whakamahi', ga: 'Téarmaí Seirbhís', hi: 'सेवा की शर्तें', gd: 'Teirmichean Seirbheis', 'en-AU': 'Terms of Service', 'en-CA': 'Terms of Service', 'fr-CA': 'Conditions d\'Utilisation', 'en-ZA': 'Diensvoorwaardes', af: 'Diensvoorwaardes' },
-    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', ga: 'Suíomhanna', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', 'en-AU': 'Settings', 'en-NZ': 'Settings', 'en-CA': 'Settings', 'fr-CA': 'Paramètres', 'en-ZA': 'Instellings', af: 'Instellings' },
-    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', 'en-AU': 'Pricing', 'en-NZ': 'Pricing', 'en-CA': 'Pricing', 'fr-CA': 'Tarifs', 'en-ZA': 'Prysbelle', af: 'Prysbelle' },
-    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', ga: 'Íocaíocht', hi: 'भुगतान', gd: 'Pàigheadh', 'en-AU': 'Payment', 'en-NZ': 'Payment', 'en-CA': 'Payment', 'fr-CA': 'Paiement', 'en-ZA': 'Betaling', af: 'Betaling' },
-    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', 'en-AU': 'Profile', 'en-NZ': 'Profile', 'en-CA': 'Profile', 'fr-CA': 'Profil', 'en-ZA': 'Profiel', af: 'Profiel' },
-    statusCompleted: { en: 'Completed', fr: 'Terminé', mi: 'Kua Oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnaichte', 'en-AU': 'Completed', 'fr-CA': 'Terminé', 'en-ZA': 'Voltooid', af: 'Voltooid' },
-    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Ke Tatari ana', ga: 'Ar Fuireach', hi: 'लंबित', gd: 'A’ feitheamh', 'en-AU': 'Pending', 'fr-CA': 'En attente', 'en-ZA': 'Hangende', af: 'Hangende' },
-    statusCurrent: { en: 'Current Step', fr: 'Étape actuelle', mi: 'Te Takiwa o Naianei', ga: 'Céim Reatha', hi: 'वर्तमान चरण', gd: 'An Ceum An-dràsta', 'en-AU': 'Current Step', 'fr-CA': 'Étape actuelle', 'en-ZA': 'Huidige Stap', af: 'Huidige Stap' }
-  },
-  // ... (autres sections de traduction comme header, chat) ...
+  onboarding: { // Regroupement de toutes les traductions sous 'onboarding' pour l'appel à getTranslation
+    // Traduction pour le titre de la page d'accueil /kiwi-ops (si vous en avez une)
+    // sectionWelcomeKiwiOps: { en: "Welcome to Kiwi-Ops", fr: "Bienvenue sur Kiwi-Ops", ... },
+
+    // Clés pour les labels des étapes dans la barre de progression.
+    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', ga: 'Logáil Isteach', hi: 'लॉगिन', gd: 'Log a-steach', af: 'Teken In' },
+    stepRegister: { en: 'Register', fr: 'Inscription', mi: 'Rēhita', ga: 'Clárú', hi: 'पंजीकरण', gd: 'Clàradh', af: 'Registreer' },
+    stepTerms: { en: 'Terms', fr: 'Conditions', mi: 'Nga Tikanga', ga: 'Telermaí', hi: 'शर्तें', gd: 'Cumhachan', af: 'Voorwaardes' },
+    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Kaupapahere Tūmataiti', ga: 'Polasaí Príobháideachta', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', af: 'Privaatheidsbeleid' },
+    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', ga: 'Suíomhanna', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', af: 'Instellings' },
+    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', af: 'Prysing' },
+    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', ga: 'Íocaíocht', hi: 'भुगतान', gd: 'Pàigheadh', af: 'Betaling' },
+    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', af: 'Profiel' },
+
+    // Clés pour les sections de contenu de la politique de confidentialité.
+    privacyIntro: { en: "Introduction", fr: "Introduction", mi: "Kupu Whakataki", ga: "Réamhrá", hi: "परिचय", gd: "Ro-ràdh", af: "Inleiding" },
+    privacyDataCollected: { en: "Data We Collect", fr: "Données que nous collectons", mi: "Ngā Raraunga Ka Kohia", ga: "Sonraí a Bhailímid", hi: "हम जो डेटा एकत्र करते हैं", gd: "Dàta a chruinnicheas sinn", af: "Die data wat ons insamel" }, // Correction: ajout de 'af' pour DataCollected
+    privacyDataCollectionMethods: { en: "How We Collect Data", fr: "Comment nous collectons ces données", mi: "Me pēhea te Kohikohi Raraunga", ga: "Conas a Bhailímid Sonraí", hi: "हम डेटा कैसे इकट्ठा करते हैं", gd: "Mar a chruinnicheas sinn dàta", af: "Hoe ons data insamel" },
+    privacyUsage: { en: "Why We Use Your Data", fr: "Pourquoi nous utilisons vos données", mi: "Te Take mō te Whakamahi Raraunga", ga: "Cén Fáth a nÚsáidimid do Shonraí", hi: "हम आपके डेटा का उपयोग क्यों करते हैं", gd: "Carson a bhios sinn a’ cleachdadh d’ fhiosrachaidh", af: "Hoekom ons jou data gebruik" },
+    privacySharing: { en: "Data Sharing", fr: "Partage de vos données", mi: "Te Tiri Raraunga", ga: "Comhroinnt Sonraí", hi: "डेटा साझा करना", gd: "Co-roinneadh dàta", af: "Data Deling" },
+    privacyRetention: { en: "Data Retention", fr: "Conservation des données", mi: "Te Rokiroki Raraunga", ga: "Coinneáil Sonraí", hi: "डेटा का संरक्षण", gd: "Glèidheadh dàta", af: "Data Retensie" },
+    privacySecurity: { en: "Data Security", fr: "Sécurité des données", mi: "Te Haumarutanga Raraunga", ga: "Slándáil Sonraí", hi: "डेटा सुरक्षा", gd: "Tèarainteachd dàta", af: "Data Sekuriteit" },
+    privacyRights: { en: "Your Rights", fr: "Vos droits", mi: "Ō Tika", ga: "Do Chearta", hi: "आपके अधिकार", gd: "Na còraichean agad", af: "Jou Regte" },
+    privacyInternational: { en: "International Data Transfers", fr: "Transferts internationaux de données", mi: "Te Whakawhitiwhiti Raraunga ā-Ao", ga: "Aistrithe Sonraí Idirnáisiúnta", hi: "अंतरराष्ट्रीय डेटा स्थानांतरण", gd: "Gluasad dàta eadar-nàiseanta", af: "Internasionale Data-oordragte" },
+    privacyCookies: { en: "Use of Cookies", fr: "Utilisation des cookies", mi: "Te Whakamahi Pihikete", ga: "Úsáid Fianáin", hi: "कुकीज़ का उपयोग", gd: "Cleachdadh briosgaidean", af: "Gebruik van Koekies" },
+    privacyThirdParties: { en: "Third-Party Services", fr: "Services tiers", mi: "Ngā Ratonga Tuatoru", ga: "Seirbhísí Tríú Páirtí", hi: "तृतीय-पक्ष सेवाएँ", gd: "Seirbheisean treas-phàrtaidh", af: "Derdepartydienste" },
+    privacyChanges: { en: "Changes to This Policy", fr: "Modifications de cette politique", mi: "Ngā Panonitanga ki tēnei Kaupapahere", ga: "Athruithe ar an bPolasaí seo", hi: "इस नीति में परिवर्तन", gd: "Atharrachaidhean air a’ phoileasaidh seo", af: "Veranderinge aan hierdie Beleid" },
+    privacyContact: { en: "Contact", fr: "Contact", mi: "Whakapā", ga: "Déan Teagmháil", hi: "संपर्क", gd: "Cuir fios", af: "Kontak Ons" },
+
+    // Clés pour les statuts des étapes (nécessaires pour getStepStatus)
+    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Tāria', ga: 'Ag fanacht', hi: 'लंबित', gd: 'A’ feitheamh', af: 'Hangende' },
+    statusCurrent: { en: 'Current', fr: 'Actuelle', mi: 'I tēnei wā', ga: 'Reatha', hi: 'वर्तमान', gd: 'An-dràsta', af: 'Huidige' },
+    statusCompleted: { en: 'Completed', fr: 'Terminée', mi: 'Kua oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnachadh', af: 'Voltooid' },
+
+    // Traductions pour le bloc de développement (utilisé pour la page /register si elle est affichée)
+    developmentTitle: { en: 'Under Development', fr: 'En cours de développement', mi: 'Kei te whakawhanakehia', ga: 'Faoi Fhorbairt', hi: 'विकास के अधीन', gd: 'Fo leasachadh', af: 'Onder Ontwikkeling' },
+    developmentMessage: { en: 'This section is currently under construction. We are working hard to bring you new features!', fr: 'Cette section est actuellement en cours de construction. Nous travaillons dur pour vous apporter de nouvelles fonctionnalités !', mi: 'Kei te hangaia tonu tenei waahanga. Kei te kaha taatau ki te kawe mai i nga ahuatanga hou ki a koe!', ga: 'Tá an chuid seo á thógáil suas faoi láthair. Táimid ag obair go cruaidh chun gnéithe nua a thabhairt chugat!', hi: 'यह अनुभाग वर्तमान में निर्माण के अधीन है। हम आपको नई सुविधाएँ लाने के लिए कड़ी मेहनत कर रहे हैं!', gd: 'Tha an roinn seo fo thogail an-dràsta. Tha sinn ag obair gu cruaidh gus feartan ùra a thoirt thugad!', af: 'Hierdie afdeling is tans onder konstruksie. Ons werk hard om nuwe funksies aan te bied!' },
+    betaTag: { en: 'Beta Version', fr: 'Version Bêta', mi: 'Putanga Beta', ga: 'Leagan Beta', hi: 'बीटा संस्करण', gd: 'Tionndadh Beta', af: 'Beta Weergawe' },
+    stayTuned: { en: 'Stay tuned for updates!', fr: 'Restez à l\'écoute pour les mises à jour !', mi: 'Noho hei kaikōrero mo nga whakahoutanga!', ga: 'Fan tiúnta le haghaidh nuashonruithe!', hi: 'अद्यतनों के लिए ट्यून रहें!', gd: 'Fuirich airson ùrachaidhean!', af: 'Bly ingeskakel vir opdaterings!' },
+    copyright: { en: 'Your Company Name. All rights reserved.', fr: 'Nom de votre entreprise. Tous droits réservés.', mi: 'Ingoa Kamupene Kai. Pānga katoa te mana.', ga: 'Ainm do Chuideachta. Gach ceart ar cosaint.', hi: 'आपकी कंपनी का नाम। सर्वाधिकार सुरक्षित।', gd: 'Ainm do Chompanaidh. Gach còir glèidhte.', af: 'Jou Maatskappy Naam. Alle regte voorbehou.' }
+  }
 };
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, lang: LanguageCode): string {
   const keys = keyPath.split('.');
   let value: any = allTranslations[section];
-  
+
   for (const key of keys) {
-    if (!value || typeof value !== 'object') break;
+    if (!value || typeof value !== 'object') {
+      console.warn(`Translation path segment not found for: ${section}.${keyPath} (missing key: ${key})`);
+      return `[${keyPath} missing]`; // Indique clairement quelle partie manque
+    }
     value = value[key];
   }
 
+  // Vérifie si la valeur finale est un objet avec une clé 'en' (pour le fallback)
   if (typeof value !== 'object' || value === null || !('en' in value)) {
-    console.warn(`Translation missing or invalid for: ${section}.${keyPath} in language ${lang}`);
-    return `[Invalid Translation: ${section}.${keyPath}]`;
+    console.warn(`Translation structure invalid or missing fallback for: ${section}.${keyPath}`);
+    return `[Invalid structure for ${keyPath}]`;
   }
 
+  // Retourne la traduction pour la langue demandée, sinon la version anglaise, ou une chaîne vide si rien n'est trouvé.
   return (value as { [l: string]: string })[lang] || (value as { [l: string]: string }).en || '';
 };
 
 interface Step {
   path: string;
-  labelKey: string;
+  labelKey: keyof typeof allTranslations.onboarding; // Utilise le type pour les clés de traduction valides
   icon: React.ElementType;
   iconColor?: string;
-  statusKey?: string;
-  isCurrent?: boolean;
+  statusKey?: keyof typeof allTranslations.onboarding; // Clé pour le statut (ex: statusPending)
   isDisabled?: boolean;
 }
 
@@ -61,19 +92,33 @@ export default function RegisterPage() {
   const { theme } = useTheme();
   const router = useRouter(); // useRouter est nécessaire pour la navigation
 
-  const currentPath = usePathname(); 
+  const currentPath = usePathname();
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
   // Définition des étapes du flux
   const onboardingSteps: Step[] = [
     { path: '/login', labelKey: 'stepLogin', icon: Circle, isDisabled: false },
     { path: '/register', labelKey: 'stepRegister', icon: Circle, isDisabled: false },
-    { path: '/privacy-policy', labelKey: 'stepPrivacyPolicy', icon: Circle, isDisabled: true },
-    { path: '/terms', labelKey: 'stepTerms', icon: Circle, isDisabled: true },
-    { path: '/settings', labelKey: 'stepSettings', icon: Circle, isDisabled: true },
-    { path: '/pricing', labelKey: 'stepPricing', icon: Circle, isDisabled: true },
-    { path: '/pay', labelKey: 'stepPay', icon: Circle, isDisabled: true },
-    { path: '/profile', labelKey: 'stepProfile', icon: Circle, isDisabled: true },
+    // Étapes de la politique de confidentialité
+    { path: '/privacy-intro', labelKey: 'privacyIntro', icon: Circle, isDisabled: false }, // J'ai mis isDisabled à false pour la première étape
+    { path: '/privacy-data-collected', labelKey: 'privacyDataCollected', icon: Circle, isDisabled: false },
+    { path: '/privacy-collection-methods', labelKey: 'privacyDataCollectionMethods', icon: Circle, isDisabled: false },
+    { path: '/privacy-usage', labelKey: 'privacyUsage', icon: Circle, isDisabled: false },
+    { path: '/privacy-sharing', labelKey: 'privacySharing', icon: Circle, isDisabled: false },
+    { path: '/privacy-retention', labelKey: 'privacyRetention', icon: Circle, isDisabled: false },
+    { path: '/privacy-security', labelKey: 'privacySecurity', icon: Circle, isDisabled: false },
+    { path: '/privacy-rights', labelKey: 'privacyRights', icon: Circle, isDisabled: false },
+    { path: '/privacy-international', labelKey: 'privacyInternational', icon: Circle, isDisabled: false },
+    { path: '/privacy-cookies', labelKey: 'privacyCookies', icon: Circle, isDisabled: false },
+    { path: '/privacy-third-parties', labelKey: 'privacyThirdParties', icon: Circle, isDisabled: false },
+    { path: '/privacy-changes', labelKey: 'privacyChanges', icon: Circle, isDisabled: false },
+    { path: '/privacy-contact', labelKey: 'privacyContact', icon: Circle, isDisabled: false },
+    // Autres étapes
+    { path: '/terms', labelKey: 'stepTerms', icon: Circle, isDisabled: false }, // Assurez-vous que ce chemin est unique
+    { path: '/settings', labelKey: 'stepSettings', icon: Circle, isDisabled: false },
+    { path: '/pricing', labelKey: 'stepPricing', icon: Circle, isDisabled: false },
+    { path: '/pay', labelKey: 'stepPay', icon: Circle, isDisabled: false },
+    { path: '/profile', labelKey: 'stepProfile', icon: Circle, isDisabled: false },
   ];
 
   // Mettre à jour l'état de l'étape active lorsque le chemin change
@@ -83,6 +128,9 @@ export default function RegisterPage() {
     const currentIndex = onboardingSteps.findIndex(step => step.path === currentPath);
     if (currentIndex !== -1) {
       setActiveStepIndex(currentIndex);
+    } else {
+      // Si le chemin actuel ne correspond à aucune étape définie, on peut réinitialiser ou laisser tel quel.
+      // Pour l'instant, on ne fait rien, l'indicateur reste sur la dernière étape trouvée.
     }
   }, [currentPath, onboardingSteps]);
 
@@ -95,13 +143,13 @@ export default function RegisterPage() {
       return { icon: XCircle, color: 'gray', status: getTranslation('onboarding', 'statusPending', language) };
     }
     if (isCurrent) {
-      // Déclaration de highlightColor ici pour qu'elle soit dans la portée
-      const highlightColor = progressTrackColor; 
-      return { icon: Circle, color: 'blue', status: getTranslation('onboarding', 'statusCurrent', language) };
+      // Utilise progressTrackColor pour l'étape actuelle, défini en dehors de cette fonction.
+      return { icon: Circle, color: progressTrackColor, status: getTranslation('onboarding', 'statusCurrent', language) };
     }
     if (isCompleted) {
       return { icon: CheckCircle, color: 'green', status: getTranslation('onboarding', 'statusCompleted', language) };
     }
+    // Par défaut, si non désactivé, non actuel, non complété, il est en attente (rouge)
     return { icon: XCircle, color: 'red', status: getTranslation('onboarding', 'statusPending', language) };
   };
 
@@ -112,11 +160,245 @@ export default function RegisterPage() {
   const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF';
   const separatorColor = theme === 'dark' ? '#444444' : '#DDDDDD';
   const progressTrackColor = theme === 'dark' ? '#4A90E2' : '#0070f3'; // Couleur pour la progression
-const highlightColor = progressTrackColor
+
+  // Styles pour le bloc de développement
   const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3';
   const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000';
   const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000';
   const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+
+  // Rend le contenu spécifique à la page actuelle
+  const renderPageContent = () => {
+    switch (currentPath) {
+      case '/login':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Bienvenue sur la page de connexion</h2>
+            <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page de connexion...</p>
+            {/* Intégrer ici le formulaire de connexion */}
+          </div>
+        );
+      case '/register': // Le chemin '/register' n'est plus dans onboardingSteps, donc il n'aura pas d'indicateur de progression.
+        return (
+          <div style={{
+            width: '100%',
+            marginTop: '3rem',
+            padding: '2rem',
+            border: `2px dashed ${warningBorder}`,
+            borderRadius: '8px',
+            backgroundColor: warningBackground,
+            color: warningText,
+            textAlign: 'center',
+            boxShadow: `4px 4px 0px ${shadowColorCard}`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '200px',
+          }}>
+            <h2 style={{
+              fontSize: '2rem',
+              marginBottom: '1rem',
+              color: warningText,
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 'bold',
+              textTransform: 'uppercase'
+            }}>
+              {getTranslation('onboarding', 'developmentTitle', language)}
+            </h2>
+            <p style={{
+              fontSize: '1.2rem',
+              fontStyle: 'italic',
+              color: mutedTextColor,
+              maxWidth: '700px'
+            }}>
+              {getTranslation('onboarding', 'developmentMessage', language)}
+            </p>
+            <p style={{
+              fontSize: '1.1rem',
+              marginTop: '1.5rem',
+              fontWeight: 'bold',
+              color: warningText
+            }}>
+              {getTranslation('onboarding', 'betaTag', language)} – {getTranslation('onboarding', 'stayTuned', language)}
+            </p>
+          </div>
+        );
+      // Les cas pour les étapes de la politique de confidentialité sont ajoutés ici.
+      case '/privacy-intro':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyIntro', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu pour l'introduction de la politique de confidentialité...</p>
+          </div>
+        );
+      case '/privacy-data-collected':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyDataCollected', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur les données collectées...</p>
+          </div>
+        );
+      case '/privacy-collection-methods':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyDataCollectionMethods', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur les méthodes de collecte...</p>
+          </div>
+        );
+      case '/privacy-usage':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyUsage', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur l'utilisation des données...</p>
+          </div>
+        );
+      case '/privacy-sharing':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacySharing', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur le partage des données...</p>
+          </div>
+        );
+      case '/privacy-retention':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyRetention', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur la conservation des données...</p>
+          </div>
+        );
+      case '/privacy-security':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacySecurity', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur la sécurité des données...</p>
+          </div>
+        );
+      case '/privacy-rights':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyRights', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur vos droits...</p>
+          </div>
+        );
+      case '/privacy-international':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyInternational', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur les transferts internationaux...</p>
+          </div>
+        );
+      case '/privacy-cookies':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyCookies', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur l'utilisation des cookies...</p>
+          </div>
+        );
+      case '/privacy-third-parties':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyThirdParties', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur les services tiers...</p>
+          </div>
+        );
+      case '/privacy-changes':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyChanges', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu sur les modifications de la politique...</p>
+          </div>
+        );
+      case '/privacy-contact':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'privacyContact', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu de contact...</p>
+          </div>
+        );
+      case '/terms':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'stepTerms', language)} {/* Utilisation du label de l'étape pour le titre */}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu des conditions d'utilisation...</p>
+          </div>
+        );
+      case '/settings':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'stepSettings', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu des paramètres...</p>
+          </div>
+        );
+      case '/pricing':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'stepPricing', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu des tarifs...</p>
+          </div>
+        );
+      case '/pay':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'stepPay', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu de paiement...</p>
+          </div>
+        );
+      case '/profile':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'stepProfile', language)}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu du profil...</p>
+          </div>
+        );
+      default:
+        // Si le chemin actuel ne correspond à aucune étape définie, affichez un message par défaut.
+        return (
+          <div style={{ width: '100%', marginTop: '3rem', textAlign: 'center' }}>
+            <p style={{ color: mutedTextColor }}>
+              Contenu non défini pour le chemin : {currentPath}
+            </p>
+          </div>
+        );
+    }
+  };
+
 
   return (
     <div style={{
@@ -145,6 +427,8 @@ const highlightColor = progressTrackColor
         {onboardingSteps.map((step, index) => {
           const { icon: IconComponent, color, status: stepStatus } = getStepStatus(step, index);
           const isLastStep = index === onboardingSteps.length - 1;
+          // Détermine si l'étape actuelle correspond au chemin affiché
+          const isCurrentPath = step.path === currentPath;
 
           return (
             <React.Fragment key={step.path}>
@@ -167,42 +451,45 @@ const highlightColor = progressTrackColor
               >
                 <div style={{
                   width: '40px', height: '40px', borderRadius: '50%',
-                  backgroundColor: color,
+                  backgroundColor: color, // La couleur est déterminée par getStepStatus
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   marginBottom: '0.5rem',
-                  border: `2px solid ${theme === 'dark' ? '#FFFFFF' : '#000000'}`,
+                  border: `2px solid ${theme === 'dark' ? '#FFFFFF' : '#000000'}`, // Bordure de l'icône
                   position: 'relative',
                 }}>
-                  <IconComponent size={24} color={theme === 'dark' ? '#1A1A2E' : '#FFFFFF'} />
-                  <span style={{
+                  {IconComponent && <IconComponent size={24} color={theme === 'dark' ? '#1A1A2E' : '#FFFFFF'} />} {/* Rend l'icône si elle existe */}
+                  <span style={{ // Numéro de l'étape
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
                     fontSize: '0.8rem', color: theme === 'dark' ? '#1A1A2E' : '#FFFFFF', fontWeight: 'bold'
                   }}>{index + 1}</span>
                 </div>
                 <span style={{
                   fontSize: '0.9rem',
-                  color: step.isCurrent ? highlightColor : mutedTextColor,
-                  fontWeight: step.isCurrent ? 'bold' : 'normal',
+                  // Applique le style de l'étape actuelle (couleur et gras) si c'est le chemin actuel et qu'elle n'est pas désactivée
+                  color: isCurrentPath && !step.isDisabled ? progressTrackColor : mutedTextColor,
+                  fontWeight: isCurrentPath && !step.isDisabled ? 'bold' : 'normal',
                   whiteSpace: 'nowrap',
                 }}>
-                  {getTranslation('onboarding', step.labelKey as any, language)}
+                  {getTranslation('onboarding', step.labelKey, language)} {/* Traduction du label */}
                 </span>
-                {stepStatus && <span style={{ fontSize: '0.7rem', color: mutedTextColor }}>({stepStatus})</span>}
+                {stepStatus && <span style={{ fontSize: '0.7rem', color: mutedTextColor }}>({stepStatus})</span>} {/* Statut traduit */}
               </div>
 
               {!isLastStep && (
                 <div style={{
                   flexGrow: 1,
                   height: '2px',
-                  backgroundColor: separatorColor,
+                  backgroundColor: separatorColor, // Couleur du séparateur
                   marginLeft: '0.5rem', marginRight: '0.5rem',
                   position: 'relative',
                 }}>
-                  <div style={{
+                  <div style={{ // Barre de progression remplie
                     position: 'absolute', top: '-4px', left: '0', height: '100%',
+                    // La largeur de la barre de progression est basée sur l'index actif moins l'index actuel,
+                    // garantissant que la progression est visible jusqu'à l'étape précédente.
                     width: (index < activeStepIndex) ? '100%' : '0%',
-                    backgroundColor: progressTrackColor,
-                    transition: 'width 0.3s ease-in-out',
+                    backgroundColor: progressTrackColor, // Utilise la couleur de progression définie
+                    transition: 'width 0.3s ease-in-out', // Animation douce
                   }}></div>
                 </div>
               )}
@@ -211,60 +498,8 @@ const highlightColor = progressTrackColor
         })}
       </div>
 
-      {/* Contenu principal de la page */}
-      {currentPath === '/register' && (
-        <div style={{
-          width: '100%',
-          marginTop: '3rem',
-          padding: '2rem',
-          border: `2px dashed ${warningBorder}`,
-          borderRadius: '8px',
-          backgroundColor: warningBackground,
-          color: warningText,
-          textAlign: 'center',
-          boxShadow: `4px 4px 0px ${shadowColorCard}`,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '200px',
-        }}>
-          <h2 style={{
-            fontSize: '2rem',
-            marginBottom: '1rem',
-            color: warningText,
-            fontFamily: "'Playfair Display', serif",
-            fontWeight: 'bold',
-            textTransform: 'uppercase'
-          }}>
-            {getTranslation('onboarding', 'developmentTitle', language)}
-          </h2>
-          <p style={{
-            fontSize: '1.2rem',
-            fontStyle: 'italic',
-            color: mutedTextColor,
-            maxWidth: '700px'
-          }}>
-            {getTranslation('onboarding', 'developmentMessage', language)}
-          </p>
-          <p style={{
-            fontSize: '1.1rem',
-            marginTop: '1.5rem',
-            fontWeight: 'bold',
-            color: warningText
-          }}>
-            {getTranslation('onboarding', 'betaTag', language)} – {getTranslation('onboarding', 'stayTuned', language)}
-          </p>
-        </div>
-      )}
-      
-      {currentPath === '/login' && (
-        <div style={{ width: '100%', marginTop: '3rem' }}>
-          <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Bienvenue sur la page de connexion</h2>
-          <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page de connexion...</p>
-          {/* Intégrer ici le formulaire de connexion */}
-        </div>
-      )}
+      {/* Contenu principal de la page, géré par la fonction renderPageContent */}
+      {renderPageContent()}
 
       <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
         © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('onboarding', 'copyright', language)}

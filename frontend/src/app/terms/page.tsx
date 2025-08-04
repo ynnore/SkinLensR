@@ -1,172 +1,490 @@
-// app/pages/terms/page.tsx (ou le chemin approprié pour votre composant client)
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+// Importer usePathname et useRouter
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types';
-import styles from './terms.module.css'; // Assurez-vous que ce chemin est correct
+import { LanguageCode } from '@/types'; // Assurez-vous que ce type est correctement défini
+import { CheckCircle, XCircle, Circle } from 'lucide-react';
 
-// --- DÉBUT : Translations ---
-// Si getTranslation est dans un fichier séparé, importez-le et retirez ce bloc.
-// Sinon, laissez-le ici pour l'autonomie du fichier.
+import styles from './register.module.css'; // Assurez-vous que le chemin est correct
 
+// --- Traductions ---
 const allTranslations = {
-  termsPageBeta: {
-    mainTitleLine1: {
-      en: 'Service Protocols', fr: 'Protocoles de Service', mi: 'Ngā Tikanga Ratonga', ga: 'Prótacail Seirbhíse', hi: 'सेवा प्रोटोकॉल', gd: 'Protocolan Seirbheis', 'en-AU': 'Service Protocols', 'en-NZ': 'Service Protocols', 'en-CA': 'Service Protocols', 'fr-CA': 'Protocoles de Service', 'en-ZA': 'Service Protocols', af: 'Diensprotokolle'
+  onboarding: {
+    // Traduction pour le titre de la page d'accueil /kiwi-ops
+    sectionWelcomeKiwiOps: {
+      en: "Welcome to Kiwi-Ops",
+      fr: "Bienvenue sur Kiwi-Ops",
+      mi: "Nau mai ki Kiwi-Ops",
+      ga: "Fáilte go Kiwi-Ops",
+      hi: "Kiwi-Ops में आपका स्वागत है",
+      gd: "Fàilte gu Kiwi-Ops",
+      af: "Welkom by Kiwi-Ops"
     },
-    mainTitleLine2: {
-      en: '— Terms & Conditions —', fr: '— Conditions Générales —', mi: '— Tikanga Whānui —', ga: '— Coinníollacha Ginearálta —', hi: '— सामान्य शर्तें —', gd: '— Cumhaichean Coitcheann —', 'en-AU': '— Terms & Conditions —', 'en-NZ': '— Terms & Conditions —', 'en-CA': '— Terms & Conditions —', 'fr-CA': '— Conditions Générales —', 'en-ZA': '— Terms & Conditions —', af: '— Algemene Voorwaardes —'
+    // Sections pour le contenu des "Terms" (politique de confidentialité/conditions)
+    sectionIntro: {
+      en: "Introduction",
+      fr: "Introduction",
+      mi: "Kupu Whakataki",
+      ga: "Réamhrá",
+      hi: "परिचय",
+      gd: "Ro-ràdh",
+      af: "Inleiding"
     },
-    subtitle: {
-      en: '"Important legal directives for using Kiwi-Ops services."', fr: '"Directives légales importantes pour l\'utilisation des services Kiwi-Ops."', mi: '"Ngā aratohu ture nui mō te whakamahi i ngā ratonga Kiwi-Ops."', ga: '"Treoracha dlíthiúla tábhachtacha maidir le seirbhísí Kiwi-Ops a úsáid."', hi: '"कीवी-ऑप्स सेवाओं का उपयोग करने के लिए महत्वपूर्ण कानूनी निर्देश."', gd: '"Stiùiridhean laghail cudromach airson seirbheisean Kiwi-Ops a chleachdadh."', 'en-AU': '"Important legal directives for using Kiwi-Ops services."', 'en-NZ': '"Important legal directives for using Kiwi-Ops services."', 'en-CA': '"Important legal directives for using Kiwi-Ops services."', 'fr-CA': '"Directives légales importantes pour l\'utilisation des services Kiwi-Ops."', 'en-ZA': '"Important legal directives for using Kiwi-Ops services."', af: '"Belangrike regsriglyne vir die gebruik van Kiwi-Ops dienste."'
+    sectionServiceAccess: {
+      en: "Access to the Service",
+      fr: "Accès au service",
+      mi: "Urunga ki te Ratonga",
+      ga: "Rochtain ar an tSeirbhís",
+      hi: "सेवा तक पहुंच",
+      gd: "Cothrom air an t-Seirbheis",
+      af: "Toegang tot die Diens"
     },
-    developmentTitle: {
-      en: 'Section Under Review', fr: 'Section en Cours de Révision', mi: 'Wāhanga kei te Arotake', ga: 'Rannán Faoi Athbhreithniú', hi: 'अनुभाग समीक्षाधीन है', gd: 'Earrann fo Ath-bhreithneachadh', 'en-AU': 'Section Under Review', 'en-NZ': 'Section Under Review', 'en-CA': 'Section Under Review', 'fr-CA': 'Section en Cours de Révision', 'en-ZA': 'Section Under Review', af: 'Afdeling Onder Hersiening'
+    sectionUserAccounts: {
+      en: "User Accounts",
+      fr: "Comptes utilisateur",
+      mi: "Ngā Pūkete Kaiwhakamahi",
+      ga: "Cuntais Úsáideora",
+      hi: "उपयोगकर्ता खाते",
+      gd: "Cunntasan Cleachdaiche",
+      af: "Gebruikerrekeninge"
     },
-    betaTag: {
-      en: 'Beta Version', fr: 'Version Bêta', mi: 'Putanga Bêta', ga: 'Leagan Béite', hi: 'बीटा संस्करण', gd: 'Tionndadh Beta', 'en-AU': 'Beta Version', 'en-NZ': 'Beta Version', 'en-CA': 'Beta Version', 'fr-CA': 'Version Bêta', 'en-ZA': 'Beta Version', af: 'Beta Weergawe'
+    sectionAllowedUse: {
+      en: "Permitted Use",
+      fr: "Utilisation autorisée",
+      mi: "Whakamahi Whakaaetia",
+      ga: "Úsáid Ceadaithe",
+      hi: "अनुमत उपयोग",
+      gd: "Cleachdadh Ceadaichte",
+      af: "Toegestane Gebruik"
     },
-    developmentMessage: {
-      en: 'Our comprehensive Terms & Conditions are currently being updated to reflect the latest operational directives and legal frameworks. Thank you for your patience.', fr: 'Nos Conditions Générales complètes sont actuellement mises à jour pour refléter les dernières directives opérationnelles et cadres légaux. Merci de votre patience.', mi: 'Kei te whakahōungia ngā Tikanga Whānui o mātou ki te whakaatu i ngā aratohu whakahaere me ngā anga ture hou. Ngā mihi ki a koe mō tō manawanui.', ga: 'Tá ár dTéarmaí & Coinníollacha cuimsitheacha á nuashonrú faoi láthair chun na treoracha oibriúcháin agus na creataí dlíthiúla is déanaí a léiriú. Go raibh maith agat as do fhoighne.', hi: 'हमारी व्यापक शर्तें और नियम वर्तमान में नवीनतम परिचालन निर्देशों और कानूनी ढाँचे को दर्शाने के लिए अपडेट किए जा रहे हैं। आपके धैर्य के लिए धन्यवाद।', gd: 'Tha ar Teirmichean is Cumhaichean coileanta gan ùrachadh an-dràsta gus sealltainn air na stiùiridhean obrachaidh agus frèam laghail as ùire. Tapadh leibh airson ur foighidinn.', 'en-AU': 'Our comprehensive Terms & Conditions are currently being updated to reflect the latest operational directives and legal frameworks. Thank you for your patience.', 'en-NZ': 'Our comprehensive Terms & Conditions are currently being updated to reflect the latest operational directives and legal frameworks. Thank you for your patience.', 'en-CA': 'Our comprehensive Terms & Conditions are currently being updated to reflect the latest operational directives and legal frameworks. Thank you for your patience.', 'fr-CA': 'Nos Conditions Générales complètes sont actuellement mises à jour pour refléter les dernières directives opérationnelles et cadres légaux. Merci de votre patience.', 'en-ZA': 'Our comprehensive Terms & Conditions are currently being updated to reflect the latest operational directives and legal frameworks. Thank you for your patience.', af: 'Ons omvattende Bepalings en Voorwaardes word tans bygewerk om die nuutste operasionele riglyne en regsfraamwerke te weerspieël. Dankie vir u geduld.'
+    sectionPayment: {
+      en: "Payment & Subscription",
+      fr: "Paiement et abonnement",
+      mi: "Utu me te Ohaurunga",
+      ga: "Íocaíocht agus Síntiús",
+      hi: "भुगतान और सदस्यता",
+      gd: "Pàigheadh is Ballrachd",
+      af: "Betaling en Intekening"
     },
-    stayTuned: {
-      en: 'Please check back soon for the full release.', fr: 'Veuillez revenir bientôt pour la version complète.', mi: 'Tēnā hoki mai anō kia wātea te putanga katoa.', ga: 'Fill ar ais go luath le haghaidh an leagan iomlán.', hi: 'पूर्ण रिलीज के लिए कृपया जल्द ही वापस देखें।', gd: 'Thig air ais a dh\'aithghearr airson an tionndadh làn.', 'en-AU': 'Please check back soon for the full release.', 'en-NZ': 'Please check back soon for the full release.', 'en-CA': 'Please check back soon for the full release.', 'fr-CA': 'Veuillez revenir bientôt pour la version complète.', 'en-ZA': 'Please check back soon for the full release.', af: 'Kom binnekort weer vir die volle vrystelling.'
+    sectionLiability: {
+      en: "Limitation of Liability",
+      fr: "Limitation de responsabilité",
+      mi: "Te Whakaitinga o te Kawenga",
+      ga: "Teorainn Freagrachta",
+      hi: "उत्तरदायित्व की सीमा",
+      gd: "Crìochan Uallach",
+      af: "Beperking van Aanspreeklikheid"
     },
-    copyright: {
-      en: 'Kiwi-Ops – Provisional Protocols.', fr: 'Kiwi-Ops – Protocoles Provisoires.', mi: 'Kiwi-Ops – Tikanga Wāhanga.', ga: 'Kiwi-Ops – Prótacail Sealadacha.', hi: 'कीवी-ऑप्स – अनंतिम प्रोटोकॉल।', gd: 'Kiwi-Ops – Protocolan Sealach.', 'en-AU': 'Kiwi-Ops – Provisional Protocols.', 'en-NZ': 'Kiwi-Ops – Provisional Protocols.', 'en-CA': 'Kiwi-Ops – Provisional Protocols.', 'fr-CA': 'Kiwi-Ops – Protocoles Provisoires.', 'en-ZA': 'Kiwi-Ops – Provisional Protocols.', af: 'Kiwi-Ops – Voorlopige Protokolle.'
+    sectionTermination: {
+      en: "Termination",
+      fr: "Résiliation",
+      mi: "Whakamutunga",
+      ga: "Foiriú",
+      hi: "समाप्ति",
+      gd: "Crìochnachadh",
+      af: "Beëindiging"
     },
-  },
+    sectionModifications: {
+      en: "Changes to Terms",
+      fr: "Modifications des conditions",
+      mi: "Ngā Panonitanga ki ngā Tikanga",
+      ga: "Athruithe ar na Téarmaí",
+      hi: "शर्तों में परिवर्तन",
+      gd: "Atharrachaidhean air na Cumhachan",
+      af: "Veranderinge aan Voorwaardes"
+    },
+    sectionLaw: {
+      en: "Governing Law & Jurisdiction",
+      fr: "Loi applicable et juridiction",
+      mi: "Ture Whakahaere me te Mana Whakawā",
+      ga: "Dlí Rialaithe & Dlínse",
+      hi: "प्रासंगिक कानून और क्षेत्राधिकार",
+      gd: "Laghan Riaghlaidh & Uachdranas",
+      af: "Geldende Reg en Jurisdiksie"
+    },
+    sectionContact: {
+      en: "Contact",
+      fr: "Contact",
+      mi: "Whakapā",
+      ga: "Déan teagmháil",
+      hi: "संपर्क करें",
+      gd: "Fios",
+      af: "Kontak"
+    },
+
+    // Clés spécifiques pour les labels des étapes dans la barre de progression.
+    stepkiwiops: { en: 'Kiwi-Ops Welcome', fr: 'Bienvenue Kiwi-Ops', mi: 'Nau Mai Kiwi-Ops', ga: 'Fáilte Kiwi-Ops', hi: 'Kiwi-Ops स्वागत', gd: 'Fàilte Kiwi-Ops', af: 'Welkom Kiwi-Ops' },
+    stepTerms: { en: 'Terms', fr: 'Conditions', mi: 'Nga Tikanga', ga: 'Telermaí', hi: 'शर्तें', gd: 'Cumhachan', af: 'Voorwaardes' },
+    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Kaupapahere Tūmataiti', ga: 'Polasaí Príobháideachta', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', af: 'Privaatheidsbeleid' },
+    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', ga: 'Suíomhanna', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', af: 'Instellings' },
+    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', af: 'Prysing' },
+    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', ga: 'Íocaíocht', hi: 'भुगतान', gd: 'Pàigheadh', af: 'Betaling' },
+    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', af: 'Profiel' },
+    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', ga: 'Logáil Isteach', hi: 'लॉगिन', gd: 'Log a-steach', af: 'Teken In' }, // Ajouté pour le chemin /login
+
+    // Clés pour les statuts des étapes.
+    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Tāria', ga: 'Ag fanacht', hi: 'लंबित', gd: 'A’ feitheamh', af: 'Hangende' },
+    statusCurrent: { en: 'Current', fr: 'Actuelle', mi: 'I tēnei wā', ga: 'Reatha', hi: 'वर्तमान', gd: 'An-dràsta', af: 'Huidige' },
+    statusCompleted: { en: 'Completed', fr: 'Terminée', mi: 'Kua oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnaichte', af: 'Voltooid' },
+
+    // Traductions pour le bloc de développement (utilisé pour la page /register)
+    developmentTitle: { en: 'Under Development', fr: 'En cours de développement', mi: 'Kei te whakawhanakehia', ga: 'Faoi Fhorbairt', hi: 'विकास के अधीन', gd: 'Fo leasachadh', af: 'Onder Ontwikkeling' },
+    developmentMessage: { en: 'This section is currently under construction. We are working hard to bring you new features!', fr: 'Cette section est actuellement en cours de construction. Nous travaillons dur pour vous apporter de nouvelles fonctionnalités !', mi: 'Kei te hangaia tonu tenei waahanga. Kei te kaha taatau ki te kawe mai i nga ahuatanga hou ki a koe!', ga: 'Tá an chuid seo á thógáil suas faoi láthair. Táimid ag obair go cruaidh chun gnéithe nua a thabhairt chugat!', hi: 'यह अनुभाग वर्तमान में निर्माण के अधीन है। हम आपको नई सुविधाएँ लाने के लिए कड़ी मेहनत कर रहे हैं!', gd: 'Tha an roinn seo fo thogail an-dràsta. Tha sinn ag obair gu cruaidh gus feartan ùra a thoirt thugad!', af: 'Hierdie afdeling is tans onder konstruksie. Ons werk hard om nuwe funksies aan te bied!' },
+    betaTag: { en: 'Beta Version', fr: 'Version Bêta', mi: 'Putanga Beta', ga: 'Leagan Beta', hi: 'बीटा संस्करण', gd: 'Tionndadh Beta', af: 'Beta Weergawe' },
+    stayTuned: { en: 'Stay tuned for updates!', fr: 'Restez à l\'écoute pour les mises à jour !', mi: 'Noho hei kaikōrero mo nga whakahoutanga!', ga: 'Fan tiúnta le haghaidh nuashonruithe!', hi: 'अद्यतनों के लिए ट्यून रहें!', gd: 'Fuirich airson ùrachaidhean!', af: 'Bly ingeskakel vir opdaterings!' },
+    copyright: { en: 'Your Company Name. All rights reserved.', fr: 'Nom de votre entreprise. Tous droits réservés.', mi: 'Ingoa Kamupene Kai. Pānga katoa te mana.', ga: 'Ainm do Chuideachta. Gach ceart ar cosaint.', hi: 'आपकी कंपनी का नाम। सर्वाधिकार सुरक्षित।', gd: 'Ainm do Chompanaidh. Gach còir glèidhte.', af: 'Jou Maatskappy Naam. Alle regte voorbehou.' }
+  }
 };
 
-// Fonction de traduction générique (si elle n'est pas importée ailleurs)
-const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
-  section: S,
-  key: K,
-  lang: LanguageCode
-): string => {
-  const sectionTranslations = allTranslations[section];
-  if (!sectionTranslations) {
-    console.warn(`Translation section missing: ${String(section)}`);
-    return `[Missing Section: ${String(section)}]`;
+function getTranslation(section: keyof typeof allTranslations, keyPath: string, lang: LanguageCode): string {
+  const keys = keyPath.split('.');
+  let value: any = allTranslations[section];
+
+  for (const key of keys) {
+    if (!value || typeof value !== 'object') {
+      console.warn(`Translation path segment not found for: ${section}.${keyPath} (missing key: ${key})`);
+      return `[${keyPath} missing]`; // Indique clairement quelle partie manque
+    }
+    value = value[key];
   }
-  const specificTranslations = sectionTranslations[key];
-  if (typeof specificTranslations !== 'object' || specificTranslations === null || !('en' in specificTranslations)) {
-    console.warn(`Translation key missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
-    return `[Invalid Translation: ${String(section)}.${String(key)}]`;
+
+  // Vérifie si la valeur finale est un objet avec une clé 'en' (pour le fallback)
+  if (typeof value !== 'object' || value === null || !('en' in value)) {
+    console.warn(`Translation structure invalid or missing fallback for: ${section}.${keyPath}`);
+    return `[Invalid structure for ${keyPath}]`;
   }
-  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+
+  // Retourne la traduction pour la langue demandée, sinon la version anglaise, ou une chaîne vide si rien n'est trouvé.
+  return (value as { [l: string]: string })[lang] || (value as { [l: string]: string }).en || '';
 };
 
-// --- FIN : Translations ---
+interface Step {
+  path: string;
+  labelKey: keyof typeof allTranslations.onboarding; // Utilise le type pour les clés de traduction valides
+  icon: React.ElementType;
+  iconColor?: string;
+  statusKey?: keyof typeof allTranslations.onboarding; // Clé pour le statut (ex: statusPending)
+  isDisabled?: boolean;
+}
 
-
-export default function TermsPage() {
-  const { theme } = useTheme();
+export default function RegisterPage() {
   const { language } = useLanguage();
+  const { theme } = useTheme();
+  const router = useRouter(); // useRouter est nécessaire pour la navigation
 
-  const currentYear = new Date().getFullYear();
+  const currentPath = usePathname();
+  const [activeStepIndex, setActiveStepIndex] = useState(0);
 
-  // Helper pour obtenir les variables de thème CSS
-  const getThemeColors = () => {
-    if (theme === 'dark') {
-      return {
-        textPrimary: 'var(--kiwi-text-primary-dark, #E0E0E0)',
-        textSecondary: 'var(--kiwi-text-secondary-dark, #A0A0A0)',
-        borderColor: 'var(--kiwi-border-color-dark, #555555)',
-        highlightColor: 'var(--kiwi-highlight-color-dark, #8BC4FF)',
-        textShadow: 'var(--kiwi-text-shadow-dark, rgba(0,0,0,0.6))',
-        bgColorPage: 'var(--kiwi-bg-page-dark, #1A1A2E)',
-        bgColorSection: 'var(--kiwi-bg-section-dark, #2A2A3A)',
-        warningBg: 'var(--kiwi-warning-bg-dark, #3A2A2A)',
-        warningText: 'var(--kiwi-warning-text-dark, #FFCACA)',
-        warningBorder: 'var(--kiwi-warning-border-dark, #FFCACA)',
-        shadowCard: 'var(--kiwi-shadow-card-dark, rgba(0,0,0,0.5))',
-      };
-    } else { // Light theme
-      return {
-        textPrimary: 'var(--kiwi-text-primary-light, #333333)',
-        textSecondary: 'var(--kiwi-text-secondary-light, #666666)',
-        borderColor: 'var(--kiwi-border-color-light, #AAAAAA)',
-        highlightColor: 'var(--kiwi-highlight-color-light, #4A90E2)',
-        textShadow: 'var(--kiwi-text-shadow-light, rgba(150,150,150,0.4))',
-        bgColorPage: 'var(--kiwi-bg-page-light, #FFFFFF)',
-        bgColorSection: 'var(--kiwi-bg-section-light, #F8F8F8)',
-        warningBg: 'var(--kiwi-warning-bg-light, #FFF3F3)',
-        warningText: 'var(--kiwi-warning-text-light, #CC0000)',
-        warningBorder: 'var(--kiwi-warning-border-light, #CC0000)',
-        shadowCard: 'var(--kiwi-shadow-card-light, rgba(0,0,0,0.2))',
-      };
+  // Définition des étapes du flux. J'ai mappé les chemins à des clés de traduction appropriées.
+  const onboardingSteps: Step[] = [
+    { path: '/kiwi-ops', labelKey: 'stepkiwiops', icon: Circle },
+    { path: '/login', labelKey: 'stepLogin', icon: Circle }, // Chemin pour la page de connexion
+    { path: '/terms', labelKey: 'stepTerms', icon: Circle }, // Le premier 'stepTerms' est activé
+    { path: '/privacy-policy', labelKey: 'stepPrivacyPolicy', icon: Circle, isDisabled: true }, // Exemple d'étape désactivée
+    // Note : J'ai supprimé la duplication de '/terms' ici. Si vous avez besoin de deux étapes 'terms' distinctes, elles doivent avoir des chemins différents.
+    { path: '/settings', labelKey: 'stepSettings', icon: Circle },
+    { path: '/pricing', labelKey: 'stepPricing', icon: Circle },
+    { path: '/pay', labelKey: 'stepPay', icon: Circle },
+    { path: '/profile', labelKey: 'stepProfile', icon: Circle },
+  ];
+
+  // Mettre à jour l'état de l'étape active lorsque le chemin change
+  useEffect(() => {
+    if (!currentPath) return;
+
+    const currentIndex = onboardingSteps.findIndex(step => step.path === currentPath);
+    if (currentIndex !== -1) {
+      setActiveStepIndex(currentIndex);
+    } else {
+      // Si le chemin actuel ne correspond à aucune étape définie, on peut réinitialiser ou laisser tel quel.
+      // Pour l'instant, on ne fait rien, l'indicateur reste sur la dernière étape trouvée.
+    }
+  }, [currentPath, onboardingSteps]);
+
+  // Fonction pour déterminer l'état de l'étape (icône, couleur, statut)
+  const getStepStatus = (step: Step, index: number) => {
+    const isCompleted = index < activeStepIndex && !step.isDisabled;
+    const isCurrent = index === activeStepIndex && !step.isDisabled;
+
+    if (step.isDisabled) {
+      return { icon: XCircle, color: 'gray', status: getTranslation('onboarding', 'statusPending', language) };
+    }
+    if (isCurrent) {
+      // Utilise progressTrackColor pour l'étape actuelle, défini en dehors de cette fonction.
+      return { icon: Circle, color: progressTrackColor, status: getTranslation('onboarding', 'statusCurrent', language) };
+    }
+    if (isCompleted) {
+      return { icon: CheckCircle, color: 'green', status: getTranslation('onboarding', 'statusCompleted', language) };
+    }
+    // Par défaut, si non désactivé, non actuel, non complété, il est en attente (rouge)
+    return { icon: XCircle, color: 'red', status: getTranslation('onboarding', 'statusPending', language) };
+  };
+
+  // Styles basés sur le thème
+  const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
+  const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
+  const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
+  const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF';
+  const separatorColor = theme === 'dark' ? '#444444' : '#DDDDDD';
+  const progressTrackColor = theme === 'dark' ? '#4A90E2' : '#0070f3'; // Couleur pour la progression
+
+  // Styles pour le bloc de développement
+  const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3';
+  const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000';
+  const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000';
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+
+  // Rend le contenu spécifique à la page actuelle
+  const renderPageContent = () => {
+    switch (currentPath) {
+      case '/kiwi-ops': // Chemin pour la page d'accueil / bienvenue
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'sectionWelcomeKiwiOps', language)}
+            </h2>
+            <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page d'accueil...</p>
+            {/* Vous pouvez ajouter un lien pour continuer ici, par exemple vers /login */}
+            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+              <button
+                onClick={() => router.push('/login')}
+                style={{
+                  padding: '10px 20px',
+                  fontSize: '1rem',
+                  backgroundColor: progressTrackColor,
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                Commencer
+              </button>
+            </div>
+          </div>
+        );
+      case '/login': // Chemin pour la page de connexion
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Connexion</h2>
+            <p style={{ textAlign: 'center', color: mutedTextColor }}>Contenu de la page de connexion...</p>
+            {/* Intégrer ici le formulaire de connexion */}
+          </div>
+        );
+      case '/register': // Ce cas n'est plus dans onboardingSteps, donc ne sera pas affiché par la barre de progression
+        return (
+          <div style={{
+            width: '100%',
+            marginTop: '3rem',
+            padding: '2rem',
+            border: `2px dashed ${warningBorder}`,
+            borderRadius: '8px',
+            backgroundColor: warningBackground,
+            color: warningText,
+            textAlign: 'center',
+            boxShadow: `4px 4px 0px ${shadowColorCard}`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '200px',
+          }}>
+            <h2 style={{
+              fontSize: '2rem',
+              marginBottom: '1rem',
+              color: warningText,
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 'bold',
+              textTransform: 'uppercase'
+            }}>
+              {getTranslation('onboarding', 'developmentTitle', language)}
+            </h2>
+            <p style={{
+              fontSize: '1.2rem',
+              fontStyle: 'italic',
+              color: mutedTextColor,
+              maxWidth: '700px'
+            }}>
+              {getTranslation('onboarding', 'developmentMessage', language)}
+            </p>
+            <p style={{
+              fontSize: '1.1rem',
+              marginTop: '1.5rem',
+              fontWeight: 'bold',
+              color: warningText
+            }}>
+              {getTranslation('onboarding', 'betaTag', language)} – {getTranslation('onboarding', 'stayTuned', language)}
+            </p>
+          </div>
+        );
+      case '/terms':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
+              {getTranslation('onboarding', 'sectionIntro', language)} {/* Utilisation d'une section de traduction */}
+            </h2>
+            <p style={{ color: mutedTextColor }}>Contenu des conditions d'utilisation...</p>
+            {/* Vous pouvez utiliser des sections spécifiques ici, par exemple : */}
+            {/* <p>{getTranslation('onboarding', 'sectionServiceAccess', language)}</p> */}
+          </div>
+        );
+      case '/privacy-policy':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Politique de Confidentialité</h2>
+            <p style={{ color: mutedTextColor }}>Contenu de la politique de confidentialité...</p>
+            {/* Intégrer ici le composant PrivacyPolicyPage */}
+          </div>
+        );
+      case '/settings':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Paramètres</h2>
+            <p style={{ color: mutedTextColor }}>Contenu des paramètres...</p>
+          </div>
+        );
+      case '/pricing':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Tarifs</h2>
+            <p style={{ color: mutedTextColor }}>Contenu des tarifs...</p>
+          </div>
+        );
+      case '/pay':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Paiement</h2>
+            <p style={{ color: mutedTextColor }}>Contenu de paiement...</p>
+          </div>
+        );
+      case '/profile':
+        return (
+          <div style={{ width: '100%', marginTop: '3rem' }}>
+            <h2 style={{ fontSize: '2rem', textAlign: 'center', marginBottom: '2rem' }}>Profil</h2>
+            <p style={{ color: mutedTextColor }}>Contenu du profil...</p>
+          </div>
+        );
+      default:
+        // Si le chemin actuel ne correspond à aucune étape définie, affichez un message par défaut.
+        return (
+          <div style={{ width: '100%', marginTop: '3rem', textAlign: 'center' }}>
+            <p style={{ color: mutedTextColor }}>
+              Contenu non défini pour le chemin : {currentPath}
+            </p>
+          </div>
+        );
     }
   };
 
-  const themeColors = getThemeColors();
 
   return (
-    <div className={styles.pageContainer}>
-      <h1 className={styles.title}>
-        {getTranslation('termsPageBeta', 'mainTitleLine1', language)}<br />
-        {getTranslation('termsPageBeta', 'mainTitleLine2', language)}
-      </h1>
-      <p className={styles.subtitle}>
-        {getTranslation('termsPageBeta', 'subtitle', language)}
-      </p>
-
-      {/* Section d'information "En cours de développement" */}
-      {/* La carte d'avertissement utilise maintenant des styles conditionnels basés sur le thème */}
-      <section className={styles.section} style={{
-        borderColor: themeColors.warningBorder,
-        backgroundColor: themeColors.warningBg,
-        boxShadow: `4px 4px 0px ${themeColors.shadowCard}`,
-        // Pas de padding latéral pour la section elle-même, sauf si nécessaire
-        padding: '1.5rem 0', 
+    <div style={{
+      padding: '2rem',
+      maxWidth: '1000px',
+      margin: '0 auto',
+      backgroundColor: backgroundColorPage,
+      color: textColor,
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      fontFamily: "'Arial', sans-serif",
+    }}>
+      {/* Barre de progression visuelle */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        marginBottom: '3rem',
+        padding: '1rem 0',
+        borderBottom: `1px solid ${borderColor}`,
+        position: 'relative',
       }}>
-        <h2 className={styles.sectionTitle} style={{ color: themeColors.warningText }}>
-          {getTranslation('termsPageBeta', 'developmentTitle', language)}
-        </h2>
-        <p className={styles.sectionText} style={{ color: themeColors.textSecondary }}>
-          {getTranslation('termsPageBeta', 'developmentMessage', language)}
-        </p>
-        <p className={styles.betaInfo} style={{ color: themeColors.warningText }}>
-          {getTranslation('termsPageBeta', 'betaTag', language)} – {getTranslation('termsPageBeta', 'stayTuned', language)}
-        </p>
-      </section>
+        {onboardingSteps.map((step, index) => {
+          const { icon: IconComponent, color, status: stepStatus } = getStepStatus(step, index);
+          const isLastStep = index === onboardingSteps.length - 1;
+          // Détermine si l'étape actuelle correspond au chemin affiché
+          const isCurrentPath = step.path === currentPath;
 
-      {/* Contenu des documents légaux (à dynamiser avec les données du backend) */}
-      <div className={styles.section} style={{ borderBottom: `1px dashed ${themeColors.borderColor}` }}>
-        {/* Utilisation des titres et sous-titres des traductions pour le contenu réel */}
-        <h2 className={styles.sectionTitle}>
-          {getTranslation('termsPageBeta', 'mainTitleLine1', language)} {/* Placeholder */}
-        </h2>
-        <p className={styles.sectionText}>
-          {getTranslation('termsPageBeta', 'subtitle', language)} {/* Placeholder */}
-        </p>
-        <ul className={styles.sectionList}>
-          <li className={styles.sectionListItem}>
-            {getTranslation('termsPageBeta', 'copyright', language)} {/* Placeholder */}
-          </li>
-          <li className={styles.sectionListItem}>
-            <a href="#" className={styles.infoLink} style={{ color: themeColors.highlightColor }}>
-              Clause 1.1: Definition of Terms
-            </a>
-          </li>
-          <li className={styles.sectionListItem}>
-            <a href="#" className={styles.infoLink} style={{ color: themeColors.highlightColor }}>
-              Clause 1.2: Acceptance of Terms
-            </a>
-          </li>
-        </ul>
-        <p className={styles.sectionText}>
-            {getTranslation('termsPageBeta', 'developmentMessage', language)} {/* Placeholder */}
-        </p>
+          return (
+            <React.Fragment key={step.path}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  flex: 1,
+                  textAlign: 'center',
+                  cursor: step.isDisabled ? 'not-allowed' : 'pointer',
+                  opacity: step.isDisabled ? 0.6 : 1,
+                  padding: '0.5rem',
+                }}
+                onClick={() => {
+                  if (!step.isDisabled) {
+                    router.push(step.path); // Utilise le router pour la navigation
+                  }
+                }}
+              >
+                <div style={{
+                  width: '40px', height: '40px', borderRadius: '50%',
+                  backgroundColor: color, // La couleur est déterminée par getStepStatus
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '0.5rem',
+                  border: `2px solid ${theme === 'dark' ? '#FFFFFF' : '#000000'}`, // Bordure de l'icône
+                  position: 'relative',
+                }}>
+                  {IconComponent && <IconComponent size={24} color={theme === 'dark' ? '#1A1A2E' : '#FFFFFF'} />} {/* Rend l'icône si elle existe */}
+                  <span style={{ // Numéro de l'étape
+                    position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+                    fontSize: '0.8rem', color: theme === 'dark' ? '#1A1A2E' : '#FFFFFF', fontWeight: 'bold'
+                  }}>{index + 1}</span>
+                </div>
+                <span style={{
+                  fontSize: '0.9rem',
+                  // Applique le style de l'étape actuelle (couleur et gras) si c'est le chemin actuel et qu'elle n'est pas désactivée
+                  color: isCurrentPath && !step.isDisabled ? progressTrackColor : mutedTextColor,
+                  fontWeight: isCurrentPath && !step.isDisabled ? 'bold' : 'normal',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {getTranslation('onboarding', step.labelKey, language)} {/* Traduction du label */}
+                </span>
+                {stepStatus && <span style={{ fontSize: '0.7rem', color: mutedTextColor }}>({stepStatus})</span>} {/* Statut traduit */}
+              </div>
+
+              {!isLastStep && (
+                <div style={{
+                  flexGrow: 1,
+                  height: '2px',
+                  backgroundColor: separatorColor, // Couleur du séparateur
+                  marginLeft: '0.5rem', marginRight: '0.5rem',
+                  position: 'relative',
+                }}>
+                  <div style={{ // Barre de progression remplie
+                    position: 'absolute', top: '-4px', left: '0', height: '100%',
+                    // La largeur de la barre de progression est basée sur l'index actif moins l'index actuel,
+                    // garantissant que la progression est visible jusqu'à l'étape précédente.
+                    width: (index < activeStepIndex) ? '100%' : '0%',
+                    backgroundColor: progressTrackColor, // Utilise la couleur de progression définie
+                    transition: 'width 0.3s ease-in-out', // Animation douce
+                  }}></div>
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
       </div>
-      {/* Ajoutez d'autres sections ici si nécessaire */}
 
+      {/* Contenu principal de la page, géré par la fonction renderPageContent */}
+      {renderPageContent()}
 
-      <footer className={styles.globalFooter}>
-        © {currentYear} {getTranslation('termsPageBeta', 'copyright', language)}
-      </footer>
+      <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>
+        © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {getTranslation('onboarding', 'copyright', language)}
+      </p>
     </div>
   );
 }
