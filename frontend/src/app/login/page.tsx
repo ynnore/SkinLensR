@@ -6,70 +6,70 @@ import { useRouter } from 'next/navigation';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
+// Assurez-vous que le chemin du module CSS correspond à l'emplacement réel de votre fichier de styles pour la page de connexion
 import styles from './login.module.css';
 
+// --- Traductions ---
 const allTranslations = {
-  inscriptionPage: {
+  loginPage: { // Section de traduction spécifique à la page de connexion
     mainTitle: {
-      en: 'Registration Bureau', fr: 'Bureau d\'Inscription', mi: 'Tari Whakarēhita', ga: 'Biúró Clárúcháin', hi: 'पंजीकरण ब्यूरो', gd: 'Biùro Clàraidh',
-      'en-AU': 'Registration Bureau', 'en-NZ': 'Registration Bureau', 'en-CA': 'Registration Bureau', 'fr-CA': 'Bureau d\'Inscription', 'en-ZA': 'Registration Bureau', af: 'Registrasiekantoor'
+      en: 'Agent Login', fr: 'Connexion Agent', mi: 'Takiuru Ahente', ga: 'Logáil Gníomhaire', hi: 'एजेंट लॉगिन', gd: 'Log a-steach Neach-ionaid',
+      'en-AU': 'Agent Login', 'en-NZ': 'Agent Login', 'en-CA': 'Agent Login', 'fr-CA': 'Connexion Agent', 'en-ZA': 'Agent Login', af: 'Agent Teken In'
     },
     preamble: {
-      en: 'Agents wishing to participate in operations are requested to complete the form below. Discretion is required.', fr: 'Les agents désirant prendre part aux opérations sont priés de remplir la fiche ci-dessous. La discrétion est de rigueur.', mi: 'Me whakakī e ngā āpiha e hiahia ana ki te whai wāhi ki ngā mahi te puka i raro nei. Me huna tonu.', ga: 'Iarrtar ar ghníomhairí ar mian leo páirt a ghlacadh in oibríochtaí an fhoirm thíos a chomhlánú. Tá discréid ag teastáil.', hi: 'ऑपरेशन में भाग लेने के इच्छुक एजेंटों से अनुरोध है कि वे नीचे दिया गया फॉर्म भरें। विवेक की आवश्यकता है।', gd: 'Feuch an lìon na riochdairean a tha ag iarraidh pàirt a ghabhail ann an gnìomhachdan am foirm gu h-ìosal. Tha dìomhaireachd riatanach.',
-      'en-AU': 'Agents wishing to participate in operations are requested to complete the form below. Discretion is required.', 'en-NZ': 'Agents wishing to participate in operations are requested to complete the form below. Discretion is required.', 'en-CA': 'Agents wishing to participate in operations are requested to complete the form below. Discretion is required.', 'fr-CA': 'Les agents désirant prendre part aux opérations sont priés de remplir la fiche ci-dessous. La discrétion est de rigueur.', 'en-ZA': 'Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm te voltooi. Diskresie word vereis.', af: 'Agente wat aan operasies wil deelneem, word versoek om die onderstaande vorm te voltooi. Diskresie word vereis.'
+      en: 'Access the Command Post. Discretion is required.', fr: 'Accédez au Poste de Commandement. La discrétion est de rigueur.', mi: 'Uru ki te Pou Whakahau. Me huna tonu.', ga: 'Faigh rochtain ar an Ionad Ceannais. Tá discréid ag teastáil.', hi: 'कमांड पोस्ट तक पहुंचें। विवेक की आवश्यकता है।', gd: 'Faigh cothrom air an Ionad-Command. Tha dìomhaireachd riatanach.',
+      'en-AU': 'Access Command Post. Discretion is required.', 'en-NZ': 'Access Command Post. Discretion is required.', 'en-CA': 'Access Command Post. Discretion is required.', 'fr-CA': 'Accédez au Poste de Commandement. La discrétion est de rigueur.', 'en-ZA': 'Kry toegang tot Bevelspos. Diskresie word vereis.', af: 'Toegang tot Bevelspos. Diskresie word vereis.'
     },
-    codeNameLabel: { // Ce label n'est plus utilisé dans le formulaire, mais peut être conservé pour des raisons de traduction si besoin ailleurs
-      en: 'CODE NAME', fr: 'NOM DE CODE', mi: 'INGOA WAEHERE', ga: 'AINM CÓD', hi: 'कोड नाम', gd: 'AINM CÒD',
-      'en-AU': 'CODE NAME', 'en-NZ': 'CODE NAME', 'en-CA': 'CODE NAME', 'fr-CA': 'NOM DE CODE', 'en-ZA': 'KODENAAM', af: 'KODENAAM'
+    usernameLabel: { // Label pour l'email/identifiant
+      en: 'Agent Identifier (E-mail)', fr: 'Identifiant Agent (E-mail)', mi: 'Kaiwhakahaere Kaihoko (Īmēra)', ga: 'Aitheantóir Gníomhaire (Ríomhphost)', hi: 'एजेंट पहचानकर्ता (ईमेल)', gd: 'Neach-aithneachaidh an Àidseant (Post-d)',
+      'en-AU': 'Agent Identifier (E-mail)', 'en-NZ': 'Agent Identifier (E-mail)', 'en-CA': 'Agent Identifier (E-mail)', 'fr-CA': 'Identifiant Agent (E-mail)', 'en-ZA': 'Agent Identifiseerder (E-pos)', af: 'Agent Identifiseerder (E-pos)'
     },
-    transmissionAddressLabel: {
-      en: 'TRANSMISSION ADDRESS (E-mail)', fr: 'ADRESSE DE TRANSMISSION (E-mail)', mi: 'WĀHITAU WHAKAWITI (Īmēra)', ga: 'SEOLADH TARCHURTHA (Ríomhphost)', hi: 'संचरण पता (ईमेल)', gd: 'SEÒLADH Sgaoilidh (Post-d)',
-      'en-AU': 'TRANSMISSION ADDRESS (E-mail)', 'en-NZ': 'TRANSMISSION ADDRESS (E-mail)', 'en-CA': 'TRANSMISSION ADDRESS (E-mail)', 'fr-CA': 'ADRESSE DE TRANSMISSION (E-mail)', 'en-ZA': 'VERSENDINGSADRES (E-pos)', af: 'VERSENDINGSADRES (E-pos)'
-    },
-    secretCodeLabel: {
-      en: 'SECRET CODE (Password)', fr: 'CODE SECRET (Mot de passe)', mi: 'WAEHERE NGaro (Kupuhipa)', ga: 'CÓD RÚNDA (Pasfhocal)', hi: 'गुप्त कोड (पासवर्ड)', gd: 'CÒD DÌOMHAIR (Facal-faire)',
+    passwordLabel: {
+      en: 'SECRET CODE (Password)', fr: 'CODE SECRET (Mot de passe)', mi: 'WAEHERE NGARO (Kupuhipa)', ga: 'CÓD RÚNDA (Pasfhocal)', hi: 'गुप्त कोड (पासवर्ड)', gd: 'CÒD DÌOMHAIR (Facal-faire)',
       'en-AU': 'SECRET CODE (Password)', 'en-NZ': 'SECRET CODE (Password)', 'en-CA': 'SECRET CODE (Password)', 'fr-CA': 'CODE SECRET (Mot de passe)', 'en-ZA': 'GEHEIME KODE (Wagwoord)', af: 'GEHEIME KODE (Wagwoord)'
     },
     loadingButtonText: {
-      en: 'Registering...', fr: 'Enregistrement...', mi: 'Kei te Whakarēhita...', ga: 'Ag Clárú...', hi: 'पंजीकरण हो रहा है...', gd: 'A’ Clàradh...',
-      'en-AU': 'Registering...', 'en-NZ': 'Registering...', 'en-CA': 'Registering...', 'fr-CA': 'Enregistrement...', 'en-ZA': 'Registrasie...', af: 'Registrasie...'
+      en: 'Logging in...', fr: 'Connexion en cours...', mi: 'Kei te takiuru...', ga: 'Ag logáil isteach...', hi: 'लॉग इन हो रहा है...', gd: 'A’ Logadh a-steach...',
+      'en-AU': 'Logging in...', 'en-NZ': 'Logging in...', 'en-CA': 'Logging in...', 'fr-CA': 'Connexion en cours...', 'en-ZA': 'Besig om aan te meld...', af: 'Besig om aan te meld...'
     },
     submitButtonText: {
-      en: 'VALIDATE ENROLLMENT', fr: 'VALIDER L\'ENRÔLEMENT', mi: 'WHAKAMANA I TE WHAKARĒHITA', ga: 'BAILIÓCHTAIGH AN CLÁRÚ', hi: 'नामांकन मान्य करें', gd: 'DEARBH AITHISG',
-      'en-AU': 'VALIDATE ENROLLMENT', 'en-NZ': 'VALIDATE ENROLLMENT', 'en-CA': 'VALIDATE ENROLLMENT', 'fr-CA': 'VALIDER L\'ENRÔLEMENT', 'en-ZA': 'VALIDER INSKRYWING', af: 'VALIDER INSKRYWING'
+      en: 'ACCESS COMMAND POST', fr: 'ACCÉDER AU POSTE DE COMMANDEMENT', mi: 'URU KI TE POU WHAKAHAU', ga: 'ROCHTAIN AN T-IONAD CEANNAIS', hi: 'कमांड पोस्ट तक पहुंचें', gd: 'FAIGH COTHROM AIR AN IONAD-COMMAND',
+      'en-AU': 'ACCESS COMMAND POST', 'en-NZ': 'ACCESS COMMAND POST', 'en-CA': 'ACCESS COMMAND POST', 'fr-CA': 'ACCÉDER AU POSTE DE COMMANDEMENT', 'en-ZA': 'TOEGANG TOT BEVELSPOS', af: 'TOEGANG TOT BEVELSPOS'
     },
     orSeparator: {
       en: 'OR', fr: 'OU', mi: 'RĀNEI', ga: 'NÓ', hi: 'या', gd: 'NO',
       'en-AU': 'OR', 'en-NZ': 'OR', 'en-CA': 'OR', 'fr-CA': 'OU', 'en-ZA': 'OF', af: 'OF'
     },
-    enrollWithGoogle: {
-      en: 'ENROLL WITH GOOGLE', fr: 'ENRÔLEMENT AVEC GOOGLE', mi: 'WHAKARĒHITA MĀ GOOGLE', ga: 'CLÁRAIGH LE GOOGLE', hi: 'गूगल से नामांकन करें', gd: 'CLÀRAICH LE GOOGLE',
-      'en-AU': 'ENROLL WITH GOOGLE', 'en-NZ': 'ENROLL WITH GOOGLE', 'en-CA': 'ENROLL WITH GOOGLE', 'fr-CA': 'ENRÔLEMENT AVEC GOOGLE', 'en-ZA': 'SKRYF IN MET GOOGLE', af: 'SKRYF IN MET GOOGLE'
+    forgotPassword: {
+      en: 'Forgot password?', fr: 'Mot de passe oublié ?', mi: 'Kua wareware te kupuhipa?', ga: 'An ndearna tú dearmad ar do phasfhocal?', hi: 'पासवर्ड भूल गए?', gd: 'Facal-faire dìochuimhnichte?',
+      'en-AU': 'Forgot password?', 'en-NZ': 'Forgot password?', 'en-CA': 'Forgot password?', 'fr-CA': 'Mot de passe oublié ?', 'en-ZA': 'Wagwoord Vergete?', af: 'Wagwoord Vergete?'
     },
-    enrollWithGithub: {
-      en: 'ENROLL WITH GITHUB', fr: 'ENRÔLEMENT AVEC GITHUB', mi: 'WHAKARĒHITA MĀ GITHUB', ga: 'CLÁRAIGH LE GITHUB', hi: 'गिटहब से नामांकन करें', gd: 'CLÀRAICH LE GITHUB',
-      'en-AU': 'ENROLL WITH GITHUB', 'en-NZ': 'ENROLL WITH GITHUB', 'en-CA': 'ENROLL WITH GITHUB', 'fr-CA': 'ENRÔLEMENT AVEC GOOGLE', 'en-ZA': 'SKRYF IN MET GITHUB', af: 'SKRYF IN MET GITHUB'
+    errorMessagePasswordMismatch: {
+      en: 'Incorrect password. Please check and try again.', fr: 'Mot de passe incorrect. Veuillez vérifier et réessayer.', mi: 'He Hapa te Kupuhipa. Tirohia te hapa me te whakamātau anō.', ga: 'Pasfhocal mícheart. Seiceáil le do thoil agus déan iarracht arís.', hi: 'गलत पासवर्ड। कृपया जांचें और पुनः प्रयास करें।', gd: 'Facal-faire ceàrr. Thoir sùil air ais agus feuch a-rithist.',
+      'en-AU': 'Incorrect password. Please check and try again.', 'en-NZ': 'Incorrect password. Please check and try again.', 'en-CA': 'Incorrect password. Please check and try again.', 'fr-CA': 'Mot de passe incorrect. Veuillez vérifier et réessayer.', 'en-ZA': 'Verkeerde wagwoord. Kontroleer asseblief en probeer weer.', af: 'Verkeerde wagwoord. Kontroleer asseblief en probeer weer.'
     },
+    errorMessageGeneric: { // Message d'erreur générique pour le login
+      en: 'An error occurred during login. Please try again later.', fr: 'Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.', mi: 'I puta he hapa i te takiurunga. Whakamātauria anō ā muri ake nei.', ga: 'Tharla earráid le linn logála isteach. Bain triail eile as níos déanaí le do thoil.', hi: 'लॉग इन के दौरान एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।', gd: 'Bha mearachd ann nuair a bha thu a’ logadh a-steach. Feuch a-rithist nas fhaide air adhart.',
+      'en-AU': 'An error occurred during login. Please try again later.', 'en-NZ': 'An error occurred during login. Please try again later.', 'en-CA': 'An error occurred during login. Please try again later.', 'fr-CA': 'Une erreur est survenue lors de la connexion. Veuillez réessayer plus tard.', 'en-ZA': 'An anomaly occurred during login. Please try again later.', af: 'An anomaly occurred during login. Please try again later.'
+    },
+    // Ajout des traductions pour les nouveaux états de validation
+    emailValidated: {
+      en: 'Email validated', fr: 'Email validé', mi: 'Īmēra Kua Whakamana', ga: 'Ríomhphost Bailíochtaithe', hi: 'ईमेल सत्यापित', gd: 'Post-d air a dhearbhadh',
+      'en-AU': 'Email validated', 'en-NZ': 'Email validated', 'en-CA': 'Email validated', 'fr-CA': 'Email validé', 'en-ZA': 'E-pos Valideer', af: 'E-pos Valideer'
+    },
+    passwordValidated: {
+      en: 'Password validated', fr: 'Mot de passe validé', mi: 'Kupuhipa Kua Whakamana', ga: 'Pasfhocal Bailíochtaithe', hi: 'पासवर्ड सत्यापित', gd: 'Facal-faire air a dhearbhadh',
+      'en-AU': 'Password validated', 'en-NZ': 'Password validated', 'en-CA': 'Password validated', 'fr-CA': 'Mot de passe validé', 'en-ZA': 'Wagwoord Valideer', af: 'Wagwoord Valideer'
+    },
+    registerLinkText: { // Texte pour le lien vers la page d'inscription
+      en: 'Go to Register', fr: 'Aller à l\'inscription', mi: 'Haere ki te Rehita', ga: 'Téigh go dtí Clárú', hi: 'पंजीकरण पर जाएं', gd: 'Rach gu Clàradh',
+      'en-AU': 'Go to Register', 'en-NZ': 'Go to Register', 'en-CA': 'Go to Register', 'fr-CA': 'Aller à l\'inscription', 'en-ZA': 'Gaan na Register', af: 'Gaan na Register'
+    },
+    // AJOUT DE LA CLÉ MANQUANTE
     alreadyMatricule: {
-      en: 'Already registered?', fr: 'Déjà un matricule ?', mi: 'Kua rehita kē?', ga: 'Cláraithe cheana?', hi: 'पहले से ही पंजीकृत हैं?', gd: 'Clàraichte mar-thà?', cy: 'Heb gofrestru eto?',
-      'en-AU': 'Already registered?', 'en-NZ': 'Already registered?', 'en-CA': 'Already registered?', 'fr-CA': 'Déjà un matricule ?', 'en-ZA': 'Reeds geregistreer?', af: 'Reeds geregistreer?'
-    },
-    accessCommandPost: {
-      en: 'Access Command Post.', fr: 'Accéder au Poste de Commandement.', mi: 'Uru ki te Pou Whakahau.', ga: 'Rochtain ar an Ionad Ceannais.', hi: 'कमांड पोस्ट तक पहुंचें।', gd: 'Faigh Cothrom air an Ionad-Command.',
-      'en-AU': 'Access Command Post.', 'en-NZ': 'Access Command Post.', 'en-CA': 'Access Command Post.', 'fr-CA': 'Accéder au Poste de Commandement.', 'en-ZA': 'Kry toegang tot Bevelspos.', af: 'Toegang tot Bevelspos.'
-    },
-    errorEmailExists: {
-      en: 'This transmission address is already registered. Please use another.', fr: 'Cette adresse de transmission est déjà enregistrée. Veuillez en utiliser une autre.', mi: 'Kua rehita kē tēnei wāhitau whakawhiti. Whakamahia tētahi atu.', ga: 'Tá an seoladh tarchurtha seo cláraithe cheana. Bain úsáid as ceann eile le do thoil.', hi: 'यह संचरण पता पहले से पंजीकृत है। कृपया दूसरा उपयोग करें।', gd: 'Tha an seòladh sgaoilidh seo clàraichte mar-thà. Cleachd fear eile, mas e do thoil e.',
-      'en-AU': 'This transmission address is already registered. Please use another.', 'en-NZ': 'This transmission address is already registered. Please use another.', 'en-CA': 'This transmission address is already registered. Please use another.', 'fr-CA': 'Cette adresse de transmission est déjà enregistrée. Veuillez en utiliser une autre.', 'en-ZA': "Hierdie transmissieadres is reeds geregistreer. Gebruik asseblief 'n ander een.", af: "Hierdie transmissieadres is reeds geregistreer. Gebruik asseblief 'n ander een.",
-    },
-    errorGeneric: {
-      en: 'An anomaly occurred during registration. Please retry later.', fr: 'Une anomalie est survenue lors de l\'enregistrement. Veuillez réessayer plus tard.', mi: 'He hapa i te wā o te rēhitatanga. Whakamātauria anō ā muri ake.', ga: 'Tharla aimhrialtacht le linn clárúcháin. Bain triail eile as níos déanaí le do thoil.', hi: 'पंजीकरण के दौरान एक विसंगति हुई। कृपया बाद में पुनः प्रयास करें।', gd: 'Thachair ana-riaghailt ri linn clàraidh. Feuch a-rithist nas fhaide air adhart, mas e do thoil e.',
-      'en-AU': 'An anomaly occurred during registration. Please retry later.', 'en-NZ': 'An anomaly occurred during registration. Please retry later.', 'en-CA': 'An anomaly occurred during registration. Please retry later.', 'fr-CA': 'Une anomalie est survenue lors de l\'enregistrement. Veuillez réessayer plus tard.', 'en-ZA': "An anomaly occurred during registration. Please retry later.", af: "An anomaly occurred during registration. Please retry later.",
-    },
-    successMessage: {
-      en: 'Enrollment successful! Redirecting to Command Post...', fr: 'Enrôlement réussi ! Redirection vers le Poste de Commandement...', mi: 'I angitu te whakaurunga! Kei te whakatere ki te Pou Whakahau...', ga: 'Clárú rathúil! Ag atreorú chuig an Ionad Ceannais...', hi: 'नामांकन सफल रहा! कमांड पोस्ट पर रीडirect कर रहा है...', gd: 'Clàradh soirbheachail! Ag ath-stiùireadh gu Ionad-Command...',
-      'en-AU': 'Enrollment successful! Redirecting to Command Post...', 'en-NZ': 'Enrollment successful! Redirecting to Command Post...', 'en-CA': 'Enrollment successful! Redirecting to Command Post...', 'fr-CA': 'Enrôlement réussi ! Redirection vers le Poste de Commandement...', 'en-ZA': 'Inskrywing suksesvol! Herlei na Bevelspos...', af: 'Inskrywing suksesvol! Herlei na Bevelspos...',
-    },
+      en: 'Already registered?', fr: 'Déjà inscrit ?', mi: 'Kua Rehitatia?', ga: 'Cláraithe cheana féin?', hi: 'पहले से पंजीकृत?', gd: 'Mu thràth clàraichte?',
+      'en-AU': 'Already registered?', 'en-NZ': 'Already registered?', 'en-CA': 'Already registered?', 'fr-CA': 'Déjà inscrit ?', 'en-ZA': 'Reeds geregistreer?', af: 'Reeds geregistreer?'
+    }
   },
 };
 
@@ -88,30 +88,29 @@ const getTranslation = <S extends keyof typeof allTranslations, K extends keyof 
     console.warn(`Translation missing or invalid for: ${String(section)}.${String(key)} in language ${lang}`);
     return `[Invalid Translation: ${String(section)}.${String(key)}]`;
   }
-  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en;
+  return (specificTranslations as { [l: string]: string })[lang] || (specificTranslations as { [l: string]: string }).en || '';
 };
 
-export default function InscriptionPage() {
-  const { theme } = useTheme();
+export default function LoginPage() { // Ce composant est pour la page de connexion
   const { language } = useLanguage();
+  const { theme } = useTheme();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [isEmailValidated, setIsEmailValidated] = useState(true); // Nouvel état pour la validation de l'email
+  const [isPasswordValidated, setIsPasswordValidated] = useState(true); // Nouvel état pour la validation du mot de passe
 
-  // Styles are kept the same for consistency
+  // Styles basés sur le thème
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
   const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#f9fafb';
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F5F0E1';
   const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
   const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
-  const shadowColorButton = theme === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(0,0,0,0.15)';
 
   const inputBgColor = theme === 'dark' ? '#1F1F2A' : '#FFFFFF';
   const inputBorderColor = theme === 'dark' ? '#444444' : '#CCCCCC';
@@ -121,140 +120,107 @@ export default function InscriptionPage() {
   const buttonPrimaryHoverBg = theme === 'dark' ? '#004a99' : '#005edb';
   const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white';
 
-  const socialButtonBg = theme === 'dark' ? '#424242' : '#E0E0E0';
-  const socialButtonHoverBg = theme === 'dark' ? '#555555' : '#D0D0D0';
-  const socialButtonText = theme === 'dark' ? '#E0E0E0' : '#333333';
-  const socialButtonBorder = theme === 'dark' ? '#666666' : '#BBBBBB';
+  // Styles pour la boîte d'erreur (pourrait être défini dans le module CSS)
+  const errorBackground = theme === 'dark' ? '#402020' : '#fdd';
+  const errorText = theme === 'dark' ? '#FFDDDD' : '#A00';
+  const errorBorder = theme === 'dark' ? '#802020' : '#CC0000';
+  const errorShadow = theme === 'dark' ? 'rgba(255,0,0,0.3)' : 'rgba(255,100,100,0.3)';
 
-  const errorBackground = theme === 'dark' ? '#5C2D2D' : '#FFDADA';
-  const errorText = theme === 'dark' ? '#FFCACA' : '#CC0000';
-  const errorBorder = theme === 'dark' ? '#CC0000' : '#FF0000';
-  const errorShadow = theme === 'dark' ? 'rgba(204,0,0,0.4)' : 'rgba(255,0,0,0.2)';
-
-  const successBackground = theme === 'dark' ? '#2D5C2D' : '#DAFFDA';
-  const successText = theme === 'dark' ? '#CAFFCA' : '#00CC00';
-  const successBorder = theme === 'dark' ? '#00CC00' : '#00FF00';
-  const successShadow = theme === 'dark' ? 'rgba(0,204,0,0.4)' : 'rgba(0,255,0,0.2)';
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
-    setSuccess(null);
 
     try {
-      const response = await fetch('http://localhost:8000/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          // 'nomDeCode' est supprimé car il n'est pas utilisé par le backend pour l'inscription
-          // 'role' n'est pas envoyé car il est défini par défaut dans le backend User model
-        }),
-      });
+      // Simuler une vérification de l'email et du mot de passe
+      // Dans une application réelle, ces validations devraient être plus robustes
+      // et potentiellement faire appel à une API pour confirmer l'existence et la validité.
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Enrôlement réussi !', data);
-        setSuccess(getTranslation('inscriptionPage', 'successMessage', language));
-        setEmail('');
-        setPassword('');
-        // setNomDeCode(''); // Supprimé car le champ n'est plus dans le formulaire
-        setTimeout(() => {
-          router.push('/'); // Redirige vers la page de connexion
-        }, 2000);
+      // Validation de l'email (simple regex)
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isEmailValid = emailRegex.test(email);
+      setIsEmailValidated(isEmailValid);
+
+      // Validation du mot de passe (exemple: au moins 8 caractères)
+      const isPasswordValid = password.length >= 8; // Ajustez cette logique selon vos besoins réels
+      setIsPasswordValidated(isPasswordValid);
+
+      if (isEmailValid && isPasswordValid) {
+        // Si les deux sont valides, on peut envisager une redirection ou une action spécifique
+        console.log('Email et mot de passe valides. Redirection vers /register...');
+        router.push('/register');
       } else {
-        const errorData = await response.json();
-        if (errorData.detail === "Email already registered") {
-          setError(getTranslation('inscriptionPage', 'errorEmailExists', language));
-        } else {
-          setError(errorData.detail || getTranslation('inscriptionPage', 'errorGeneric', language));
+        // Afficher des messages d'erreur spécifiques ou génériques si la validation échoue
+        if (!isEmailValid) {
+          setError(getTranslation('loginPage', 'errorMessageGeneric', language)); // Ou un message plus spécifique pour l'email
         }
-        console.error('Échec de l\'enrôlement:', errorData);
+        if (!isPasswordValid) {
+          setError(getTranslation('loginPage', 'errorMessagePasswordMismatch', language)); // Ou un message plus spécifique pour le mot de passe
+        }
+        // Si les deux sont faux, le dernier error assigné sera affiché.
+        // Vous pourriez vouloir un message plus général si les deux sont faux.
+        if (!isEmailValid && !isPasswordValid) {
+            setError(getTranslation('loginPage', 'errorMessageGeneric', language));
+        }
       }
+
     } catch (err) {
-      console.error('Erreur réseau ou inattendue lors de l\'enrôlement:', err);
-      setError(getTranslation('inscriptionPage', 'errorGeneric', language));
+      console.error('Erreur lors de la validation ou de la redirection:', err);
+      setError(getTranslation('loginPage', 'errorMessageGeneric', language));
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Déterminer si le bouton de soumission doit être activé
+  const isFormValid = isEmailValidated && isPasswordValidated;
+
   return (
     <div
-      className={styles.pageContainer}
+      className={styles.pageContainer} // Assurez-vous que cette classe existe dans login.module.css
       style={{
         backgroundColor: backgroundColorPage,
-        '--kiwi-text-primary': textColor,
-        '--kiwi-text-secondary': mutedTextColor,
-        '--kiwi-border-color': borderColor,
-        '--kiwi-border-color-muted': mutedTextColor,
-        '--kiwi-background-section': sectionBgColor,
-        '--kiwi-highlight-color': highlightColor,
-        '--kiwi-highlight-color-light': highlightColorLight,
-        '--kiwi-input-background-color': inputBgColor,
-        '--kiwi-input-border-color': inputBorderColor,
-        '--kiwi-button-primary-bg': buttonPrimaryBg,
-        '--kiwi-button-primary-hover-bg': buttonPrimaryHoverBg,
-        '--kiwi-button-primary-text': buttonPrimaryText,
-        '--kiwi-social-button-bg': socialButtonBg,
-        '--kiwi-social-button-hover-bg': socialButtonHoverBg,
-        '--kiwi-social-button-text': socialButtonText,
-        '--kiwi-social-button-border': socialButtonBorder,
-        '--kiwi-shadow-color-card': shadowColorCard,
-        '--kiwi-shadow-color-button': shadowColorButton,
-        '--kiwi-text-shadow': `2px 2px 0px ${textShadowColor}`,
-        '--kiwi-error-background': errorBackground,
-        '--kiwi-error-text': errorText,
-        '--kiwi-error-border': errorBorder,
-        '--kiwi-error-shadow': errorShadow,
-        '--kiwi-success-background': successBackground,
-        '--kiwi-success-text': successText,
-        '--kiwi-success-border': successBorder,
-        '--kiwi-success-shadow': successShadow,
-      } as React.CSSProperties}
+        color: textColor,
+        fontFamily: "'Arial', sans-serif", // Ou la police de votre thème
+      }}
     >
-      <div className={styles.formWrapper}>
-        <h1 className={styles.title}>{getTranslation('inscriptionPage', 'mainTitle', language)}</h1>
-        <p className={styles.preamble}>
-          {getTranslation('inscriptionPage', 'preamble', language)}
+      <div className={styles.formWrapper}> {/* Assurez-vous que cette classe existe dans login.module.css */}
+        <h1 className={styles.title} style={{ color: highlightColor, textShadow: `2px 2px 0px ${textShadowColor}` }}>
+          {getTranslation('loginPage', 'mainTitle', language)}
+        </h1>
+        <p className={styles.preamble} style={{ color: mutedTextColor }}>
+          {getTranslation('loginPage', 'preamble', language)}
         </p>
 
         {error && (
           <div className={styles.errorBox} role="alert" style={{
-            backgroundColor: 'var(--kiwi-error-background)',
-            color: 'var(--kiwi-error-text)',
-            border: `1px solid var(--kiwi-error-border)`,
-            boxShadow: `0 2px 8px var(--kiwi-error-shadow)`,
+            backgroundColor: errorBackground,
+            color: errorText,
+            border: `1px solid ${errorBorder}`,
+            boxShadow: `0 2px 8px ${errorShadow}`,
           }}>
             <p>{error}</p>
           </div>
         )}
-        {success && (
-          <div className={styles.successBox} role="status" style={{
-            backgroundColor: 'var(--kiwi-success-background)',
-            color: 'var(--kiwi-success-text)',
-            border: `1px solid var(--kiwi-success-border)`,
-            boxShadow: `0 2px 8px var(--kiwi-success-shadow)`,
-          }}>
-            <p>{success}</p>
-          </div>
-        )}
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          {/* Le champ nomDeCode est supprimé car il n'est pas envoyé au backend */}
           <div className={styles.formGroup}>
-            <label htmlFor="transmission" className={styles.label}>{getTranslation('inscriptionPage', 'transmissionAddressLabel', language)}</label>
+            <label htmlFor="email" className={styles.label}>
+              {getTranslation('loginPage', 'usernameLabel', language)}
+            </label>
             <input
-              id="transmission"
+              id="email"
               type="email"
               autoComplete="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                // Mettre à jour la validation de l'email à chaque changement
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                setIsEmailValidated(emailRegex.test(e.target.value));
+              }}
               className={styles.inputField}
               disabled={isLoading}
               style={{
@@ -262,16 +228,29 @@ export default function InscriptionPage() {
                 color: textColor,
                 borderColor: inputBorderColor,
               }}
+              placeholder="agent@example.com"
             />
+            {/* Affichage de l'état de validation de l'email */}
+            {email && (
+              <span style={{ color: isEmailValidated ? 'green' : 'red', marginLeft: '10px' }}>
+                {isEmailValidated ? getTranslation('loginPage', 'emailValidated', language) : 'Invalid Email'}
+              </span>
+            )}
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="secret" className={styles.label}>{getTranslation('inscriptionPage', 'secretCodeLabel', language)}</label>
+            <label htmlFor="password" className={styles.label}>
+              {getTranslation('loginPage', 'passwordLabel', language)}
+            </label>
             <input
-              id="secret"
+              id="password"
               type="password"
               required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                // Mettre à jour la validation du mot de passe à chaque changement
+                setIsPasswordValidated(e.target.value.length >= 8); // Ajustez la logique si nécessaire
+              }}
               className={styles.inputField}
               disabled={isLoading}
               style={{
@@ -279,45 +258,45 @@ export default function InscriptionPage() {
                 color: textColor,
                 borderColor: inputBorderColor,
               }}
+              placeholder="********"
             />
+            {/* Affichage de l'état de validation du mot de passe */}
+            {password && (
+              <span style={{ color: isPasswordValidated ? 'green' : 'red', marginLeft: '10px' }}>
+                {isPasswordValidated ? getTranslation('loginPage', 'passwordValidated', language) : 'Invalid Password'}
+              </span>
+            )}
+            <Link href="/forgot-password" className={styles.forgotPasswordLink} style={{ color: highlightColor }}>
+              {getTranslation('loginPage', 'forgotPassword', language)}
+            </Link>
           </div>
 
           <div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !isFormValid} // Désactiver le bouton si isLoading ou si le formulaire n'est pas valide
               className={styles.submitButton}
               style={{
                 backgroundColor: buttonPrimaryBg,
                 color: buttonPrimaryText,
+                opacity: isLoading || !isFormValid ? 0.6 : 1, // Ajuster l'opacité si désactivé
               }}
             >
-              {isLoading ? getTranslation('inscriptionPage', 'loadingButtonText', language) : getTranslation('inscriptionPage', 'submitButtonText', language)}
+              {isLoading ? getTranslation('loginPage', 'loadingButtonText', language) : getTranslation('loginPage', 'submitButtonText', language)}
             </button>
           </div>
         </form>
 
-        <div className={styles.separator}>
-          <span className={styles.separatorLine}></span>
-          <span className={styles.separatorText}>{getTranslation('inscriptionPage', 'orSeparator', language)}</span>
-          <span className={styles.separatorLine}></span>
-        </div>
-
-        <div className={styles.socialButtonsContainer}>
-          <button className={styles.socialButton}>
-            {getTranslation('inscriptionPage', 'enrollWithGoogle', language)}
-          </button>
-          <button className={styles.socialButton}>
-            {getTranslation('inscriptionPage', 'enrollWithGithub', language)}
-          </button>
-        </div>
-
-        <p className={styles.footerText}>
-          {getTranslation('inscriptionPage', 'alreadyMatricule', language)}{' '}
-          <Link href="/" className={styles.link}>
-            {getTranslation('inscriptionPage', 'accessCommandPost', language)}
-          </Link>
-        </p>
+        {/* Le lien vers la page d'inscription est maintenant affiché uniquement s'il n'y a pas d'erreur et que le formulaire n'est pas encore complètement validé */}
+        {!error && !isFormValid && (
+          <p className={styles.footerText}>
+            {getTranslation('loginPage', 'alreadyMatricule', language)}{' '} {/* Utilisation de la clé corrigée */}
+            <Link href="/register" className={styles.link} style={{ color: highlightColor }}>
+              {getTranslation('loginPage', 'registerLinkText', language)}
+            </Link>
+          </p>
+        )}
+        {/* Vous pouvez ajouter des conditions ici pour afficher d'autres éléments si nécessaire */}
       </div>
     </div>
   );
