@@ -24,8 +24,9 @@ class LegalDocument(Base):
     content = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+    # ✅ Relation corrigée avec chemin complet
     agreements = relationship(
-        "UserLegalAgreement",
+        "app.models.user_legal_agreement.UserLegalAgreement",
         back_populates="document",
         cascade="all, delete-orphan"
     )
@@ -38,23 +39,4 @@ class LegalDocument(Base):
         return (
             f"<LegalDocument(id={self.id}, type='{self.type}', "
             f"version='{self.version}', lang='{self.language}')>"
-        )
-
-
-class UserLegalAgreement(Base):
-    __tablename__ = "user_legal_agreements"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), index=True, nullable=False)
-    document_id = Column(Integer, ForeignKey("legal_documents.id", ondelete="CASCADE"), index=True, nullable=False)
-    agreed_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    is_latest_version_agreed = Column(Boolean, default=True, nullable=False)
-
-    user = relationship("User", back_populates="legal_agreements")
-    document = relationship("LegalDocument", back_populates="agreements")
-
-    def __repr__(self):
-        return (
-            f"<UserLegalAgreement(user_id={self.user_id}, "
-            f"document_id={self.document_id}, agreed_at='{self.agreed_at}')>"
         )
