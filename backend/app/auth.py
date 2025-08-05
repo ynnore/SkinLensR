@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 import os
 
-from app.dependencies import get_db
+from app.core.dependencies import get_db
 from app.models.user import User
 
 router = APIRouter()
