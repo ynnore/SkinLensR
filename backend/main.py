@@ -5,6 +5,8 @@ from datetime import timedelta
 from typing import List, Optional, AsyncGenerator
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
+from app.database import get_db, engine
+from app.models.base import Base
 import logging
 
 # --- Logging Configuration ---
