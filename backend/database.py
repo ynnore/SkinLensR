@@ -1,30 +1,34 @@
-      
 # backend/app/database.py
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-# L'URL de connexion à ta base de données PostgreSQL
-# C'est la même que dans alembic.ini, mais ici tu peux aussi la gérer via .env (plus tard)
-SQLALCHEMY_DATABASE_URL = "postgresql://kiwiops_user:M%40cha1soop@34.22.196.234:5432/kiwiops_db"
+# Charge les variables d'environnement depuis un fichier .env si présent (utile pour le dev local)
+# Assurez-vous que le chemin vers .env est correct, souvent à la racine du projet.
+# Si votre .env est à la racine du backend, cela devrait fonctionner.
+load_dotenv()
 
-# Note : Le %40 est nécessaire ici aussi si ton mot de passe contient @
+# Récupère l'URL de la base de données depuis une variable d'environnement
+# Le nom de la variable d'environnement est important (ici DATABASE_URL)
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Crée un moteur de base de données SQLAlchemy
+# Vérification pour s'assurer que la variable d'environnement est bien définie
+if not SQLALCHEMY_DATABASE_URL:
+    # Si vous déployez sur Cloud Run, il faudra passer cette variable via gcloud
+    # Si vous ne la trouvez pas, le programme va planter ici, ce qui est une bonne chose pour signaler le problème.
+    raise ValueError("La variable d'environnement DATABASE_URL n'est pas définie.")
+
+# Le reste du code reste le même
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
 
-# Crée une classe SessionLocal. Chaque instance de SessionLocal sera une session de base de données.
-# Le 'autocommit=False' signifie que tu devras faire un '.commit()' explicite pour sauvegarder les changements.
-# Le 'autoflush=False' signifie que les objets ne seront pas flushés (écrits dans la DB) avant un commit.
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Dépendance pour FastAPI : Obtenir une session de base de données
 def get_db():
     db = SessionLocal()
     try:
-        yield db # Le code s'exécutera jusqu'à ce que le générateur soit suspendu (yield)
+        yield db
     finally:
-        db.close() # S'assure que la session est fermée après la requête
-
-    
+        db.close()
