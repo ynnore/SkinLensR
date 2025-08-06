@@ -5,7 +5,7 @@ FROM python:3.8-slim-bookworm AS builder
 
 WORKDIR /app/backend
 
-# Copier requirements.txt depuis la racine du contexte de build (backend/)
+# Copier requirements.txt
 COPY requirements.txt .
 
 # Installer les dépendances système nécessaires
@@ -22,9 +22,9 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Installer python-multipart
 RUN pip install python-multipart
 
-# Copier le reste du code source de l'application
-COPY app/ ./app/
-COPY app/main.py ./main.py
+# Copier le code source de l'application (tout ce qui est dans /backend localement)
+COPY main.py .
+COPY database.py .
 COPY alembic/ ./alembic/
 
 # ====================================================================
@@ -38,13 +38,13 @@ WORKDIR /app/backend
 COPY --from=builder /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
 COPY --from=builder /usr/local/bin /usr/local/bin
 
-# Copier le code de l'application backend qui a été préparé dans l'étape builder
-COPY --from=builder /app/backend/app/ ./app/
+# Copier le code de l'application backend
 COPY --from=builder /app/backend/main.py .
+COPY --from=builder /app/backend/database.py .
 COPY --from=builder /app/backend/alembic/ ./alembic/
 
-# Définir PYTHONPATH pour que Python puisse trouver vos modules dans /app/backend/app/
-ENV PYTHONPATH="/app/backend/app"
+# Définir le PYTHONPATH pour inclure le dossier courant
+ENV PYTHONPATH="/app/backend"
 
-# Commande pour démarrer l'application FastAPI avec Uvicorn.
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port $PORT"]
+# Lancer l'app FastAPI
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]

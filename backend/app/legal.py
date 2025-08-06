@@ -38,4 +38,4 @@ def get_current_user_legal_status(db: Session, user: User) -> dict:
         status_key = f"{doc.type}_{doc.language}"
         status[status_key] = agreement is not None and agreement.is_latest_version_agreed
 
-    return status
+    return status /home/manik/skinlensr/SkinLensR/backend/backend/app/crud/legal.py 

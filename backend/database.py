@@ -5,7 +5,8 @@ from sqlalchemy.orm import sessionmaker
 
 # L'URL de connexion à ta base de données PostgreSQL
 # C'est la même que dans alembic.ini, mais ici tu peux aussi la gérer via .env (plus tard)
-SQLALCHEMY_DATABASE_URL = "postgresql://kiwiops_user:M%40chasoop@localhost/kiwiops_db"
+SQLALCHEMY_DATABASE_URL = "postgresql://kiwiops_user:M%40cha1soop@34.22.196.234:5432/kiwiops_db"
+
 # Note : Le %40 est nécessaire ici aussi si ton mot de passe contient @
 
 # Crée un moteur de base de données SQLAlchemy
