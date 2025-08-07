@@ -1,70 +1,69 @@
-from logging.config import fileConfig
-
-from sqlalchemy import engine_from_config, pool, create_engine
-
-from alembic import context
-
-# ==============================================================================
-# ✅ DÉBUT DES MODIFICATIONS POUR LA RÉSOLUTION DES IMPORTS ET DU PYTHONPATH
-# Ces lignes DOIVENT être au début, avant toute importation de vos modèles 'app.models'
-# ==============================================================================
-import sys
 import os
+import sys
+from logging.config import fileConfig
+from app.models import base, user, progress, legal_document
+from sqlalchemy import engine_from_config, pool
+from alembic import context
+from dotenv import load_dotenv
 
-# Ajoute le chemin vers le répertoire 'backend' au PYTHONPATH.
-# Cela permet à Python de trouver les modules comme 'app' quand Alembic est exécuté.
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+# --- Configuration des chemins et chargement des variables ---
+project_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+sys.path.insert(0, project_root)
 
-# Importe la classe Base et tous tes modèles pour qu'Alembic les découvre.
-# Ils doivent être importés ICI, après l'ajustement du sys.path.
-from app.models.base import Base
-from app.models.user import User
-from app.models.legal_document import LegalDocument
-from app.models.agent_document import AgentDocument
-# ==============================================================================
-# ✅ FIN DES MODIFICATIONS
-# ==============================================================================
+# Charger les variables d'environnement depuis .env
+dotenv_path = os.path.join(project_root, '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path=dotenv_path)
+    print(f"DEBUG: .env file loaded successfully from {dotenv_path}")
+else:
+    print(f"DEBUG: .env file not found at {dotenv_path}. Relying on exported environment variables.")
 
+# --- Debug prints ---
+print("--- DEBUG Alembic Configuration ---")
+print(f"DEBUG: Current directory for Alembic: {os.getcwd()}")
+print(f"DEBUG: DATABASE_URL (from export, if any): {os.environ.get('DATABASE_URL')}")
+print(f"DEBUG: DB_USER={os.environ.get('DB_USER')}")
+print(f"DEBUG: DB_PASSWORD={os.environ.get('DB_PASSWORD')}")
+print(f"DEBUG: DB_NAME={os.environ.get('DB_NAME')}")
+print("--- End DEBUG Alembic Configuration ---")
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
+# Logging depuis alembic.ini
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
+# Importer vos modèles (s'assurer que tout est importé correctement)
+try:
+    from app.models import base, user, progress, legal  # Exemple
+except ModuleNotFoundError as e:
+    print(f"ERROR: Could not import your models.\nDetails: {e}")
+    sys.exit(1)
 
-# MODIFIED: Link target_metadata to Base.metadata from your models
+
+# Assure-toi que target_metadata contient bien la métadonnée de la base
 target_metadata = Base.metadata
 
+# Variables DB
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD_RAW = os.getenv("DB_PASSWORD", "")
+DB_NAME = os.getenv("DB_NAME")
 
-# other values from the config, defined by the needs of env.py,
-# can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
-# ... etc.
+# Encodage du mot de passe pour les caractères spéciaux
+DB_PASSWORD = DB_PASSWORD_RAW.replace("@", "%40")
 
+# Vérification de la présence des variables critiques
+if not all([DB_USER, DB_PASSWORD, DB_NAME]):
+    print("ERROR: Missing critical database environment variables (DB_USER, DB_PASSWORD, DB_NAME).")
+    sys.exit(1)
 
-def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode.
+# Connexion Cloud SQL Proxy (URL)
+db_url = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@/{DB_NAME}?host=/cloudsql/skinlens-new-test:europe-west1:skinlensr-db-prod-europe-west1"
 
-    This configures the context with just a URL
-    and not an Engine, though an Engine is acceptable
-    here as well.  By skipping the Engine creation
-    we don't even need a DBAPI to be available.
-
-    Calls to context.execute() here emit the given string to the
-    script output.
-
-    """
-    url = config.get_main_option("sqlalchemy.url")
+def run_migrations_offline():
+    """Exécuter les migrations en mode hors ligne."""
     context.configure(
-        url=url,
+        url=db_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -73,26 +72,20 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
-
-    In this scenario we need to create an Engine
-    and associate a connection with the context.
-
-    """
-    connectable = create_engine(config.get_main_option("sqlalchemy.url"))
+def run_migrations_online():
+    """Exécuter les migrations en mode en ligne."""
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section) or {},
+        prefix="sqlalchemy.",
+        url=db_url,
+        poolclass=pool.NullPool,
+    )
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection,
+            target_metadata=target_metadata,
         )
 
         with context.begin_transaction():
             context.run_migrations()
-
-
-if context.is_offline_mode():
-    run_migrations_offline()
-else:
-    run_migrations_online()

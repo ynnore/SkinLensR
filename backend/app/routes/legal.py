@@ -1,19 +1,65 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from app.crud import legal_documents as crud
+from app.models.legal_document import LegalDocument
+from app.database import get_db
+from pydantic import BaseModel
 
-from app.dependencies import get_db, get_current_user
-from app.models.user import User
-from app.crud.legal import get_current_user_legal_status
-
+# Création du routeur FastAPI
 router = APIRouter()
 
-@router.get("/user/status", summary="Get current user's legal status")
-def get_user_legal_status(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+# Pydantic models pour validation
+class LegalDocumentCreate(BaseModel):
+    type: str
+    version: str
+    language: str
+    content: str
+
+class LegalDocumentUpdate(LegalDocumentCreate):
+    pass
+
+# Route pour créer un document légal
+@router.post("/legal_documents/", response_model=LegalDocument)
+def create_legal_document(
+    doc: LegalDocumentCreate, db: Session = Depends(get_db)
 ):
-    try:
-        status = get_current_user_legal_status(db, current_user)
-        return {"status": status}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    return crud.create_legal_document(db=db, **doc.dict())
+
+# Route pour récupérer un document légal par son ID
+@router.get("/legal_documents/{document_id}", response_model=LegalDocument)
+def read_legal_document(
+    document_id: int, db: Session = Depends(get_db)
+):
+    db_document = crud.get_legal_document_by_id(db=db, document_id=document_id)
+    if db_document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return db_document
+
+# Route pour récupérer tous les documents légaux
+@router.get("/legal_documents/", response_model=list[LegalDocument])
+def read_all_legal_documents(db: Session = Depends(get_db)):
+    return crud.get_all_legal_documents(db=db)
+
+# Route pour mettre à jour un document légal
+@router.put("/legal_documents/{document_id}", response_model=LegalDocument)
+def update_legal_document(
+    document_id: int,
+    doc: LegalDocumentUpdate,
+    db: Session = Depends(get_db)
+):
+    db_document = crud.update_legal_document(
+        db=db, document_id=document_id, **doc.dict()
+    )
+    if db_document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return db_document
+
+# Route pour supprimer un document légal
+@router.delete("/legal_documents/{document_id}", response_model=LegalDocument)
+def delete_legal_document(
+    document_id: int, db: Session = Depends(get_db)
+):
+    db_document = crud.delete_legal_document(db=db, document_id=document_id)
+    if db_document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+    return db_document
