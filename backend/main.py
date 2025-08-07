@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 # --- Imports ---
 # Base de données
-from database import get_db, engine
+from app.database import get_db, engine
 from app.models.base import Base
 
 # Schémas Pydantic
