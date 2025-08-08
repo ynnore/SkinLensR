@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 # --- Schémas pour les utilisateurs ---
 class UserBase(BaseModel):
@@ -15,7 +15,7 @@ class UserResponse(UserBase):
     is_active: Optional[bool] = True
 
     class Config:
-        from_attributes = True  # Utilisation de 'Config' pour Pydantic v2
+        from_attributes = True  # Pydantic v2 ORM mode
 
 # --- Schémas pour les documents légaux ---
 class LegalDocumentBase(BaseModel):
@@ -32,7 +32,7 @@ class LegalDocumentResponse(LegalDocumentBase):
     updated_at: datetime
 
     class Config:
-        from_attributes = True  # Utilisation de 'Config' pour Pydantic v2
+        from_attributes = True
 
 # --- Schémas pour les accords utilisateur-document légal ---
 class UserLegalAgreementBase(BaseModel):
@@ -48,7 +48,7 @@ class UserLegalAgreementResponse(UserLegalAgreementBase):
     agreed_at: datetime
 
     class Config:
-        from_attributes = True  # Utilisation de 'Config' pour Pydantic v2
+        from_attributes = True
 
 # --- Schéma pour le token d'authentification ---
 class Token(BaseModel):
@@ -65,13 +65,6 @@ class AgentDocumentCreate(AgentDocumentBase):
     pass
 
 class AgentDocumentResponse(AgentDocumentBase):
-    id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True  # Utilisation de 'Config' pour Pydantic v2
-class AgentResponse(AgentDocumentBase):
     id: int
     created_at: datetime
     updated_at: datetime

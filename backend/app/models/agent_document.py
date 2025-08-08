@@ -1,3 +1,7 @@
+# /home/manik/skinlensr/SkinLensR/backend/app/models/agent_document.py
+# Modèle SQLAlchemy représentant les documents liés aux agents,
+# incluant un champ d'embedding vectoriel pour les recherches sémantiques.
+
 from sqlalchemy import Column, Integer, String, Text, DateTime, func, ForeignKey  # Assurez-vous que 'func' est bien importé
 from sqlalchemy.orm import relationship
 from pgvector.sqlalchemy import Vector  # Utilisez le type Vector de pgvector

@@ -11,7 +11,7 @@ class UserCreate(UserBase):
     password: str
 
 # Schéma utilisé lors de la mise à jour d'un utilisateur (tous les champs sont optionnels)
-class UserUpdate(UserBase):
+class UserUpdate(BaseModel):
     username: Optional[str] = None
     email: Optional[str] = None
     password: Optional[str] = None

@@ -9,7 +9,7 @@ WORKDIR /app/backend
 # Copier le fichier des dépendances Python
 COPY requirements.txt .
 
-# Installer les dépendances système nécessaires pour la compilation de certains paquets Python (comme psycopg2 et Pillow)
+# Installer les dépendances système nécessaires pour la compilation de certains paquets Python
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         build-essential \
@@ -20,44 +20,65 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Installer python-multipart si nécessaire (par exemple, pour les formulaires dans FastAPI)
-RUN pip install python-multipart
+# Si vous utilisez python-multipart, assurez-vous qu'il est dans requirements.txt
+# RUN pip install python-multipart # Optionnel, à mettre dans requirements.txt si nécessaire
 
 # Copier le reste du code source de l'application
-# Cela copie le dossier app/ (qui contient database.py et potentiellement models/)
+# Cela copie le répertoire 'app/' entier, qui inclut maintenant main.py et models/base.py
 COPY app/ ./app/
-# Copie main.py qui est à la racine du répertoire backend/
-COPY main.py .
-# Copie le dossier alembic/
-COPY alembic/ ./alembic/
+
+# Le fichier main.py est maintenant copié comme partie de app/, donc plus besoin de le copier séparément.
+# COPY main.py .  <-- Supprimez cette ligne
+
+# Copie le dossier alembic/ si nécessaire pour le runtime (pas toujours nécessaire)
+# COPY alembic/ ./alembic/
 
 # ====================================================================
 # Étape 2: Runtime - Copier les artefacts et configurer l'exécution
 # ====================================================================
-FROM python:3.8-slim-bookworm
+FROM python:3.8-slim-bookworm AS runtime
 
 # Définir le répertoire de travail pour l'exécution
 WORKDIR /app/backend
 
 # Copier les dépendances Python installées depuis l'étape builder
+# C'est la bonne pratique pour garder l'image finale plus légère
 COPY --from=builder /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
 # Copier les exécutables installés par pip (comme uvicorn)
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copier le code de l'application backend depuis l'étape builder
-# Copie le dossier app/ (qui contient database.py et models/base.py) à la racine du WORKDIR runtime
+# Copie le répertoire 'app/' qui contient maintenant main.py et les modèles
 COPY --from=builder /app/backend/app/ ./app/
-# Copie main.py à la racine du WORKDIR runtime
-COPY --from=builder /app/backend/main.py .
-# Copie le dossier alembic/
-COPY --from=builder /app/backend/alembic/ ./alembic/
+# Si main.py est bien dans app/, vous n'avez pas besoin de le copier séparément ici.
+# La copie de 'app/' l'inclut déjà.
 
 # Définir PYTHONPATH pour que Python puisse trouver le package 'app'
-# Comme main.py est à la racine (/app/backend/) et qu'il importe 'app.database' et 'app.models.base',
-# le PYTHONPATH doit inclure le répertoire qui contient le package 'app', qui est /app/backend.
+# Le répertoire qui contient le package 'app' est /app/backend.
 ENV PYTHONPATH="/app/backend"
 
+# Définir les variables d'environnement pour la connexion à Cloud SQL
+# Ces variables sont nécessaires pour que votre application Python puisse se connecter
+# à la base de données, en utilisant les informations fournies par Cloud Run.
+
+# Il est FORTEMENT RECOMMANDÉ d'utiliser Secret Manager pour le mot de passe.
+# Si vous devez le mettre ici pour un test rapide, assurez-vous d'utiliser le mot de passe correct
+# et potentiellement encodé si le système d'environnement l'exige (mais Cloud Run peut gérer cela).
+ENV DB_USER=kiwiops_user
+ENV DB_NAME=kiwiops_db
+# ENV DB_PASSWORD=M@cha15soop  # À REMPLACER PAR UNE GESTION SÉCURISÉE (SECRET MANAGER)
+
+# Pour l'intégration Cloud Run avec Cloud SQL, il faut utiliser CLOUD_SQL_CONNECTION_NAME.
+# C'est ce qui permet à Cloud Run de savoir quelle instance Cloud SQL utiliser.
+# Votre application Python devra lire cette variable pour se connecter.
+ENV CLOUD_SQL_CONNECTION_NAME=skinlens-new-test:europe-west1:skinlensr-db-prod-europe-west1
+
+# Ouvrir le port sur lequel l'application écoutera. Cloud Run définit $PORT dynamiquement.
+EXPOSE 8080
+
 # Commande pour démarrer l'application FastAPI avec Uvicorn.
-# Uvicorn doit trouver main.py à la racine, et grâce au PYTHONPATH, il pourra trouver le module 'app'.
-# Le port est dynamique et défini par Cloud Run via la variable d'environnement $PORT.
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
+# Uvicorn doit trouver main.py à la racine du répertoire de travail du conteneur (/app/backend/).
+# Grâce au PYTHONPATH, il pourra trouver le module 'app'.
+# Assurez-vous que votre application FastAPI s'appelle 'app' et se trouve dans app/main.py.
+# L'argument --port $PORT permet à Uvicorn d'écouter sur le port que Cloud Run alloue.
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$PORT"]
