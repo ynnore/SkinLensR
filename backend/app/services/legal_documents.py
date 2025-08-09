@@ -1,55 +1,67 @@
-from app.models.legal_document import LegalDocument
+# app/services/legal_documents.py
+import logging
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from app.models.legal_document import LegalDocument
 
-# Service pour manipuler les documents légaux
+logger = logging.getLogger(__name__)
+
 class LegalDocumentService:
     @staticmethod
-    def create_legal_document(db: Session, type: str, version: str, language: str, content: str):
+    def create_legal_document(db: Session, type: str, version: str, language: str, content: str) -> Optional[LegalDocument]:
         try:
-            db_legal_document = LegalDocument(
+            doc = LegalDocument(
                 type=type,
                 version=version,
                 language=language,
                 content=content
             )
-            db.add(db_legal_document)
+            db.add(doc)
             db.commit()
-            db.refresh(db_legal_document)
-            return db_legal_document
+            db.refresh(doc)
+            return doc
         except SQLAlchemyError as e:
             db.rollback()
-            print(f"Error while creating legal document: {str(e)}")
+            logger.error(f"Error while creating legal document: {e}")
             return None
 
     @staticmethod
-    def get_legal_document_by_id(db: Session, document_id: int):
+    def get_legal_document_by_id(db: Session, document_id: int) -> Optional[LegalDocument]:
         return db.query(LegalDocument).filter(LegalDocument.id == document_id).first()
 
     @staticmethod
-    def get_all_legal_documents(db: Session):
+    def get_all_legal_documents(db: Session) -> List[LegalDocument]:
         return db.query(LegalDocument).all()
 
     @staticmethod
-    def update_legal_document(db: Session, document_id: int, type: str, version: str, language: str, content: str):
-        db_legal_document = db.query(LegalDocument).filter(LegalDocument.id == document_id).first()
-        if db_legal_document:
-            db_legal_document.type = type
-            db_legal_document.version = version
-            db_legal_document.language = language
-            db_legal_document.content = content
+    def update_legal_document(db: Session, document_id: int, type: str, version: str, language: str, content: str) -> Optional[LegalDocument]:
+        doc = db.query(LegalDocument).filter(LegalDocument.id == document_id).first()
+        if not doc:
+            return None
+        try:
+            doc.type = type
+            doc.version = version
+            doc.language = language
+            doc.content = content
             db.commit()
-            db.refresh(db_legal_document)
-            return db_legal_document
-        else:
+            db.refresh(doc)
+            return doc
+        except SQLAlchemyError as e:
+            db.rollback()
+            logger.error(f"Error while updating legal document id={document_id}: {e}")
             return None
 
     @staticmethod
-    def delete_legal_document(db: Session, document_id: int):
-        db_legal_document = db.query(LegalDocument).filter(LegalDocument.id == document_id).first()
-        if db_legal_document:
-            db.delete(db_legal_document)
+    def delete_legal_document(db: Session, document_id: int) -> Optional[LegalDocument]:
+        doc = db.query(LegalDocument).filter(LegalDocument.id == document_id).first()
+        if not doc:
+            return None
+        try:
+            db.delete(doc)
             db.commit()
-            return db_legal_document
-        else:
+            return doc
+        except SQLAlchemyError as e:
+            db.rollback()
+            logger.error(f"Error while deleting legal document id={document_id}: {e}")
             return None

@@ -240,9 +240,7 @@ const ChatInterface: React.FC = () => {
 
     // --- CORRECTION ICI ---
     // Assurez-vous que l'URL pointe vers le bon endpoint de votre backend (/scan)
-    const backendUrl = process.env.NODE_ENV === 'production'
-      ? 'https://api.kiwi-ops.com/scan' // L'URL de production de votre backend (si elle est différente)
-      : 'http://localhost:8000/scan';   // L'URL locale de votre backend
+     const backendUrl = process.env.NEXT_PUBLIC_API_URL + '/scan';
 
     fetch(backendUrl, {
       method: 'POST',

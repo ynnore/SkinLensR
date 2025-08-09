@@ -71,7 +71,9 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:8000",
+    "https://api.kiwi-ops.com",  # <-- Ajouté
 ]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -209,3 +211,7 @@ async def get_agent_document(document_id: int, db: Session = Depends(get_db)):
         created_at=doc.created_at,
         updated_at=doc.updated_at
     )
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app.main:app", host="0.0.0.0", port=port)
