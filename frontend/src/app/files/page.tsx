@@ -5,9 +5,9 @@ import { useTheme } from '@/contexts/ThemeContext';// Assurez-vous que ce chemin
 import { useLanguage } from '@/contexts/LanguageContext'; // Importez useLanguage
 import { LanguageCode } from '@/types'; // Importez LanguageCode
 
-// Définitions des traductions pour cette page "En cours de développement"
+// Définitions des traductions pour cette page
 const allTranslations = {
-  filesPageBeta: { // Section spécifique pour cette page simplifiée
+  filesPageBeta: { // Section spécifique pour cette page
     mainTitleLine1: {
       en: 'File System',
       fr: 'Système de Fichiers',
@@ -54,22 +54,76 @@ const allTranslations = {
       'en-AU': 'Beta Version', 'en-NZ': 'Beta Version', 'en-CA': 'Beta Version', 'fr-CA': 'Version Bêta', 'en-ZA': 'Beta Version', af: 'Beta Weergawe'
     },
     developmentMessage: {
-      en: 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access will be available upon completion of final beta testing.',
-      fr: 'Le système central de gestion des Fichiers est actuellement soumis à des calibrations rigoureuses et des améliorations de sécurité. L\'accès complet sera disponible après la finalisation des tests bêta finaux.',
-      mi: 'Kei te haere tonu te Pūnaha Whakahaere Kōnae Matua i ngā tukanga whakatika kaha me ngā whakapainga haumarutanga. Ka wātea te uru katoa i muri i te oti o ngā whakamātautau beta whakamutunga.',
-      ga: 'Tá an Córas Bainistíochta Comhad Láir faoi láthair ag dul faoi chalabrú docht agus feabhsúcháin slándála. Beidh rochtain iomlán ar fáil tar éis tástáil béite deiridh a chríochnú.',
-      hi: 'केंद्रीय फ़ाइल प्रबंधन प्रणाली वर्तमान में कठोर अंशांकन और सुरक्षा वृद्धि प्रक्रियाओं से गुजर रही है। अंतिम बीटा परीक्षण के सफल समापन पर पूर्ण पहुंच उपलब्ध होगी।',
-      gd: 'Tha an Siostam Riaghlaidh Faidhlichean Mheadhanach an-dràsta fo calibration teann agus leasachaidhean tèarainteachd. Bheirear làn chothrom nuair a bhios deuchainn beta deireannach deiseil.',
-      'en-AU': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access will be available upon completion of final beta testing.', 'en-NZ': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access will be available upon completion of final beta testing.', 'en-CA': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access will be available upon completion of final beta testing.', 'fr-CA': 'Le système central de gestion des Fichiers est actuellement soumis à des calibrations rigoureuses et des améliorations de sécurité. L\'accès complet sera disponible après la finalisation des tests bêta finaux.', 'en-ZA': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access will be available upon completion of final beta testing.', af: 'Die Sentrale Lêerbestuurstelsel ondergaan tans streng kalibrasie en sekuriteitsverbeteringe. Volle toegang sal beskikbaar wees na voltooiing van finale beta-toetse.'
+      en: 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access and functionality will be available upon completion of final beta testing.',
+      fr: 'Le système central de gestion des Fichiers est actuellement soumis à des calibrations rigoureuses et des améliorations de sécurité. L\'accès complet et les fonctionnalités seront disponibles après la finalisation des tests bêta finaux.',
+      mi: 'Kei te haere tonu te Pūnaha Whakahaere Kōnae Matua i ngā tukanga whakatika kaha me ngā whakapainga haumarutanga. Ka wātea te uru me ngā mahi katoa i muri i te oti o ngā whakamātautau beta whakamutunga.',
+      ga: 'Tá an Córas Bainistíochta Comhad Láir faoi láthair ag dul faoi chalabrú docht agus feabhsúcháin slándála. Beidh rochtain agus feidhmiúlacht iomlán ar fáil tar éis tástáil béite deiridh a chríochnú.',
+      hi: 'केंद्रीय फ़ाइल प्रबंधन प्रणाली वर्तमान में कठोर अंशांकन और सुरक्षा वृद्धि प्रक्रियाओं से गुजर रही है। अंतिम बीटा परीक्षण के सफल समापन पर पूर्ण पहुंच और कार्यक्षमता उपलब्ध होगी।',
+      gd: 'Tha an Siostam Riaghlaidh Faidhlichean Mheadhanach an-dràsta fo calibration teann agus leasachaidhean tèarainteachd. Bheirear làn chothrom agus gnìomhachd nuair a bhios deuchainn beta deireannach deiseil.',
+      'en-AU': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access and functionality will be available upon completion of final beta testing.', 'en-NZ': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access and functionality will be available upon completion of final beta testing.', 'en-CA': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access and functionality will be available upon completion of final beta testing.', 'fr-CA': 'Le système central de gestion des Fichiers est actuellement soumis à des calibrations rigoureuses et des améliorations de sécurité. L\'accès complet et les fonctionnalités seront disponibles après la finalisation des tests bêta finaux.', 'en-ZA': 'The Central File Management System is currently undergoing rigorous calibration and security enhancements. Full access and functionality will be available upon completion of final beta testing.', af: 'Die Sentrale Lêerbestuurstelsel ondergaan tans streng kalibrasie en sekuriteitsverbeteringe. Volle toegang en funksionaliteit sal beskikbaar wees na voltooiing van finale beta-toetse.'
     },
     stayTuned: {
-      en: 'Stay tuned for updates from Command.',
-      fr: 'Restez à l\'écoute pour les mises à jour du Commandement.',
-      mi: 'Kia mataara tonu mō ngā whakahōutanga mai i te Whakahau.',
-      ga: 'Fan tiúnta le haghaidh nuashonruithe ón Ordú.',
-      hi: 'कमांड से अपडेट के लिए बने रहें।',
-      gd: 'Fuirichibh furachair airson ùrachaidhean bhon Àithne.',
-      'en-AU': 'Stay tuned for updates from Command.', 'en-NZ': 'Stay tuned for updates from Command.', 'en-CA': 'Stay tuned for updates from Command.', 'fr-CA': 'Restez à l\'écoute pour les mises à jour du Commandement.', 'en-ZA': 'Stay tuned for updates from Command.', af: 'Bly ingeskakel vir opdaterings van die Bevel.'
+      en: 'Stay tuned for updates from Command regarding file access.',
+      fr: 'Restez à l\'écoute pour les mises à jour du Commandement concernant l\'accès aux fichiers.',
+      mi: 'Kia mataara tonu mō ngā whakahōutanga mai i te Whakahau mō te uru ki ngā kōnae.',
+      ga: 'Fan tiúnta le haghaidh nuashonruithe ón Ordú maidir le rochtain comhad.',
+      hi: 'फ़ाइल एक्सेस के संबंध में कमांड से अपडेट के लिए बने रहें।',
+      gd: 'Fuirichibh furachair airson ùrachaidhean bhon Àithne a thaobh faighinn gu faidhlichean.',
+      'en-AU': 'Stay tuned for updates from Command regarding file access.', 'en-NZ': 'Stay tuned for updates from Command regarding file access.', 'en-CA': 'Stay tuned for updates from Command regarding file access.', 'fr-CA': 'Restez à l\'écoute pour les mises à jour du Commandement concernant l\'accès aux fichiers.', 'en-ZA': 'Stay tuned for updates from Command regarding file access.', af: 'Bly ingeskakel vir opdaterings van die Bevel oor lêertoegang.'
+    },
+    fileUploadInstruction: {
+        en: 'Upload new files directly or manage existing ones below.',
+        fr: 'Téléversez de nouveaux fichiers directement ou gérez ceux existants ci-dessous.',
+        mi: 'Kawemai ngā kōnae hou tika atu, ā, whakahaerehia ngā mea kei raro nei.',
+        ga: 'Uaslódáil comhaid nua go díreach nó bainistigh iad siúd atá ann cheana thíos.',
+        hi: 'नई फाइलें सीधे अपलोड करें या नीचे वाली फ़ाइलों को प्रबंधित करें।',
+        gd: 'Luchdaich suas faidhlichean ùra gu dìreach no stiuirich an fheadhainn a th\' ann gu h-ìosal.',
+        'en-AU': 'Upload new files directly or manage existing ones below.', 'en-NZ': 'Upload new files directly or manage existing ones below.', 'en-CA': 'Upload new files directly or manage existing ones below.', 'fr-CA': 'Téléversez de nouveaux fichiers directement ou gérez ceux existants ci-dessous.', 'en-ZA': 'Laai nuwe lêers direk op of bestuur bestaande lêers hieronder.', af: 'Laai nuwe lêers direk op of bestuur bestaande lêers hieronder.'
+    },
+    noFilesMessage: {
+        en: 'No files found. Please upload some to get started.',
+        fr: 'Aucun fichier trouvé. Veuillez en télécharger pour commencer.',
+        mi: 'Kāore he kōnae i kitea. Tēnā koa kawemai ētahi kia tīmata ai.',
+        ga: 'Ní bhfuarthas aon chomhad. Uaslódáil roinnt le tosú le do thoil.',
+        hi: 'कोई फ़ाइल नहीं मिली। शुरू करने के लिए कुछ अपलोड करें।',
+        gd: 'Chan fhaighear faidhlichean. Feuch an luchdaich thu suas gus tòiseachadh.',
+        'en-AU': 'No files found. Please upload some to get started.', 'en-NZ': 'No files found. Please upload some to get started.', 'en-CA': 'No files found. Please upload some to get started.', 'fr-CA': 'Aucun fichier trouvé. Veuillez en télécharger pour commencer.', 'en-ZA': 'Geen lêers gevind nie. Laai asseblief enkeles op om te begin.', af: 'Geen lêers gevind nie. Laai asseblief enkeles op om te begin.'
+    },
+    fileNameHeader: {
+        en: 'File Name',
+        fr: 'Nom du Fichier',
+        mi: 'Ingoa Kōnae',
+        ga: 'Ainm an Chomhaid',
+        hi: 'फ़ाइल का नाम',
+        gd: 'Ainm an Fhaidhle',
+        'en-AU': 'File Name', 'en-NZ': 'File Name', 'en-CA': 'File Name', 'fr-CA': 'Nom du Fichier', 'en-ZA': 'Lêernaam', af: 'Lêernaam'
+    },
+    fileSizeHeader: {
+        en: 'File Size',
+        fr: 'Taille du Fichier',
+        mi: 'Rahi Kōnae',
+        ga: 'Méid an Chomhaid',
+        hi: 'फ़ाइल का आकार',
+        gd: 'Meud an Fhaidhle',
+        'en-AU': 'File Size', 'en-NZ': 'File Size', 'en-CA': 'File Size', 'fr-CA': 'Taille du Fichier', 'en-ZA': 'Lêergrootte', af: 'Lêergrootte'
+    },
+    lastModifiedHeader: {
+        en: 'Last Modified',
+        fr: 'Dernière Modification',
+        mi: 'Whakamutunga Whakapaunga',
+        ga: 'Mionathraithe go Deireanach',
+        hi: 'अंतिम बार संशोधित',
+        gd: 'Mu dheireadh air atharrachadh',
+        'en-AU': 'Last Modified', 'en-NZ': 'Last Modified', 'en-CA': 'Last Modified', 'fr-CA': 'Dernière Modification', 'en-ZA': 'Laaste Gewysig', af: 'Laaste Gewysig'
+    },
+    downloadAction: {
+        en: 'Download',
+        fr: 'Télécharger',
+        mi: 'Tikiake',
+        ga: 'Íoslódáil',
+        hi: 'डाउनलोड',
+        gd: 'Luchdaich sìos',
+        'en-AU': 'Download', 'en-NZ': 'Download', 'en-CA': 'Download', 'fr-CA': 'Télécharger', 'en-ZA': 'Laai af', af: 'Laai af'
     },
     copyright: {
       en: 'Kiwi-Ops – Secure File Systems.',
@@ -83,7 +137,7 @@ const allTranslations = {
   },
 };
 
-// Fonction de traduction générique (copiée pour autonomie du fichier)
+// Fonction de traduction générique
 const getTranslation = <S extends keyof typeof allTranslations, K extends keyof typeof allTranslations[S]>(
   section: S,
   key: K,
@@ -100,28 +154,34 @@ const getTranslation = <S extends keyof typeof allTranslations, K extends keyof 
 };
 
 
-export default function FilesPage() { // Renommée de ArchivesPage à FilesPage
+export default function FilesPage() {
   const { theme } = useTheme();
-  const { language } = useLanguage(); // Obtenez la langue courante
+  const { language } = useLanguage();
 
   // Définissez les couleurs en fonction du thème, cohérentes avec le style "super agent"
   const textColor = theme === 'dark' ? '#E0E0E0' : '#333333';
   const mutedTextColor = theme === 'dark' ? '#A0A0A0' : '#666666';
   const borderColor = theme === 'dark' ? '#555555' : '#AAAAAA';
   const backgroundColorPage = theme === 'dark' ? '#1A1A2E' : '#FFFFFF'; // Fond blanc pour le mode clair
-  const sectionBgColor = theme === 'dark' ? '#2A2A3A' : '#F8F8F8'; // Fond des sections/cartes
-  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2';
   const textShadowColor = theme === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(150,150,150,0.4)';
-  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
-
   const warningBackground = theme === 'dark' ? '#3A2A2A' : '#FFF3F3'; // Fond léger pour l'alerte
   const warningText = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Rouge pour l'alerte de développement
   const warningBorder = theme === 'dark' ? '#FFCACA' : '#CC0000'; // Bordure pour l'alerte de développement
+  const shadowColorCard = theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
+  const highlightColor = theme === 'dark' ? '#8BC4FF' : '#4A90E2'; // Couleur pour les éléments interactifs
+
+  // Ici, vous auriez besoin de récupérer la liste des fichiers depuis votre backend
+  // Pour l'instant, nous utilisons des données fictives pour illustrer la structure
+  const dummyFiles = [
+    { id: 'f1', name: 'mission_report_q3_2023.pdf', size: '1.2 MB', lastModified: '2023-09-15', url: '#' },
+    { id: 'f2', name: 'strategic_plan_v2.docx', size: '450 KB', lastModified: '2023-08-20', url: '#' },
+    { id: 'f3', name: 'intel_brief_08_aug.txt', size: '55 KB', lastModified: '2023-08-08', url: '#' },
+  ];
 
   return (
     <div style={{
       padding: '2rem',
-      maxWidth: '1000px', // Largeur adaptée pour le contenu
+      maxWidth: '1000px',
       margin: '0 auto',
       lineHeight: '1.6',
       fontSize: '1rem',
@@ -161,12 +221,12 @@ export default function FilesPage() { // Renommée de ArchivesPage à FilesPage
         {getTranslation('filesPageBeta', 'subtitle', language)}
       </p>
 
-      {/* Carte d'information "En cours de développement" */}
+      {/* Section Principale : Gestion des Fichiers (en Beta) */}
       <section style={{
         width: '100%',
         marginTop: '3rem',
         padding: '2rem',
-        border: `2px dashed ${warningBorder}`,
+        border: `2px dashed ${warningBorder}`, // Bordure distinctive pour la section bêta
         borderRadius: '8px',
         backgroundColor: warningBackground,
         color: warningText,
@@ -204,6 +264,63 @@ export default function FilesPage() { // Renommée de ArchivesPage à FilesPage
         }}>
           {getTranslation('filesPageBeta', 'betaTag', language)} – {getTranslation('filesPageBeta', 'stayTuned', language)}
         </p>
+
+        {/* Instructions pour l'upload / Gestion */}
+        <div style={{ marginTop: '2rem', width: '100%', maxWidth: '700px', color: textColor }}>
+          <p style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>
+            {getTranslation('filesPageBeta', 'fileUploadInstruction', language)}
+          </p>
+
+          {/* Ici, vous pourriez intégrer un composant d'upload de fichier (type <input type="file">) */}
+          {/* et une logique pour lister les fichiers (voir ci-dessous) */}
+
+          {dummyFiles.length > 0 ? (
+            <table style={{
+              width: '100%',
+              borderCollapse: 'collapse',
+              marginTop: '2rem',
+              textAlign: 'left',
+              backgroundColor: theme === 'dark' ? '#2A2A3A' : '#F8F8F8', // Fond de tableau
+              borderRadius: '5px',
+              overflow: 'hidden' // Pour que les bords arrondis soient pris en compte
+            }}>
+              <thead>
+                <tr>
+                  <th style={{ padding: '0.8rem', borderBottom: `1px solid ${borderColor}`, color: textColor, fontSize: '0.9rem', textTransform: 'uppercase' }}>
+                    {getTranslation('filesPageBeta', 'fileNameHeader', language)}
+                  </th>
+                  <th style={{ padding: '0.8rem', borderBottom: `1px solid ${borderColor}`, color: textColor, fontSize: '0.9rem', textTransform: 'uppercase' }}>
+                    {getTranslation('filesPageBeta', 'fileSizeHeader', language)}
+                  </th>
+                  <th style={{ padding: '0.8rem', borderBottom: `1px solid ${borderColor}`, color: textColor, fontSize: '0.9rem', textTransform: 'uppercase' }}>
+                    {getTranslation('filesPageBeta', 'lastModifiedHeader', language)}
+                  </th>
+                  <th style={{ padding: '0.8rem', borderBottom: `1px solid ${borderColor}`, color: textColor, fontSize: '0.9rem', textTransform: 'uppercase', textAlign: 'right' }}>
+                    {getTranslation('filesPageBeta', 'downloadAction', language)}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {dummyFiles.map((file) => (
+                  <tr key={file.id} style={{ borderBottom: `1px solid ${theme === 'dark' ? '#444466' : '#DDD'}` }}>
+                    <td style={{ padding: '0.8rem', color: textColor, fontSize: '0.95rem' }}>{file.name}</td>
+                    <td style={{ padding: '0.8rem', color: mutedTextColor, fontSize: '0.95rem' }}>{file.size}</td>
+                    <td style={{ padding: '0.8rem', color: mutedTextColor, fontSize: '0.95rem' }}>{file.lastModified}</td>
+                    <td style={{ padding: '0.8rem', color: highlightColor, fontSize: '0.95rem', textAlign: 'right', fontWeight: 'bold' }}>
+                      <a href={file.url} style={{ textDecoration: 'none', color: highlightColor, cursor: 'pointer' }}>
+                        {getTranslation('filesPageBeta', 'downloadAction', language)}
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p style={{ marginTop: '1.5rem', color: mutedTextColor }}>
+              {getTranslation('filesPageBeta', 'noFilesMessage', language)}
+            </p>
+          )}
+        </div>
       </section>
 
       <p style={{ textAlign: 'center', marginTop: '4rem', fontSize: '0.8rem', color: mutedTextColor }}>

@@ -5,6 +5,8 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from dotenv import load_dotenv
 from urllib.parse import quote_plus
+from pgvector.sqlalchemy import Vector
+import sqlalchemy as sa
 
 # --- Configuration des chemins et chargement des variables ---
 project_root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -27,7 +29,7 @@ if not all([DB_USER, DB_PASSWORD_RAW, DB_NAME]):
     print(f"DB_USER: {DB_USER}, DB_PASSWORD: {'***' if DB_PASSWORD_RAW else None}, DB_NAME: {DB_NAME}")
     sys.exit(1)
 
-# Encodage sécurisé du mot de passe (prise en compte de tous les caractères spéciaux)
+# Encodage sécurisé du mot de passe (prise en compte des caractères spéciaux)
 password_encoded = quote_plus(DB_PASSWORD_RAW)
 
 # Construction de l'URL selon mode (proxy local ou Cloud SQL socket)
@@ -66,13 +68,18 @@ def load_models_metadata():
         print(f"Current sys.path: {sys.path}")
         sys.exit(1)
 
+target_metadata = load_models_metadata()
+
 def run_migrations_offline():
-    target_metadata = load_models_metadata()
     context.configure(
         url=db_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        compare_type=True,
+        render_as_batch=True,
+        # Ajout pour gérer vector si besoin
+        # Pas strictement nécessaire ici en offline
     )
     with context.begin_transaction():
         context.run_migrations()
@@ -85,10 +92,15 @@ def run_migrations_online():
         poolclass=pool.NullPool,
     )
     with connectable.connect() as connection:
-        target_metadata = load_models_metadata()
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
+            compare_type=True,
+            render_as_batch=True,
+            # Custom type rendering pour pgvector
+            dialect_opts={"paramstyle": "named"},
+            # Callback pour que Alembic reconnaisse 'vector'
+            user_module_prefix='sa.',
         )
         with context.begin_transaction():
             context.run_migrations()

@@ -13,6 +13,7 @@ from typing import Optional
 # Nom de votre bucket GCS que vous venez de créer
 # Pour le déploiement, ceci doit être une variable d'environnement !
 # Pour les tests locaux, décommentez et définissez la ligne os.environ["CHROMA_GCS_BUCKET"] = "..."
+
 GCS_BUCKET_NAME = os.environ.get("CHROMA_GCS_BUCKET") 
 
 CHROMA_PERSIST_PATH = f"gs://{GCS_BUCKET_NAME}" if GCS_BUCKET_NAME else None
@@ -92,3 +93,25 @@ if __name__ == "__main__":
             print(f"Erreur lors des tests avec ChromaDB : {e}")
     else:
         print("Impossible d'obtenir le client ChromaDB pour le test.")
+        """
+chroma_setup.py
+
+Ce module configure et initialise un client ChromaDB persistant utilisant Google Cloud Storage (GCS) 
+comme backend de stockage des embeddings et documents.
+
+- La variable d'environnement CHROMA_GCS_BUCKET doit être définie (nom du bucket GCS).
+- Le client ChromaDB est configuré pour la persistance dans GCS via chromadb.PersistentClient.
+- Un bloc de test local est fourni pour valider l'ajout et la récupération d'un document.
+
+Notes :
+- En environnement de production (Cloud Run), le bucket GCS et les permissions doivent être correctement configurés.
+- Pour tests locaux, il faut s'authentifier via 'gcloud auth application-default login' et définir la variable d'environnement.
+- Cette configuration permet d'avoir un stockage scalable, distribué et persistant pour les embeddings et documents.
+
+Exemple d'usage : 
+
+    from app.chroma_setup import get_chroma_client
+    chroma_client = get_chroma_client()
+    if chroma_client:
+        collection = chroma_client.get_or_create_collection("ma_collection")
+        # utiliser la collection pour add/search etc.
