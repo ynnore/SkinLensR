@@ -1,21 +1,19 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/schemas/__init__.py
+from pydantic import BaseModel
+from typing import Optional
 
-"""
-Point d'entrée pour tous les schémas Pydantic.
-Importe et expose les schémas de chaque module pour simplifier les imports dans le reste du projet.
-"""
+class ProgressBase(BaseModel):
+    user_id: int
+    document_id: int
+    signed: bool = False
 
-from app.schemas.user import User, UserCreate, UserUpdate
-from app.schemas.legal_document import LegalDocument, LegalDocumentCreate, LegalDocumentUpdate
-from app.schemas.progress import Progress, ProgressCreate
+class ProgressCreate(ProgressBase):
+    pass
 
-__all__ = [
-    "User",
-    "UserCreate",
-    "UserUpdate",
-    "LegalDocument",
-    "LegalDocumentCreate",
-    "LegalDocumentUpdate",
-    "Progress",
-    "ProgressCreate",
-]
+class ProgressUpdate(ProgressBase):
+    signed: Optional[bool] = None  # Optionnel pour la mise à jour
+
+class Progress(ProgressBase):
+    id: int
+
+    class Config:
+        from_attributes = True  # remplace orm_mode en Pydantic v2

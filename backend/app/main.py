@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import get_db, engine
 from app.models.base import Base
 import logging
-from app.schemas.schemas import AgentResponse
+from app.schemas.schemas import AgentDocumentResponse
 from app.routes import progress
 from app.routers import progress
 # --- Logging Configuration ---

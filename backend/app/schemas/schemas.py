@@ -1,3 +1,5 @@
+# backend/app/schemas.py
+
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
@@ -71,3 +73,12 @@ class AgentDocumentResponse(AgentDocumentBase):
 
     class Config:
         from_attributes = True
+
+# --- SCHÉMAS SPÉCIFIQUES POUR LE CHAT/SCAN ---
+# Modèle pour la requête envoyée par le frontend au backend
+class ScanQueryRequest(BaseModel):
+    query: str
+
+# Modèle pour la réponse envoyée par le backend au frontend
+class ScanResponse(BaseModel):
+    response: str

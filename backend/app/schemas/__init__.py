@@ -1,21 +1,39 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/schemas/__init__.py
-
+# backend/app/schemas/__init__.py
 """
-Package de schémas Pydantic pour la validation des données d'entrée et de sortie.
-Ce fichier init importe les schémas de chaque module et les expose pour simplifier les imports ailleurs.
+Ce package centralise tous les schémas Pydantic du projet.
+Il importe les schémas définis dans les sous-modules (comme app.schemas.schemas)
+et les expose pour une utilisation facile dans d'autres parties de l'application.
+Cela évite d'avoir à importer directement depuis des fichiers spécifiques de schémas.
 """
 
-from app.schemas.user import User, UserCreate, UserUpdate
-from app.schemas.legal_document import LegalDocument, LegalDocumentCreate, LegalDocumentUpdate
-from app.schemas.progress import Progress, ProgressCreate, ProgressUpdate
+from app.schemas.schemas import (
+    UserBase,
+    UserCreate,
+    UserResponse,
+    LegalDocumentBase,
+    LegalDocumentCreate,
+    LegalDocumentResponse,
+    UserLegalAgreementBase,
+    UserLegalAgreementCreate,
+    UserLegalAgreementResponse,
+    Token,
+    AgentDocumentBase,
+    AgentDocumentCreate,
+    AgentDocumentResponse,
+)
 
-# Exports pour simplifier l'import dans d'autres fichiers :
 __all__ = [
-    "User",
+    "UserBase",
     "UserCreate",
-    "UserUpdate",
-    "LegalDocument",
+    "UserResponse",
+    "LegalDocumentBase",
     "LegalDocumentCreate",
-    "LegalDocumentUpdate",
-    "Progress",
-    "
+    "LegalDocumentResponse",
+    "UserLegalAgreementBase",
+    "UserLegalAgreementCreate",
+    "UserLegalAgreementResponse",
+    "Token",
+    "AgentDocumentBase",
+    "AgentDocumentCreate",
+    "AgentDocumentResponse",
+]
