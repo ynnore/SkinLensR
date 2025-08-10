@@ -1,4 +1,4 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/crud/users.py
+# /home/manik/skinlensr/SkinLensR/backend/app/crud/user.py
 
 import logging
 from typing import List, Optional

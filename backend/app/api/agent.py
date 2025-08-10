@@ -6,6 +6,7 @@ from typing import List, Dict, Any, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from .openai_compatible_llm import OpenAICompatibleLLM
 # Importez vos schémas Pydantic pour les agents
 # Assurez-vous qu'ils existent, idéalement dans app/schemas/agent.py
 from app.schemas.agent import ( # Supposons ces schémas pour l'exemple

@@ -4,6 +4,7 @@ import uuid # Si vous utilisez des UUIDs pour les documents, bien que souvent un
 from datetime import datetime
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr, validator
 
 # --- Schémas Pydantic pour les Documents Légaux ---
 

@@ -1,19 +1,25 @@
 # /home/manik/skinlensr/SkinLensR/backend/app/text_splitter.py
+
 """
 Ce module fournit des utilitaires pour découper des textes longs en chunks gérables.
 Ceci est particulièrement utile pour le traitement de documents dans le cadre du RAG.
 """
 
-from typing import List
+from typing import List, Optional, Dict, Any # <-- Assurez-vous que ces types sont bien importés
 # LangChain offre des outils robustes pour découper les textes.
 # Installez-le : pip install langchain-text-splitters
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+# Importez également logging si vous l'utilisez (comme dans les exemples précédents)
+import logging
 
 # --- Configuration ---
 # Définir la taille des chunks et le chevauchement entre eux.
 # Ces valeurs peuvent être ajustées en fonction des modèles et des documents.
 DEFAULT_CHUNK_SIZE = 1000  # Nombre de caractères par chunk
 DEFAULT_CHUNK_OVERLAP = 200 # Nombre de caractères de chevauchement entre chunks
+
+logger = logging.getLogger(__name__) # Déclaration du logger
 
 class DocumentSplitter:
     """
@@ -30,15 +36,17 @@ class DocumentSplitter:
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         
-        # Initialiser le découpeur avec les paramètres spécifiés.
-        # LangChain offre plusieurs stratégies, RecursiveCharacterTextSplitter est un bon choix général.
-        self.text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=self.chunk_size,
-            chunk_overlap=self.chunk_overlap,
-            length_function=len, # Fonction pour mesurer la longueur des chunks
-            add_start_index=True # Ajouter l'index de début pour le contexte
-        )
-        logger.info(f"DocumentSplitter initialized with chunk_size={self.chunk_size}, chunk_overlap={self.chunk_overlap}")
+        try:
+            self.text_splitter = RecursiveCharacterTextSplitter(
+                chunk_size=self.chunk_size,
+                chunk_overlap=self.chunk_overlap,
+                length_function=len,
+                add_start_index=True
+            )
+            logger.info(f"DocumentSplitter initialized with chunk_size={self.chunk_size}, chunk_overlap={self.chunk_overlap}")
+        except Exception as e:
+            logger.error(f"Error initializing RecursiveCharacterTextSplitter: {e}")
+            self.text_splitter = None 
 
     def split_document(self, document_content: str, source_info: Optional[str] = None) -> List[str]:
         """
@@ -51,6 +59,10 @@ class DocumentSplitter:
         Returns:
             List[str]: Une liste de chaînes de caractères, où chaque chaîne est un chunk.
         """
+        if not self.text_splitter:
+            logger.error("Text splitter not initialized. Cannot split document.")
+            return []
+            
         if not document_content:
             logger.warning("Attempted to split empty document content.")
             return []
@@ -58,17 +70,7 @@ class DocumentSplitter:
         logger.info(f"Splitting document (content length: {len(document_content)}) into chunks...")
         
         try:
-            # Utiliser le découpeur pour diviser le texte.
-            # LangChain retourne des objets 'Document' qui contiennent le texte et les métadonnées.
-            # Pour simplifier ici, nous retournons juste le texte des chunks.
             chunks = self.text_splitter.split_text(document_content)
-            
-            # Si vous avez besoin d'inclure des métadonnées avec chaque chunk (ex: source_info)
-            # Il faudrait adapter la sortie ou ajouter les métadonnées ici si le splitter ne le fait pas.
-            # Exemple si vous retournez des objets Document de LangChain :
-            # documents = self.text_splitter.create_documents([document_content], metadatas=[{"source": source_info}])
-            # chunks = [doc.page_content for doc in documents]
-
             logger.info(f"Document split into {len(chunks)} chunks.")
             return chunks
             
@@ -77,8 +79,6 @@ class DocumentSplitter:
             return []
 
 # --- Exemple d'Utilisation ---
-# Ce bloc s'exécute uniquement si le script est lancé directement.
-
 if __name__ == "__main__":
     # Exemple de texte long
     long_text = """
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     This is the twenty-eighth sentence.
     This is the twenty-ninth sentence.
     This is the thirtieth sentence.
-    """ * 50 # Répéter le texte pour créer un contenu long
+    """ * 50 
 
     # Instancier le découpeur de texte
     splitter = DocumentSplitter(chunk_size=200, chunk_overlap=50)
@@ -122,5 +122,5 @@ if __name__ == "__main__":
 
     # Afficher les premiers chunks
     print(f"Generated {len(document_chunks)} chunks.")
-    for i, chunk in enumerate(document_chunks[:3]): # Afficher les 3 premiers chunks
+    for i, chunk in enumerate(document_chunks[:3]): 
         print(f"--- Chunk {i+1} ---\n{chunk}\n")

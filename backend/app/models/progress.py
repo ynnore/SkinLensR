@@ -7,12 +7,13 @@ from typing import Optional, Dict, Any
 from sqlalchemy import Column, Integer, String, DateTime, Float, Enum, ForeignKey
 from sqlalchemy.orm import relationship # Si vous avez des relations, par ex. avec User
 from sqlalchemy.sql import func
+import enum # <-- Ajoutez cette ligne d'importation
 
 # Assurez-vous que Base est correctement importé depuis app.models.base
 from app.models.base import Base
 
 # --- Définition d'un Enum pour le Statut (optionnel mais recommandé) ---
-class ProgressStatus(str, enum.Enum):
+class ProgressStatus(str, enum.Enum): # Assurez-vous que l'enum est bien utilisé ici
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
     PAUSED = "paused"
@@ -25,7 +26,7 @@ class Progress(Base):
     __tablename__ = "progress_entries" # Nom de la table dans la base de données
 
     # Clé primaire pour l'entrée de progression
-    id = Column(Integer, primary_key=True, index=True) 
+    id = Column(Integer, primary_key=True, index=True)
 
     # Clé étrangère vers l'utilisateur
     user_id = Column(Integer, ForeignKey("users.id"), index=True, nullable=False, comment="ID de l'utilisateur associé à cette progression")
@@ -36,8 +37,12 @@ class Progress(Base):
     activity_name = Column(String, index=True, nullable=False, comment="Nom de l'activité suivie (ex: 'Completing Module 1')")
     current_value = Column(Float, nullable=False, default=0.0, comment="Valeur actuelle de la progression (ex: pourcentage, points)")
     target_value = Column(Float, nullable=True, comment="Valeur cible optionnelle (ex: 100 pour un pourcentage)")
-    status = Column(String, default="in_progress", index=True, comment="Statut de l'activité (ex: in_progress, completed, paused)")
-    # Si vous utilisez Enum:
+
+    # Vous avez le choix entre utiliser le type Enum de SQLAlchemy directement ou utiliser une chaîne mappée par votre Enum Python.
+    # Si vous utilisez le type Enum de SQLAlchemy, la définition du champ sera différente.
+    # L'approche ci-dessous utilise `str` pour le mapped Enum Python, et SQLAlchemy mappe cela à une colonne VARCHAR.
+    status = Column(String, default=ProgressStatus.IN_PROGRESS, index=True, comment="Statut de l'activité (ex: in_progress, completed, paused)")
+    # Si vous préférez utiliser le type Enum de SQLAlchemy directement (plus idiomatique avec SQLAlchemy), ce serait :
     # status = Column(Enum(ProgressStatus), default=ProgressStatus.IN_PROGRESS, index=True)
 
     # Timestamp de l'enregistrement

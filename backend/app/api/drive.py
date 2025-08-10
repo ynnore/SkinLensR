@@ -2,7 +2,6 @@
 
 import logging
 from typing import List, Dict, Any, Optional
-
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
@@ -27,7 +26,7 @@ from app.services.huggingface import HuggingFaceService
 # Si vous avez un service spécifique pour le scan multimodal, importez-le
 # from app.services.scan_service import ScanService
 from app.services.rag import RAGService # Pour le mode "text" via RAG si applicable
-from app.services.openai_compatible_llm import OpenAICompatibleLLM # Si le LLM pour le scan est géré ici
+from app.services.openai_compatible_llm import OpenAICompatibleLLM# Si le LLM pour le scan est géré ici
 
 # Importez vos fonctions de dépendance pour les services
 from app.core.dependencies import (

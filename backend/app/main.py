@@ -4,7 +4,7 @@ import os
 import logging
 from datetime import timedelta
 from typing import AsyncGenerator, Dict, Any
-
+from app.services.openai_compatible_llm import OpenAICompatibleLLM
 from fastapi import FastAPI, Depends, HTTPException, status, WebSocket, WebSocketDisconnect
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware

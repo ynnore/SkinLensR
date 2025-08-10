@@ -1,5 +1,8 @@
 # /home/manik/skinlensr/SkinLensR/backend/app/services/chat_service.py
+# /home/manik/skinlensr/SkinLensR/backend/app/services/chat_service.py
 
+from pydantic import BaseModel, Field # Vous utilisez aussi Field, assurez-vous qu'il soit importé aussi
+# ... le reste de vos imports ...
 import uuid
 import base64
 from typing import List, Dict, Any, Optional, Union, Tuple

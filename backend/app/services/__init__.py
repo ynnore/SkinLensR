@@ -7,7 +7,8 @@ try:
     from .agentic import Agent  # Assurez-vous que la classe principale s'appelle Agent
     from .huggingface import HuggingFaceService
     from .memory_manager import MemoryManager
-    from .openai_compat import OpenAICompatibleLLM
+    from .openai_compatible_llm import OpenAICompatibleLLM # <-- CORRIGÉ pour utiliser le bon nom
+# ...
     from .rag import RAGService
 
     # Vous pouvez également exposer des classes ou fonctions utilitaires spécifiques si elles sont souvent utilisées directement

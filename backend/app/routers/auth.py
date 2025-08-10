@@ -9,8 +9,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 # Importez vos schémas Pydantic pour l'authentification et les utilisateurs
-from app.schemas.user import UserCreate, UserResponse, Token # Assurez-vous que ces schémas sont dans app/schemas/user.py ou app/schemas/schemas.py
-# Si vous avez mis les schémas dans app/schemas/user.py, ajustez les imports.
+from app.schemas.user import UserCreate, UserResponse
+from app.schemas.auth import Token # Token vient bien de auth.py
 
 # Importez vos fonctions CRUD pour les utilisateurs
 from app import crud
@@ -114,6 +114,7 @@ async def read_current_user(
     """
     Retourne les informations de l'utilisateur actuellement authentifié.
     """
+    # LA LIGNE QUI POSAIT PROBLEME EST MAINTENANT CORRECTEMENT INDENTEE ET COMPLETE
     logger.info(f"Fetching current user details for: {current_user.email}")
     return current_user
 

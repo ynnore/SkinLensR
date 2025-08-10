@@ -8,11 +8,11 @@ Cela évite d'avoir à importer directement depuis des fichiers spécifiques de 
 
 # --- Imports des schémas par sous-module ---
 
-# Schémas Généraux / Utilitaires / Authentification
-# Si vous avez des schémas vraiment généraux dans app/schemas/schemas.py, importez-les ici.
-# Par exemple, le schéma Token pourrait être là.
-from .schemas import (
+# Schémas pour l'Authentification
+# On importe Token depuis auth.py car c'est là que nous l'avons centralisé.
+from .auth import (
     Token,
+    TokenData, # Si TokenData est aussi dans auth.py
 )
 
 # Schémas pour les Utilisateurs
@@ -82,10 +82,10 @@ from .scan import (
 )
 
 # --- Liste des Entités Publiques du Package ---
-# Définir __all__ pour indiquer quelles sont les entités exportées par ce package.
 __all__ = [
-    # Utilitaires / Authentification
+    # Authentification
     "Token",
+    # "TokenData", # Si vous utilisez TokenData dans les routeurs
 
     # Utilisateurs
     "UserBase",

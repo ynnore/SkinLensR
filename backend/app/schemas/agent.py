@@ -1,9 +1,13 @@
 # /home/manik/skinlensr/SkinLensR/backend/app/schemas/agent.py
+"""
+Ce module contient les schémas Pydantic pour les agents IA.
+Ils sont utilisés pour la validation des données entrantes et la structuration des réponses sortantes.
+"""
 
 import uuid
-from typing import List, Dict, Any, Optional
 from datetime import datetime
-from pydantic import BaseModel, Field, validator
+from typing import List, Dict, Any, Optional # Assurez-vous que Optional est bien importé ici
+from pydantic import BaseModel, Field, validator # Assurez-vous que validator est bien importé
 
 # --- Schémas pour la gestion des Agents ---
 
@@ -12,31 +16,51 @@ class AgentBase(BaseModel):
     name: str = Field(..., example="KiwiAgent")
     role: str = Field(..., example="AI Assistant for productivity")
     description: Optional[str] = Field(None, example="Helps users manage tasks and find information.")
-    # Vous pourriez ajouter d'autres configurations ici : modèle LLM à utiliser, outils disponibles, etc.
-    # llm_model_name: Optional[str] = None
-    # tools_config: Optional[List[Dict[str, Any]]] = None
+    # Potentiellement d'autres configurations ici :
+    # llm_model_name: Optional[str] = Field(None, example="gpt-3.5-turbo")
+    # tools_config: Optional[List[Dict[str, Any]]] = Field(None, example=[{"name": "search_web", "description": "Search the web"}])
 
 class AgentCreate(AgentBase):
     """Schéma pour la création d'un nouvel agent."""
-    # Pas de champs supplémentaires requis pour la création par défaut, tout est dans AgentBase.
-    # Si le type d'agent doit être spécifié à la création :
-    # agent_type: str = Field(..., example="general_assistant")
-    pass
+    # Si vous avez des champs spécifiques à la création (ex: mot de passe pour un agent, s'il y en a)
+    pass # Hérite de AgentBase
 
 class AgentUpdate(BaseModel):
     """Schéma pour la mise à jour des données d'un agent."""
-    name: Optional[str] = Field(None, example="Updated KiwiAgent Name")
+    # Tous les champs sont optionnels car on peut vouloir ne mettre à jour qu'un seul champ.
+    name: Optional[str] = Field(None, example="Updated Agent Name")
     role: Optional[str] = Field(None, example="Productivity enhancer")
     description: Optional[str] = Field(None, example="Improved productivity assistant.")
-    # Potentiellement d'autres champs configurables
-    # llm_model_name: Optional[str] = None
-    # tools_config: Optional[List[Dict[str, Any]]] = None
+    # Ajoutez ici d'autres champs modifiables comme llm_model_name, tools_config, etc.
 
-    # Validateur pour s'assurer qu'au moins un champ est fourni pour la mise à jour
-    @validator('name', 'role', 'description', 'llm_model_name', 'tools_config', pre=True, always=True)
+    # --- Validateur pour s'assurer qu'au moins un champ modifiable est fourni ---
+    # Il est important de spécifier les champs sur lesquels ce validateur s'applique.
+    # Pydantic V1 : le décorateur @validator peut être appliqué à plusieurs champs.
+    # Pydantic V2 utilise @field_validator et @model_validator.
+    # Pour Pydantic V1, le décorateur s'applique à chacun des champs listés.
+    # La logique interne doit vérifier que parmi les champs fournis, il y en a au moins un.
+    
+    @validator('name', 'role', 'description', # Listez ici TOUS les champs qui peuvent être mis à jour
+               pre=True, # Exécuter avant la validation Pydantic standard des champs
+               always=True # Toujours exécuter, même si le champ n'est pas présent
+    )
     def check_at_least_one_field(cls, v, values, **kwargs):
-        if not any(values.values()):
-            raise ValueError("At least one field must be provided for update.")
+        """
+        Valide qu'au moins un des champs modifiables (name, role, description) est fourni.
+        'v' est la valeur du champ sur lequel le validateur est appliqué (ex: 'name').
+        'values' est le dictionnaire de toutes les valeurs fournies pour ce modèle.
+        """
+        # Liste des champs qui peuvent être mis à jour. Adaptez cette liste.
+        updatable_fields = ['name', 'role', 'description'] 
+        
+        # On vérifie que PARMI les données fournies (dans 'values'), il y a au moins un champ non-None.
+        # `values.get(field)` récupère la valeur du champ, ou None s'il n'est pas présent.
+        # `is not None` s'assure qu'on ne considère pas les champs présents mais avec une valeur None comme étant fournis.
+        # `any(...)` retourne True si au moins une des conditions est vraie.
+        if not any(values.get(field) is not None for field in updatable_fields):
+            raise ValueError("At least one field (name, role, or description) must be provided for update.")
+        
+        # Retourne la valeur actuelle du champ 'v' pour que Pydantic continue la validation normale.
         return v
 
 class AgentResponse(AgentBase):
@@ -47,7 +71,12 @@ class AgentResponse(AgentBase):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        orm_mode = True # Permet de mapper directement à partir des modèles SQLAlchemy si vous en avez
+        # Si vous utilisez Pydantic V1, orm_mode est utilisé pour mapper à partir de modèles SQLAlchemy.
+        # Si vous passez à Pydantic V2, ceci deviendra `from_attributes = True`.
+        orm_mode = True 
+        json_encoders = {
+            datetime: lambda v: v.isoformat() # Convertit datetime en string ISO pour JSON
+        }
 
 # --- Schémas pour la gestion des Tâches d'Agent ---
 
@@ -55,12 +84,11 @@ class AgentTaskBase(BaseModel):
     """Modèle de base pour une tâche d'agent."""
     task_description: str = Field(..., example="Analyze the user's latest message and provide a summary.")
     params: Optional[Dict[str, Any]] = Field(None, example={"temperature": 0.7, "max_tokens": 150})
-    status: str = Field("pending", example="pending") # Statut de la tâche (pending, in_progress, completed, failed)
+    status: str = Field("pending", example="pending") # Statut de la tâche (pending, processing, completed, failed)
 
 class AgentTaskCreate(AgentTaskBase):
     """Schéma pour la création d'une tâche d'agent."""
-    # Pas de champs supplémentaires requis pour la création par défaut.
-    pass
+    pass # Hérite de AgentTaskBase
 
 class AgentTaskResponse(AgentTaskBase):
     """Schéma pour la réponse API lors de la gestion des tâches d'agent."""
@@ -69,12 +97,10 @@ class AgentTaskResponse(AgentTaskBase):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: Optional[datetime] = None
     result_summary: Optional[str] = Field(None, example="Task successfully completed, summary of the output.")
-    full_result: Optional[str] = Field(None, example="The detailed output or result of the agent's task.")
+    full_result: Optional[str] = Field(None, example="Detailed output or result of the agent's task.")
 
-    # Si vous utilisez un modèle SQLAlchemy, vous pourriez vouloir une configuration orm_mode
     class Config:
         orm_mode = True
-        # Permet d'utiliser des générateurs de UUID pour les task_id par défaut
         json_encoders = {
             datetime: lambda v: v.isoformat()
         }

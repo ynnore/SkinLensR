@@ -7,39 +7,40 @@ from sqlalchemy.exc import SQLAlchemyError
 from datetime import datetime
 
 # Importez vos modèles SQLAlchemy
-# Assurez-vous que les modèles nécessaires existent (ex: ScanRequest, GeneratedContent)
-# Si vous n'avez pas de modèle dédié pour les scans, vous pourriez utiliser le modèle File si le scan est lié à un fichier.
-# Sinon, créons un modèle simple pour l'historique des requêtes IA.
+from app.models.base import Base
+# CORRECTION : Assurez-vous que func est importé depuis sqlalchemy
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Enum, func 
 
-from app.models.base import Base # Pour la définition de la Base
-from sqlalchemy import Column, Integer, String, Text, DateTime, Enum, ForeignKey
+# Importez le modèle ScanRequestModel (même si vous l'avez défini ici, c'est une bonne pratique si elle était dans un fichier séparé)
+# from app.models.scan import ScanRequestModel # Si ScanRequestModel est dans un fichier séparé
+
+# Assurez-vous que les schémas Pydantic sont importés (si nécessaires dans ce fichier)
+# from app.schemas.scan import ScanQueryRequest, ScanResponse, ScanRequestCreate, ScanRequestUpdate
+
+logger = logging.getLogger(__name__)
 
 # --- Modèle SQLAlchemy pour les Requêtes de Scan/Génération ---
-# Il est important de persister ces informations pour l'historique et le suivi.
-# Si vous n'avez pas encore défini ce modèle, voici une proposition :
+# (Ce modèle représente les données persistantes, distinctes des schémas Pydantic pour les API)
 
 class ScanRequestModel(Base):
     """
-    Modèle SQLAlchemy pour enregistrer les requêtes de scan/génération IA.
+    Modèle SQLAlchemy pour représenter une requête de scan/génération IA.
     """
     __tablename__ = "scan_requests"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), index=True, nullable=False)
-    # Assurez-vous que la table 'users' existe et que ForeignKey est correct.
-    # user = relationship("User", back_populates="scan_requests") # Relation inverse dans User model
-
+    
     prompt = Column(Text, nullable=False, comment="Le prompt utilisateur")
     mode = Column(String, index=True, nullable=False, comment="Mode de génération (text, image, video, rag_text)")
-    file_id = Column(Integer, ForeignKey("drive_files.id"), index=True, nullable=True) # Si un fichier est lié
-    # file = relationship("DriveFile", back_populates="scan_requests") # Relation inverse dans DriveFile model
-
+    file_id = Column(Integer, ForeignKey("drive_files.id"), index=True, nullable=True) 
+    
     result_text = Column(Text, nullable=True, comment="Résultat texte de la génération")
     result_url = Column(String, nullable=True, comment="URL du résultat image/vidéo")
     result_status = Column(String, default="pending", index=True, comment="Statut de la génération (pending, processing, completed, failed)")
 
-    requested_at = Column(DateTime, server_default=func.now())
-    completed_at = Column(DateTime, nullable=True)
+    requested_at = Column(DateTime, server_default=func.now()) # Utilisation de func.now()
+    completed_at = Column(DateTime, nullable=True, comment="Quand la génération a été complétée")
 
     def __repr__(self):
         return f"<ScanRequest(id={self.id}, user_id={self.user_id}, mode='{self.mode}', prompt='{self.prompt[:50]}...', status='{self.result_status}')>"
@@ -57,7 +58,7 @@ def create_scan_request(
     """
     Crée une nouvelle entrée dans la table des requêtes de scan/génération.
     """
-    logger.info(f"Creating scan request for user {user_id}, mode='{mode}', prompt='{prompt[:50]}...'")
+    logger.info(f"Creating scan request for user ID {user_id}, mode='{mode}', prompt='{prompt[:50]}...'")
     try:
         scan_req = ScanRequestModel(
             user_id=user_id,
@@ -74,10 +75,12 @@ def create_scan_request(
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"Database error creating scan request for user {user_id}: {e}")
+        # raise e # Il peut être préférable de relancer l'exception pour qu'elle soit gérée plus haut
         return None
     except Exception as e:
         db.rollback()
         logger.error(f"Unexpected error creating scan request for user {user_id}: {e}")
+        # raise e
         return None
 
 def get_scan_request_by_id(db: Session, request_id: int) -> Optional[ScanRequestModel]:
@@ -86,12 +89,12 @@ def get_scan_request_by_id(db: Session, request_id: int) -> Optional[ScanRequest
     """
     logger.debug(f"Fetching scan request by ID: {request_id}")
     try:
-        request = db.query(ScanRequestModel).get(request_id)
-        if request:
-            logger.debug(f"Scan request found: ID={request.id}, Mode='{request.mode}'")
+        scan_request = db.query(ScanRequestModel).get(request_id)
+        if scan_request:
+            logger.debug(f"Scan request found: ID={scan_request.id}, Mode='{scan_request.mode}'")
         else:
             logger.warning(f"Scan request not found for ID: {request_id}")
-        return request
+        return scan_request
     except SQLAlchemyError as e:
         logger.error(f"Database error fetching scan request ID {request_id}: {e}")
         return None
@@ -121,23 +124,23 @@ def update_scan_request_status(db: Session, request_id: int, new_status: str, re
     """
     logger.info(f"Updating scan request ID {request_id} to status '{new_status}'.")
     try:
-        request = db.query(ScanRequestModel).get(request_id)
-        if not request:
+        scan_request = db.query(ScanRequestModel).get(request_id)
+        if not scan_request:
             logger.warning(f"Scan request not found for update ID: {request_id}")
             return None
 
-        request.result_status = new_status
+        scan_request.result_status = new_status
         if result_text is not None:
-            request.result_text = result_text
+            scan_request.result_text = result_text
         if result_url is not None:
-            request.result_url = result_url
+            scan_request.result_url = result_url
         if new_status == "completed":
-            request.completed_at = datetime.utcnow()
+            scan_request.completed_at = datetime.utcnow() # Utilisation de datetime.utcnow
 
         db.commit()
-        db.refresh(request)
+        db.refresh(scan_request)
         logger.info(f"Scan request ID {request_id} updated successfully with status '{new_status}'.")
-        return request
+        return scan_request
 
     except SQLAlchemyError as e:
         db.rollback()
@@ -154,15 +157,15 @@ def delete_scan_request(db: Session, request_id: int) -> Optional[ScanRequestMod
     """
     logger.info(f"Attempting to delete scan request ID: {request_id}")
     try:
-        request = db.query(ScanRequestModel).get(request_id)
-        if not request:
+        scan_request = db.query(ScanRequestModel).get(request_id)
+        if not scan_request:
             logger.warning(f"Scan request not found for deletion ID: {request_id}")
             return None
 
-        db.delete(request)
+        db.delete(scan_request)
         db.commit()
         logger.info(f"Scan request ID {request_id} deleted successfully.")
-        return request
+        return scan_request
 
     except SQLAlchemyError as e:
         db.rollback()

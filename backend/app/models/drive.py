@@ -1,10 +1,13 @@
 # /home/manik/skinlensr/SkinLensR/backend/app/models/drive.py
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, LargeBinary
+# Supprimez l'importation de UUID si vous n'utilisez plus la clé primaire UUID
+# from sqlalchemy.dialects.postgresql import UUID # Si vous utilisez PostgreSQL pour les UUIDs
+import uuid # Gardez UUID si vous l'utilisez pour d'autres champs ou si vous le réintégrez
+
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, LargeBinary, Boolean # Ajoutez Boolean si vous en avez besoin
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from sqlalchemy.dialects.postgresql import UUID # Si vous utilisez PostgreSQL pour les UUIDs
-import uuid
+from datetime import datetime # Assurez-vous que datetime est bien importé pour les timestamps
 
 # Assurez-vous que Base est correctement importé depuis app.models.base
 from app.models.base import Base 
@@ -32,8 +35,8 @@ class DriveFile(Base):
 
     # Timestamps
     uploaded_at = Column(DateTime, server_default=func.now(), comment="Date et heure d'upload")
-    created_at = Column(DateTime, default=datetime.utcnow) # Utiliser utcnow si vous n'avez pas func.now() partout
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow) # Peut utiliser server_default et onupdate
+    created_at = Column(DateTime, default=datetime.utcnow) # Assurez-vous que datetime.utcnow est disponible
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Pour stocker le contenu du fichier directement en base de données (moins courant pour les gros fichiers)
     # Si vous stockez les fichiers EN BASE de données (pas sur le système de fichiers) :
