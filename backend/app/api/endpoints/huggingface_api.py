@@ -10,10 +10,11 @@ from typing import List
 from app.api.dependencies import get_db_session, get_current_active_user
 from app.schemas.progress import ProgressResponse, ProgressUpdate, ProgressCreate
 from app.crud.progress import (
-    get_user_progress,
+    get_progress_for_user,
     create_progress_entry,
-    update_progress ,
-   )
+    update_progress,
+    get_progress_for_user,  # si tu veux une fonction alias, sinon enlève le doublon
+)
 
 router = APIRouter()
 

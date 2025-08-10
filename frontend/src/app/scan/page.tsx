@@ -240,7 +240,8 @@ const ChatInterface: React.FC = () => {
 
     // --- CORRECTION ICI ---
     // Assurez-vous que l'URL pointe vers le bon endpoint de votre backend (/scan)
-     const backendUrl = process.env.NEXT_PUBLIC_API_URL + '/scan';
+     const backendUrl = `${process.env.NEXT_PUBLIC_API_URL}/scan`;
+
 
     fetch(backendUrl, {
       method: 'POST',
