@@ -1,52 +1,40 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/models/scan.py
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from pydantic import BaseModel
+from app.database import get_async_db
+from app.models.scan import ScanRequest, GenerationStatus, GenerationMode
 
-import uuid
-from datetime import datetime
-from typing import Optional, Dict, Any, List
+router = APIRouter()
 
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text, Enum as SQLAlchemyEnum # Renommé Enum pour éviter conflit
-from sqlalchemy.orm import relationship
-from sqlalchemy.sql import func
-import enum # Assurez-vous que enum est importé
+class ScanIn(BaseModel):
+    query: str
 
-# Assurez-vous que Base est correctement importé depuis app.models.base
-from app.models.base import Base
+class ScanOut(BaseModel):
+    response: str
 
-# --- Définitions d'Enums ---
-class GenerationMode(str, enum.Enum):
-    TEXT = "text"
-    IMAGE = "image"
-    VIDEO = "video"
-    RAG_TEXT = "rag_text"
+@router.post("/scan", response_model=ScanOut)
+async def create_scan(request: ScanIn, db: AsyncSession = Depends(get_async_db)):
+    # Créer la requête ScanRequest
+    scan = ScanRequest(
+        user_id=1,  # A remplacer par user connecté via auth
+        prompt=request.query,
+        mode=GenerationMode.RAG_TEXT,
+        result_status=GenerationStatus.PENDING
+    )
+    db.add(scan)
+    await db.commit()
+    await db.refresh(scan)
 
-class GenerationStatus(str, enum.Enum):
-    PENDING = "pending"
-    PROCESSING = "processing"
-    COMPLETED = "completed"
-    FAILED = "failed"
+    # Ici tu pourrais déclencher ton traitement async
+    # Par exemple, appeler un agent RAG, puis mettre à jour scan.result_text + result_status
 
-class ScanRequest(Base):
-    """
-    Modèle SQLAlchemy pour représenter une requête de scan ou de génération IA.
-    """
-    __tablename__ = "scan_requests"
+    # Pour l’exemple on simule juste une réponse fixe
+    fake_response = f"Réponse simulée pour la requête : {request.query}"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), index=True, nullable=False)
+    # Mise à jour en base (optionnel, ici synchro)
+    scan.result_text = fake_response
+    scan.result_status = GenerationStatus.COMPLETED
+    await db.commit()
+    await db.refresh(scan)
 
-    prompt = Column(Text, nullable=False, comment="Le prompt utilisateur pour la génération")
-    # Utilisation de l'Enum SQLAlchemy pour le mode
-    mode = Column(SQLAlchemyEnum(GenerationMode), default=GenerationMode.TEXT, index=True)
-    
-    file_id = Column(Integer, ForeignKey("drive_files.id"), index=True, nullable=True)
-
-    result_text = Column(Text, nullable=True, comment="Texte généré par l'IA")
-    result_url = Column(String, nullable=True, comment="URL du contenu généré (image/vidéo)")
-    # Utilisation de l'Enum SQLAlchemy pour le statut
-    result_status = Column(SQLAlchemyEnum(GenerationStatus), default=GenerationStatus.PENDING, index=True)
-    
-    requested_at = Column(DateTime, server_default=func.now())
-    completed_at = Column(DateTime, nullable=True, comment="Quand la génération a été complétée")
-
-    def __repr__(self):
-        return f"<ScanRequest(id={self.id}, user_id={self.user_id}, mode='{self.mode.value}', prompt='{self.prompt[:50]}...', status='{self.result_status.value}')>"
+    return ScanOut(response=scan.result_text)

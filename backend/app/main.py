@@ -1,18 +1,32 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/main.py
 import os
 import logging
 import uvicorn
 from typing import AsyncGenerator
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv  # Pour charger .env
-
-# --- Charger .env ---
-load_dotenv()
+import requests
 
 # --- Configuration de la Base de Données ---
-from app.database import engine
+from app.database import get_db, engine
 from app.models.base import Base
+
+# --- Importation des Schémas ---
+from app.schemas import (
+    UserCreate, UserResponse, UserUpdate, Token, TokenData,
+    LegalDocumentCreate, LegalDocumentResponse, LegalDocumentUpdate,
+    ProgressCreate, ProgressResponse, ProgressUpdate,
+    FileResponse, SearchRequest, SearchResult, ScanQueryRequest, ScanResponse,
+    ChatMessage, ConversationCreate, ConversationResponse, MessageSendRequest, MessageResponse,
+    AgentCreate, AgentResponse, AgentUpdate, AgentTaskCreate, AgentTaskResponse,
+)
+
+# --- Importation des Services ---
+from app.services.chat_service import ChatService
+from app.services.rag import RAGService
+from app.services.memory_manager import MemoryManager
+from app.services.progress import ProgressService
+from app.services.legal_documents import LegalDocumentService
+from app.services.agent_manager_service import AgentManagerService
 
 # --- Importation des Routeurs ---
 from app.routers import (
@@ -24,36 +38,37 @@ from app.routers import (
     chat_router,
     agent_router,
 )
+
 from app.api.endpoints import huggingface_api
 
-# --- Logging ---
+# --- Configuration du Logging ---
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- Lifespan ---
 async def create_db_tables():
-    logger.info("Initializing database tables...")
+    logger.info("Application starting... Initializing database tables.")
     try:
         Base.metadata.create_all(bind=engine)
-        logger.info("Database tables created successfully.")
+        logger.info("Database tables initialized successfully.")
     except Exception as e:
-        logger.error(f"Database initialization error: {e}")
+        logger.error(f"Error during database initialization: {e}")
         raise
 
 async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     await create_db_tables()
     yield
-    logger.info("Shutting down...")
+    logger.info("Application shutting down...")
 
-# --- App FastAPI ---
+# --- Initialisation FastAPI ---
 app = FastAPI(
     title="Kiwi-ops Backend API",
     description="API pour la gestion stratégique, l'authentification, les documents légaux et les agents IA.",
     version="0.1.0",
-    lifespan=lifespan
+    lifespan=lifespan,
 )
 
-# --- CORS ---
+# --- Middleware CORS ---
 CORS_ORIGINS = os.environ.get(
     "CORS_ORIGINS",
     "http://localhost:3000,http://127.0.0.1:8000,https://api.kiwi-ops.com"
@@ -74,7 +89,7 @@ app.include_router(progress_router)
 app.include_router(scan_router)
 app.include_router(chat_router)
 app.include_router(agent_router)
-app.include_router(huggingface_api.router)  # Nouveau endpoint Hugging Face
+app.include_router(huggingface_api.router)
 
 # --- Routes Générales ---
 @app.get("/", tags=["Root"])
@@ -84,6 +99,25 @@ async def read_root():
 @app.get("/health", tags=["Health Check"])
 async def health_check():
     return {"status": "ok", "service": "Kiwi-ops Backend"}
+
+# --- Hugging Face Test Endpoint ---
+HF_API_TOKEN = os.environ.get("HF_API_TOKEN")  # À définir dans .env
+HF_MODEL = "openai/gpt-oss-120b"
+
+@app.post("/huggingface-chat", tags=["Hugging Face"])
+async def huggingface_chat(prompt: str):
+    if not HF_API_TOKEN:
+        raise HTTPException(status_code=500, detail="HF_API_TOKEN non configuré dans les variables d'environnement.")
+
+    url = f"https://api-inference.huggingface.co/models/{HF_MODEL}"
+    headers = {"Authorization": f"Bearer {HF_API_TOKEN}"}
+    payload = {"inputs": prompt}
+
+    response = requests.post(url, headers=headers, json=payload)
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+    return response.json()
 
 # --- Exécution ---
 if __name__ == "__main__":
