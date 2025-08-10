@@ -1,33 +1,55 @@
 # /home/manik/skinlensr/SkinLensR/backend/app/models/agent.py
-# Modèle SQLAlchemy représentant les agents et leurs documents associés.
 
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
-from app.models.base import Base
-from app.models.agent_document import AgentDocument  # Assurez-vous que le chemin est correct
+import uuid
+from datetime import datetime
+from typing import Optional, List, Dict, Any
+
+from sqlalchemy import Column, Integer, String, DateTime, Text, Enum, ForeignKey, JSON
+from sqlalchemy.dialects.postgresql import UUID, JSONB # Si vous utilisez PostgreSQL
+from sqlalchemy.orm import relationship, sessionmaker
+# Assurez-vous que Base est correctement importé depuis app.models.base
+from app.models.base import Base 
+
+# Importez les types de données nécessaires pour les états ou configurations
+# from app.schemas.agent import AgentStatus # Si vous avez une Enum pour les statuts
 
 class Agent(Base):
-    __tablename__ = "agents"
+    """
+    Représente un agent IA dans la base de données.
+    Stocke les informations de base, la configuration, et potentiellement un état.
+    """
+    __tablename__ = "agents" # Nom de la table dans la base de données
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, unique=True, index=True)
+    # Clé primaire pour l'agent
+    # Souvent, un UUID est utilisé pour les identifiants d'agents pour éviter la prévisibilité
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4) 
+    # Si vous préférez un entier auto-généré :
+    # id = Column(Integer, primary_key=True, index=True) 
 
-    # Relation avec AgentDocument
-    documents = relationship("AgentDocument", back_populates="agent")  
+    # Informations de base sur l'agent
+    name = Column(String, index=True, nullable=False, unique=False, comment="Nom de l'agent (ex: KiwiAssistant)")
+    role = Column(String, nullable=False, comment="Rôle ou objectif principal de l'agent")
+    description = Column(Text, nullable=True, comment="Description détaillée de l'agent")
 
+    # Configuration de l'agent
+    llm_model_name = Column(String, nullable=True, comment="Nom du modèle LLM utilisé par cet agent")
+    # Pour stocker des configurations plus complexes, JSON ou JSONB est utile
+    tools_config = Column(JSON, nullable=True, comment="Configuration des outils disponibles pour cet agent")
 
-# Ce modèle Document semble redondant avec AgentDocument,
-# à moins que ce soit volontaire d'avoir deux tables différentes pour des documents.
-class Document(Base):
-    __tablename__ = "documents"
+    # Statut de l'agent et timestamps
+    status = Column(String, default="active", index=True, comment="Statut actuel de l'agent (ex: active, inactive, training)")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    content = Column(String, nullable=False)
-    
-    # L'agent auquel ce document est lié
-    agent_id = Column(Integer, ForeignKey('agents.id'))
-    
-    # Relation bidirectionnelle
-    agent = relationship("Agent", back_populates="documents")
+    # Relations avec d'autres tables (si nécessaires)
+    # Par exemple, si un agent peut avoir plusieurs documents associés :
+    # agent_documents = relationship("AgentDocument", back_populates="agent")
+
+    # Si vous avez une table pour les tâches d'agent ou l'historique :
+    # agent_tasks = relationship("AgentTask", back_populates="agent")
+
+    # Commentaire : les relations doivent être définies dans les modèles correspondants aussi
+    # (ex: dans agent_document.py, définir `agent = relationship("Agent", back_populates="agent_documents")`)
+
+    def __repr__(self):
+        return f"<Agent(id={self.id}, name='{self.name}', role='{self.role}', status='{self.status}')>"

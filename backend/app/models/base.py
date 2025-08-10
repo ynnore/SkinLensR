@@ -1,41 +1,56 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/database.py
-# Configuration SQLAlchemy pour la connexion à la base de données PostgreSQL.
-# Charge les variables d'environnement, crée l'engine SQLAlchemy,
-# configure la session et fournit un générateur pour obtenir une session DB.
+# /home/manik/skinlensr/SkinLensR/backend/app/models/base.py
 
-from sqlalchemy.ext.declarative import declarative_base  # Import pour créer la classe de base des modèles
-from sqlalchemy import create_engine                      # Import pour créer la connexion (engine) à la base
-from sqlalchemy.orm import sessionmaker                    # Import pour configurer la session (connexion à la DB)
-from dotenv import load_dotenv                             # Import pour charger les variables d'environnement depuis un fichier .env
-import os                                                  # Import du module os pour accéder aux variables d'environnement
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
 
-# Charger les variables d'environnement depuis le fichier .env
-load_dotenv()
+# --- Configuration de la Base de Données ---
+# Il est conseillé de charger l'URL de la base de données à partir des variables d'environnement.
+# Exemple : DATABASE_URL = "postgresql://user:password@host:port/database"
+# Assurez-vous que ces variables sont configurées correctement.
 
-# Définition de la base pour les modèles SQLAlchemy
+# Pour un exemple simple, nous allons utiliser une base de données SQLite en mémoire.
+# Adaptez ceci à votre configuration de base de données réelle (ex: PostgreSQL, MySQL).
+
+# URL de la base de données (à charger depuis les variables d'environnement)
+# DATABASE_URL = os.environ.get("DATABASE_URL", "sqlite:///./sql_app.db") # Exemple avec SQLite par défaut
+
+# --- Création du Moteur de Base de Données ---
+# Le moteur gère la connexion à la base de données.
+# `connect_args={"check_same_thread": False}` est nécessaire pour SQLite si utilisé dans une application web multithreadée (comme FastAPI avec Uvicorn).
+# Pour PostgreSQL/MySQL, ce paramètre n'est pas nécessaire.
+# engine = create_engine(
+#     DATABASE_URL, connect_args={"check_same_thread": False} # Si SQLite
+# )
+# Pour PostgreSQL, par exemple :
+# DATABASE_URL = "postgresql://user:password@host:port/dbname"
+# engine = create_engine(DATABASE_URL)
+
+# --- Création de la Session Locale ---
+# La SessionLocal fabrique des sessions DB. La dépendance `get_db` utilisera ceci.
+# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# --- Déclaration de la Base Déclarative ---
+# C'est l'objet de base à partir duquel tous vos modèles hériteront.
+# Il contient également l'instance MetaData pour la définition des tables.
 Base = declarative_base()
 
-# Récupérer l'URL de la base de données depuis les variables d'environnement
-DATABASE_URL = os.getenv("DATABASE_URL")
+# --- Fonction pour obtenir une session DB (si elle n'est pas gérée ailleurs) ---
+# Cette fonction est souvent placée dans app/database.py, mais si vous voulez tout centraliser ici :
+#
+# def get_db_session():
+#     db = SessionLocal()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
-# Vérification que la variable d'environnement DATABASE_URL est bien définie
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL is not set in the .env file")
+# Note : Dans votre arborescence, vous avez déjà app/database.py. Il est plus probable
+# que `get_db` et `engine` soient définis là-bas, et que ce fichier `base.py` ne contienne
+# que la définition de `Base`.
 
-# Création de l'engine SQLAlchemy pour se connecter à la base de données
-# echo=True active le logging SQL pour afficher les requêtes dans la console
-engine = create_engine(DATABASE_URL, echo=True)
+# Par conséquent, le contenu le plus courant et attendu pour app/models/base.py est :
 
-# Configuration du sessionmaker : factory pour créer des sessions DB
-# autocommit=False : on doit commit explicitement
-# autoflush=False : flush manuel (envoi des modifications avant commit)
-# bind=engine : lie la session à l'engine créé
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# from sqlalchemy.ext.declarative import declarative_base
 
-# Fonction génératrice pour obtenir une session de base de données
-def get_db():
-    db = SessionLocal()  # Création d'une nouvelle session DB
-    try:
-        yield db        # Yield pour utiliser la session dans une dépendance FastAPI (avec context manager)
-    finally:
-        db.close()      # Ferme la session après usage, évite les fuites de connexion
+# Base = declarative_base()
