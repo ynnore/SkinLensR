@@ -1,0 +1,19 @@
+                                      Table "public.users"
+     Column      |       Type        | Collation | Nullable |              Default              
+-----------------+-------------------+-----------+----------+-----------------------------------
+ id              | integer           |           | not null | nextval('users_id_seq'::regclass)
+ email           | character varying |           |          | 
+ role            | character varying |           |          | 
+ username        | character varying |           | not null | 
+ hashed_password | character varying |           | not null | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "ix_users_email" UNIQUE, btree (email)
+    "ix_users_username" UNIQUE, btree (username)
+    "ix_users_id" btree (id)
+Referenced by:
+    TABLE "drive_files" CONSTRAINT "drive_files_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "progress_entries" CONSTRAINT "progress_entries_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "scan_requests" CONSTRAINT "scan_requests_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+    TABLE "user_legal_agreements" CONSTRAINT "user_legal_agreements_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(id)
+
