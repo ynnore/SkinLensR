@@ -1,3 +1,6 @@
+import os
+import jwt
+from datetime import datetime, timedelta
 from fastapi import APIRouter, Request, HTTPException
 from starlette.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuth
@@ -5,21 +8,22 @@ from authlib.integrations.starlette_client import OAuth
 router = APIRouter()
 oauth = OAuth()
 
-# TODO : remplacer par tes vraies clés dans un fichier config / variables d'environnement
-GOOGLE_CLIENT_ID = "ton_google_client_id"
-GOOGLE_CLIENT_SECRET = "ton_google_client_secret"
+# --- Tes clés OAuth, à configurer en variables d'environnement ---
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "ton_google_client_id")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "ton_google_client_secret")
+MICROSOFT_CLIENT_ID = os.getenv("MICROSOFT_CLIENT_ID", "ton_microsoft_client_id")
+MICROSOFT_CLIENT_SECRET = os.getenv("MICROSOFT_CLIENT_SECRET", "ton_microsoft_client_secret")
+INSTAGRAM_CLIENT_ID = os.getenv("INSTAGRAM_CLIENT_ID", "ton_instagram_client_id")
+INSTAGRAM_CLIENT_SECRET = os.getenv("INSTAGRAM_CLIENT_SECRET", "ton_instagram_client_secret")
+LINKEDIN_CLIENT_ID = os.getenv("LINKEDIN_CLIENT_ID", "ton_linkedin_client_id")
+LINKEDIN_CLIENT_SECRET = os.getenv("LINKEDIN_CLIENT_SECRET", "ton_linkedin_client_secret")
 
-MICROSOFT_CLIENT_ID = "ton_microsoft_client_id"
-MICROSOFT_CLIENT_SECRET = "ton_microsoft_client_secret"
+# Clé secrète pour JWT (à stocker en variable d'environnement)
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "une_clef_secrete_pour_jwt")
+JWT_ALGORITHM = "HS256"
+JWT_EXPIRE_MINUTES = 60 * 24 * 7  # 7 jours
 
-INSTAGRAM_CLIENT_ID = "ton_instagram_client_id"
-INSTAGRAM_CLIENT_SECRET = "ton_instagram_client_secret"
-
-LINKEDIN_CLIENT_ID = "ton_linkedin_client_id"
-LINKEDIN_CLIENT_SECRET = "ton_linkedin_client_secret"
-
-# Register providers
-
+# Enregistrement des providers OAuth
 oauth.register(
     name='google',
     client_id=GOOGLE_CLIENT_ID,
@@ -56,50 +60,68 @@ oauth.register(
     client_kwargs={'scope': 'r_liteprofile r_emailaddress'},
 )
 
-# Helper to build redirect URI dynamically
+# Construction de l'URL de callback dynamique
 def get_redirect_uri(request: Request, provider: str) -> str:
     host = request.url.hostname
     scheme = request.url.scheme
-    # Tu peux modifier le domaine ou ajouter ton frontend ici
+    # Adaptation possible vers ton frontend si besoin
     return f"{scheme}://{host}/auth/{provider}/callback"
 
-# Routes login (redirige vers le provider)
+# Création du JWT
+def create_jwt_token(data: dict) -> str:
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(minutes=JWT_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    return encoded_jwt
 
+# Route pour démarrer le login OAuth (redirige vers le provider)
 @router.get("/login/{provider}")
 async def login(request: Request, provider: str):
-    if provider not in oauth:
-        raise HTTPException(status_code=404, detail="Provider inconnu")
+    try:
+        client = oauth.create_client(provider)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Provider inconnu ou non configuré: {provider}")
     redirect_uri = get_redirect_uri(request, provider)
-    return await oauth.create_client(provider).authorize_redirect(request, redirect_uri)
+    return await client.authorize_redirect(request, redirect_uri)
 
-# Callback OAuth
-
+# Callback OAuth, gestion après authentification sur le provider
 @router.get("/auth/{provider}/callback")
 async def auth_callback(request: Request, provider: str):
-    if provider not in oauth:
-        raise HTTPException(status_code=404, detail="Provider inconnu")
+    try:
+        client = oauth.create_client(provider)
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"Provider inconnu ou non configuré: {provider}")
 
-    client = oauth.create_client(provider)
     token = await client.authorize_access_token(request)
 
-    # Récupérer user info selon provider
     if provider == "google":
         user_info = await client.parse_id_token(request, token)
     elif provider == "microsoft":
         user_info = await client.parse_id_token(request, token)
     elif provider == "instagram":
-        user_info = await client.get('me?fields=id,username,account_type')
-        user_info = user_info.json()
+        resp = await client.get('me?fields=id,username,account_type')
+        user_info = resp.json()
     elif provider == "linkedin":
-        # Exemple basique : récupérer profil et email
-        profile = await client.get('me')
+        profile_resp = await client.get('me')
         email_resp = await client.get('emailAddress?q=members&projection=(elements*(handle~))')
         user_info = {
-            "profile": profile.json(),
+            "profile": profile_resp.json(),
             "email": email_resp.json(),
         }
     else:
         user_info = {}
 
-    # Ici : gérer création / connexion user dans ta base, renvoyer JWT, etc.
-    return user_info
+    # Exemple simple: créer un JWT minimaliste avec quelques infos
+    payload = {
+        "sub": user_info.get("email") or user_info.get("profile", {}).get("emailAddress") or user_info.get("id") or "unknown",
+        "name": user_info.get("name") or user_info.get("profile", {}).get("localizedFirstName") or "unknown",
+        "provider": provider,
+    }
+    jwt_token = create_jwt_token(payload)
+
+    # Redirige vers frontend (à adapter selon ton front)
+    frontend_url = "https://kiwi-ops.com/dashboard"
+    redirect_url = f"{frontend_url}?token={jwt_token}"
+
+    return RedirectResponse(url=redirect_url)

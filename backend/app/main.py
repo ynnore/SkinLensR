@@ -46,17 +46,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # --- Lifespan pour création des tables ---
-async def create_db_tables():
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     logger.info("Application starting... Initializing database tables.")
     try:
-        Base.metadata.create_all(bind=engine)
+        Base.metadata.create_all(bind=engine)  # create_all est sync donc pas d'await
         logger.info("Database tables initialized successfully.")
     except Exception as e:
         logger.error(f"Error during database initialization: {e}")
         raise
-
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    await create_db_tables()
     yield
     logger.info("Application shutting down...")
 
@@ -73,6 +70,7 @@ CORS_ORIGINS = os.environ.get(
     "CORS_ORIGINS",
     "http://localhost:3000,http://127.0.0.1:8000,https://api.kiwi-ops.com"
 ).split(',')
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
@@ -90,7 +88,7 @@ app.include_router(scan_router, prefix="/scan", tags=["scan"])
 app.include_router(chat_router, prefix="/chat", tags=["chat"])
 app.include_router(agent_router, prefix="/agent", tags=["agent"])
 app.include_router(huggingface_api.router, prefix="/huggingface", tags=["huggingface"])
-app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
+app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])  # <-- OAuth routeur sous ce prefix
 
 # --- Routes générales ---
 @app.get("/", tags=["Root"])
@@ -102,7 +100,7 @@ async def health_check():
     return {"status": "ok", "service": "Kiwi-ops Backend"}
 
 # --- Hugging Face Test Endpoint ---
-HF_API_TOKEN = os.environ.get("HF_API_TOKEN")  # À définir dans .env
+HF_API_TOKEN = os.environ.get("HF_API_TOKEN")  # À définir dans .env ou variables d'environnement
 HF_MODEL = "openai/gpt-oss-120b"
 
 @app.post("/huggingface-chat", tags=["Hugging Face"])
