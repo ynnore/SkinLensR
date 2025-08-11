@@ -9,6 +9,7 @@ import requests
 # --- Configuration de la Base de Données ---
 from app.database import get_db, engine
 from app.models.base import Base
+from app import oauth as auth
 
 # --- Importation des Schémas ---
 from app.schemas import (
@@ -89,7 +90,7 @@ app.include_router(chat_router, prefix="/chat", tags=["chat"])
 app.include_router(agent_router, prefix="/agent", tags=["agent"])
 app.include_router(huggingface_api.router, prefix="/huggingface", tags=["huggingface"])
 app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])  # <-- OAuth routeur sous ce prefix
-
+app.include_router(auth.router, prefix="/api", tags=["auth"])
 # --- Routes générales ---
 @app.get("/", tags=["Root"])
 async def read_root():
