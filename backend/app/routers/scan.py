@@ -4,13 +4,13 @@ import os
 import shutil
 import uuid
 import logging
-from typing import List, Dict, Any, Optional
+from typing import Optional, List
 
-from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
+from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from app.schemas.scan import ScanQueryRequest, ScanResponse
+from app.schemas.scan import ScanResponse
 from app.services.rag import RAGService
 from app.services.huggingface import HuggingFaceService
 from app.services.openai_compatible_llm import OpenAICompatibleLLM
@@ -31,32 +31,33 @@ router = APIRouter(
 
 logger = logging.getLogger(__name__)
 
-@router.post("/generate", response_model=Dict[str, Any])
+@router.post(
+    "/generate",
+    response_model=ScanResponse,
+    summary="Générer du contenu IA avec ou sans fichier",
+    description=(
+        "Déclenche une génération IA selon un prompt, un fichier uploadé ou référencé, "
+        "et un mode parmi: 'text', 'rag_text', 'image', 'video'."
+    ),
+)
 async def generate_content_route(
-    prompt: str,
-    file: Optional[UploadFile] = File(None, description="Optional file for context (image, document, etc.)"),
-    mode: str = "text",
-    file_id: Optional[int] = None,
+    prompt: str = Query(..., description="Texte de la requête utilisateur pour la génération IA"),
+    mode: str = Query("text", description="Mode de génération: text, rag_text, image, video"),
+    file: Optional[UploadFile] = File(None, description="Fichier optionnel pour contexte additionnel"),
+    file_id: Optional[int] = Query(None, description="ID d'un fichier référencé dans la base"),
     db: Session = Depends(get_db),
     rag_service: RAGService = Depends(get_rag_service),
     hf_service: HuggingFaceService = Depends(get_huggingface_service),
     llm_client: OpenAICompatibleLLM = Depends(get_openai_compatible_llm),
     file_storage_path: str = Depends(get_file_storage_path),
-    current_user = Depends(get_current_user)
+    current_user = Depends(get_current_user),
 ):
-    """
-    Déclenche une analyse ou une génération de contenu IA.
-    Utilise un prompt, un fichier uploadé ou référencé, et un mode de génération.
-    """
-    logger.info(f"[User {current_user.email}] Generate content mode='{mode}', prompt='{prompt[:50]}...'")
-
-    generated_content: Dict[str, Any] = {}
+    generated_content = {}
     file_location = None
 
     try:
         file_content_for_ia: Optional[str] = None
 
-        # --- Traitement fichier uploadé ---
         if file:
             logger.info(f"Processing uploaded file: {file.filename}")
             file_extension = os.path.splitext(file.filename)[1] if file.filename else ""
@@ -71,7 +72,6 @@ async def generate_content_route(
                 raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to save uploaded file.")
 
             if mode == "image":
-                # Exemple : appeler HuggingFaceService pour décrire une image
                 try:
                     image_description = await hf_service.describe_image(file_location)
                     file_content_for_ia = image_description
@@ -81,7 +81,6 @@ async def generate_content_route(
                     raise HTTPException(status_code=500, detail="Image processing failed.")
 
             elif mode == "video":
-                # Exemple : appeler HuggingFaceService pour analyser vidéo
                 try:
                     video_summary = await hf_service.analyze_video(file_location)
                     file_content_for_ia = video_summary
@@ -95,9 +94,8 @@ async def generate_content_route(
                     if file.content_type == "text/plain":
                         file_content_for_ia = (await file.read()).decode("utf-8")
                     else:
-                        # Par exemple, traiter PDF, DOCX avec d'autres libs
                         file_content_for_ia = f"Text extraction placeholder for {file.filename}."
-                    logger.info(f"Text file processed for LLM context.")
+                    logger.info("Text file processed for LLM context.")
                 except Exception as e:
                     logger.error(f"Reading text file error: {e}")
                     raise HTTPException(status_code=400, detail="Could not read text from file.")
@@ -111,24 +109,15 @@ async def generate_content_route(
                         metadata={"user_id": current_user.id}
                     )
                     file_content_for_ia = "Document indexed for RAG search."
-                    logger.info(f"Document indexed in vector store for RAG.")
+                    logger.info("Document indexed in vector store for RAG.")
                 except Exception as e:
                     logger.error(f"RAG indexing error: {e}")
                     raise HTTPException(status_code=500, detail="RAG document indexing failed.")
 
-        # --- Traitement fichier référencé par file_id (exemple) ---
         elif file_id:
-            # Implémente la récupération via CRUD, par exemple:
-            # file_record = crud.get_file_record_by_id(db, file_id)
-            # if not file_record:
-            #     raise HTTPException(status_code=404, detail="File not found.")
-            # file_location = file_record.filepath
-            # ... et lire ou traiter selon mode ...
             logger.info(f"Using file with ID {file_id} for processing (not implemented).")
 
-        # --- Génération selon mode ---
         final_prompt = prompt
-
         if mode == "text":
             if file_content_for_ia:
                 final_prompt = f"Context: {file_content_for_ia}\n\nUser Query: {prompt}\n\nAnswer:"
@@ -153,7 +142,7 @@ async def generate_content_route(
         else:
             raise HTTPException(status_code=400, detail=f"Unsupported generation mode: {mode}")
 
-        return JSONResponse(content=generated_content)
+        return generated_content
 
     except HTTPException:
         raise
