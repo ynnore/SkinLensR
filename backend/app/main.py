@@ -38,14 +38,14 @@ from app.routers import (
     chat_router,
     agent_router,
 )
-
+from app.oauth import router as oauth_router
 from app.api.endpoints import huggingface_api
 
 # --- Configuration du Logging ---
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# --- Lifespan ---
+# --- Lifespan pour création des tables ---
 async def create_db_tables():
     logger.info("Application starting... Initializing database tables.")
     try:
@@ -81,17 +81,18 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Inclusion des Routers ---
-app.include_router(auth_router)
-app.include_router(users_router)
-app.include_router(legal_documents_router)
-app.include_router(progress_router)
-app.include_router(scan_router)
-app.include_router(chat_router)
-app.include_router(agent_router)
-app.include_router(huggingface_api.router)
+# --- Inclusion des routeurs ---
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
+app.include_router(users_router, prefix="/users", tags=["users"])
+app.include_router(legal_documents_router, prefix="/legal-documents", tags=["legal-documents"])
+app.include_router(progress_router, prefix="/progress", tags=["progress"])
+app.include_router(scan_router, prefix="/scan", tags=["scan"])
+app.include_router(chat_router, prefix="/chat", tags=["chat"])
+app.include_router(agent_router, prefix="/agent", tags=["agent"])
+app.include_router(huggingface_api.router, prefix="/huggingface", tags=["huggingface"])
+app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
 
-# --- Routes Générales ---
+# --- Routes générales ---
 @app.get("/", tags=["Root"])
 async def read_root():
     return {"message": "Welcome to Kiwi-ops Backend! Mission Control Online."}
@@ -119,7 +120,7 @@ async def huggingface_chat(prompt: str):
 
     return response.json()
 
-# --- Exécution ---
+# --- Exécution directe ---
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
     logger.info(f"Starting server on http://0.0.0.0:{port}")
