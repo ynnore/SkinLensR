@@ -10,7 +10,7 @@ import requests
 from app.database import get_db, engine
 from app.models.base import Base
 from app import oauth as auth
-
+from app.api import protected
 # --- Importation des Schémas ---
 from app.schemas import (
     UserCreate, UserResponse, UserUpdate, Token, TokenData,
@@ -91,6 +91,7 @@ app.include_router(agent_router, prefix="/agent", tags=["agent"])
 app.include_router(huggingface_api.router, prefix="/huggingface", tags=["huggingface"])
 app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])  # <-- OAuth routeur sous ce prefix
 app.include_router(auth.router, prefix="/api", tags=["auth"])
+app.include_router(protected.router)
 # --- Routes générales ---
 @app.get("/", tags=["Root"])
 async def read_root():
