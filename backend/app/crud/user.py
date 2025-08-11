@@ -1,29 +1,42 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/crud/user.py
-
 import logging
 from typing import List, Optional
 
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
+from passlib.context import CryptContext
 
-# Importez votre modèle User et vos schémas Pydantic
-# Assurez-vous que le modèle User a bien '__tablename__ = "users"'
-from app.models.user import User, UserRole # Si vous utilisez l'Enum UserRole
-# Assurez-vous que les schémas UserCreate, UserResponse, UserUpdate sont bien définis
+from app.models.user import User, UserRole
 from app.schemas.user import UserCreate, UserResponse, UserUpdate 
 
 logger = logging.getLogger(__name__)
+
+# Setup du contexte de hashage (bcrypt recommandé)
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+def get_password_hash(password: str) -> str:
+    """
+    Hash un mot de passe clair en utilisant bcrypt.
+    Retourne la chaîne de caractères du hash.
+    """
+    return pwd_context.hash(password)
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Vérifie qu'un mot de passe clair correspond à un hash donné.
+    Retourne True si le mot de passe correspond, False sinon.
+    """
+    return pwd_context.verify(plain_password, hashed_password)
 
 # --- Fonctions CRUD pour les Utilisateurs ---
 
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
     """
-    Récupère un utilisateur par son adresse email.
-    C'est une fonction clé pour l'authentification et la vérification d'existence.
+    Recherche un utilisateur par son email.
+    Retourne l'objet User si trouvé, sinon None.
+    Utilise des logs pour tracer le processus et gérer les erreurs.
     """
     logger.debug(f"Fetching user by email: {email}")
     try:
-        # Utilisez .first() car l'email est unique
         user = db.query(User).filter(User.email == email).first()
         if user:
             logger.debug(f"User found: ID={user.id}, Email='{user.email}'")
@@ -39,11 +52,11 @@ def get_user_by_email(db: Session, email: str) -> Optional[User]:
 
 def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
     """
-    Récupère un utilisateur par son ID.
+    Recherche un utilisateur par son identifiant unique.
+    Retourne l'objet User si trouvé, sinon None.
     """
     logger.debug(f"Fetching user by ID: {user_id}")
     try:
-        # Utilisation de .get() est plus efficace pour récupérer par clé primaire
         user = db.query(User).get(user_id)
         if user:
             logger.debug(f"User found: ID={user.id}, Email='{user.email}'")
@@ -59,11 +72,13 @@ def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
 
 def get_all_users(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
     """
-    Récupère une liste d'utilisateurs avec pagination.
+    Récupère une liste paginée d'utilisateurs.
+    skip: nombre d'enregistrements à ignorer (offset)
+    limit: nombre maximal d'enregistrements à retourner
+    Retourne une liste d'objets User.
     """
     logger.debug(f"Fetching all users (skip={skip}, limit={limit})")
     try:
-        # Assurez-vous que le modèle User est importé et que la table est bien 'users'
         users = db.query(User).offset(skip).limit(limit).all()
         logger.debug(f"Found {len(users)} users.")
         return users
@@ -74,23 +89,23 @@ def get_all_users(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
         logger.error(f"Unexpected error fetching all users: {e}")
         return []
 
-def create_user(db: Session, user_data: UserCreate, hashed_password: str) -> Optional[User]:
+def create_user(db: Session, user_data: UserCreate) -> Optional[User]:
     """
     Crée un nouvel utilisateur dans la base de données.
-    Prend un schéma UserCreate et le mot de passe déjà haché.
+    Hash le mot de passe avant sauvegarde.
+    Retourne l'utilisateur créé ou None en cas d'erreur.
     """
     logger.info(f"Creating user with email: {user_data.email}")
     try:
-        # Instancier le modèle SQLAlchemy avec les données
+        hashed_password = get_password_hash(user_data.password)
         db_user = User(
             email=user_data.email,
             hashed_password=hashed_password,
-            role=user_data.role, # Utiliser le rôle fourni, ou un rôle par défaut si absent
-            # Les timestamps created_at/updated_at sont gérés par server_default dans le modèle
+            role=user_data.role,
         )
         db.add(db_user)
         db.commit()
-        db.refresh(db_user) # Rafraîchir pour obtenir l'ID et les timestamps générés
+        db.refresh(db_user)
         logger.info(f"User created successfully: ID={db_user.id}, Email='{db_user.email}'")
         return db_user
     except SQLAlchemyError as e:
@@ -102,31 +117,30 @@ def create_user(db: Session, user_data: UserCreate, hashed_password: str) -> Opt
         logger.error(f"Unexpected error creating user {user_data.email}: {e}")
         return None
 
-def update_user(db: Session, user_id: int, user_update_data: UserUpdate, hashed_new_password: Optional[str] = None) -> Optional[User]:
+def update_user(db: Session, user_id: int, user_update_data: UserUpdate, new_password: Optional[str] = None) -> Optional[User]:
     """
     Met à jour un utilisateur existant.
-    Prend les données de mise à jour et le nouveau mot de passe haché s'il est modifié.
+    Peut modifier le rôle et/ou le mot de passe (si new_password fourni).
+    Retourne l'utilisateur mis à jour ou None si utilisateur non trouvé ou erreur.
     """
     logger.info(f"Attempting to update user ID: {user_id}")
     try:
-        # Récupérer l'utilisateur par son ID
         user = db.query(User).get(user_id)
         if not user:
             logger.warning(f"User not found for update ID: {user_id}")
             return None
 
-        # Mettre à jour les champs s'ils sont fournis dans user_update_data
+        # Mise à jour du rôle si fourni
         if user_update_data.role:
             user.role = user_update_data.role
-        if hashed_new_password: # Si le mot de passe est fourni et haché
-            user.hashed_password = hashed_new_password
-        # D'autres champs modifiables comme 'email' ou 'username' iraient ici si permis
+        # Mise à jour du mot de passe si nouveau mot de passe fourni
+        if new_password:
+            user.hashed_password = get_password_hash(new_password)
 
         db.commit()
-        db.refresh(user) # Rafraîchir pour obtenir les données mises à jour
+        db.refresh(user)
         logger.info(f"User ID {user_id} updated successfully.")
         return user
-
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"Database error updating user ID {user_id}: {e}")
@@ -139,6 +153,7 @@ def update_user(db: Session, user_id: int, user_update_data: UserUpdate, hashed_
 def delete_user(db: Session, user_id: int) -> Optional[User]:
     """
     Supprime un utilisateur par son ID.
+    Retourne l'utilisateur supprimé ou None si non trouvé ou erreur.
     """
     logger.info(f"Attempting to delete user ID: {user_id}")
     try:
@@ -150,8 +165,7 @@ def delete_user(db: Session, user_id: int) -> Optional[User]:
         db.delete(user)
         db.commit()
         logger.info(f"User ID {user_id} deleted successfully.")
-        return user # Retourner l'utilisateur supprimé pour confirmation
-
+        return user
     except SQLAlchemyError as e:
         db.rollback()
         logger.error(f"Database error deleting user ID {user_id}: {e}")
@@ -160,3 +174,15 @@ def delete_user(db: Session, user_id: int) -> Optional[User]:
         db.rollback()
         logger.error(f"Unexpected error deleting user ID {user_id}: {e}")
         return None
+
+def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
+    """
+    Authentifie un utilisateur via email et mot de passe clair.
+    Retourne l'utilisateur si les identifiants sont valides, sinon None.
+    """
+    user = get_user_by_email(db, email)
+    if not user:
+        return None
+    if not verify_password(password, user.hashed_password):
+        return None
+    return user
