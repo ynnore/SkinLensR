@@ -4,7 +4,7 @@ from app.api.dependencies import get_db_session, get_current_active_user
 from app.schemas.user import UserRead, UserUpdate
 from app.crud.user import update_user
 from app.models.user import User
-from app.auth import get_password_hash
+from app.auth.auth_main import get_password_hash
 
 router = APIRouter()
 

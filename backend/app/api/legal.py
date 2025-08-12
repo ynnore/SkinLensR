@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from app.crud.legal import get_current_user_legal_status
 from app.database import get_db
 from app.models.user import User
-from app.auth import get_current_active_user
+from app.auth.auth_main import get_current_active_user
 
 router = APIRouter(
     prefix="/legal",

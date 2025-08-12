@@ -19,7 +19,7 @@ from app.crud.drive import (
     search_files_and_web # Si cette fonction est toujours pertinente pour le drive
 )
 # Importez vos utilitaires d'authentification
-from app.auth import get_current_user
+from app.auth.auth_main import get_current_user
 
 # Importez les services nécessaires pour la génération IA
 from app.services.huggingface import HuggingFaceService

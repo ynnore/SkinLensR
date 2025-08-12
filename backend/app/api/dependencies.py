@@ -2,7 +2,7 @@ from typing import Generator
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException, status
 from app.database import get_db
-from app.auth import get_current_active_user as _get_current_active_user
+from app.auth.auth_main import get_current_active_user as _get_current_active_user
 from app.models.user import User
 
 def get_db_session() -> Generator[Session, None, None]:

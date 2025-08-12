@@ -1,4 +1,3 @@
-# /home/manik/skinlensr/SkinLensR/backend/app/core/dependencies.py
 """
 Ce module centralise toutes les fonctions de dépendance FastAPI.
 Il fournit des instances des services et autres ressources nécessaires aux routeurs et à l'application.
@@ -28,7 +27,6 @@ from app.services.memory_manager import MemoryManager
 from app.services.progress import ProgressService
 from app.services.legal_documents import LegalDocumentService
 from app.text_splitter import DocumentSplitter
-from app import auth
 from app.config import settings
 
 # CRUD
@@ -55,6 +53,9 @@ def get_current_user(
     db: Session = Depends(get_db_dependency)
 ) -> Optional[UserResponse]:
     """Récupère l'utilisateur courant à partir du token JWT."""
+    # ✅ Import déplacé ici pour éviter les imports circulaires
+    from app.auth.auth_main import auth_main as auth
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -147,11 +148,9 @@ def get_legal_document_service(db_session: Session = Depends(get_db_dependency))
 
 def get_progress_service(db_session: Session = Depends(get_db_dependency)) -> ProgressService:
     return ProgressService(db_session=db_session)
-from fastapi import Depends
 
 def get_file_storage_path() -> str:
-    # Retourne ici le chemin où tu souhaites stocker les fichiers uploadés
-    # Exemple local :
+    """Retourne le chemin où stocker les fichiers uploadés."""
     return "/tmp/uploads"
 
 # -------------------

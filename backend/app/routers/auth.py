@@ -10,7 +10,7 @@ from pydantic import BaseModel, EmailStr
 from app.schemas.user import UserCreate, UserResponse
 from app.schemas.auth import Token
 from app import crud
-from app import auth
+import app.auth.auth_main as auth  # ✅ correction ici
 from app.database import get_db
 from app.core.dependencies import get_current_user_dependency
 from app.core.security import create_reset_password_token, verify_reset_password_token
