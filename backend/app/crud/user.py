@@ -1,188 +1,203 @@
 import logging
-from typing import List, Optional
-
+from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
-from passlib.context import CryptContext
+from app.models.user import User
+from app.schemas.user import UserCreate, UserUpdate
+from app.core.security import get_password_hash, verify_password
 
-from app.models.user import User, UserRole
-from app.schemas.user import UserCreate, UserResponse, UserUpdate 
-
+# -----------------------
+# Logger pour le module
+# -----------------------
+# Permet de suivre toutes les erreurs et actions importantes
 logger = logging.getLogger(__name__)
 
-# Setup du contexte de hashage (bcrypt recommandé)
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def get_password_hash(password: str) -> str:
-    """
-    Hash un mot de passe clair en utilisant bcrypt.
-    Retourne la chaîne de caractères du hash.
-    """
-    return pwd_context.hash(password)
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """
-    Vérifie qu'un mot de passe clair correspond à un hash donné.
-    Retourne True si le mot de passe correspond, False sinon.
-    """
-    return pwd_context.verify(plain_password, hashed_password)
-
-# --- Fonctions CRUD pour les Utilisateurs ---
+# -----------------------
+# CRUD UTILISATEUR
+# -----------------------
 
 def get_user_by_email(db: Session, email: str) -> Optional[User]:
     """
-    Recherche un utilisateur par son email.
-    Retourne l'objet User si trouvé, sinon None.
-    Utilise des logs pour tracer le processus et gérer les erreurs.
+    Récupère un utilisateur par son email.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        email (str): email de l'utilisateur
+
+    Returns:
+        User | None: retourne l'utilisateur ou None si introuvable
     """
-    logger.debug(f"Fetching user by email: {email}")
     try:
-        user = db.query(User).filter(User.email == email).first()
-        if user:
-            logger.debug(f"User found: ID={user.id}, Email='{user.email}'")
-        else:
-            logger.warning(f"User not found for email: {email}")
-        return user
+        return db.query(User).filter(User.email == email).first()
     except SQLAlchemyError as e:
-        logger.error(f"Database error fetching user by email {email}: {e}")
+        logger.error(f"Erreur SQL lors de la récupération utilisateur: {e}")
         return None
-    except Exception as e:
-        logger.error(f"Unexpected error fetching user by email {email}: {e}")
-        return None
+
 
 def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
     """
-    Recherche un utilisateur par son identifiant unique.
-    Retourne l'objet User si trouvé, sinon None.
+    Récupère un utilisateur par son ID.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        user_id (int): ID de l'utilisateur
+
+    Returns:
+        User | None: retourne l'utilisateur ou None si introuvable
     """
-    logger.debug(f"Fetching user by ID: {user_id}")
     try:
-        user = db.query(User).get(user_id)
-        if user:
-            logger.debug(f"User found: ID={user.id}, Email='{user.email}'")
-        else:
-            logger.warning(f"User not found for ID: {user_id}")
-        return user
+        return db.get(User, user_id)
     except SQLAlchemyError as e:
-        logger.error(f"Database error fetching user by ID {user_id}: {e}")
-        return None
-    except Exception as e:
-        logger.error(f"Unexpected error fetching user by ID {user_id}: {e}")
+        logger.error(f"Erreur SQL lors de la récupération utilisateur par ID: {e}")
         return None
 
-def get_all_users(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
+
+def get_users(db: Session, skip: int = 0, limit: int = 100) -> List[User]:
     """
-    Récupère une liste paginée d'utilisateurs.
-    skip: nombre d'enregistrements à ignorer (offset)
-    limit: nombre maximal d'enregistrements à retourner
-    Retourne une liste d'objets User.
+    Liste des utilisateurs avec pagination.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        skip (int): nombre d'utilisateurs à ignorer
+        limit (int): nombre maximal d'utilisateurs à retourner
+
+    Returns:
+        List[User]: liste des utilisateurs
     """
-    logger.debug(f"Fetching all users (skip={skip}, limit={limit})")
-    try:
-        users = db.query(User).offset(skip).limit(limit).all()
-        logger.debug(f"Found {len(users)} users.")
-        return users
-    except SQLAlchemyError as e:
-        logger.error(f"Database error fetching all users: {e}")
-        return []
-    except Exception as e:
-        logger.error(f"Unexpected error fetching all users: {e}")
-        return []
+    return db.query(User).offset(skip).limit(limit).all()
+
 
 def create_user(db: Session, user_data: UserCreate) -> Optional[User]:
     """
-    Crée un nouvel utilisateur dans la base de données.
-    Hash le mot de passe avant sauvegarde.
-    Retourne l'utilisateur créé ou None en cas d'erreur.
+    Crée un nouvel utilisateur avec hashage du mot de passe.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        user_data (UserCreate): données de l'utilisateur à créer
+
+    Returns:
+        User | None: retourne l'utilisateur créé ou None si échec
     """
-    logger.info(f"Creating user with email: {user_data.email}")
     try:
+        # Vérification si l'utilisateur existe déjà
+        existing_user = get_user_by_email(db, user_data.email)
+        if existing_user:
+            logger.warning(f"Tentative de création d'un utilisateur déjà existant: {user_data.email}")
+            return None
+
+        # Hashage du mot de passe
         hashed_password = get_password_hash(user_data.password)
+
+        # Création de l'objet User
         db_user = User(
             email=user_data.email,
             hashed_password=hashed_password,
-            role=user_data.role,
+            full_name=user_data.full_name,  # Assurez-vous que full_name est dans UserCreate
+            is_active=True
         )
+
+        # Ajout à la session et commit
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
-        logger.info(f"User created successfully: ID={db_user.id}, Email='{db_user.email}'")
+
+        logger.info(f"Nouvel utilisateur créé: {db_user.email}")
         return db_user
     except SQLAlchemyError as e:
         db.rollback()
-        logger.error(f"Database error creating user {user_data.email}: {e}")
-        return None
-    except Exception as e:
-        db.rollback()
-        logger.error(f"Unexpected error creating user {user_data.email}: {e}")
+        logger.error(f"Erreur SQL lors de la création utilisateur: {e}")
         return None
 
-def update_user(db: Session, user_id: int, user_update_data: UserUpdate, new_password: Optional[str] = None) -> Optional[User]:
+
+def update_user(db: Session, user_id: int, updates: UserUpdate) -> Optional[User]:
     """
-    Met à jour un utilisateur existant.
-    Peut modifier le rôle et/ou le mot de passe (si new_password fourni).
-    Retourne l'utilisateur mis à jour ou None si utilisateur non trouvé ou erreur.
+    Met à jour les informations d'un utilisateur existant.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        user_id (int): ID de l'utilisateur à mettre à jour
+        updates (UserUpdate): données à mettre à jour
+
+    Returns:
+        User | None: retourne l'utilisateur mis à jour ou None si introuvable
     """
-    logger.info(f"Attempting to update user ID: {user_id}")
     try:
-        user = db.query(User).get(user_id)
+        user = get_user_by_id(db, user_id)
         if not user:
-            logger.warning(f"User not found for update ID: {user_id}")
+            logger.warning(f"Mise à jour échouée: utilisateur {user_id} introuvable.")
             return None
 
-        # Mise à jour du rôle si fourni
-        if user_update_data.role:
-            user.role = user_update_data.role
-        # Mise à jour du mot de passe si nouveau mot de passe fourni
-        if new_password:
-            user.hashed_password = get_password_hash(new_password)
+        # Mise à jour des champs si fournis
+        if updates.email:
+            user.email = updates.email
+        if updates.full_name:
+            user.full_name = updates.full_name
+        if updates.password:
+            user.hashed_password = get_password_hash(updates.password)
+        if updates.role:
+            user.role = updates.role
 
         db.commit()
         db.refresh(user)
-        logger.info(f"User ID {user_id} updated successfully.")
+        logger.info(f"Utilisateur {user.id} mis à jour.")
         return user
     except SQLAlchemyError as e:
         db.rollback()
-        logger.error(f"Database error updating user ID {user_id}: {e}")
-        return None
-    except Exception as e:
-        db.rollback()
-        logger.error(f"Unexpected error updating user ID {user_id}: {e}")
+        logger.error(f"Erreur SQL lors de la mise à jour utilisateur: {e}")
         return None
 
-def delete_user(db: Session, user_id: int) -> Optional[User]:
+
+def delete_user(db: Session, user_id: int) -> bool:
     """
-    Supprime un utilisateur par son ID.
-    Retourne l'utilisateur supprimé ou None si non trouvé ou erreur.
+    Supprime un utilisateur.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        user_id (int): ID de l'utilisateur à supprimer
+
+    Returns:
+        bool: True si succès, False sinon
     """
-    logger.info(f"Attempting to delete user ID: {user_id}")
     try:
-        user = db.query(User).get(user_id)
+        user = get_user_by_id(db, user_id)
         if not user:
-            logger.warning(f"User not found for deletion ID: {user_id}")
-            return None
+            logger.warning(f"Suppression échouée: utilisateur {user_id} introuvable.")
+            return False
 
         db.delete(user)
         db.commit()
-        logger.info(f"User ID {user_id} deleted successfully.")
-        return user
+        logger.info(f"Utilisateur {user.id} supprimé.")
+        return True
     except SQLAlchemyError as e:
         db.rollback()
-        logger.error(f"Database error deleting user ID {user_id}: {e}")
-        return None
-    except Exception as e:
-        db.rollback()
-        logger.error(f"Unexpected error deleting user ID {user_id}: {e}")
-        return None
+        logger.error(f"Erreur SQL lors de la suppression utilisateur: {e}")
+        return False
+
 
 def authenticate_user(db: Session, email: str, password: str) -> Optional[User]:
     """
-    Authentifie un utilisateur via email et mot de passe clair.
-    Retourne l'utilisateur si les identifiants sont valides, sinon None.
+    Authentifie un utilisateur par email et mot de passe.
+    
+    Args:
+        db (Session): session SQLAlchemy
+        email (str): email de l'utilisateur
+        password (str): mot de passe à vérifier
+
+    Returns:
+        User | None: retourne l'utilisateur si authentifié, None sinon
     """
-    user = get_user_by_email(db, email)
-    if not user:
+    try:
+        user = get_user_by_email(db, email)
+        if not user:
+            logger.warning(f"Tentative de connexion échouée: email {email} introuvable.")
+            return None
+
+        if not verify_password(password, user.hashed_password):
+            logger.warning(f"Tentative de connexion échouée: mot de passe invalide pour {email}.")
+            return None
+
+        return user
+    except SQLAlchemyError as e:
+        logger.error(f"Erreur SQL lors de l'authentification: {e}")
         return None
-    if not verify_password(password, user.hashed_password):
-        return None
-    return user
