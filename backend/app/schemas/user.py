@@ -17,13 +17,14 @@ class UserCreate(UserBase):
     """Schéma pour la création d'un nouvel utilisateur."""
     password: str = Field(..., min_length=8, max_length=128, example="SecurePassword123!")
     password_confirm: str = Field(..., min_length=8, max_length=128, example="SecurePassword123!")
+    full_name: Optional[str] = Field(None, example="Ronny Dupont")  # <-- ajouté
 
     @field_validator("password_confirm")
     def passwords_match(cls, v, info):
-        """Valide que les mots de passe correspondent."""
         if "password" in info.data and info.data["password"] != v:
             raise ValueError("Passwords do not match")
         return v
+
 
 
 class UserUpdate(BaseModel):

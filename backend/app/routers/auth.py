@@ -1,5 +1,3 @@
-# backend/app/routers/auth.py
-
 import logging
 from datetime import timedelta
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -22,6 +20,9 @@ router = APIRouter(
 
 logger = logging.getLogger(__name__)
 
+# -----------------------
+# Request Schemas
+# -----------------------
 class ForgotPasswordRequest(BaseModel):
     email: EmailStr
 
@@ -29,12 +30,15 @@ class ResetPasswordRequest(BaseModel):
     token: str
     new_password: str
 
+# -----------------------
+# Routes
+# -----------------------
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
     logger.info(f"Attempting to register user with email: {user_data.email}")
 
-    existing_user = crud.get_user_by_email(db, email=user_data.email)
+    existing_user = crud.get_user_by_email(db, user_data.email)
     if existing_user:
         logger.warning(f"Email already registered: {user_data.email}")
         raise HTTPException(
@@ -42,24 +46,24 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
             detail="Email already registered"
         )
 
-    hashed_password = auth.get_password_hash(user_data.password)
+    # Création d'un UserCreate complet pour le CRUD
+    new_user_data = UserCreate(
+        email=user_data.email,
+        password=user_data.password,
+        full_name=user_data.full_name,
+        role=user_data.role
+    )
 
-    try:
-        # ✅ adapter à ton CRUD : on passe un dict ou UserCreate modifié
-        new_user = crud.create_user(
-            db=db,
-            email=user_data.email,
-            hashed_password=hashed_password,
-            role=user_data.role
-        )
-        logger.info(f"User registered successfully: {new_user.email}")
-        return UserResponse.model_validate(new_user)
-    except Exception as e:
-        logger.error(f"Error creating user {user_data.email}: {e}")
+    new_user = crud.create_user(db=db, user_data=new_user_data)
+    if not new_user:
+        logger.error(f"Failed to create user {user_data.email}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to create user."
         )
+
+    logger.info(f"User registered successfully: {new_user.email}")
+    return UserResponse.model_validate(new_user)
 
 
 @router.post("/token", response_model=Token)
@@ -67,9 +71,8 @@ def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
-    logger.info(f"Attempting to log in: {form_data.username}")
-    user = crud.get_user_by_email(db, email=form_data.username)
-
+    logger.info(f"Attempting login for: {form_data.username}")
+    user = crud.get_user_by_email(db, form_data.username)
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         logger.warning(f"Invalid login attempt for: {form_data.username}")
         raise HTTPException(
@@ -101,6 +104,7 @@ def forgot_password(request: ForgotPasswordRequest, db: Session = Depends(get_db
         reset_link = f"https://ton-domaine.com/reset-password?token={token}"
         logger.info(f"Password reset link generated for {user.email}")
         # TODO: envoyer l'email avec reset_link
+
     return {
         "message": "Si cet email est enregistré, un lien de réinitialisation vous sera envoyé."
     }
@@ -115,7 +119,7 @@ def reset_password(request: ResetPasswordRequest, db: Session = Depends(get_db))
             detail="Token invalide ou expiré"
         )
 
-    user = crud.get_user_by_email(db, email=email)
+    user = crud.get_user_by_email(db, email)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -125,4 +129,5 @@ def reset_password(request: ResetPasswordRequest, db: Session = Depends(get_db))
     hashed_password = auth.get_password_hash(request.new_password)
     crud.update_user_password(db, user.id, hashed_password)
     logger.info(f"Password reset successfully for {email}")
+
     return {"message": "Mot de passe réinitialisé avec succès"}

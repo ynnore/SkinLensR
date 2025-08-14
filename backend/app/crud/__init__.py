@@ -15,11 +15,13 @@ dans les services et les routeurs.
 try:
     from .user import (
         get_user_by_email,
-        get_user_by_id,
-        get_all_users,
-        create_user,
-        update_user,
-        delete_user,
+    get_user_by_id,
+    get_users,
+    create_user,
+    update_user,
+    update_user_password,
+    delete_user,
+    authenticate_user
     )
 except ImportError:
     # Si certaines fonctions ne sont pas encore définies
