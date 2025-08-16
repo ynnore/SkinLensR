@@ -54,7 +54,7 @@ pip-wheel-metadata/
 # Fichiers spécifiques à Alembic
 alembic/versions/*.pyc
 
-
+backend/chroma_db/
 # ------------------------------------------------
 # Fichiers et répertoires Node.js / Next.js
 # ------------------------------------------------
