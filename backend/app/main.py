@@ -1,37 +1,95 @@
+# ===================================================================
+# IMPORTS ET CONFIGURATION INITIALE
+# ===================================================================
 import sys
 import pysqlite3
 sys.modules["sqlite3"] = pysqlite3
+
 import os
 import logging
+import traceback  # <-- IMPORTÉ POUR LE DÉBOGAGE
 from typing import AsyncGenerator, List, Optional, Dict, Any
+from contextlib import asynccontextmanager
 
 import uvicorn
 import requests
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse  # <-- IMPORTÉ POUR LE DÉBOGAGE
 from pydantic import BaseModel, Field
+
+# Variable globale pour stocker l'erreur de démarrage
+STARTUP_ERROR_HTML = None
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("kiwi-ops")
 
-from app.database import get_db, engine
-from app.models.base import Base
+# ===================================================================
+# LIFESPAN MODIFIÉ POUR CAPTURER L'ERREUR SANS PLANTER
+# ===================================================================
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    global STARTUP_ERROR_HTML
+    logger.info("Application starting... Attempting initialization.")
+    
+    try:
+        # --- C'est ici que l'initialisation a lieu ---
+        from app.database import engine
+        from app.models.base import Base
+        
+        logger.info("Attempting database connection and table creation...")
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database initialization successful!")
+        
+        _init_chroma()
+        
+        STARTUP_ERROR_HTML = None # Pas d'erreur, on s'assure que c'est vide
+        yield # L'application s'exécute
+        
+    except Exception as e:
+        # SI LE BLOC 'TRY' PLANTE, L'ERREUR EST CAPTURÉE ICI !
+        logger.error(f"FATAL STARTUP ERROR CAPTURED: {e}")
+        
+        error_html_content = traceback.format_exc()
+        STARTUP_ERROR_HTML = f"""
+        <html><head><title>Startup Error</title></head><body>
+        <h1>Container failed to start!</h1>
+        <h2>Here is the exact Python error:</h2>
+        <pre><code>{error_html_content}</code></pre>
+        </body></html>
+        """
+        yield # On continue pour que le serveur démarre et puisse afficher l'erreur
+        
+    logger.info("Application shutting down...")
+
+# ===================================================================
+# CRÉATION DE L'APPLICATION FASTAPI
+# ===================================================================
+app = FastAPI(
+    title="Kiwi-ops Backend API (Debug Mode)",
+    description="API pour la gestion stratégique, l'authentification, les documents légaux et les agents IA.",
+    version="0.1.0",
+    lifespan=lifespan,
+)
+
+# ===================================================================
+# LE RESTE DE VOTRE CODE (INCHANGÉ)
+# ===================================================================
+
+# Imports de vos modules
+from app.database import get_db
 from app import oauth as auth
 from app.api import protected
 from app.routers import (
-    auth_router,
-    users_router,
-    legal_documents_router,
-    progress_router,
-    scan_router,
-    chat_router,
-    agent_router,
+    auth_router, users_router, legal_documents_router, progress_router,
+    scan_router, chat_router, agent_router
 )
 from app.oauth import router as oauth_router
 from app.api.endpoints import huggingface_api
 
+# Variables d'environnement pour ChromaDB
 CHROMA_URL = os.environ.get("CHROMA_URL", "").strip()
-CHROMA_DB_DIR = os.environ.get("CHROMA_DB_DIR", "./chroma_db")
+CHROMA_DB_DIR = os.environ.get("CHROMA_DB_DIR", "/tmp/chroma_db")
 CHROMA_COLLECTION = os.environ.get("CHROMA_COLLECTION", "kiwi_docs")
 EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 RAG_TOP_K = int(os.environ.get("RAG_TOP_K", "5"))
@@ -58,15 +116,9 @@ def _init_chroma() -> None:
             logger.info(f"RAG: using local Chroma PersistentClient at {CHROMA_DB_DIR}")
 
         try:
-            _chroma_collection = _chroma_client.get_collection(
-                name=CHROMA_COLLECTION,
-                embedding_function=_embedding_fn
-            )
+            _chroma_collection = _chroma_client.get_collection(name=CHROMA_COLLECTION, embedding_function=_embedding_fn)
         except Exception:
-            _chroma_collection = _chroma_client.create_collection(
-                name=CHROMA_COLLECTION,
-                embedding_function=_embedding_fn
-            )
+            _chroma_collection = _chroma_client.create_collection(name=CHROMA_COLLECTION, embedding_function=_embedding_fn)
         logger.info(f"RAG: collection ready: {CHROMA_COLLECTION}")
 
     except Exception as e:
@@ -96,26 +148,7 @@ def _format_context(docs: List[str], metas: List[Dict[str, Any]], max_chars: int
             break
     return "\n".join(chunks).strip()
 
-async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
-    logger.info("Application starting... Initializing database tables.")
-    try:
-        Base.metadata.create_all(bind=engine)
-        logger.info("Database tables initialized successfully.")
-    except Exception as e:
-        logger.error(f"Error during database initialization: {e}")
-        raise
-
-    _init_chroma()
-    yield
-    logger.info("Application shutting down...")
-
-app = FastAPI(
-    title="Kiwi-ops Backend API",
-    description="API pour la gestion stratégique, l'authentification, les documents légaux et les agents IA.",
-    version="0.1.0",
-    lifespan=lifespan,
-)
-
+# Middleware CORS
 CORS_ORIGINS = os.environ.get(
     "CORS_ORIGINS",
     "http://localhost:3000,http://127.0.0.1:8000,https://www.kiwi-ops.com,https://kiwi-ops.com"
@@ -129,6 +162,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Inclusion des routers
 app.include_router(auth_router, prefix="/auth", tags=["auth"])
 app.include_router(users_router, prefix="/users", tags=["users"])
 app.include_router(legal_documents_router, prefix="/legal-documents", tags=["legal-documents"])
@@ -141,10 +175,17 @@ app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(protected.router)
 
-@app.get("/", tags=["Root"])
+# ===================================================================
+# ROUTE RACINE MODIFIÉE POUR LE DÉBOGAGE
+# ===================================================================
+@app.get("/", response_class=HTMLResponse, tags=["Root"])
 async def read_root():
-    return {"message": "Welcome to Kiwi-ops Backend! Mission Control Online."}
+    if STARTUP_ERROR_HTML:
+        return HTMLResponse(content=STARTUP_ERROR_HTML, status_code=500)
+    else:
+        return HTMLResponse(content='{"message": "Welcome to Kiwi-ops Backend! Mission Control Online."}')
 
+# Le reste de vos routes
 @app.get("/health", tags=["Health Check"])
 async def health_check():
     rag_ready = bool(_chroma_collection)
@@ -181,10 +222,7 @@ async def scan_generate(payload: GenerateScanRequest):
         raise HTTPException(status_code=400, detail="query (ou prompt) ne peut pas être vide.")
 
     if not _chroma_collection:
-        return GenerateScanResponse(
-            response_text=f"RAG indisponible. Vous avez demandé: {user_query}",
-            context_docs=[]
-        )
+        return GenerateScanResponse(response_text=f"RAG indisponible. Vous avez demandé: {user_query}", context_docs=[])
 
     try:
         res = _rag_search(user_query, RAG_TOP_K)
@@ -193,22 +231,9 @@ async def scan_generate(payload: GenerateScanRequest):
         dists: List[float] = res.get("distances", []) or []
 
         context = _format_context(docs, metas)
-        answer = (
-            f"Question: {user_query}\n\n"
-            f"Contexte:\n{context if context else '(aucun)'}\n\n"
-            "Réponse: Synthèse basée sur les documents proches."
-        )
+        answer = (f"Question: {user_query}\n\nContexte:\n{context if context else '(aucun)'}\n\nRéponse: Synthèse basée sur les documents proches.")
 
-        context_list = [
-            {
-                "snippet": (doc or "")[:500],
-                "metadata": metas[i] if i < len(metas) else {},
-                "distance": dists[i] if i < len(dists) else None,
-                "rank": i + 1,
-            }
-            for i, doc in enumerate(docs)
-        ]
-
+        context_list = [{"snippet": (doc or "")[:500], "metadata": metas[i] if i < len(metas) else {}, "distance": dists[i] if i < len(dists) else None, "rank": i + 1,} for i, doc in enumerate(docs)]
         return GenerateScanResponse(response_text=answer, context_docs=context_list)
 
     except Exception as e:
