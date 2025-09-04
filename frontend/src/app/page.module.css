@@ -188,3 +188,56 @@
     font-size: 0.9rem;
   }
 }
+/* Ajoutez ces styles à votre page.module.css */
+
+.orSeparator {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  color: var(--kiwi-text-secondary);
+  font-size: 0.9em;
+}
+
+.orSeparator::before,
+.orSeparator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--kiwi-border-color);
+  margin: 0 10px;
+}
+
+.bitcoinLoginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 20px;
+  margin-top: 15px; /* Ajustez l'espacement si nécessaire */
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--kiwi-button-bitcoin-bg);
+  color: var(--kiwi-button-bitcoin-text);
+  box-shadow: 0 4px 10px var(--kiwi-shadow-color-button);
+  text-shadow: var(--kiwi-text-shadow);
+}
+
+.bitcoinLoginButton:hover:not(:disabled) {
+  background-color: var(--kiwi-button-bitcoin-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3); /* Plus d'ombre au survol */
+}
+
+.bitcoinLoginButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Assurez-vous que les variables CSS sont définies dans le style inline du div parent */
+/* par exemple, --kiwi-button-bitcoin-bg, --kiwi-button-bitcoin-hover-bg, --kiwi-button-bitcoin-text */

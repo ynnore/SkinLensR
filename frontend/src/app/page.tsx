@@ -7,7 +7,7 @@ import { useTheme } from '@/contexts/ThemeContext'; // Chemin d'importation corr
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
 import styles from './page.module.css';
-import { FaDownload } from 'react-icons/fa'; // Icône de téléchargement
+import { FaDownload, FaBitcoin } from 'react-icons/fa'; // Icône de téléchargement et icône Bitcoin
 
 // ✅ OBJET ALLTRANSLATIONS COMPLET ET VÉRIFIÉ AVEC TOUTES LES LANGUES
 const allTranslations = {
@@ -62,6 +62,26 @@ const allTranslations = {
       cy: 'Yn Trawsgyrru...',
       'en-AU': 'Transmitting...', 'en-NZ': 'Transmitting...', 'en-CA': 'Transmitting...', 'fr-CA': 'Transmission...', 'en-ZA': 'Besig om te stuur...', af: 'Besig om te stuur...',
     },
+    loginWithBitcoin: { // NOUVELLE TRADUCTION
+      en: 'Login with Bitcoin Wallet',
+      fr: 'Connexion avec Portefeuille Bitcoin',
+      mi: 'Takiuru mā te Pukoro Bitcoin',
+      ga: 'Logáil Isteach le Sparán Bitcoin',
+      hi: 'बिटकॉइन वॉलेट से लॉग इन करें',
+      gd: 'Log a-steach le Sporan Bitcoin',
+      cy: 'Mewngofnodi â Waled Bitcoin',
+      'en-AU': 'Login with Bitcoin Wallet', 'en-NZ': 'Login with Bitcoin Wallet', 'en-CA': 'Login with Bitcoin Wallet', 'fr-CA': 'Connexion avec Portefeuille Bitcoin', 'en-ZA': 'Meld aan met Bitcoin-beursie', af: 'Meld aan met Bitcoin-beursie',
+    },
+    connectingWallet: { // NOUVELLE TRADUCTION
+      en: 'Connecting wallet...',
+      fr: 'Connexion du portefeuille...',
+      mi: 'E hono ana te pukoro...',
+      ga: 'Ag Ceangal Sparán...',
+      hi: 'वॉलेट कनेक्ट कर रहा है...',
+      gd: 'A’ ceangal spòran...',
+      cy: 'Yn cysylltu waled...',
+      'en-AU': 'Connecting wallet...', 'en-NZ': 'Connecting wallet...', 'en-CA': 'Connecting wallet...', 'fr-CA': 'Connexion du portefeuille...', 'en-ZA': 'Koppel beursie...', af: 'Koppel beursie...',
+    },
     errorInvalid: {
       en: 'Incorrect credentials. Access denied by HQ.',
       fr: 'Identifiants incorrects. Accès refusé par le QG.',
@@ -70,9 +90,9 @@ const allTranslations = {
       hi: 'गलat क्रेडेंशियल। मुख्यालय द्वारा पहुंच अस्वीकृत।',
       gd: 'Teisteanasan ceàrr. Cha deach cead a thoirt seachad le HQ.',
       cy: 'Manylion anghywir. Gwrthodir mynediad gan y Pencadlys.',
-      'en-AU': 'Incorrect credentials. Access denied by HQ.', 'en-NZ': 'Incorrect credentials. Access denied by HQ.', 'en-CA': 'Incorrect credentials. Access denied by HQ.', 'fr-CA': 'Identifiants incorrects. Accès refusé par le QG.', 'en-ZA': 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.', af: 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.',
+      'en-AU': 'Incorrect credentials. Access denied by HQ.', 'en-NZ': 'Incorrect credentials. Access denied by HQ.', 'en-CA': 'Incorrect credentials. Accès refusé par le QG.', 'en-ZA': 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.', af: 'Verkeerde geloofsbriewe. Toegang geweier deur HQ.',
     },
-    errorGeneric: { // ✅ AJOUTÉ: Message d'erreur générique
+    errorGeneric: {
       en: 'Mission control experienced an anomaly. Please try again.',
       fr: 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
       mi: 'He hapa i te mana o te misioni. Whakamātauria anō.',
@@ -84,9 +104,18 @@ const allTranslations = {
       'en-NZ': 'Mission control experienced an anomaly. Please try again.',
       'en-CA': 'Mission control experienced an anomaly. Please try again.',
       'fr-CA': 'Le contrôle de mission a subi une anomalie. Veuillez réessayer.',
-      // ✅ CORRECTION ICI : Utilisation de guillemets doubles pour les chaînes contenant des apostrophes
       'en-ZA': "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
       af: "Missiebeheer het 'n afwyking ervaar. Probeer asseblief weer.",
+    },
+    errorNoWallet: { // NOUVELLE TRADUCTION
+      en: 'Bitcoin wallet not detected. Please install one (e.g., UniSat, Xverse).',
+      fr: 'Portefeuille Bitcoin non détecté. Veuillez en installer un (ex: UniSat, Xverse).',
+      mi: 'Kāore i kitea te pukoro Bitcoin. Tāutahia tētahi (hei tauira, UniSat, Xverse).',
+      ga: 'Níor aimsíodh sparán Bitcoin. Suiteáil ceann amháin (m.sh. UniSat, Xverse).',
+      hi: 'बिटकॉइन वॉलेट नहीं मिला। कृपया एक इंस्टॉल करें (उदा. UniSat, Xverse)।',
+      gd: 'Sporan Bitcoin gun a lorg. Stàlaich fear (m.e. UniSat, Xverse).',
+      cy: 'Waled Bitcoin heb ei ganfod. Gosodwch un (e.e. UniSat, Xverse).',
+      'en-AU': 'Bitcoin wallet not detected. Please install one (e.g., UniSat, Xverse).', 'en-NZ': 'Bitcoin wallet not detected. Please install one (e.g., UniSat, Xverse).', 'en-CA': 'Bitcoin wallet not detected. Please install one (e.g., UniSat, Xverse).', 'fr-CA': 'Portefeuille Bitcoin non détecté. Veuillez en installer un (ex: UniSat, Xverse).', 'en-ZA': 'Bitcoin-beursie nie opgespoor nie. Installeer asseblief een (bv. UniSat, Xverse).', af: 'Bitcoin-beursie nie opgespoor nie. Installeer asseblief een (bv. UniSat, Xverse).',
     },
     footerNewUser: {
       en: 'Not yet enrolled?',
@@ -141,6 +170,41 @@ function getTranslation<S extends keyof typeof allTranslations, K extends keyof 
   return translations?.[lang] || translations?.en || '';
 }
 
+// Fonction simulée pour la connexion et la signature de portefeuille Bitcoin
+// !!! IMPORTANT : Vous devrez remplacer cette fonction par une VRAIE implémentation
+// qui interagit avec le portefeuille Bitcoin de votre choix (ex: UniSat, Xverse, Leather).
+async function connectBitcoinWalletAndSign(message: string): Promise<{ address: string; signature: string } | null> {
+  // Ici, vous auriez la logique pour détecter le portefeuille,
+  // demander la connexion et obtenir une signature.
+  // Pour l'exemple, nous allons simuler cela.
+
+  console.log("Tentative de connexion au portefeuille Bitcoin...");
+
+  // Vérifiez si une extension de portefeuille est disponible (ex: window.unisat, window.xverse, window.leather)
+  // Pour UniSat :
+  if ((window as any).unisat) {
+    try {
+      const accounts = await (window as any).unisat.requestAccounts();
+      const address = accounts[0]; // Prend la première adresse
+      console.log("Portefeuille UniSat connecté. Adresse:", address);
+
+      const signature = await (window as any).unisat.signMessage(message);
+      console.log("Message signé. Signature:", signature);
+
+      return { address, signature };
+    } catch (error) {
+      console.error("Erreur lors de la connexion ou signature UniSat:", error);
+      throw new Error("Failed to connect or sign with UniSat wallet.");
+    }
+  }
+  // Ajoutez des conditions pour d'autres portefeuilles ici (ex: Xverse, Leather)
+  // else if ((window as any).xverse) { ... }
+  // else if ((window as any).leather) { ... }
+
+  // Si aucun portefeuille n'est détecté
+  throw new Error("NO_BITCOIN_WALLET_DETECTED");
+}
+
 export default function LoginPage() {
   const { theme } = useTheme();
   const { language } = useLanguage();
@@ -148,6 +212,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isWalletLoading, setIsWalletLoading] = useState(false); // Nouvel état pour le chargement du portefeuille
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -172,6 +237,11 @@ export default function LoginPage() {
   const buttonPrimaryHoverBg = theme === 'dark' ? '#004a99' : '#005edb';
   const buttonPrimaryText = theme === 'dark' ? '#E0E0E0' : 'white';
 
+  const buttonBitcoinBg = '#F7931A'; // Couleur Bitcoin Orange
+  const buttonBitcoinHoverBg = '#E08616';
+  const buttonBitcoinText = 'white';
+
+
   const errorBackground = theme === 'dark' ? '#5C2D2D' : '#FFDADA';
   const errorText = theme === 'dark' ? '#FFCACA' : '#CC0000';
   const errorBorder = theme === 'dark' ? '#CC0000' : '#FF0000';
@@ -184,38 +254,77 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      // Crée un objet FormData pour correspondre à OAuth2PasswordRequestForm de FastAPI
       const formData = new URLSearchParams();
-      formData.append('username', email); // FastAPI s'attend à 'username' pour l'email
+      formData.append('username', email);
       formData.append('password', password);
 
-      const response = await fetch('http://localhost:8000/token', { // Assurez-vous que votre backend tourne sur ce port
+      const response = await fetch('http://localhost:8000/token', {
         method: 'POST',
         headers: {
-          // IMPORTANT : Le type de contenu pour form_data est 'application/x-www-form-urlencoded'
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: formData.toString(), // Convertit l'objet URLSearchParams en chaîne
+        body: formData.toString(),
       });
 
       if (response.ok) {
         const data = await response.json();
-        // Stocke le token JWT (par exemple dans localStorage pour un démarrage rapide)
-        // Pour la production, envisagez des HttpOnly Cookies ou un système plus robuste.
         localStorage.setItem('access_token', data.access_token);
         console.log('Connexion réussie ! Token:', data.access_token);
-        router.push('/dashboard'); // Redirige vers le tableau de bord
+        router.push('/dashboard');
       } else {
         const errorData = await response.json();
-        // Utilise le message d'erreur du backend s'il est disponible, sinon une traduction générique
         setError(errorData.detail || getTranslation('loginPage', 'errorInvalid', language));
         console.error('Échec de la connexion:', errorData);
       }
     } catch (err) {
       console.error('Erreur réseau ou inattendue:', err);
-      setError(getTranslation('loginPage', 'errorGeneric', language)); // Message d'erreur générique pour les erreurs réseau
+      setError(getTranslation('loginPage', 'errorGeneric', language));
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleBitcoinLogin = async () => {
+    setIsWalletLoading(true);
+    setError(null);
+
+    try {
+      const messageToSign = `Authenticate to MyDApp. Nonce: ${Date.now()}`; // Utilisez un nonce réel côté serveur
+      const walletData = await connectBitcoinWalletAndSign(messageToSign);
+
+      if (walletData) {
+        const { address, signature } = walletData;
+        console.log('Portefeuille connecté et message signé:', { address, signature });
+
+        // Envoyer l'adresse et la signature au backend pour vérification et authentification
+        const response = await fetch('http://localhost:8000/auth/bitcoin-wallet', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ address, signature, message: messageToSign }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('access_token', data.access_token);
+          console.log('Connexion Bitcoin réussie ! Token:', data.access_token);
+          router.push('/dashboard');
+        } else {
+          const errorData = await response.json();
+          setError(errorData.detail || getTranslation('loginPage', 'errorInvalid', language));
+          console.error('Échec de la connexion Bitcoin:', errorData);
+        }
+      }
+    } catch (err: any) {
+      console.error('Erreur de connexion au portefeuille Bitcoin:', err);
+      if (err.message === "NO_BITCOIN_WALLET_DETECTED") {
+        setError(getTranslation('loginPage', 'errorNoWallet', language));
+      } else {
+        setError(getTranslation('loginPage', 'errorGeneric', language));
+      }
+    } finally {
+      setIsWalletLoading(false);
     }
   };
 
@@ -239,6 +348,9 @@ export default function LoginPage() {
         '--kiwi-button-primary-bg': buttonPrimaryBg,
         '--kiwi-button-primary-hover-bg': buttonPrimaryHoverBg,
         '--kiwi-button-primary-text': buttonPrimaryText,
+        '--kiwi-button-bitcoin-bg': buttonBitcoinBg, // Nouvelle variable CSS
+        '--kiwi-button-bitcoin-hover-bg': buttonBitcoinHoverBg, // Nouvelle variable CSS
+        '--kiwi-button-bitcoin-text': buttonBitcoinText, // Nouvelle variable CSS
         '--kiwi-shadow-color-card': shadowColorCard,
         '--kiwi-shadow-color-button': shadowColorButton,
         '--kiwi-text-shadow': `2px 2px 0px ${textShadowColor}`,
@@ -279,7 +391,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={styles.inputField}
-              disabled={isLoading}
+              disabled={isLoading || isWalletLoading}
             />
           </div>
 
@@ -296,20 +408,41 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={styles.inputField}
-              disabled={isLoading}
+              disabled={isLoading || isWalletLoading}
             />
           </div>
 
           <div>
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isWalletLoading}
               className={styles.submitButton}
             >
               {isLoading ? getTranslation('loginPage', 'submitting', language) : getTranslation('loginPage', 'submitButton', language)}
             </button>
           </div>
         </form>
+
+        {/* NOUVEAU : Bouton de connexion Bitcoin */}
+        <div className={styles.orSeparator}>
+          <span>OR</span>
+        </div>
+
+        <div>
+          <button
+            type="button"
+            onClick={handleBitcoinLogin}
+            disabled={isLoading || isWalletLoading}
+            className={styles.bitcoinLoginButton} // Nouveau style de bouton
+          >
+            {isWalletLoading ? getTranslation('loginPage', 'connectingWallet', language) : (
+              <>
+                <FaBitcoin style={{ marginRight: '8px' }} />
+                {getTranslation('loginPage', 'loginWithBitcoin', language)}
+              </>
+            )}
+          </button>
+        </div>
 
         <p className={styles.footerText}>
           {getTranslation('loginPage', 'footerNewUser', language)}{' '}

@@ -1,128 +1,127 @@
-/* Fichier: src/app/inscription/inscription.module.css */
+/* Fichier: src/app/login/login.module.css */
 
+/* Add or merge existing login styles here */
+/* Example placeholder styles if you don't have others yet */
 .pageContainer {
   padding: 2rem;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centrer le formulaire verticalement */
-  color: var(--kiwi-text-primary);
-  background-color: var(--kiwi-background-page); /* Fond de page thématique */
-  font-family: var(--font-courier-prime, 'Georgia', serif);
+  justify-content: center;
+  color: var(--kiwi-text-primary, #333333);
+  background-color: var(--kiwi-background-page, #f9fafb);
+  font-family: var(--font-courier-prime, 'Arial', sans-serif);
 }
 
-.formWrapper {
-  max-width: 500px; /* Largeur fixe pour le formulaire */
+.loginCard {
+  max-width: 450px;
   width: 100%;
   padding: 2.5rem;
-  border: 2px solid var(--kiwi-border-color); /* Bordure prononcée */
-  border-radius: 8px; /* Rayon de bordure cohérent */
-  background-color: var(--kiwi-background-section); /* Fond du formulaire */
-  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card); /* Ombre portée pour l'effet affiche */
-  box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur */
+  border-radius: 8px;
+  background-color: var(--kiwi-background-section, #ffffff);
+  border: 1px solid var(--kiwi-border-color, #e0e0e0);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  box-sizing: border-box;
 }
 
-.title {
-  font-family: var(--font-special-elite, 'Playfair Display', serif);
-  font-size: 2.8rem; /* Plus grand pour le titre principal */
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
+.mainTitle {
+  font-size: 2.5rem;
   font-weight: bold;
-  color: var(--kiwi-highlight-color); /* Titre en couleur d'accent */
-  text-shadow: var(--kiwi-text-shadow); /* Ombre pour le texte du titre */
+  text-align: center;
+  color: var(--kiwi-highlight-color, #0070f3);
   margin-bottom: 1rem;
 }
 
 .preamble {
-  font-family: var(--font-courier-prime, 'Georgia', serif);
-  font-size: 1.05rem;
-  color: var(--kiwi-text-secondary);
-  margin-top: 1.5rem;
-  margin-bottom: 2.5rem;
   text-align: center;
-  font-style: italic;
-  line-height: 1.5;
+  color: var(--kiwi-text-secondary, #666666);
+  margin-bottom: 2rem;
 }
 
-/* ✅ NOUVEAU: Styles pour les messages d'erreur et de succès */
-.errorBox, .successBox {
-  padding: 12px 20px;
-  border-radius: 8px;
-  margin-bottom: 20px; /* Espace avant le formulaire */
-  font-weight: 600;
+.errorMessage {
+  background-color: var(--kiwi-error-background, #fdd);
+  color: var(--kiwi-error-text, #A00);
+  border: 1px solid var(--kiwi-error-border, #CC0000);
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
   text-align: center;
-  color: white;
+  box-shadow: 0 0 8px rgba(255,100,100,0.3);
 }
 
-.errorBox {
-  background-color: #f8d7da; /* Rouge clair */
-  border: 1px solid #f5c6cb; /* Bordure rouge clair */
-}
-
-.successBox {
-  background-color: #d4edda; /* Vert clair */
-  border: 1px solid #c3e6cb; /* Bordure verte claire */
-}
-
-.errorBox p, .successBox p {
-  margin: 0; /* Supprime la marge par défaut des paragraphes à l'intérieur des boîtes */
-}
-
-.form {
+.loginForm {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* Espacement entre les groupes de champs */
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  margin-bottom: 1rem;
 }
 
 .label {
   display: block;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
-  color: var(--kiwi-text-primary);
-  font-family: var(--font-courier-prime, 'Georgia', serif);
-  font-size: 1.05rem;
-  text-transform: uppercase;
+  color: var(--kiwi-text-primary, #333333);
 }
 
 .inputField {
   width: 100%;
-  padding: 0.9rem 1.2rem; /* Plus de padding pour le confort */
-  border: 1px solid var(--kiwi-input-border-color);
+  padding: 10px 15px;
+  border: 1px solid var(--kiwi-input-border-color, #CCCCCC);
   border-radius: 4px;
-  background-color: var(--kiwi-input-background-color);
-  color: var(--kiwi-text-primary);
+  background-color: var(--kiwi-input-background-color, #FFFFFF);
+  color: var(--kiwi-text-primary, #333333);
   font-size: 1rem;
   box-sizing: border-box;
-  font-family: var(--font-courier-prime, 'Georgia', serif);
 }
 
 .inputField:focus {
   outline: none;
-  border-color: var(--kiwi-highlight-color); /* Bordure en couleur d'accent au focus */
-  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light); /* Ombre de focus subtile */
+  border-color: var(--kiwi-highlight-color, #0070f3);
+  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light, rgba(0,112,243,0.3));
+}
+
+.inputError {
+  border-color: var(--kiwi-error-border, #CC0000) !important;
+}
+
+.validationError {
+  color: var(--kiwi-error-text, #A00);
+  font-size: 0.85em;
+  margin-top: 5px;
+}
+
+.forgotPasswordLink {
+  display: block;
+  text-align: right;
+  margin-top: 0.5rem;
+  color: var(--kiwi-highlight-color, #0070f3);
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.forgotPasswordLink:hover {
+  text-decoration: underline;
 }
 
 .submitButton {
-  background-color: var(--kiwi-button-primary-bg);
-  color: var(--kiwi-button-primary-text);
-  padding: 1.2rem 2rem;
+  background-color: var(--kiwi-button-primary-bg, #0070f3);
+  color: var(--kiwi-button-primary-text, white);
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
-  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+  transition: background-color 0.2s ease, opacity 0.3s ease;
   width: 100%;
-  margin-top: 1rem;
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--kiwi-button-primary-hover-bg);
-  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button);
+  background-color: var(--kiwi-button-primary-hover-bg, #005bb5);
 }
 
 .submitButton:disabled {
@@ -130,98 +129,123 @@
   cursor: not-allowed;
 }
 
-/* --- Séparateur thématique --- */
-.separator {
+.socialLoginContainer {
+  margin-top: 2rem;
+}
+
+/* These styles belong in login.module.css */
+.orSeparator {
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 2.5rem 0;
+  margin: 20px 0;
+  color: var(--kiwi-text-secondary, #666666); /* Fallback colors */
+  font-size: 0.9em;
 }
 
-.separatorLine {
-  flex-grow: 1;
-  height: 1px;
-  background-color: var(--kiwi-border-color-muted); /* Ligne plus discrète */
+.orSeparator::before,
+.orSeparator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--kiwi-input-border-color, #CCCCCC); /* Fallback colors */
+  margin: 0 10px;
 }
 
-.separatorText {
-  padding: 0 1rem;
-  color: var(--kiwi-text-secondary);
-  font-family: var(--font-courier-prime, 'Georgia', serif);
-  font-size: 0.95rem;
-  text-transform: uppercase;
-}
-
-/* --- Boutons des tiers de confiance --- */
-.socialButtonsContainer {
+.bitcoinLoginButton {
+  background-color: #F7931A; /* Bitcoin Orange */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 1rem; /* Espacement entre les boutons sociaux */
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between icon and text */
+}
+
+.bitcoinLoginButton:hover:not(:disabled) {
+  background-color: var(--kiwi-button-bitcoin-hover-bg, #E08616); /* Fallback */
+  transform: translateY(-2px); /* Example: slight lift effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Example: subtle shadow */
+}
+
+.bitcoinLoginButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.socialButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+  justify-content: center;
 }
 
 .socialButton {
-  background-color: var(--kiwi-social-button-bg); /* Couleur de fond pour les boutons sociaux */
-  color: var(--kiwi-social-button-text);
-  padding: 1rem 1.5rem;
-  border: 1px solid var(--kiwi-social-button-border); /* Bordure pour les boutons sociaux */
+  background-color: var(--kiwi-input-background-color, #FFFFFF);
+  border: 1px solid var(--kiwi-input-border-color, #CCCCCC);
+  padding: 10px;
   border-radius: 5px;
-  font-size: 1.05rem;
-  font-weight: bold;
   cursor: pointer;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 2px 2px 0px var(--kiwi-shadow-color-button);
-  width: 100%;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* Allow them to grow if needed */
+  max-width: 60px; /* Adjust as needed */
 }
 
 .socialButton:hover {
-  background-color: var(--kiwi-social-button-hover-bg);
-  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+  background-color: var(--kiwi-input-background-hover, #f0f0f0);
+  border-color: var(--kiwi-highlight-color, #0070f3);
 }
 
-.footerText {
-  margin-top: 3rem;
+.registerPrompt {
   text-align: center;
-  color: var(--kiwi-text-secondary);
-  font-size: 0.95rem;
+  margin-top: 2rem;
+  color: var(--kiwi-text-secondary, #666666);
+  font-size: 0.9em;
 }
 
-.link {
-  color: var(--kiwi-highlight-color);
+.registerLink {
+  color: var(--kiwi-highlight-color, #0070f3);
   text-decoration: none;
   font-weight: bold;
-  transition: color 0.2s ease;
 }
 
-.link:hover {
-  color: var(--kiwi-text-primary);
+.registerLink:hover {
   text-decoration: underline;
 }
 
-/* Media Queries pour le Responsive Design */
+/* Media Queries for responsiveness in login */
 @media (max-width: 768px) {
-  .pageContainer {
+  .loginCard {
     padding: 1.5rem;
+    border-radius: 0;
+    box-shadow: none;
   }
 
-  .formWrapper {
-    padding: 1.8rem;
-    border-radius: 0; /* Pas de border-radius sur mobile si tu veux un effet plein écran */
-    box-shadow: none; /* Pas d'ombre portée sur mobile */
+  .mainTitle {
+    font-size: 2rem;
   }
 
-  .title {
-    font-size: 2.2rem;
-  }
-
-  .preamble {
-    font-size: 0.95rem;
-  }
-
-  .submitButton,
-  .socialButton {
-    padding: 1rem 1.5rem;
+  .submitButton, .bitcoinLoginButton {
+    padding: 10px 15px;
     font-size: 1rem;
   }
-}
 
+  .socialButtons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .socialButton {
+    max-width: none; /* Allow social buttons to take full width */
+    padding: 12px;
+  }
+}
