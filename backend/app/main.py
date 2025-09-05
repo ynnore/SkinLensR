@@ -1,9 +1,11 @@
 # ===================================================================
 # IMPORTS ET CONFIGURATION INITIALE
 # ===================================================================
+from dotenv import load_dotenv
+load_dotenv()  # charge automatiquement le .env
+
 import sys
-import pysqlite3
-sys.modules["sqlite3"] = pysqlite3
+import sqlite3  # <-- remplacé pysqlite3 par sqlite3
 
 import os
 import logging
@@ -43,8 +45,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         
         _init_chroma()
         
-        STARTUP_ERROR_HTML = None # Pas d'erreur, on s'assure que c'est vide
-        yield # L'application s'exécute
+        STARTUP_ERROR_HTML = None  # Pas d'erreur, on s'assure que c'est vide
+        yield  # L'application s'exécute
         
     except Exception as e:
         # SI LE BLOC 'TRY' PLANTE, L'ERREUR EST CAPTURÉE ICI !
@@ -58,7 +60,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         <pre><code>{error_html_content}</code></pre>
         </body></html>
         """
-        yield # On continue pour que le serveur démarre et puisse afficher l'erreur
+        yield  # On continue pour que le serveur démarre et puisse afficher l'erreur
         
     logger.info("Application shutting down...")
 

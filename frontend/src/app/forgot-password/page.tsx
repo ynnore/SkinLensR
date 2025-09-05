@@ -57,30 +57,33 @@ const ForgotPasswordPage: React.FC = () => {
 
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const email = (e.target as any).email.value;  // Récupère l'email
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  const email = (e.target as any).email.value;  // Récupère l'email
 
-    try {
-      // Envoi de la demande de réinitialisation au backend
-      const response = await fetch('/api/forgot-password', {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  try {
+    // 🔑 Utilisation de la variable d'environnement frontend
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-      if (response.ok) {
-        setMessage(getForgotPasswordTranslation('successMessage', language));
-      } else {
-        setMessage(getForgotPasswordTranslation('errorMessage', language));
-      }
-    } catch (error) {
-      console.error('Erreur:', error);
+    const response = await fetch(`${API_URL}/auth/auth/forgot-password`, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      setMessage(getForgotPasswordTranslation('successMessage', language));
+    } else {
       setMessage(getForgotPasswordTranslation('errorMessage', language));
     }
-  };
+  } catch (error) {
+    console.error('Erreur:', error);
+    setMessage(getForgotPasswordTranslation('errorMessage', language));
+  }
+};
+
 
   return (
     <div
