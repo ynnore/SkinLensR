@@ -3,7 +3,7 @@
 # ================================================
 
 # ------------------------------------------------
-# Fichiers et répertoires d'environnement/secret
+# Fichiers d'environnement/secret
 # ------------------------------------------------
 
 # Fichiers d'environnement (très important de les ignorer !)
@@ -15,20 +15,20 @@
 
 # Clés API ou de service (CRITIQUE : Ne jamais committer !)
 key.json
-# Ajoutez ici d'autres fichiers contenant des secrets, par exemple:
-# credentials.json
-# service_account.json
+credentials.json
+service_account.json
+# Ajoutez ici d'autres fichiers contenant des secrets.
 
-# Répertoires d'environnement virtuel Python
+# ------------------------------------------------
+# Fichiers et répertoires Python
+# ------------------------------------------------
+
+# Environnements virtuels
 venv/
 .venv/
 env/
-# Le .env/ est aussi ignoré par le .env au-dessus si c'est un fichier.
-
-
-# ------------------------------------------------
-# Fichiers et artefacts Python générés
-# ------------------------------------------------
+venv312/
+../venv312/ # Si votre venv est à la racine du projet et non dans le dossier backend
 
 # Cache de compilation Python
 __pycache__/
@@ -51,85 +51,66 @@ dist/
 .pip/
 pip-wheel-metadata/
 
-# Fichiers spécifiques à Alembic
-alembic/versions/*.pyc
-
+# Bases de données locales pour le développement
+*.db
+*.sqlite3
 backend/chroma_db/
-# ------------------------------------------------
-# Fichiers et répertoires Node.js / Next.js
-# ------------------------------------------------
 
-# Dépendances Node.js
-node_modules/
+# Fichiers de configuration spécifiques (ex: si vous utilisez un fichier config local)
+config.local.yaml
 
-# Répertoires de build Next.js
-.next/
-out/
+# Fichiers de test / génération de données
+fixtures/ # Si vous avez des fixtures locales volumineuses
+generated_data/
 
-# Fichiers de log des gestionnaires de paquets
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-
-# ------------------------------------------------
-# Fichiers d'éditeur/IDE
-# ------------------------------------------------
-
+# Fichiers de sauvegarde d'IDE ou d'éditeur (optionnel, mais utile)
 # VS Code
 .vscode/
-
-# IntelliJ / PyCharm (si vous utilisez un IDE JetBrains)
+# JetBrains IDEs
 .idea/
-
-# Fichiers de sauvegarde d'éditeur (Vim, Emacs, etc.)
+# Vim/Emacs
 *.swp
 *.swo
 *~
 
-
-# ------------------------------------------------
-# Fichiers de ressources spécifiques au projet
-# ------------------------------------------------
-
-# Fichiers générés par Blender
-*.blend1
-*.blend2
-# Ajoutez d'autres sauvegardes auto de Blender si besoin
-
-# Dossiers d'uploads ou de sorties générées par l'application
-uploads/
-output/
-output_renders/
-
-# Fichiers de modèle d'IA volumineux
-model.h5
-model.json # Si ce sont des fichiers générés/volumineux, sinon vous pouvez les versionner.
-# Si ces fichiers sont essentiels au fonctionnement mais sont volumineux,
-# envisagez Git LFS (Large File Storage) plutôt que de les ignorer.
-
-# Captures d'écran ou fichiers temporaires personnels
-Screenshot Try.png
-screenshot.png
-
-
-# ------------------------------------------------
-# Fichiers et entrées à clarifier
-# ------------------------------------------------
-
-# `skinlensr-blender-worker:latest` : Ceci est un nom d'image Docker,
-# non un fichier ou répertoire à ignorer par Git. Vous pouvez le supprimer.
-
-# `chat_app_flask/*.json` (répété 3 fois) :
-# Ces entrées semblent provenir d'un autre projet (`chat_app_flask`).
-# Si ce projet `SkinLensR` n'est PAS `chat_app_flask`, ces lignes sont inutiles
-# et pourraient potentiellement ignorer des fichiers JSON pertinents dans ce projet.
-# Veuillez les supprimer si elles ne s'appliquent pas à SkinLensR.
-
-
 # ------------------------------------------------
 # Fichiers système
 # ------------------------------------------------
+.DS_Store
+Thumbs.db
 
-.DS_Store # macOS
-Thumbs.db # Windows
+# ------------------------------------------------
+# Fichiers Node.js / Next.js (pour le frontend)
+# Si le .gitignore est à la racine du projet, sinon déplacez ces lignes
+# dans un .gitignore spécifique au dossier frontend.
+# ------------------------------------------------
+# Ces lignes supposent que votre .gitignore est à la racine du dépôt global.
+# Si le .gitignore est dans `backend/`, il faudrait préfixer ces chemins avec `../frontend/`
+node_modules/
+.next/
+out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# Si votre .gitignore est dans `backend/`, il faut adapter ces chemins :
+# ../frontend/node_modules/
+# ../frontend/.next/
+# ../frontend/out/
+# ...
+
+# ------------------------------------------------
+# Fichiers spécifiques au projet à ignorer
+# ------------------------------------------------
+
+# Fichiers volumineux générés ou temporaires pour SkinLensR
+kiwi_ops.db
+uvicorn # Si c'est un cache ou répertoire temporaire
+*.blend1
+*.blend2
+Screenshot Try.png
+screenshot.png
+model.h5
+model.json
+
+# Supprimez les lignes non pertinentes pour votre projet SkinLensR
+# exemple: les lignes de `chat_app_flask`
