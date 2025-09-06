@@ -20,6 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse  # <-- IMPORTÉ POUR LE DÉBOGAGE
 from pydantic import BaseModel, Field
 
+from app.routers import google_auth 
 # Variable globale pour stocker l'erreur de démarrage
 STARTUP_ERROR_HTML = None
 
@@ -176,7 +177,7 @@ app.include_router(huggingface_api.router, prefix="/huggingface", tags=["hugging
 app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 app.include_router(protected.router)
-
+app.include_router(google_auth.router, prefix="/auth")
 # ===================================================================
 # ROUTE RACINE MODIFIÉE POUR LE DÉBOGAGE
 # ===================================================================

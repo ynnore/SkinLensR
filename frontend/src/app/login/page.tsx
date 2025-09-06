@@ -322,7 +322,7 @@ export default function LoginPage() {
   };
 
   const handleSocialLogin = (provider: 'google' | 'microsoft' | 'linkedin') => {
-    const backendBaseUrl = 'https://api.kiwi-ops.com'; // Use a proper environment variable for this
+    const backendBaseUrl = 'http://localhost:8000';  // Use a proper environment variable for this
     window.location.href = `${backendBaseUrl}/login/${provider}`;
   };
 
@@ -546,6 +546,8 @@ export default function LoginPage() {
           </div>
         </div>
 
+        
+   
         <p className={styles.registerPrompt} style={{ color: mutedTextColor }}>
           {getTranslation('loginPage', 'alreadyMatricule', language)}{' '}
           <Link href="/register" className={styles.registerLink} style={{ color: highlightColor }}>
@@ -556,3 +558,4 @@ export default function LoginPage() {
     </div>
   ); // This closing tag was missing!
 }
+        
