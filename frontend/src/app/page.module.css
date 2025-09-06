@@ -1,243 +1,266 @@
-/* Fichier: src/app/page.module.css */
-
+/* Base styles */
 .pageContainer {
-  padding: 2rem;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  font-family: Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+}
+
+/* Light Mode */
+.pageContainer.lightMode {
+  background-color: #f9f9f9;
+  color: #222;
+}
+
+/* Dark Mode */
+.pageContainer.darkMode {
+  background-color: #121212;
+  color: #eee;
+}
+
+/* Navbar */
+.navbar {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centrer le formulaire verticalement */
-  color: var(--kiwi-text-primary);
-  background-color: var(--kiwi-background-page);
-  font-family: var(--font-courier-prime);
-  box-sizing: border-box; /* S'assure que padding est inclus dans la taille totale */
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: inherit;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
-.formWrapper {
-  max-width: 500px;
-  width: 100%;
-  padding: 2.5rem;
-  border: 2px solid var(--kiwi-border-color);
-  border-radius: 8px;
-  background-color: var(--kiwi-background-section);
-  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card);
-  box-sizing: border-box;
-  position: relative; /* Nécessaire pour le bouton d'installation */
-}
-
-.title {
-  font-family: var(--font-special-elite);
-  font-size: 2.8rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  text-align: center;
+.navLogo {
   font-weight: bold;
-  color: var(--kiwi-highlight-color);
-  text-shadow: var(--kiwi-text-shadow);
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
 }
 
-.errorBox {
-  background-color: var(--kiwi-error-background);
-  color: var(--kiwi-error-text);
-  border: 1px solid var(--kiwi-error-border);
-  border-radius: 4px;
-  padding: 1rem 1.5rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: bold;
-  box-shadow: 2px 2px 0px var(--kiwi-error-shadow);
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
 
-.form {
+.navLinks {
   display: flex;
-  flex-direction: column;
+  list-style: none;
   gap: 1.5rem;
 }
 
-.formGroup {
-  margin-bottom: 0;
-}
-
-.label {
-  display: block;
-  margin-bottom: 0.6rem;
-  font-weight: bold;
-  color: var(--kiwi-text-primary);
-  font-family: var(--font-courier-prime);
-  font-size: 1.05rem;
-  text-transform: uppercase;
-}
-
-.inputField {
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  border: 1px solid var(--kiwi-input-border-color);
-  border-radius: 4px;
-  background-color: var(--kiwi-input-background-color);
-  color: var(--kiwi-text-primary);
-  font-size: 1rem;
-  box-sizing: border-box;
-  font-family: var(--font-courier-prime);
-}
-
-.inputField:focus {
-  outline: none;
-  border-color: var(--kiwi-highlight-color);
-  box-shadow: 0 0 0 3px var(--kiwi-highlight-color-light);
-}
-
-.submitButton {
-  background-color: var(--kiwi-button-primary-bg);
-  color: var(--kiwi-button-primary-text);
-  padding: 1.2rem 2rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.15rem;
-  font-weight: bold;
-  cursor: pointer;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
-  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
-  width: 100%;
-  margin-top: 1rem;
-}
-
-.submitButton:hover:not(:disabled) {
-  background-color: var(--kiwi-button-primary-hover-bg);
-  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button);
-}
-
-.submitButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.footerText {
-  margin-top: 1.5rem;
-  text-align: center;
-  color: var(--kiwi-text-secondary);
-  font-size: 0.95rem;
-}
-
-.forgotPasswordText {
-  margin-top: 0.5rem;
-  text-align: center;
-  color: var(--kiwi-text-secondary);
-  font-size: 0.95rem;
-}
-
-.link {
-  color: var(--kiwi-highlight-color);
+.navLinks li a {
   text-decoration: none;
-  font-weight: bold;
+  color: inherit;
+  font-weight: 500;
   transition: color 0.3s ease;
 }
 
-.link:hover {
-  color: var(--kiwi-text-primary);
-  text-decoration: underline;
+.navLinks li a:hover {
+  color: #00aaff;
 }
 
-/* Styles du bouton d'installation */
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .menuToggle {
+    display: block;
+  }
+  .navLinks {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: inherit;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    display: none;
+  }
+  .navLinks.open {
+    display: flex;
+  }
+}
+
+/* Install button */
 .installButton {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  background: none;
+  background-color: #0070f3;
+  color: white;
   border: none;
-  color: var(--kiwi-text-secondary);
-  font-size: 1.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
   cursor: pointer;
-  transition: color 0.3s ease;
-  z-index: 10;
+  transition: background-color 0.3s ease;
 }
 
 .installButton:hover {
-  color: var(--kiwi-highlight-color);
+  background-color: #0056b3;
 }
 
-/* Media Queries pour le Responsive Design */
-@media (max-width: 768px) {
-  .pageContainer {
-    padding: 1.5rem;
-  }
-
-  .formWrapper {
-    padding: 1.8rem;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .title {
-    font-size: 2.2rem;
-  }
-
-  .submitButton {
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .installButton {
-    top: 1rem;
-    right: 1rem;
-    font-size: 1.5rem;
-  }
-  
-  .footerText, .forgotPasswordText {
-    font-size: 0.9rem;
-  }
-}
-/* Ajoutez ces styles à votre page.module.css */
-
-.orSeparator {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 20px 0;
-  color: var(--kiwi-text-secondary);
-  font-size: 0.9em;
-}
-
-.orSeparator::before,
-.orSeparator::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1px solid var(--kiwi-border-color);
-  margin: 0 10px;
-}
-
-.bitcoinLoginButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Poppy Background */
+.poppyBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 12px 20px;
-  margin-top: 15px; /* Ajustez l'espacement si nécessaire */
+  height: 150%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.poppyBackground img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: filter 0.3s ease;
+}
+
+.darkOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+/* Content wrapper */
+.contentWrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+
+/* Text section */
+.textSection {
+  text-align: center;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.askChatButton {
+  background-color: #0070f3;
+  color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 1em;
-  font-weight: 700;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  background-color: var(--kiwi-button-bitcoin-bg);
-  color: var(--kiwi-button-bitcoin-text);
-  box-shadow: 0 4px 10px var(--kiwi-shadow-color-button);
-  text-shadow: var(--kiwi-text-shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
-.bitcoinLoginButton:hover:not(:disabled) {
-  background-color: var(--kiwi-button-bitcoin-hover-bg);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3); /* Plus d'ombre au survol */
+.askChatButton:hover {
+  background-color: #0056b3;
 }
 
-.bitcoinLoginButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+/* Chat section */
+.chatSection {
+  max-width: 400px;
+  width: 100%;
+  z-index: 1;
 }
 
-/* Assurez-vous que les variables CSS sont définies dans le style inline du div parent */
-/* par exemple, --kiwi-button-bitcoin-bg, --kiwi-button-bitcoin-hover-bg, --kiwi-button-bitcoin-text */
+.chatContainer {
+  background-color: inherit;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatHeader {
+  padding: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.chatMessages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.messageBubble {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  max-width: 70%;
+}
+
+.user .messageBubble {
+  background-color: #00aaff;
+}
+
+.ai .messageBubble {
+  background-color: #555;
+}
+
+.chatInputForm {
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.chatInputField {
+  flex-grow: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+}
+
+.sendButton {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
+.sendButton:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive content */
+@media (max-width: 768px) {
+  .contentWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .textSection, .chatSection {
+    max-width: 100%;
+  }
+}
