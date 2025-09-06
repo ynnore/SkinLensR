@@ -25,7 +25,7 @@ from app.routers import google_auth, auth_router, users_router, legal_documents_
 from app.oauth import router as oauth_router
 from app.api import protected
 from app.api.endpoints import huggingface_api
-
+from app.routers import bitcoin_rpc
 # Variable globale pour stocker l'erreur de démarrage
 STARTUP_ERROR_HTML = None
 
@@ -170,7 +170,7 @@ app.include_router(huggingface_api.router, prefix="/huggingface", tags=["hugging
 app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
 app.include_router(protected.router)
 app.include_router(google_auth.router, prefix="/auth")
-
+app.include_router(bitcoin_rpc.router, prefix="/api")
 # ===================================================================
 # ROUTES DE DÉBOGAGE / RACINE
 # ===================================================================
