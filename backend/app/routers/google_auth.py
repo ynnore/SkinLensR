@@ -5,7 +5,7 @@ from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 import os
-import google.auth.oauthlib.flow
+from google_auth_oauthlib.flow import Flow
 import google.auth.transport.requests
 import google.oauth2.id_token
 import requests # Pour les appels API
@@ -19,6 +19,7 @@ from app.crud import user as crud_user
 from app.schemas.user import UserCreate, UserResponse # Adaptez UserCreate si nécessaire pour Google ID
 from app.database import get_db
 from app.core.config import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REDIRECT_URI, SCOPES, ACCESS_TOKEN_EXPIRE_MINUTES # Assurez-vous que ces variables sont chargées
+
 
 logger = logging.getLogger(__name__)
 
