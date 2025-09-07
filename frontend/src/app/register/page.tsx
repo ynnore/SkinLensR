@@ -13,48 +13,42 @@ import styles from './register.module.css'; // Assurez-vous que le chemin est co
 
 // --- Traductions ---
 const allTranslations = {
-  onboarding: { // Regroupement de toutes les traductions sous 'onboarding' pour l'appel à getTranslation
-    // Traduction pour le titre de la page d'accueil /kiwi-ops (si vous en avez une)
-    // sectionWelcomeKiwiOps: { en: "Welcome to Kiwi-Ops", fr: "Bienvenue sur Kiwi-Ops", ... },
+  onboarding: {
+    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', hi: 'लॉगिन', gd: 'Log a-steach', af: 'Teken In' },
+    stepRegister: { en: 'Register', fr: 'Inscription', mi: 'Rēhita', hi: 'पंजीकरण', gd: 'Clàradh', af: 'Registreer' },
+    stepTerms: { en: 'Terms', fr: 'Conditions', mi: 'Ngā Tikanga', hi: 'शर्तें', gd: 'Cumhachan', af: 'Voorwaardes' },
+    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Kaupapahere Tūmataiti', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', af: 'Privaatheidsbeleid' },
+    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', af: 'Instellings' },
+    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', hi: 'मूल्य निर्धारण', gd: 'Prìsean', af: 'Prysing' },
+    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', hi: 'भुगतान', gd: 'Pàigheadh', af: 'Betaling' },
+    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', af: 'Profiel' },
 
-    // Clés pour les labels des étapes dans la barre de progression.
-    stepLogin: { en: 'Login', fr: 'Connexion', mi: 'Takiuru', ga: 'Logáil Isteach', hi: 'लॉगिन', gd: 'Log a-steach', af: 'Teken In' },
-    stepRegister: { en: 'Register', fr: 'Inscription', mi: 'Rēhita', ga: 'Clárú', hi: 'पंजीकरण', gd: 'Clàradh', af: 'Registreer' },
-    stepTerms: { en: 'Terms', fr: 'Conditions', mi: 'Nga Tikanga', ga: 'Telermaí', hi: 'शर्तें', gd: 'Cumhachan', af: 'Voorwaardes' },
-    stepPrivacyPolicy: { en: 'Privacy Policy', fr: 'Politique de confidentialité', mi: 'Kaupapahere Tūmataiti', ga: 'Polasaí Príobháideachta', hi: 'गोपनीयता नीति', gd: 'Poileasaidh Prìobhaideachd', af: 'Privaatheidsbeleid' },
-    stepSettings: { en: 'Settings', fr: 'Paramètres', mi: 'Tautuhinga', ga: 'Suíomhanna', hi: 'सेटिंग्स', gd: 'Rèiteachaidhean', af: 'Instellings' },
-    stepPricing: { en: 'Pricing', fr: 'Tarifs', mi: 'Utu', ga: 'Praghsáil', hi: 'मूल्य निर्धारण', gd: 'Prìsean', af: 'Prysing' },
-    stepPay: { en: 'Payment', fr: 'Paiement', mi: 'Utu', ga: 'Íocaíocht', hi: 'भुगतान', gd: 'Pàigheadh', af: 'Betaling' },
-    stepProfile: { en: 'Profile', fr: 'Profil', mi: 'Kōtaha', ga: 'Próifíl', hi: 'प्रोफ़ाइल', gd: 'Pròifìl', af: 'Profiel' },
+    privacyIntro: { en: "Introduction", fr: "Introduction", mi: "Kupu Whakataki", hi: "परिचय", gd: "Ro-ràdh", af: "Inleiding" },
+    privacyDataCollected: { en: "Data We Collect", fr: "Données que nous collectons", mi: "Ngā Raraunga Ka Kohia", hi: "हम जो डेटा एकत्र करते हैं", gd: "Dàta a chruinnicheas sinn", af: "Die data wat ons insamel" },
+    privacyDataCollectionMethods: { en: "How We Collect Data", fr: "Comment nous collectons ces données", mi: "Me pēhea te Kohikohi Raraunga", hi: "हम डेटा कैसे इकट्ठा करते हैं", gd: "Mar a chruinnicheas sinn dàta", af: "Hoe ons data insamel" },
+    privacyUsage: { en: "Why We Use Your Data", fr: "Pourquoi nous utilisons vos données", mi: "Te Take mō te Whakamahi Raraunga", hi: "हम आपके डेटा का उपयोग क्यों करते हैं", gd: "Carson a bhios sinn a’ cleachdadh d’ fhiosrachaidh", af: "Hoekom ons jou data gebruik" },
+    privacySharing: { en: "Data Sharing", fr: "Partage de vos données", mi: "Te Tiri Raraunga", hi: "डेटा साझा करना", gd: "Co-roinneadh dàta", af: "Datadeling" },
+    privacyRetention: { en: "Data Retention", fr: "Conservation des données", mi: "Te Rokiroki Raraunga", hi: "डेटा का संरक्षण", gd: "Glèidheadh dàta", af: "Dataretensie" },
+    privacySecurity: { en: "Data Security", fr: "Sécurité des données", mi: "Te Haumarutanga Raraunga", hi: "डेटा सुरक्षा", gd: "Tèarainteachd dàta", af: "Datasekuriteit" },
+    privacyRights: { en: "Your Rights", fr: "Vos droits", mi: "Ō Tika", hi: "आपके अधिकार", gd: "Na còraichean agad", af: "Jou regte" },
+    privacyInternational: { en: "International Data Transfers", fr: "Transferts internationaux de données", mi: "Te Whakawhitiwhiti Raraunga ā-Ao", hi: "अंतरराष्ट्रीय डेटा स्थानांतरण", gd: "Gluasad dàta eadar-nàiseanta", af: "Internasionale data-oordragte" },
+    privacyCookies: { en: "Use of Cookies", fr: "Utilisation des cookies", mi: "Te Whakamahi Pihikete", hi: "कुकीज़ का उपयोग", gd: "Cleachdadh bhriosgaidean", af: "Gebruik van koekies" },
+    privacyThirdParties: { en: "Third-Party Services", fr: "Services tiers", mi: "Ngā Ratonga Tuatoru", hi: "तृतीय-पक्ष सेवाएँ", gd: "Seirbheisean treas-phàrtaidh", af: "Derdedienste" },
+    privacyChanges: { en: "Changes to This Policy", fr: "Modifications de cette politique", mi: "Ngā Panonitanga ki tēnei Kaupapahere", hi: "इस नीति में परिवर्तन", gd: "Atharrachaidhean air a’ phoileasaidh seo", af: "Veranderinge aan hierdie beleid" },
+    privacyContact: { en: "Contact", fr: "Contact", mi: "Whakapā", hi: "संपर्क", gd: "Cuir fios", af: "Kontak" },
 
-    // Clés pour les sections de contenu de la politique de confidentialité.
-    privacyIntro: { en: "Introduction", fr: "Introduction", mi: "Kupu Whakataki", ga: "Réamhrá", hi: "परिचय", gd: "Ro-ràdh", af: "Inleiding" },
-    privacyDataCollected: { en: "Data We Collect", fr: "Données que nous collectons", mi: "Ngā Raraunga Ka Kohia", ga: "Sonraí a Bhailímid", hi: "हम जो डेटा एकत्र करते हैं", gd: "Dàta a chruinnicheas sinn", af: "Die data wat ons insamel" }, // Correction: ajout de 'af' pour DataCollected
-    privacyDataCollectionMethods: { en: "How We Collect Data", fr: "Comment nous collectons ces données", mi: "Me pēhea te Kohikohi Raraunga", ga: "Conas a Bhailímid Sonraí", hi: "हम डेटा कैसे इकट्ठा करते हैं", gd: "Mar a chruinnicheas sinn dàta", af: "Hoe ons data insamel" },
-    privacyUsage: { en: "Why We Use Your Data", fr: "Pourquoi nous utilisons vos données", mi: "Te Take mō te Whakamahi Raraunga", ga: "Cén Fáth a nÚsáidimid do Shonraí", hi: "हम आपके डेटा का उपयोग क्यों करते हैं", gd: "Carson a bhios sinn a’ cleachdadh d’ fhiosrachaidh", af: "Hoekom ons jou data gebruik" },
-    privacySharing: { en: "Data Sharing", fr: "Partage de vos données", mi: "Te Tiri Raraunga", ga: "Comhroinnt Sonraí", hi: "डेटा साझा करना", gd: "Co-roinneadh dàta", af: "Data Deling" },
-    privacyRetention: { en: "Data Retention", fr: "Conservation des données", mi: "Te Rokiroki Raraunga", ga: "Coinneáil Sonraí", hi: "डेटा का संरक्षण", gd: "Glèidheadh dàta", af: "Data Retensie" },
-    privacySecurity: { en: "Data Security", fr: "Sécurité des données", mi: "Te Haumarutanga Raraunga", ga: "Slándáil Sonraí", hi: "डेटा सुरक्षा", gd: "Tèarainteachd dàta", af: "Data Sekuriteit" },
-    privacyRights: { en: "Your Rights", fr: "Vos droits", mi: "Ō Tika", ga: "Do Chearta", hi: "आपके अधिकार", gd: "Na còraichean agad", af: "Jou Regte" },
-    privacyInternational: { en: "International Data Transfers", fr: "Transferts internationaux de données", mi: "Te Whakawhitiwhiti Raraunga ā-Ao", ga: "Aistrithe Sonraí Idirnáisiúnta", hi: "अंतरराष्ट्रीय डेटा स्थानांतरण", gd: "Gluasad dàta eadar-nàiseanta", af: "Internasionale Data-oordragte" },
-    privacyCookies: { en: "Use of Cookies", fr: "Utilisation des cookies", mi: "Te Whakamahi Pihikete", ga: "Úsáid Fianáin", hi: "कुकीज़ का उपयोग", gd: "Cleachdadh briosgaidean", af: "Gebruik van Koekies" },
-    privacyThirdParties: { en: "Third-Party Services", fr: "Services tiers", mi: "Ngā Ratonga Tuatoru", ga: "Seirbhísí Tríú Páirtí", hi: "तृतीय-पक्ष सेवाएँ", gd: "Seirbheisean treas-phàrtaidh", af: "Derdepartydienste" },
-    privacyChanges: { en: "Changes to This Policy", fr: "Modifications de cette politique", mi: "Ngā Panonitanga ki tēnei Kaupapahere", ga: "Athruithe ar an bPolasaí seo", hi: "इस नीति में परिवर्तन", gd: "Atharrachaidhean air a’ phoileasaidh seo", af: "Veranderinge aan hierdie Beleid" },
-    privacyContact: { en: "Contact", fr: "Contact", mi: "Whakapā", ga: "Déan Teagmháil", hi: "संपर्क", gd: "Cuir fios", af: "Kontak Ons" },
+    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Tāria', hi: 'लंबित', gd: 'A’ feitheamh', af: 'Hangende' },
+    statusCurrent: { en: 'Current', fr: 'En cours', mi: 'I tēnei wā', hi: 'वर्तमान', gd: 'An-dràsta', af: 'Huidige' },
+    statusCompleted: { en: 'Completed', fr: 'Terminé', mi: 'Kua oti', hi: 'पूर्ण', gd: 'Crìochnaichte', af: 'Voltooid' },
 
-    // Clés pour les statuts des étapes (nécessaires pour getStepStatus)
-    statusPending: { en: 'Pending', fr: 'En attente', mi: 'Tāria', ga: 'Ag fanacht', hi: 'लंबित', gd: 'A’ feitheamh', af: 'Hangende' },
-    statusCurrent: { en: 'Current', fr: 'Actuelle', mi: 'I tēnei wā', ga: 'Reatha', hi: 'वर्तमान', gd: 'An-dràsta', af: 'Huidige' },
-    statusCompleted: { en: 'Completed', fr: 'Terminée', mi: 'Kua oti', ga: 'Críochnaithe', hi: 'पूर्ण', gd: 'Crìochnachadh', af: 'Voltooid' },
-
-    // Traductions pour le bloc de développement (utilisé pour la page /register si elle est affichée)
-    developmentTitle: { en: 'Under Development', fr: 'En cours de développement', mi: 'Kei te whakawhanakehia', ga: 'Faoi Fhorbairt', hi: 'विकास के अधीन', gd: 'Fo leasachadh', af: 'Onder Ontwikkeling' },
-    developmentMessage: { en: 'This section is currently under construction. We are working hard to bring you new features!', fr: 'Cette section est actuellement en cours de construction. Nous travaillons dur pour vous apporter de nouvelles fonctionnalités !', mi: 'Kei te hangaia tonu tenei waahanga. Kei te kaha taatau ki te kawe mai i nga ahuatanga hou ki a koe!', ga: 'Tá an chuid seo á thógáil suas faoi láthair. Táimid ag obair go cruaidh chun gnéithe nua a thabhairt chugat!', hi: 'यह अनुभाग वर्तमान में निर्माण के अधीन है। हम आपको नई सुविधाएँ लाने के लिए कड़ी मेहनत कर रहे हैं!', gd: 'Tha an roinn seo fo thogail an-dràsta. Tha sinn ag obair gu cruaidh gus feartan ùra a thoirt thugad!', af: 'Hierdie afdeling is tans onder konstruksie. Ons werk hard om nuwe funksies aan te bied!' },
-    betaTag: { en: 'Beta Version', fr: 'Version Bêta', mi: 'Putanga Beta', ga: 'Leagan Beta', hi: 'बीटा संस्करण', gd: 'Tionndadh Beta', af: 'Beta Weergawe' },
-    stayTuned: { en: 'Stay tuned for updates!', fr: 'Restez à l\'écoute pour les mises à jour !', mi: 'Noho hei kaikōrero mo nga whakahoutanga!', ga: 'Fan tiúnta le haghaidh nuashonruithe!', hi: 'अद्यतनों के लिए ट्यून रहें!', gd: 'Fuirich airson ùrachaidhean!', af: 'Bly ingeskakel vir opdaterings!' },
-    copyright: { en: 'Your Company Name. All rights reserved.', fr: 'Nom de votre entreprise. Tous droits réservés.', mi: 'Ingoa Kamupene Kai. Pānga katoa te mana.', ga: 'Ainm do Chuideachta. Gach ceart ar cosaint.', hi: 'आपकी कंपनी का नाम। सर्वाधिकार सुरक्षित।', gd: 'Ainm do Chompanaidh. Gach còir glèidhte.', af: 'Jou Maatskappy Naam. Alle regte voorbehou.' }
+    developmentTitle: { en: 'Under Development', fr: 'En cours de développement', mi: 'Kei te whakawhanakehia', hi: 'विकास के अधीन', gd: 'Fo leasachadh', af: 'Onder ontwikkeling' },
+    developmentMessage: { en: 'This section is currently under construction. We are working hard to bring you new features!', fr: 'Cette section est actuellement en cours de construction. Nous travaillons dur pour vous apporter de nouvelles fonctionnalités !', mi: 'Kei te hangaia tonu tēnei wāhanga. Kei te kaha mātou ki te kawe mai i ngā āhuatanga hou ki a koe!', hi: 'यह अनुभाग वर्तमान में निर्माण के अधीन है। हम आपको नई सुविधाएँ लाने के लिए कड़ी मेहनत कर रहे हैं!', gd: 'Tha an earrann seo fo thogail an-dràsta. Tha sinn ag obair gu cruaidh gus feartan ùra a thoirt thugad!', af: 'Hierdie afdeling is tans onder konstruksie. Ons werk hard om nuwe funksies te bring!' },
+    betaTag: { en: 'Beta Version', fr: 'Version Bêta', mi: 'Putanga Beta', hi: 'बीटा संस्करण', gd: 'Tionndadh Beta', af: 'Beta-weergawe' },
+    stayTuned: { en: 'Stay tuned for updates!', fr: 'Restez à l’écoute pour les mises à jour !', mi: 'Noho hei kaikōrero mō ngā whakahōutanga!', hi: 'अद्यतनों के लिए ट्यून रहें!', gd: 'Fuirich airson ùrachaidhean!', af: 'Bly ingeskakel vir opdaterings!' },
+    copyright: { en: 'Kiwi-Ops. All rights reserved.', fr: 'Kiwi-Ops. Tous droits réservés.', mi: 'Kiwi-Ops. Katoa ngā motika.', hi: 'Kiwi-Ops. सर्वाधिकार सुरक्षित।', gd: 'Kiwi-Ops. Gach còir glèidhte.', af: 'Kiwi-Ops. Alle regte voorbehou.' }
   }
 };
+
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, lang: LanguageCode): string {
   const keys = keyPath.split('.');
