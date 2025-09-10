@@ -1,179 +1,158 @@
-/* Fichier: src/app/pricing/pricing.module.css */
+/* Fichier: pricing.module.css */
 
+/* --- Conteneur Général --- */
 .pageContainer {
-  padding: 2rem;
-  max-width: 1200px; /* Plus large pour les grilles de prix */
+  padding: 2rem 1rem;
+  max-width: 1200px;
   margin: 0 auto;
-  line-height: 1.6;
-  font-size: 1rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   color: var(--kiwi-text-primary);
-  background-color: var(--kiwi-background-page); /* Lit la variable injectée */
-  font-family: var(--font-courier-prime); /* Lit la variable injectée */
+  background-color: var(--kiwi-background-page);
 }
 
 .title {
-  font-family: var(--font-special-elite);
-  font-size: 3.5rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: 2.5rem;
   text-align: center;
-  font-weight: bold;
-  color: var(--kiwi-text-primary);
+  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
   text-shadow: var(--kiwi-text-shadow);
-  margin-bottom: 1rem;
 }
 
 .subtitle {
-  font-family: var(--font-courier-prime);
-  font-style: italic;
-  margin-bottom: 3rem;
   text-align: center;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
   color: var(--kiwi-text-secondary);
-  font-size: 1.15rem;
-  max-width: 85ch;
-  border-bottom: 1px dashed var(--kiwi-border-color);
-  padding-bottom: 1rem;
 }
 
-/* Grille des plans tarifaires */
+/* --- Grille des Tarifs --- */
 .pricingGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 3 colonnes flexibles */
-  gap: 2.5rem; /* Espacement entre les cartes */
-  width: 100%;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: stretch; /* Les cartes auront la même hauteur */
 }
 
+/* --- Carte de Tarif --- */
 .pricingCard {
-  background-color: var(--kiwi-background-section);
-  border: 2px solid var(--kiwi-border-color);
-  border-radius: 8px;
-  padding: 2.5rem 2rem;
-  box-shadow: 7px 7px 0px var(--kiwi-shadow-color-card);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  flex-direction: column; /* Organise le contenu verticalement */
+  border: 1px solid var(--kiwi-border-color);
+  background-color: var(--kiwi-background-section);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px var(--kiwi-shadow-color-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .pricingCard:hover {
-  transform: translateY(-10px);
-  box-shadow: 10px 10px 20px var(--kiwi-shadow-color-hover);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--kiwi-shadow-color-card);
 }
 
 .cardHeader {
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .planName {
-  font-family: var(--font-special-elite);
-  font-size: 2.2rem;
-  text-transform: uppercase;
-  color: var(--kiwi-highlight-color);
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .planDescription {
-  font-size: 0.95rem;
   color: var(--kiwi-text-secondary);
-  font-style: italic;
+  min-height: 40px; /* Assure un alignement même si les descriptions ont des longueurs différentes */
 }
 
 .price {
-  font-family: var(--font-special-elite);
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  color: var(--kiwi-text-primary);
-  margin: 1.5rem 0;
-  line-height: 1;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .price span {
-  font-size: 1.5rem; /* Pour le /mois ou /an */
+  font-size: 1rem;
   font-weight: normal;
   color: var(--kiwi-text-secondary);
 }
 
+/* --- Liste des fonctionnalités --- */
 .featuresList {
-  list-style: none; /* Supprime les puces */
+  list-style: none;
   padding: 0;
-  margin: 1.5rem 0 2.5rem;
-  text-align: left;
-  width: 80%; /* Pour centrer la liste */
+  margin: 0 0 2rem 0;
+  flex-grow: 1; /* Pousse les boutons vers le bas */
 }
 
 .featuresList li {
-  font-family: var(--font-courier-prime);
-  margin-bottom: 0.8rem;
-  color: var(--kiwi-text-primary);
-  font-size: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem; /* Espacement icône/texte */
+  margin-bottom: 1rem;
 }
 
-.featureIcon { /* Style pour l'icône de la feature */
+.featureIcon {
   color: var(--kiwi-highlight-color);
+  margin-right: 0.75rem;
   font-size: 1.2rem;
 }
 
-.callToAction {
-  background-color: var(--kiwi-button-primary-bg);
-  color: var(--kiwi-button-primary-text);
-  padding: 1.2rem 2.5rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
+/* --- Conteneur des Boutons d'Action (CTA) --- */
+.ctaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Espace entre les boutons */
+  margin-top: auto; /* Pousse le conteneur en bas de la carte */
+}
+
+/* --- Style des Boutons --- */
+.callToAction, .bitcoinButton {
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 3px 3px 0px var(--kiwi-shadow-color-button);
+  transition: all 0.2s ease-in-out;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 100%;
-  margin-top: auto; /* Pour pousser le bouton en bas de la carte si la liste est plus courte */
+}
+
+.callToAction {
+  background-color: #0070f3; /* Bleu par défaut */
+  color: white;
 }
 
 .callToAction:hover {
-  background-color: var(--kiwi-button-primary-hover-bg);
-  box-shadow: 4px 4px 0px var(--kiwi-shadow-color-button);
+  background-color: #005edb;
+  transform: translateY(-2px);
 }
 
+.bitcoinButton {
+  background-color: #f7931a; /* Orange Bitcoin */
+  color: white;
+}
+
+.bitcoinButton:hover {
+  background-color: #e08310;
+  transform: translateY(-2px);
+}
+
+.bitcoinIcon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+/* --- Footer --- */
 .globalFooter {
   text-align: center;
   margin-top: 4rem;
-  font-size: 0.8rem;
   color: var(--kiwi-text-secondary);
-}
-
-/* Responsive pour les petits écrans */
-@media (max-width: 768px) {
-  .pageContainer {
-    padding: 1.5rem;
-  }
-  .title {
-    font-size: 2.5rem;
-  }
-  .pricingGrid {
-    grid-template-columns: 1fr; /* Une seule colonne sur mobile */
-  }
-  .pricingCard {
-    box-shadow: none; /* Supprime les ombres sur mobile pour alléger */
-  }
-  .pricingCard:hover {
-    transform: none; /* Désactive le survol sur mobile */
-    box-shadow: none;
-  }
-  .price {
-    font-size: 3rem;
-  }
-  .featuresList {
-    width: 95%;
-  }
 }

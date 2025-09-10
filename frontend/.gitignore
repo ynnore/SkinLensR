@@ -1,25 +1,65 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Fichier .gitignore final et propre
 
-# dependencies
+# ==============================================================================
+# Fichiers Système et IDE
+# Fichiers spécifiques à l'OS ou à l'éditeur de code
+# ==============================================================================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+frontend.code-workspace
+.hintrc
+
+# ==============================================================================
+# Dépendances & Build (Node.js / Frontend)
+# Ne jamais commiter les paquets, seulement la liste (package.json)
+# ==============================================================================
 /node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
-
-# production
 /build
 /.next/
 /out/
+/coverage
 
-# misc
-.DS_Store
-*.pem
+# ==============================================================================
+# Environnement & Dépendances (Python / Backend)
+# Ne jamais commiter l'environnement virtuel ou les paquets installés
+# ==============================================================================
+/backend/venv
+/backend/python
+/backend/uvicorn
+/backend/pip
+/backend/cd
+/backend/rmdir
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ==============================================================================
+# Fichiers de Log
+# Les logs sont spécifiques à une exécution et ne doivent pas être versionnés
+# ==============================================================================
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.env*.local
+*.log
+
+# ==============================================================================
+# Sécurité - Fichiers d'environnement
+# NE JAMAIS PARTAGER VOS CLÉS SECRÈTES, MOTS DE PASSE OU CLÉS D'API
+# ==============================================================================
+.env
+.env.*
+!.env.example  # Important: Inclure le fichier d'exemple
+
+# ==============================================================================
+# Fichiers Temporaires / Générés / Erreurs
+# Fichiers qui ne font pas partie du code source
+# ==============================================================================
+*.pem
 .vercel
-.gitattributes
-frontend.code-workspace
+pip
+backend/app/txid  # Pour ignorer le fichier 'txid' que nous avons vu

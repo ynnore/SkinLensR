@@ -1,4 +1,3 @@
-      
 'use client';
 
 import React from 'react';
@@ -6,7 +5,8 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types';
 import styles from './pricing.module.css';
-import { FaCheckCircle, FaTimesCircle, FaStar } from 'react-icons/fa';
+// 1. Importer l'icône FaBitcoin
+import { FaCheckCircle, FaTimesCircle, FaStar, FaBitcoin } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 
 // Définitions des traductions pour cette page
@@ -222,7 +222,6 @@ const allTranslations = {
       gd: 'Kiwi-Ops – Protocolan Ionmhasail Tèarainte.',
       'en-AU': 'Kiwi-Ops – Secure Financial Protocols.', 'en-NZ': 'Kiwi-Ops – Secure Financial Protocols.', 'en-CA': 'Kiwi-Ops – Secure Financial Protocols.', 'fr-CA': 'Kiwi-Ops – Protocoles Financiers Sécurisés.', 'en-ZA': 'Kiwi-Ops – Veilige Finansiële Protokolle.', af: 'Kiwi-Ops – Veilige Finansiële Protokolle.'
     },
-    // Ajout de la traduction pour 'month' pour la page pricing elle-même
     month: {
         en: 'month',
         fr: 'mois',
@@ -231,7 +230,17 @@ const allTranslations = {
         hi: 'महीना',
         gd: 'mìos',
         'en-AU': 'month', 'en-NZ': 'month', 'en-CA': 'month', 'fr-CA': 'mois', 'en-ZA': 'month', af: 'maand'
-    }
+    },
+    // 2. Ajouter la traduction pour le bouton Bitcoin
+    payWithBitcoin: {
+      en: 'Pay with Bitcoin Wallet',
+      fr: 'Payer avec Bitcoin Wallet',
+      mi: 'Utu me te Pukoro Bitcoin',
+      ga: 'Íoc le Sparán Bitcoin',
+      hi: 'बिटकॉइन वॉलेट से भुगतान करें',
+      gd: 'Pàigh le Bitcoin Wallet',
+      'en-AU': 'Pay with Bitcoin Wallet', 'en-NZ': 'Pay with Bitcoin Wallet', 'en-CA': 'Pay with Bitcoin Wallet', 'fr-CA': 'Payer avec Bitcoin Wallet', 'en-ZA': 'Pay with Bitcoin Wallet', af: 'Betaal met Bitcoin Wallet'
+    },
   }
 };
 
@@ -315,7 +324,7 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planBasicDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €0<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
+            €0<span>/{getTranslation('pricingPage', 'month', language)}</span>
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'basicFeature1', language)}</li>
@@ -339,7 +348,7 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planStandardDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €29<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
+            €29<span>/{getTranslation('pricingPage', 'month', language)}</span>
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'standardFeature1', language)}</li>
@@ -354,6 +363,14 @@ export default function PricingPage() {
           >
             {getTranslation('pricingPage', 'standardCta', language)}
           </button>
+          {/* 3. Ajouter le bouton Bitcoin ici */}
+          <button
+            className={styles.bitcoinButton}
+            onClick={() => console.log('Logique de paiement Bitcoin pour le plan Standard')}
+          >
+            <FaBitcoin className={styles.bitcoinIcon} />
+            {getTranslation('pricingPage', 'payWithBitcoin', language)}
+          </button>
         </div>
 
         {/* Carte de Plan Premium */}
@@ -366,7 +383,7 @@ export default function PricingPage() {
             <p className={styles.planDescription}>{getTranslation('pricingPage', 'planPremiumDescription', language)}</p>
           </div>
           <p className={styles.price}>
-            €79<span>/{getTranslation('pricingPage', 'month', language)}</span> {/* <-- CORRECTION ICI */}
+            €79<span>/{getTranslation('pricingPage', 'month', language)}</span>
           </p>
           <ul className={styles.featuresList}>
             <li><FaCheckCircle className={styles.featureIcon} /> {getTranslation('pricingPage', 'premiumFeature1', language)}</li>
@@ -381,6 +398,14 @@ export default function PricingPage() {
           >
             {getTranslation('pricingPage', 'premiumCta', language)}
           </button>
+          {/* 3. Ajouter le bouton Bitcoin ici aussi */}
+          <button
+            className={styles.bitcoinButton}
+            onClick={() => console.log('Logique de paiement Bitcoin pour le plan Premium')}
+          >
+            <FaBitcoin className={styles.bitcoinIcon} />
+            {getTranslation('pricingPage', 'payWithBitcoin', language)}
+          </button>
         </div>
       </div>
 
@@ -390,5 +415,3 @@ export default function PricingPage() {
     </div>
   );
 }
-
-    
