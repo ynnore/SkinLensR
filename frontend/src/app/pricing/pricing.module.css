@@ -1,20 +1,51 @@
 /* Fichier: pricing.module.css */
 
-/* --- Conteneur Général --- */
+/* --- Conteneur Général avec Fond d'écran --- */
 .pageContainer {
-  padding: 2rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  color: var(--kiwi-text-primary);
-  background-color: var(--kiwi-background-page);
+  background-image: url('/images/pricing-bg.jpg');
+  
+  /* MODIFICATION ICI : Remplacer 'cover' par une valeur en pourcentage */
+  background-size: 150%; /* Vous pouvez ajuster cette valeur (ex: 120%, 180%) */
+  
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  position: relative;
+  width: 100%;
 }
 
+/* --- Overlay pour la lisibilité --- */
+.pageContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--kiwi-overlay-color);
+  z-index: 0;
+}
+
+/* --- Wrapper pour le Contenu --- */
+.contentWrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  padding: 4rem 1rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* --- Titres --- */
 .title {
   font-size: 2.5rem;
   text-align: center;
   margin-bottom: 0.5rem;
   font-family: 'Playfair Display', serif;
   text-shadow: var(--kiwi-text-shadow);
+  color: var(--kiwi-text-primary);
 }
 
 .subtitle {
@@ -29,15 +60,16 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  align-items: stretch; /* Les cartes auront la même hauteur */
+  align-items: stretch;
 }
 
 /* --- Carte de Tarif --- */
 .pricingCard {
   display: flex;
-  flex-direction: column; /* Organise le contenu verticalement */
+  flex-direction: column;
   border: 1px solid var(--kiwi-border-color);
   background-color: var(--kiwi-background-section);
+  backdrop-filter: blur(5px);
   border-radius: 8px;
   padding: 2rem;
   box-shadow: 0 4px 12px var(--kiwi-shadow-color-card);
@@ -52,6 +84,7 @@
 .cardHeader {
   margin-bottom: 1.5rem;
   text-align: center;
+  color: var(--kiwi-text-primary);
 }
 
 .planName {
@@ -65,7 +98,7 @@
 
 .planDescription {
   color: var(--kiwi-text-secondary);
-  min-height: 40px; /* Assure un alignement même si les descriptions ont des longueurs différentes */
+  min-height: 40px;
 }
 
 .price {
@@ -73,6 +106,7 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
+  color: var(--kiwi-text-primary);
 }
 
 .price span {
@@ -86,7 +120,8 @@
   list-style: none;
   padding: 0;
   margin: 0 0 2rem 0;
-  flex-grow: 1; /* Pousse les boutons vers le bas */
+  flex-grow: 1;
+  color: var(--kiwi-text-primary);
 }
 
 .featuresList li {
@@ -105,8 +140,8 @@
 .ctaContainer {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem; /* Espace entre les boutons */
-  margin-top: auto; /* Pousse le conteneur en bas de la carte */
+  gap: 0.75rem;
+  margin-top: auto;
 }
 
 /* --- Style des Boutons --- */
@@ -126,7 +161,7 @@
 }
 
 .callToAction {
-  background-color: #0070f3; /* Bleu par défaut */
+  background-color: #0070f3;
   color: white;
 }
 
@@ -136,7 +171,7 @@
 }
 
 .bitcoinButton {
-  background-color: #f7931a; /* Orange Bitcoin */
+  background-color: #f7931a;
   color: white;
 }
 
