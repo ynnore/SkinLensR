@@ -5,19 +5,14 @@
 # ------------------------------------------------
 # Fichiers d'environnement/secret
 # ------------------------------------------------
-
-# Fichiers d'environnement (très important de les ignorer !)
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Clés API ou de service (CRITIQUE : Ne jamais committer !)
 key.json
 credentials.json
 service_account.json
-# Ajoutez ici d'autres fichiers contenant des secrets.
 
 # ------------------------------------------------
 # Fichiers et répertoires Python
@@ -28,7 +23,7 @@ venv/
 .venv/
 env/
 venv312/
-../venv312/ # Si votre venv est à la racine du projet et non dans le dossier backend
+../venv312/
 
 # Cache de compilation Python
 __pycache__/
@@ -50,25 +45,23 @@ dist/
 # Caches pip
 .pip/
 pip-wheel-metadata/
+pip/
 
 # Bases de données locales pour le développement
 *.db
 *.sqlite3
 backend/chroma_db/
 
-# Fichiers de configuration spécifiques (ex: si vous utilisez un fichier config local)
+# Fichiers de configuration spécifiques
 config.local.yaml
 
 # Fichiers de test / génération de données
-fixtures/ # Si vous avez des fixtures locales volumineuses
+fixtures/
 generated_data/
 
-# Fichiers de sauvegarde d'IDE ou d'éditeur (optionnel, mais utile)
-# VS Code
+# Fichiers de sauvegarde d'IDE ou d'éditeur
 .vscode/
-# JetBrains IDEs
 .idea/
-# Vim/Emacs
 *.swp
 *.swo
 *~
@@ -81,36 +74,22 @@ Thumbs.db
 
 # ------------------------------------------------
 # Fichiers Node.js / Next.js (pour le frontend)
-# Si le .gitignore est à la racine du projet, sinon déplacez ces lignes
-# dans un .gitignore spécifique au dossier frontend.
 # ------------------------------------------------
-# Ces lignes supposent que votre .gitignore est à la racine du dépôt global.
-# Si le .gitignore est dans `backend/`, il faudrait préfixer ces chemins avec `../frontend/`
 node_modules/
 .next/
 out/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-# Si votre .gitignore est dans `backend/`, il faut adapter ces chemins :
-# ../frontend/node_modules/
-# ../frontend/.next/
-# ../frontend/out/
-# ...
 
 # ------------------------------------------------
 # Fichiers spécifiques au projet à ignorer
 # ------------------------------------------------
-
-# Fichiers volumineux générés ou temporaires pour SkinLensR
 kiwi_ops.db
-uvicorn # Si c'est un cache ou répertoire temporaire
+uvicorn
 *.blend1
 *.blend2
 Screenshot Try.png
 screenshot.png
 model.h5
 model.json
-
-# Supprimez les lignes non pertinentes pour votre projet SkinLensR
-# exemple: les lignes de `chat_app_flask`

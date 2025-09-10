@@ -1,1 +1,185 @@
-@import '../styles/page-template.css';
+/* --- Conteneur Principal de la Page --- */
+.pageContainer {
+    background-color: var(--kiwi-background-page, #1A1A2E);
+    color: var(--kiwi-text-primary, #E0E0E0);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    font-family: 'Georgia', serif;
+    line-height: 1.6;
+}
+
+/* --- Titres de la Page --- */
+.mainTitle {
+    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-family: var(--font-special-elite, 'Playfair Display', serif);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: var(--kiwi-text-shadow, 2px 2px 0px rgba(0,0,0,0.5));
+}
+
+.subtitle {
+    font-style: italic;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: var(--kiwi-text-secondary, #A0A0A0);
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+
+/* --- La Boîte Principale "Dossier" --- */
+.paymentBox {
+    border: 2px solid var(--kiwi-border-color, #555);
+    padding: 2.5rem;
+    border-radius: 5px;
+    box-shadow: 5px 5px 0px var(--kiwi-shadow-color-card, rgba(0,0,0,0.5));
+    background: var(--kiwi-background-section, #2A2A3A);
+    width: 100%;
+    max-width: 700px;
+    box-sizing: border-box;
+}
+
+/* --- En-tête de Section à l'intérieur de la boîte --- */
+.sectionHeader {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px dashed var(--kiwi-border-color, #555);
+    padding-bottom: 0.8rem;
+    text-align: center;
+    font-family: var(--font-special-elite, 'Playfair Display', serif);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* --- Texte d'instruction ou de confirmation --- */
+.promptText {
+    margin-bottom: 2.5rem;
+    color: var(--kiwi-text-secondary, #A0A0A0);
+    text-align: center;
+    font-style: italic;
+}
+
+/* --- Groupement de "Champs" (Label + Valeur) --- */
+.fieldGroup {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.fieldLabel {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: var(--kiwi-text-primary, #E0E0E0);
+    font-size: 1.1rem;
+}
+
+.fieldValue {
+    padding: 12px;
+    border: 1px solid var(--kiwi-border-color, #555);
+    border-radius: 4px;
+    background-color: var(--kiwi-input-bg, #1F1F2A);
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    word-break: break-all; /* Pour les longues adresses Bitcoin */
+}
+
+.fieldValue.monospace {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* --- Conteneur du QR Code --- */
+.qrCodeContainer {
+    background: white;
+    padding: 16px;
+    display: inline-block;
+    border: 1px solid var(--kiwi-border-color, #555);
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
+    margin-top: 1rem;
+}
+
+/* --- Message de Statut "En attente..." --- */
+.statusMessage {
+    background-color: rgba(255, 235, 59, 0.1);
+    color: #FFEB3B;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px dashed #FFEB3B;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* --- Messages de Chargement et d'Erreur --- */
+.loadingText {
+    text-align: center;
+    font-style: italic;
+    padding: 2rem 0;
+    color: var(--kiwi-text-secondary, #A0A0A0);
+}
+
+.errorText {
+    text-align: center;
+    color: #ff6b6b;
+    font-weight: bold;
+    padding: 2rem 0;
+}
+
+
+/* --- Bouton d'Action Principal --- */
+.callToAction {
+    background-color: var(--kiwi-button-primary-bg, #0070f3);
+    color: var(--kiwi-button-primary-text, white);
+    padding: 15px 30px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    box-shadow: 2px 2px 0px var(--kiwi-shadow-color-button, rgba(0,0,0,0.4));
+}
+
+.callToAction:hover {
+    background-color: var(--kiwi-button-primary-hover-bg, #005edb);
+    transform: translateY(-2px);
+}
+
+.callToAction:active {
+    transform: translateY(1px);
+}
+.pageContainer {
+    /* ... autres styles ... */
+    position: relative;
+    background-image: var(--kiwi-payment-background-image);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.pageContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--kiwi-overlay-color);
+    z-index: 1;
+}
+
+.contentWrapper {
+    position: relative;
+    z-index: 2;
+    /* ... */
+}
