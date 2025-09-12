@@ -220,7 +220,7 @@ function PayComponent() {
   };
   
   return (
-    <div className={styles.pageContainer} style={{ '--kiwi-payment-background-image': backgroundImage, '--kiwi-overlay-color': overlayColor }}>
+  <div className={styles.pageContainer} style={{ '--kiwi-payment-background-image': backgroundImage, '--kiwi-overlay-color': overlayColor } as React.CSSProperties}>
       <div className={styles.contentWrapper}>
         <h1 className={styles.mainTitle} style={{ color: textColor, textShadow: `2px 2px 0px ${textShadowColor}` }}>{getTranslation('paymentPage', 'mainTitleLine1', language)}<br />{getTranslation('paymentPage', 'mainTitleLine2', language)}</h1>
         <p className={styles.subtitle} style={{ color: mutedTextColor }}>{getTranslation('paymentPage', 'subtitle', language)}</p>
