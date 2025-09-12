@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, FormEvent, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Assurez-vous que useRouter est bien importé d'ici
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -113,13 +113,13 @@ const allTranslations = {
       af: "Modulêre KI vir alle ontwikkelaars.",
     },
     chatButton: {
-      en: 'Ask the Chat',
-      fr: 'Demandez au Chat',
-      mi: 'Pātai ki te Kōrero',
-      ga: 'Fiafraigh den Chomhrá',
-      hi: 'चैट से पूछें',
-      gd: 'Faighnich don Chat',
-      af: 'Vra die Chat',
+    en: 'Get Started',
+    fr: 'Démarrer',
+  mi: 'Tīmata',
+  ga: 'Tosaigh',
+  hi: 'शुरू करें',
+  gd: 'Tòisich',
+  af: 'Begin',
     },
     chatTitle: {
       en: 'Chat with AI',
@@ -254,6 +254,11 @@ export default function ChatLoginPage() {
 
   const handleInstallClick = () => router.push('/install');
 
+  // Fonction ajoutée pour la redirection vers la page de connexion
+  const handleAskChat = () => {
+    router.push('/login'); // Redirige vers la page '/login'
+  };
+
   return (
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
       {/* Navbar */}
@@ -261,10 +266,10 @@ export default function ChatLoginPage() {
         <div className={styles.navLogo}>Kiwi-Ops</div>
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
-          <li><Link href="#product">{getTranslation('loginPage', 'product', language)}</Link></li>
-          <li><Link href="#features">{getTranslation('loginPage', 'features', language)}</Link></li>
-          <li><Link href="#story">{getTranslation('loginPage', 'story', language)}</Link></li>
-          <li><Link href="#search">{getTranslation('loginPage', 'search', language)}</Link></li>
+           <li><Link href="/product">{getTranslation('loginPage', 'product', language)}</Link></li>
+  <li><Link href="/features">{getTranslation('loginPage', 'features', language)}</Link></li>
+  <li><Link href="/story">{getTranslation('loginPage', 'story', language)}</Link></li>
+  <li><Link href="/search">{getTranslation('loginPage', 'search', language)}</Link></li>
         </ul>
         <button className={styles.installButton} onClick={handleInstallClick} aria-label={getTranslation('loginPage', 'installAppLabel', language)}><FaDownload /></button>
       </nav>
@@ -280,7 +285,8 @@ export default function ChatLoginPage() {
         <div className={styles.textSection}>
           <h1 className={styles.title}>{getTranslation('loginPage', 'title', language)}</h1>
           <p className={styles.subtitle}>{getTranslation('loginPage', 'subtitle', language)}</p>
-          <button className={styles.askChatButton} onClick={() => console.log("Demander au Chat")}>
+          {/* Le onClick appelle maintenant la fonction handleAskChat */}
+          <button className={styles.askChatButton} onClick={handleAskChat}>
             {getTranslation('loginPage', 'chatButton', language)}
           </button>
         </div>
