@@ -1,25 +1,158 @@
 /* src/app/product/page.module.css */
 
-/* Variables CSS (à définir dans un globals.css ou ici) */
 
 
-/* Styles pour la page produit */
-.productPage {
+.pageContainer {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background-color-light);
   color: var(--text-color-primary-light);
   font-family: Arial, sans-serif; /* Ou votre police préférée */
 }
 
-/* Dark Mode Overrides */
-.darkMode .productPage {
+.darkMode .pageContainer {
   background-color: var(--background-color-dark);
   color: var(--text-color-primary-dark);
 }
 
+/* --- Styles pour la barre de navigation (intégrés ici pour la version "en dur") --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  box-shadow: var(--shadow-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.darkMode .navbar {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: var(--shadow-dark);
+}
+
+.navLogo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--navbar-text-color-light);
+}
+.darkMode .navLogo {
+  color: var(--navbar-text-color-dark);
+}
+.navLogo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks li {
+  margin-left: 2rem;
+}
+
+.navLinks a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+.navLinks a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .navLinks a:hover {
+  color: var(--accent-color-dark);
+}
+
+.menuToggle {
+  display: none; /* Cache par défaut sur desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.installButton {
+  background-color: var(--button-background-color-light);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+.darkMode .installButton {
+  background-color: var(--button-background-color-dark);
+}
+
+.installButton:hover {
+  background-color: var(--button-background-color-hover-light);
+}
+.darkMode .installButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+/* Responsive Design pour la Navbar */
+@media (max-width: 768px) {
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 64px; /* Ajustez selon la hauteur réelle de votre navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 999;
+  }
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
+  }
+  .navLinks.open {
+    display: flex;
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+    width: 100%;
+  }
+  .menuToggle {
+    display: block;
+  }
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+}
+
+/* --- Styles pour les sections de la page Produit --- */
 .section {
   padding: 80px 40px;
-  text-align: center;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -87,7 +220,7 @@
 }
 
 .ctaButton {
-  background-color: #f39c12; /* Couleur CTA vive */
+  background-color: var(--button-background-color-light); /* Couleur CTA vive */
   color: white;
   padding: 18px 35px;
   border-radius: 50px;
@@ -101,7 +234,7 @@
 }
 
 .ctaButton:hover {
-  background-color: #e67e22;
+  background-color: var(--button-background-color-hover-light);
   transform: translateY(-3px);
 }
 
@@ -140,7 +273,7 @@
   transform: translateY(-5px);
 }
 
-/* Solution Section (Pillars) */
+/* Solution Section (Pillars) - Ce contenu est maintenant la page /platform, mais les styles peuvent être réutilisés ici */
 .lightBackground {
   background-color: var(--card-background-light); /* Utilise la couleur de fond des cartes */
   color: var(--text-color-primary-light);
@@ -243,7 +376,7 @@
 }
 
 
-/* Team Section (styles pour TeamSection.tsx) */
+/* Team Section (intégrée directement ici) */
 .teamSection {
   padding: 80px 20px;
   text-align: center;
@@ -254,7 +387,7 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
   margin-top: 50px;
-  max-width: 1200px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -266,37 +399,22 @@
   box-shadow: var(--shadow-light);
   text-align: center;
   transition: transform 0.3s ease;
+  border: 1px solid #e0e0e0;
 }
 .darkMode .teamMemberCard {
   background: var(--card-background-dark);
   box-shadow: var(--shadow-dark);
+  border-color: #495057;
 }
 .teamMemberCard:hover {
   transform: translateY(-5px);
 }
 
-.teamAvatarPlaceholder { /* Utilisé si pas d'image, sinon .teamAvatar */
-  width: 150px;
-  height: 150px;
-  background: #e0e0e0; /* Couleur de placeholder */
-  border-radius: 50%;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  color: #666;
-}
-.darkMode .teamAvatarPlaceholder {
-  background: #555;
-  color: #bbb;
-}
-
 .teamAvatar { /* Style pour les images d'avatars réelles */
-  border-radius: 50%; /* Pour rendre l'image ronde */
-  object-fit: cover; /* Pour s'assurer que l'image remplit le cercle sans déformation */
-  margin: 0 auto 20px; /* Centrer et espacer */
-  border: 4px solid var(--accent-color-light); /* Exemple de bordure */
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 20px;
+  border: 4px solid var(--accent-color-light);
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 .darkMode .teamAvatar {
@@ -344,7 +462,7 @@
 .storyImage {
     flex: 1;
     min-width: 300px;
-    max-width: 50%; /* Limite la largeur de l'image */
+    max-width: 50%;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-light);
@@ -432,42 +550,57 @@
 }
 
 @media (max-width: 768px) {
-  .heroSection {
-    padding-top: 100px;
-    padding-bottom: 70px;
+  .navbar {
+    padding: 0.8rem 1rem;
   }
-  .heroSection .mainTitle {
-    font-size: 2.5rem;
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 64px; /* Ajustez selon la hauteur de votre navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
   }
-  .heroSection .subtitle {
-    font-size: 1.2rem;
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
   }
+  .navLinks.open {
+    display: flex;
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+    width: 100%;
+  }
+  .menuToggle {
+    display: block;
+  }
+
   .section {
-    padding: 60px 20px;
+    padding: 40px 15px;
   }
   .sectionTitle {
     font-size: 2.2rem;
   }
-  .ctaButton {
-    padding: 15px 30px;
-    font-size: 1rem;
+  .subtitle {
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .heroSection .mainTitle {
-    font-size: 2rem;
-  }
-  .heroSection .subtitle {
-    font-size: 1rem;
-  }
   .sectionTitle {
     font-size: 1.8rem;
   }
-  .challengeGrid, .pillarsGrid, .featuresGrid, .teamGrid {
-    grid-template-columns: 1fr;
-  }
-  .storyContainer {
-      gap: 30px;
+  .subtitle {
+    font-size: 1rem;
   }
 }
