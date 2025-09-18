@@ -1,0 +1,262 @@
+/* Variables CSS (définissez-les dans un globals.css ou ici pour les modes clair/sombre) */
+
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color-light);
+  color: var(--text-color-primary-light);
+  font-family: Arial, sans-serif; /* Ou votre police préférée */
+}
+
+.darkMode .pageContainer {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-primary-dark);
+}
+
+/* --- Styles pour la barre de navigation (à adapter depuis votre page.module.css principal) --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.darkMode .navbar {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.navLogo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--heading-color-light);
+}
+.darkMode .navLogo {
+  color: var(--heading-color-dark);
+}
+.navLogo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks li {
+  margin-left: 2rem;
+}
+
+.navLinks a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .navLinks a:hover {
+  color: var(--accent-color-dark);
+}
+
+.menuToggle {
+  display: none; /* Cache par défaut sur desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.installButton {
+  background-color: var(--button-background-color-light);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+.darkMode .installButton {
+  background-color: var(--button-background-color-dark);
+}
+
+.installButton:hover {
+  background-color: var(--button-background-color-hover-light);
+}
+.darkMode .installButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+/* --- Styles pour la section Histoire --- */
+.section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.storySection {
+  padding-top: 100px;
+  padding-bottom: 100px;
+  text-align: center;
+}
+
+.storyContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.storyImage {
+    flex: 1;
+    min-width: 300px;
+    max-width: 50%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+}
+.darkMode .storyImage {
+    box-shadow: var(--shadow-dark);
+}
+
+.storyImage img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.storyText {
+    flex: 1;
+}
+
+.sectionTitle {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  color: var(--heading-color-light);
+  text-align: left; /* Aligné à gauche dans le bloc de texte */
+}
+.darkMode .sectionTitle {
+  color: var(--heading-color-dark);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: var(--accent-color-light); /* Couleur d'accentuation pour le sous-titre */
+  margin-bottom: 30px;
+  line-height: 1.5;
+  text-align: left; /* Aligné à gauche dans le bloc de texte */
+  font-weight: 600;
+}
+.darkMode .subtitle {
+  color: var(--accent-color-dark);
+}
+
+.storyText p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color-primary-light);
+    text-align: left;
+}
+.darkMode .storyText p {
+    color: var(--text-color-primary-dark);
+}
+
+
+/* Responsive Design pour la page Story */
+@media (max-width: 992px) {
+  .section {
+    padding: 60px 30px;
+  }
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  .storyContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+  .storyImage, .storyText {
+    max-width: 100%;
+  }
+  .sectionTitle, .subtitle, .storyText p {
+      text-align: center; /* Centrer le texte en mode colonne */
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 58px; /* Ajustez selon la hauteur de votre navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+  }
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
+  }
+  .navLinks.open {
+    display: flex;
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+  }
+  .menuToggle {
+    display: block;
+  }
+
+  .section {
+    padding: 40px 15px;
+  }
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+}

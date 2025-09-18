@@ -1,14 +1,16 @@
 'use client';
 
-import { useState } from 'react'; // Gardez useState si utilisé, sinon supprimez
-import Link from 'next/link'; // Gardez Link si utilisé, sinon supprimez
+import { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image'; // Gardez Image si utilisé dans TeamSection
+import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-import Image from 'next/image';
-// import { FaBars, FaDownload } from 'react-icons/fa'; // Les icônes de navbar ne sont pas utilisées directement ici si la navbar est dans un layout
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (intégrées directement) ---
+// Note: Cette section sera dupliquée dans chaque fichier .tsx qui utilise les traductions.
+// C'est la conséquence du choix de ne pas centraliser les traductions.
 const allTranslations = {
   header: {
     missionStatement: {
@@ -19,37 +21,36 @@ const allTranslations = {
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
       gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misneachd togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
       cy: "Wedi'u hysbrydoli gan Dwnelwyr Wellington yn Arras, ein cenhadaeth yw adeiladu yn y cysgodion yr hyn, yfory, a fydd yn torri trwy'r wyneb.",
-      'en-AU': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
-      'en-NZ': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
-      'en-CA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
-      'fr-CA': "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.",
-      'en-ZA': "Inspired by the Wellington Tunneliers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
-      af: "Geïnspireer deur die Wellington Tunneliers van Arras, is ons missie om in die skaduwees te bou wat môre deur die oppervlak sal breek.",
+      'en-AU': "Inspired by the Wellington Tunnelers of Arras...",
+      'en-NZ': "Inspired by the Wellington Tunnelers of Arras...",
+      'en-CA': "Inspired by the Wellington Tunnelers of Arras...",
+      'fr-CA': "Inspirés des tunneliers de Wellington à Arras...",
+      'en-ZA': "Geïnspireer deur die Wellington Tunneliers...",
+      af: "Geïnspireer deur die Wellington Tunneliers...",
     },
     beta: {
       en: "Beta", fr: "Bêta", mi: "Beta", ga: "Béite", hi: "बीटा", gd: "Beta", cy: "Beta",
       'en-AU': "Beta", 'en-NZ': "Beta", 'en-CA': "Beta", 'fr-CA': "Bêta", 'en-ZA': "Beta", af: "Beta",
     }
   },
-  chat: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  chat: { // Incluez toutes les traductions du chat même si le chat n'est pas sur cette page, pour la cohérence
     welcomeMessage: { en: "Hello! I'm A.L.A.N...", fr: "Bonjour ! Je suis l'Agent L.I.O.N..." },
     thinking: { en: 'Agent is thinking...', fr: "Agent L.I.O.N. réfléchit..." },
     placeholder: { en: 'Type your message...', fr: 'Tapez votre message...' },
     militaryPackages: { en: 'Military Packages', fr: 'Paquetages Militaires' },
   },
-  loginPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
-    title: { en: 'Building in the shadows...', fr: "Construire dans l’ombre..." },
+  loginPage: {
+    title: { en: 'Building in the shadows. Emerging for tomorrow.', fr: "Construire dans l’ombre. Émerger pour demain." },
     subtitle: { en: 'Kiwi-Ops. Intelligence that adapts to you', fr: "Kiwi-Ops. L’intelligence qui s’adapte à vous" },
     chatButton: { en: 'Get Started', fr: 'Démarrer' },
     chatTitle: { en: 'Chat with AI', fr: "Chat avec l'IA" },
     chatInputPlaceholder: { en: 'Write your message here...', fr: 'Écrivez votre message ici...' },
     installAppLabel: { en: 'Install App', fr: "Installer l'Application" },
-    // Ces clés sont là pour la cohérence des types, même si elles ne sont pas utilisées directement pour les titres de section ici
-    product: { en: 'Our Products', fr: 'Nos Produits' },
-    features: { en: 'The Platform', fr: 'La plateforme' },
-    story: { en: 'Our Story', fr: 'Notre Histoire' },
-    search: { en: 'Our Solutions', fr: 'Nos solutions' },
-    team: {en: 'Our Team', fr: 'Notre Équipe'},
+    product: { en: 'Product', fr: 'Produit' },
+    features: { en: 'Features', fr: 'Fonctionnalités' },
+    story: { en: 'Our Story', fr: 'Notre histoire' },
+    search: { en: 'Search', fr: 'Recherche' },
+    team: {en: 'Team', fr: 'Équipe'},
   },
   productPage: {
     hero: {
@@ -73,16 +74,7 @@ const allTranslations = {
       pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
     },
     features: {
-      title: { // Titre de la section "Features" sur la page produit (non la nav)
-        en: 'A Platform Designed for Performance and Simplicity',
-        fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
-        hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़ॉर्म',
-        mi: 'He Paparanga i Hangaia mo te Mahi me te Maamaa',
-        ga: 'Ardán Deartha le haghaidh Feidhmíochta agus Simplíochta',
-        gd: 'Àrd-ùrlar air a dhealbhadh airson coileanadh agus sìmplidheachd',
-        cy: 'Llwyfan Wedi\'i Ddylunio ar gyfer Perfformiad a Symlrwydd',
-        af: 'N Platform Ontwerp vir Prestasie en Eenvoud',
-      },
+      title: { en: 'A Platform Designed for Performance and Simplicity', fr: 'Une Plateforme Conçue pour la Performance et la Simplicité' },
       speedTitle: { en: 'Speed: From Data to Decision in Milliseconds', fr: 'Rapidité : De la Donnée à la Décision en Millisecondes' },
       speedText: { en: 'Our Edge AI architecture processes critical information where it happens: directly on the machine, enabling a proactive approach.', fr: 'Notre architecture Edge AI traite les informations critiques là où elles se produisent. Passez d\'un mode réactif à un mode proactif.' },
       securityTitle: { en: 'Security: Trust is Not an Option. It\'s a Guarantee.', fr: 'Sécurité : La Confiance n\'est pas une option. C\'est une garantie.' },
@@ -90,31 +82,13 @@ const allTranslations = {
       integrationTitle: { en: 'Simple Integration: Designed for Your Reality, Not Ours.', fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.' },
       integrationText: { en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.', fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".' },
     },
-    search: { // Titre de la section "Smart Search" sur la page produit
-      title: {
-        en: 'Don\'t look for information. Get the answer.',
-        fr: 'Ne cherchez plus l\'information. Obtenez la réponse.',
-        hi: 'जानकारी न खोजें। उत्तर प्राप्त करें।',
-        mi: 'Kaua e rapu mōhiohio. Tikina te whakautu.',
-        ga: 'Ná lorg eolas. Faigh an freagra.',
-        gd: 'Na seall airson fiosrachadh. Faigh am freagairt.',
-        cy: 'Peidiwch â chwilio am wybodaeth. Cael yr ateb.',
-        af: 'Moenie inligting soek nie. Kry die antwoord.',
-      },
+    search: {
+      title: { en: 'Don\'t look for information. Get the answer.', fr: 'Ne cherchez plus l\'information. Obtenez la réponse.' },
       subtitle: { en: 'Our Smart Search turns your archives into a 24/7 operational expert.', fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.' },
       text: { en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.', fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.' },
     },
-    story: { // Titre de la section "Our Story" sur la page produit
-      title: {
-        en: 'Our Story',
-        fr: 'Notre Histoire',
-        hi: 'हमारी कहानी',
-        mi: 'Tō mātou Kōrero',
-        ga: 'Ár Scéal',
-        gd: 'Ar Sgeulachd',
-        cy: 'Ein Stori',
-        af: 'Ons Verhaal',
-      },
+    story: {
+      title: { en: 'Our Story', fr: 'Notre Histoire' },
       subtitle: { en: 'Born from a legacy. Focused on the future.', fr: 'Nés d\'un héritage. Tournés vers l\'avenir.' },
       text: { en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders.', fr: 'Notre histoire ne commence pas avec du code, mais avec le son d\'une pioche dans la craie. Arras, 1917. L\'ingéniosité des sapeurs "Kiwis" était de rendre l\'invisible, visible. Aujourd\'hui, nous perpétuons cet héritage. Là où ils écoutaient la terre, nous appliquons l\'IA. Kiwi-Ops est le pont entre l\'héritage d\'hier et la technologie des bâtisseurs de demain.' },
     },
@@ -123,7 +97,7 @@ const allTranslations = {
       subtitle: { en: 'Our technology is in beta with selected partners. If you believe innovation is born from audacity, contact us.', fr: 'Notre technologie est en bêta avec des partenaires sélectionnés. Si vous croyez que l\'innovation naît de l\'audace, contactez-nous.' },
       button: { en: 'Request a Strategic Demo', fr: 'Demander une démonstration stratégique' },
     },
-    team: { // Titre de la section "Our Team" sur la page produit
+    team: {
         title: { en: 'Our Team', fr: 'Notre Équipe' },
         subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
         member1Name: { en: '[Your Name]', fr: '[Votre Nom]' }, // REMPLACER
@@ -135,14 +109,13 @@ const allTranslations = {
         member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' }, // REMPLACER
         member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
         member2Bio: {
-            en: 'Tech wizard with a PhD in AI and X years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER X
-            fr: 'Génie technique avec un doctorat en IA et X années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER X
+            en: 'Tech wizard with a PhD in AI and Y years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
+            fr: 'Génie technique avec un doctorat en IA et Y années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
         },
     }
   },
 };
 
-// Fonction utilitaire pour gérer les chemins imbriqués (Directement dans ce fichier)
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
   const keys = keyPath.split('.');
   let result = (allTranslations as any)[section];
@@ -152,107 +125,58 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
   }
   return result?.[language] || result?.en || keyPath;
 }
-// --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
+// --- FIN DES TRADUCTIONS ET FONCTION getTranslation (intégrées directement) ---
 
 
-// <--- Assurez-vous que ce chemin est correct
+// Import de votre composant TeamSection
+// NOTE: Le composant TeamSection lui-même aura besoin de ces traductions intégrées
+// s'il ne les importe pas d'un fichier centralisé, sinon il faudra lui passer via props.
+// Pour l'instant, je suppose qu'il les importera de son propre fichier si vous ne centralisez pas.
+// <--- ASSUREZ-VOUS QUE CE CHEMIN EST CORRECT
 
-// Import des styles pour cette page
-import styles from './product.module.css'; // <--- MODIFIÉ : './page.module.css'
+import styles from './team.module.css'; // Assurez-vous que ce fichier CSS existe et contient les styles nécessaires
+// Ou si vous réutilisez les styles de product/page.module.css pour la navbar et les sections:
+// import styles from '../product/page.module.css';
 
 
-export default function ProductPage() {
+export default function TeamPage() {
+  const { theme } = useTheme();
   const { language } = useLanguage();
-  const t = (key: string) => getTranslation('productPage', key, language);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Fonction utilitaire pour obtenir les traductions des labels de navigation génériques (souvent de loginPage)
+  const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
 
   return (
-    <div className={styles.productPage}>
+    <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
+      {/* Navbar (reprise de celle de la page d'accueil pour la cohérence) */}
+      <nav className={styles.navbar}>
+        <div className={styles.navLogo}><Link href="/">Kiwi-Ops</Link></div>
+        <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
+        <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
+           {/* Lien vers la page produit complète */}
+           <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
 
-      {/* --- SECTION 1: HERO --- */}
-      <section className={`${styles.section} ${styles.heroSection}`} id="hero-section">
-        <h1 className={styles.mainTitle}>{t('hero.title')}</h1>
-        <p className={styles.subtitle}>{t('hero.subtitle')}</p>
-        <a href="#contact" className={styles.ctaButton}>{t('hero.ctaButton')}</a>
-      </section>
+           {/* Lien d'ancrage vers la section "Features" sur la page produit, texte du lien basé sur le titre de la section */}
+           <li><Link href="/product#features-section">{getTranslation('productPage', 'features.title', language)}</Link></li>
 
-      {/* --- SECTION 2: THE CHALLENGE --- */}
-      <section className={`${styles.section} ${styles.challengeSection}`} id="challenge-section">
-        <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
-        <div className={styles.challengeGrid}>
-          <p>{t('challenge.point1')}</p>
-          <p>{t('challenge.point2')}</p>
-          <p>{t('challenge.point3')}</p>
-        </div>
-      </section>
+           {/* Lien direct vers cette page dédiée à l'équipe */}
+           <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
 
-      {/* --- SECTION 3: THE SOLUTION (Pillars) --- */}
-      <section className={`${styles.section} ${styles.lightBackground} ${styles.solutionSection}`} id="solution-section">
-        <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
-        <div className={styles.pillarsGrid}>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar1Title')}</h3>
-            <p>{t('solution.pillar1Text')}</p>
-          </div>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar2Title')}</h3>
-            <p>{t('solution.pillar2Text')}</p>
-          </div>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar3Title')}</h3>
-            <p>{t('solution.pillar3Text')}</p>
-          </div>
-        </div>
-      </section>
+           {/* Lien d'ancrage vers la section "Story" sur la page produit, texte du lien basé sur le titre de la section */}
+           <li><Link href="/product#story-section">{getTranslation('productPage', 'story.title', language)}</Link></li>
 
-      {/* --- SECTION 4: FEATURES --- */}
-      <section className={`${styles.section} ${styles.featuresSection}`} id="features-section">
-        <h2 className={styles.sectionTitle}>{t('features.title')}</h2>
-        <div className={styles.featuresGrid}>
-          <div className={styles.featureCard}>
-            <h4>🚀 {t('features.speedTitle')}</h4>
-            <p>{t('features.speedText')}</p>
-          </div>
-          <div className={styles.featureCard}>
-            <h4>🔒 {t('features.securityTitle')}</h4>
-            <p>{t('features.securityText')}</p>
-          </div>
-          <div className={styles.featureCard}>
-            <h4>⚡ {t('features.integrationTitle')}</h4>
-            <p>{t('features.integrationText')}</p>
-          </div>
-        </div>
-      </section>
+           {/* Lien d'ancrage vers la section "Smart Search" sur la page produit, texte du lien basé sur le titre de la section */}
+           <li><Link href="/product#search-section">{getTranslation('productPage', 'search.title', language)}</Link></li>
+        </ul>
+        {/* Le label 'installAppLabel' est un label générique, donc getLoginNavTranslation est approprié ici */}
+        <button className={styles.installButton} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
+      </nav>
 
-      {/* --- SECTION 5: SMART SEARCH --- */}
-       <section className={`${styles.section} ${styles.darkBackground} ${styles.searchSection}`} id="search-section">
-        <h2 className={styles.sectionTitle}>{t('search.title')}</h2>
-        <p className={styles.subtitle}>{t('search.subtitle')}</p>
-        <p className={styles.sectionText}>{t('search.text')}</p>
-      </section>
-
+      {/* Contenu de la section Équipe */}
     
 
-      {/* --- SECTION 6: OUR STORY --- */}
-      <section className={`${styles.section} ${styles.storySection}`} id="story-section">
-        <div className={styles.storyContainer}>
-            <div className={styles.storyImage}>
-                <Image src="/images/story-montage.jpg" alt={t('story.title')} width={600} height={400} style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.storyText}>
-                <h2 className={styles.sectionTitle}>{t('story.title')}</h2>
-                <h3>{t('story.subtitle')}</h3>
-                <p>{t('story.text')}</p>
-            </div>
-        </div>
-      </section>
-
-       {/* --- SECTION 7: FINAL CTA --- */}
-      <section className={`${styles.section} ${styles.ctaSection}`} id="contact">
-        <h2 className={styles.sectionTitle}>{t('finalCta.title')}</h2>
-        <p className={styles.subtitle}>{t('finalCta.subtitle')}</p>
-        <a href="#contact" className={t('finalCta.button') === 'Participez au Programme Bêta' ? styles.ctaButtonBeta : styles.ctaButton}>{t('finalCta.button')}</a>
-      </section>
-
+      {/* Vous pouvez ajouter un footer ici si vous en avez un */}
     </div>
   );
 }

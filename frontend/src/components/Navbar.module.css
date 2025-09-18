@@ -1,0 +1,137 @@
+/* src/components/Navbar.module.css */
+
+/* Variables CSS (assurez-vous qu'elles sont cohérentes avec votre globals.css ou définies ici) */
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  box-shadow: var(--shadow-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%; /* S'assure qu'il prend toute la largeur */
+  box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+.darkMode.navbar {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: var(--shadow-dark);
+}
+
+.navLogo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--navbar-text-color-light); /* Assurez une couleur lisible */
+}
+.darkMode .navLogo {
+  color: var(--navbar-text-color-dark);
+}
+.navLogo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks li {
+  margin-left: 2rem;
+}
+
+.navLinks a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  white-space: nowrap; /* Empêche les noms de liens de se casser sur plusieurs lignes */
+}
+
+.navLinks a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .navLinks a:hover {
+  color: var(--accent-color-dark);
+}
+
+.menuToggle {
+  display: none; /* Cache par défaut sur desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.installButton {
+  background-color: var(--button-background-color-light);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+.darkMode .installButton {
+  background-color: var(--button-background-color-dark);
+}
+
+.installButton:hover {
+  background-color: var(--button-background-color-hover-light);
+}
+.darkMode .installButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+/* Responsive Design pour la Navbar */
+@media (max-width: 768px) {
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 64px; /* Ajustez selon la hauteur réelle de votre navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Masqué par défaut en mobile */
+    z-index: 999; /* Moins que la navbar, plus que le reste du contenu */
+  }
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
+  }
+  .navLinks.open {
+    display: flex; /* Affiche quand le menu est ouvert */
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+    width: 100%;
+  }
+  .menuToggle {
+    display: block; /* Affiche le bouton toggle en mobile */
+  }
+  .navbar {
+    padding: 0.8rem 1rem; /* Padding réduit en mobile */
+  }
+}

@@ -1,0 +1,208 @@
+    /* src/app/team/page.module.css */
+
+    .pageContainer {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--background-color-light); /* Exemple */
+      color: var(--text-color-primary); /* Exemple */
+    }
+
+    .darkMode .pageContainer {
+      background-color: var(--background-color-dark); /* Exemple */
+      color: var(--text-color-dark); /* Exemple */
+    }
+
+    /* Styles pour la barre de navigation - à copier/adapter depuis page.module.css */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: var(--navbar-background-color);
+      color: var(--navbar-text-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .darkMode .navbar {
+      background-color: var(--navbar-background-color-dark);
+      color: var(--navbar-text-color-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    .navLogo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .navLogo a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navLinks {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navLinks li {
+      margin-left: 2rem;
+    }
+
+    .navLinks a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navLinks a:hover {
+      color: var(--accent-color); /* Exemple */
+    }
+
+    .menuToggle {
+      display: none; /* Cache par défaut sur desktop */
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .installButton {
+      background-color: var(--button-background-color);
+      color: var(--button-text-color);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .installButton:hover {
+      background-color: var(--button-background-color-hover);
+    }
+
+    /* Styles pour la section Team (à copier/adapter depuis product/page.module.css) */
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sectionTitle {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: var(--heading-color);
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      color: var(--text-color-secondary);
+      margin-bottom: 50px;
+    }
+
+    .teamSection {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .teamGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+      margin-top: 50px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .teamMemberCard {
+      background: var(--card-background-color);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow-small);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .teamMemberCard:hover {
+      transform: translateY(-5px);
+    }
+
+    .teamAvatarPlaceholder {
+      width: 120px;
+      height: 120px;
+      background: #e0e0e0;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #666;
+    }
+    .teamMemberCard h3 {
+      margin-bottom: 10px;
+      color: var(--text-color-primary);
+    }
+
+    .teamMemberTitle {
+      color: var(--accent-color);
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .teamMemberCard p {
+      color: var(--text-color-secondary);
+      line-height: 1.6;
+    }
+
+    .darkMode .teamMemberCard {
+      background: #333;
+      box-shadow: var(--shadow-dark-mode);
+    }
+    .darkMode .teamAvatarPlaceholder {
+      background: #555;
+      color: #bbb;
+    }
+
+    /* Media queries pour la responsivité de la navbar */
+    @media (max-width: 768px) {
+      .navLinks {
+        flex-direction: column;
+        position: absolute;
+        top: 60px; /* Ajustez selon la hauteur de votre navbar */
+        left: 0;
+        width: 100%;
+        background-color: var(--navbar-background-color);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+        &.open {
+          display: flex;
+        }
+      }
+
+      .navLinks li {
+        margin: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .navLinks a {
+        padding: 1rem 2rem;
+        display: block;
+      }
+
+      .menuToggle {
+        display: block;
+      }
+    }

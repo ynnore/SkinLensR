@@ -1,0 +1,473 @@
+/* src/app/product/page.module.css */
+
+/* Variables CSS (à définir dans un globals.css ou ici) */
+
+
+/* Styles pour la page produit */
+.productPage {
+  min-height: 100vh;
+  background-color: var(--background-color-light);
+  color: var(--text-color-primary-light);
+  font-family: Arial, sans-serif; /* Ou votre police préférée */
+}
+
+/* Dark Mode Overrides */
+.darkMode .productPage {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-primary-dark);
+}
+
+.section {
+  padding: 80px 40px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  color: var(--heading-color-light);
+}
+
+.darkMode .sectionTitle {
+  color: var(--heading-color-dark);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: var(--text-color-secondary-light);
+  margin-bottom: 60px;
+  line-height: 1.5;
+}
+
+.darkMode .subtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+.sectionText {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 40px;
+  color: var(--text-color-primary-light);
+}
+
+.darkMode .sectionText {
+  color: var(--text-color-primary-dark);
+}
+
+/* Hero Section */
+.heroSection {
+  padding-top: 150px;
+  padding-bottom: 100px;
+  background: linear-gradient(135deg, var(--accent-color-light), #8e44ad); /* Exemple de dégradé */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.darkMode .heroSection {
+  background: linear-gradient(135deg, var(--accent-color-dark), #6c3483);
+}
+
+.heroSection .mainTitle {
+  font-size: 4.5rem;
+  margin-bottom: 20px;
+  line-height: 1.1;
+  color: white; /* Titre toujours blanc sur le fond coloré */
+}
+
+.heroSection .subtitle {
+  font-size: 1.8rem;
+  max-width: 800px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ctaButton {
+  background-color: #f39c12; /* Couleur CTA vive */
+  color: white;
+  padding: 18px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 40px;
+  display: inline-block;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.ctaButton:hover {
+  background-color: #e67e22;
+  transform: translateY(-3px);
+}
+
+.ctaButtonBeta { /* Si vous avez un bouton CTA spécifique pour la beta */
+    composes: ctaButton; /* Hérite des styles du ctaButton */
+    background-color: #2ecc71; /* Une autre couleur vive */
+}
+.ctaButtonBeta:hover {
+    background-color: #27ae60;
+}
+
+
+/* Challenge Section */
+.challengeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+.challengeGrid p {
+  background: var(--card-background-light);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-light);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-color-primary-light);
+  transition: transform 0.3s ease;
+}
+.darkMode .challengeGrid p {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  color: var(--text-color-primary-dark);
+}
+.challengeGrid p:hover {
+  transform: translateY(-5px);
+}
+
+/* Solution Section (Pillars) */
+.lightBackground {
+  background-color: var(--card-background-light); /* Utilise la couleur de fond des cartes */
+  color: var(--text-color-primary-light);
+}
+.darkMode .lightBackground {
+  background-color: var(--card-background-dark);
+  color: var(--text-color-primary-dark);
+}
+
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 50px;
+}
+
+.pillarCard {
+  background: var(--background-color-light);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+.darkMode .pillarCard {
+  background: var(--background-color-dark);
+  box-shadow: var(--shadow-dark);
+}
+.pillarCard:hover {
+  transform: translateY(-8px);
+}
+.pillarCard h3 {
+  font-size: 1.8rem;
+  color: var(--accent-color-light);
+  margin-bottom: 15px;
+}
+.darkMode .pillarCard h3 {
+  color: var(--accent-color-dark);
+}
+.pillarCard p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-color-primary-light);
+}
+.darkMode .pillarCard p {
+  color: var(--text-color-primary-dark);
+}
+
+/* Features Section */
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+.featureCard {
+  background: var(--card-background-light);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-light);
+  text-align: left;
+}
+.darkMode .featureCard {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+}
+.featureCard h4 {
+  font-size: 1.5rem;
+  color: var(--heading-color-light);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.darkMode .featureCard h4 {
+  color: var(--heading-color-dark);
+}
+.featureCard p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .featureCard p {
+  color: var(--text-color-secondary-dark);
+}
+
+
+/* Smart Search Section */
+.darkBackground {
+  background-color: #34495e; /* Couleur de fond sombre spécifique */
+  color: white;
+}
+.darkMode .darkBackground {
+  background-color: #2c3e50;
+}
+.searchSection .sectionTitle,
+.searchSection .subtitle,
+.searchSection .sectionText {
+  color: white; /* S'assure que le texte est blanc sur fond sombre */
+}
+
+
+/* Team Section (styles pour TeamSection.tsx) */
+.teamSection {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 50px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.teamMemberCard {
+  background: var(--card-background-light);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--shadow-light);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.darkMode .teamMemberCard {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+}
+.teamMemberCard:hover {
+  transform: translateY(-5px);
+}
+
+.teamAvatarPlaceholder { /* Utilisé si pas d'image, sinon .teamAvatar */
+  width: 150px;
+  height: 150px;
+  background: #e0e0e0; /* Couleur de placeholder */
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #666;
+}
+.darkMode .teamAvatarPlaceholder {
+  background: #555;
+  color: #bbb;
+}
+
+.teamAvatar { /* Style pour les images d'avatars réelles */
+  border-radius: 50%; /* Pour rendre l'image ronde */
+  object-fit: cover; /* Pour s'assurer que l'image remplit le cercle sans déformation */
+  margin: 0 auto 20px; /* Centrer et espacer */
+  border: 4px solid var(--accent-color-light); /* Exemple de bordure */
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+.darkMode .teamAvatar {
+  border-color: var(--accent-color-dark);
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.teamMemberCard h3 {
+  margin-bottom: 10px;
+  color: var(--text-color-primary-light);
+}
+.darkMode .teamMemberCard h3 {
+  color: var(--text-color-primary-dark);
+}
+
+.teamMemberTitle {
+  color: var(--accent-color-light);
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 1rem;
+}
+.darkMode .teamMemberTitle {
+  color: var(--accent-color-dark);
+}
+
+.teamMemberCard p {
+  color: var(--text-color-secondary-light);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+.darkMode .teamMemberCard p {
+  color: var(--text-color-secondary-dark);
+}
+
+/* Story Section */
+.storyContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.storyImage {
+    flex: 1;
+    min-width: 300px;
+    max-width: 50%; /* Limite la largeur de l'image */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+}
+.darkMode .storyImage {
+    box-shadow: var(--shadow-dark);
+}
+
+.storyImage img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.storyText {
+    flex: 1;
+}
+.storyText h2 {
+    text-align: left;
+}
+.storyText h3 {
+    font-size: 1.8rem;
+    color: var(--accent-color-light);
+    margin-bottom: 20px;
+}
+.darkMode .storyText h3 {
+    color: var(--accent-color-dark);
+}
+.storyText p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-color-primary-light);
+}
+.darkMode .storyText p {
+    color: var(--text-color-primary-dark);
+}
+
+/* CTA Section */
+.ctaSection {
+    background: linear-gradient(135deg, #1abc9c, #16a085); /* Autre dégradé pour le CTA final */
+    color: white;
+    padding: 100px 40px;
+}
+.darkMode .ctaSection {
+    background: linear-gradient(135deg, #1abc9c, #1abc9c);
+}
+.ctaSection .sectionTitle,
+.ctaSection .subtitle {
+    color: white;
+}
+.ctaSection .ctaButton {
+    background-color: #3498db;
+    color: white;
+}
+.ctaSection .ctaButton:hover {
+    background-color: #2980b9;
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .heroSection .mainTitle {
+    font-size: 3.5rem;
+  }
+  .heroSection .subtitle {
+    font-size: 1.5rem;
+  }
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  .storyContainer {
+    flex-direction: column;
+    text-align: center;
+  }
+  .storyImage, .storyText {
+    max-width: 100%;
+  }
+  .storyText h2, .storyText h3 {
+      text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 100px;
+    padding-bottom: 70px;
+  }
+  .heroSection .mainTitle {
+    font-size: 2.5rem;
+  }
+  .heroSection .subtitle {
+    font-size: 1.2rem;
+  }
+  .section {
+    padding: 60px 20px;
+  }
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+  .ctaButton {
+    padding: 15px 30px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection .mainTitle {
+    font-size: 2rem;
+  }
+  .heroSection .subtitle {
+    font-size: 1rem;
+  }
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+  .challengeGrid, .pillarsGrid, .featuresGrid, .teamGrid {
+    grid-template-columns: 1fr;
+  }
+  .storyContainer {
+      gap: 30px;
+  }
+}

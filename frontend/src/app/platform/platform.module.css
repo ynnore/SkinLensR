@@ -1,0 +1,261 @@
+/* src/app/platform/page.module.css */
+
+.pageContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color-light);
+  color: var(--text-color-primary-light);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.darkMode .pageContainer {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-primary-dark);
+}
+
+/* --- Styles pour la barre de navigation (à adapter depuis votre page.module.css principal) --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  box-shadow: var(--shadow-light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.darkMode .navbar {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: var(--shadow-dark);
+}
+
+.navLogo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--heading-color-light);
+}
+.darkMode .navLogo {
+  color: var(--heading-color-dark);
+}
+.navLogo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navLinks {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks li {
+  margin-left: 2rem;
+}
+
+.navLinks a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navLinks a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .navLinks a:hover {
+  color: var(--accent-color-dark);
+}
+
+.menuToggle {
+  display: none; /* Cache par défaut sur desktop */
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.installButton {
+  background-color: var(--button-background-color-light);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.3rem; /* Légèrement arrondi */
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+.darkMode .installButton {
+  background-color: var(--button-background-color-dark);
+}
+
+.installButton:hover {
+  background-color: var(--button-background-color-hover-light);
+}
+.darkMode .installButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+/* --- Styles pour la page Platform --- */
+.section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heroPlatformSection {
+  padding-top: 120px;
+  padding-bottom: 80px;
+  background: linear-gradient(135deg, #34495e, #2c3e50); /* Dégradé de gris-bleu */
+  color: white;
+  text-align: center;
+}
+
+.darkMode .heroPlatformSection {
+  background: linear-gradient(135deg, #1a252f, #0f1820); /* Dégradé plus sombre */
+}
+
+.heroPlatformSection .sectionTitle {
+  font-size: 3.8rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.heroPlatformSection .subtitle {
+  font-size: 1.6rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.platformPillarsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.pillarCard {
+  background: var(--card-background-light);
+  padding: 40px;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-light);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.darkMode .pillarCard {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-color: #495057;
+}
+
+.pillarCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.darkMode .pillarCard:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.pillarCard h3 {
+  font-size: 2rem;
+  color: var(--accent-color-light);
+  margin-bottom: 20px;
+}
+.darkMode .pillarCard h3 {
+  color: var(--accent-color-dark);
+}
+
+.pillarCard p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-color-primary-light);
+}
+.darkMode .pillarCard p {
+  color: var(--text-color-primary-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .section {
+    padding: 60px 30px;
+  }
+  .heroPlatformSection .sectionTitle {
+    font-size: 3rem;
+  }
+  .heroPlatformSection .subtitle {
+    font-size: 1.4rem;
+  }
+  .pillarCard h3 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 58px; /* Ajustez selon la hauteur de votre navbar */
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+  }
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
+  }
+  .navLinks.open {
+    display: flex;
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+  }
+  .menuToggle {
+    display: block;
+  }
+
+  .section {
+    padding: 40px 15px;
+  }
+  .heroPlatformSection .sectionTitle {
+    font-size: 2.5rem;
+  }
+  .heroPlatformSection .subtitle {
+    font-size: 1.2rem;
+  }
+  .pillarCard h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroPlatformSection .sectionTitle {
+    font-size: 2rem;
+  }
+  .heroPlatformSection .subtitle {
+    font-size: 1rem;
+  }
+}
