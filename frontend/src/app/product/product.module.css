@@ -1,14 +1,11 @@
-/* src/app/product/page.module.css */
-
-
-
+/* Styles de base pour le mode clair, surchargés par .darkMode */
 .pageContainer {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background-color: var(--background-color-light);
   color: var(--text-color-primary-light);
-  font-family: Arial, sans-serif; /* Ou votre police préférée */
+  font-family: Arial, sans-serif;
 }
 
 .darkMode .pageContainer {
@@ -16,7 +13,7 @@
   color: var(--text-color-primary-dark);
 }
 
-/* --- Styles pour la barre de navigation (intégrés ici pour la version "en dur") --- */
+/* --- Styles pour la barre de navigation --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -78,7 +75,7 @@
 }
 
 .menuToggle {
-  display: none; /* Cache par défaut sur desktop */
+  display: none;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -141,6 +138,10 @@
     padding: 1rem 1.5rem;
     display: block;
     width: 100%;
+    color: var(--navbar-text-color-light); /* Explicitement défini pour assurer le texte sombre en mode clair mobile */
+  }
+  .darkMode .navLinks a {
+      color: var(--navbar-text-color-dark);
   }
   .menuToggle {
     display: block;
@@ -190,12 +191,12 @@
   color: var(--text-color-primary-dark);
 }
 
-/* Hero Section */
+/* Hero Section - MODIFIÉ POUR LA LISIBILITÉ EN MODE CLAIR */
 .heroSection {
   padding-top: 150px;
   padding-bottom: 100px;
-  background: linear-gradient(135deg, var(--accent-color-light), #8e44ad); /* Exemple de dégradé */
-  color: white;
+  background: linear-gradient(135deg, var(--accent-color-light), #8e44ad); /* Le dégradé reste */
+  color: var(--text-color-primary-light); /* Par défaut, texte sombre en mode clair */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -204,24 +205,33 @@
 
 .darkMode .heroSection {
   background: linear-gradient(135deg, var(--accent-color-dark), #6c3483);
+  color: white; /* Texte blanc en mode sombre */
 }
 
 .heroSection .mainTitle {
   font-size: 4.5rem;
   margin-bottom: 20px;
   line-height: 1.1;
-  color: white; /* Titre toujours blanc sur le fond coloré */
+  color: inherit; /* Hérite de .heroSection pour être sombre en mode clair, blanc en mode sombre */
+}
+
+.darkMode .heroSection .mainTitle {
+  color: white; /* Assure le blanc en mode sombre */
 }
 
 .heroSection .subtitle {
   font-size: 1.8rem;
   max-width: 800px;
-  color: rgba(255, 255, 255, 0.9);
+  color: inherit; /* Hérite de .heroSection pour être sombre en mode clair, blanc en mode sombre */
+}
+.darkMode .heroSection .subtitle {
+  color: rgba(255, 255, 255, 0.9); /* Assure le blanc en mode sombre */
 }
 
+/* Bouton CTA - son texte doit rester blanc car son fond est coloré */
 .ctaButton {
-  background-color: var(--button-background-color-light); /* Couleur CTA vive */
-  color: white;
+  background-color: var(--button-background-color-light);
+  color: white !important; /* Force le texte blanc sur le bouton */
   padding: 18px 35px;
   border-radius: 50px;
   text-decoration: none;
@@ -236,6 +246,11 @@
 .ctaButton:hover {
   background-color: var(--button-background-color-hover-light);
   transform: translateY(-3px);
+}
+
+.darkMode .ctaButton {
+  background-color: var(--button-background-color-dark);
+  color: white !important; /* Force le texte blanc sur le bouton en mode sombre */
 }
 
 .ctaButtonBeta { /* Si vous avez un bouton CTA spécifique pour la beta */
@@ -273,9 +288,9 @@
   transform: translateY(-5px);
 }
 
-/* Solution Section (Pillars) - Ce contenu est maintenant la page /platform, mais les styles peuvent être réutilisés ici */
+/* Solution Section (Pillars) */
 .lightBackground {
-  background-color: var(--card-background-light); /* Utilise la couleur de fond des cartes */
+  background-color: var(--card-background-light);
   color: var(--text-color-primary-light);
 }
 .darkMode .lightBackground {
@@ -361,9 +376,9 @@
 }
 
 
-/* Smart Search Section */
+/* Smart Search Section (utilise un fond sombre) */
 .darkBackground {
-  background-color: #34495e; /* Couleur de fond sombre spécifique */
+  background-color: #34495e;
   color: white;
 }
 .darkMode .darkBackground {
@@ -372,140 +387,82 @@
 .searchSection .sectionTitle,
 .searchSection .subtitle,
 .searchSection .sectionText {
-  color: white; /* S'assure que le texte est blanc sur fond sombre */
+  color: white;
 }
 
 
-/* Team Section (intégrée directement ici) */
-.teamSection {
-  padding: 80px 20px;
-  text-align: center;
+/* Core Components Section (utilise .darkBackground, donc le texte doit être blanc) */
+.coreComponentsSection .sectionTitle,
+.coreComponentsSection .subtitle {
+    color: white;
+}
+.coreComponentsSection .componentCard {
+    background: #4a667f;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    color: white;
+}
+.darkMode .coreComponentsSection .componentCard {
+    background: #3c5267;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+.coreComponentsSection .componentCard h3 {
+    color: var(--accent-color-dark);
+    margin-bottom: 15px;
+}
+.darkMode .coreComponentsSection .componentCard h3 {
+    color: var(--accent-color-light);
+}
+.coreComponentsSection .componentCard p {
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.teamGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  margin-top: 50px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-}
 
-.teamMemberCard {
-  background: var(--card-background-light);
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: var(--shadow-light);
-  text-align: center;
-  transition: transform 0.3s ease;
-  border: 1px solid #e0e0e0;
-}
-.darkMode .teamMemberCard {
-  background: var(--card-background-dark);
-  box-shadow: var(--shadow-dark);
-  border-color: #495057;
-}
-.teamMemberCard:hover {
-  transform: translateY(-5px);
-}
-
-.teamAvatar { /* Style pour les images d'avatars réelles */
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 0 auto 20px;
-  border: 4px solid var(--accent-color-light);
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-.darkMode .teamAvatar {
-  border-color: var(--accent-color-dark);
-  box-shadow: 0 0 15px rgba(0,0,0,0.4);
-}
-
-.teamMemberCard h3 {
-  margin-bottom: 10px;
-  color: var(--text-color-primary-light);
-}
-.darkMode .teamMemberCard h3 {
-  color: var(--text-color-primary-dark);
-}
-
-.teamMemberTitle {
-  color: var(--accent-color-light);
-  font-weight: 600;
-  margin-bottom: 15px;
-  font-size: 1rem;
-}
-.darkMode .teamMemberTitle {
-  color: var(--accent-color-dark);
-}
-
-.teamMemberCard p {
-  color: var(--text-color-secondary-light);
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-.darkMode .teamMemberCard p {
-  color: var(--text-color-secondary-dark);
-}
-
-/* Story Section */
-.storyContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 50px;
+/* Applications Section (utilise .lightBackground, donc le texte doit être sombre) */
+.applicationsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
     margin-top: 50px;
-    text-align: left;
 }
-
-.storyImage {
-    flex: 1;
-    min-width: 300px;
-    max-width: 50%;
-    border-radius: 12px;
-    overflow: hidden;
+.applicationsSection .applicationCard {
+    background: var(--card-background-light);
+    padding: 30px;
+    border-radius: 10px;
     box-shadow: var(--shadow-light);
+    text-align: left;
+    transition: transform 0.3s ease;
 }
-.darkMode .storyImage {
+.darkMode .applicationsSection .applicationCard {
+    background: var(--card-background-dark);
     box-shadow: var(--shadow-dark);
 }
-
-.storyImage img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
+.applicationsSection .applicationCard:hover {
+    transform: translateY(-5px);
 }
-
-.storyText {
-    flex: 1;
+.applicationsSection .applicationCard h3 {
+    color: var(--heading-color-light);
+    margin-bottom: 10px;
 }
-.storyText h2 {
-    text-align: left;
+.darkMode .applicationsSection .applicationCard h3 {
+    color: var(--heading-color-dark);
 }
-.storyText h3 {
-    font-size: 1.8rem;
-    color: var(--accent-color-light);
-    margin-bottom: 20px;
-}
-.darkMode .storyText h3 {
-    color: var(--accent-color-dark);
-}
-.storyText p {
-    font-size: 1.1rem;
-    line-height: 1.7;
+.applicationsSection .applicationCard p {
     color: var(--text-color-primary-light);
+    line-height: 1.6;
 }
-.darkMode .storyText p {
+.darkMode .applicationsSection .applicationCard p {
     color: var(--text-color-primary-dark);
 }
 
-/* CTA Section */
+
+/* CTA Section (utilise un dégradé coloré) */
 .ctaSection {
-    background: linear-gradient(135deg, #1abc9c, #16a085); /* Autre dégradé pour le CTA final */
-    color: white;
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    color: white; /* Texte volontairement blanc sur fond coloré */
     padding: 100px 40px;
+    text-align: center;
 }
 .darkMode .ctaSection {
     background: linear-gradient(135deg, #1abc9c, #1abc9c);
@@ -537,16 +494,6 @@
   .subtitle {
     font-size: 1.2rem;
   }
-  .storyContainer {
-    flex-direction: column;
-    text-align: center;
-  }
-  .storyImage, .storyText {
-    max-width: 100%;
-  }
-  .storyText h2, .storyText h3 {
-      text-align: center;
-  }
 }
 
 @media (max-width: 768px) {
@@ -556,12 +503,13 @@
   .navLinks {
     flex-direction: column;
     position: absolute;
-    top: 64px; /* Ajustez selon la hauteur de votre navbar */
+    top: 64px;
     left: 0;
     width: 100%;
     background-color: var(--navbar-background-color-light);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
+    z-index: 999;
   }
   .darkMode .navLinks {
       background-color: var(--navbar-background-color-dark);
@@ -580,6 +528,10 @@
     padding: 1rem 1.5rem;
     display: block;
     width: 100%;
+    color: var(--navbar-text-color-light);
+  }
+  .darkMode .navLinks a {
+      color: var(--navbar-text-color-dark);
   }
   .menuToggle {
     display: block;

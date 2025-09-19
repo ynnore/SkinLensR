@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaBars, FaDownload } from 'react-icons/fa'; // Import des icônes pour la navbar
+import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-import styles from './product.module.css'; // Utilisez './page.module.css' pour les styles de cette page
+import { LanguageCode } from '@/types';
+import styles from './product.module.css';
 
 // --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
 // ATTENTION: Cet objet DOIT être identique dans TOUS les fichiers .tsx utilisant les traductions.
@@ -49,59 +49,236 @@ const allTranslations = {
       en: 'Install App', fr: "Installer l'Application", hi: 'ऐप इंस्टॉल करें', mi: 'Tāuta Taupānga', ga: 'Suiteáil Aip', gd: 'Stàlaich App', cy: 'Gosod Ap', af: 'Installeer Toep',
     },
     product: { // "Nos Produits"
-      en: 'Our Products', fr: 'Nos Produits', mi: 'Ā Mātou Hua', ga: 'Ár dTáirgí', hi: 'हमारे उत्पाद', gd: 'Ar Bathar', cy: 'Ein Cynhyrchion', af: 'Ons Produkte',
+      en: 'Our Products', fr: "Nos Produits", hi: 'हमारे उत्पाद', mi: 'Ā Mātou Hua', ga: 'Ár dTáirgí', gd: 'Ar Bathar', cy: 'Ein Cynhyrchion', af: 'Ons Produkte',
     },
     features: { // "La plateforme"
-      en: 'The Platform', fr: 'La plateforme', mi: 'Te Paparanga', ga: 'An tArdán', hi: 'प्लेटफ़ॉर्म', gd: 'Am Plaicform', cy: 'Y Llwyfan', af: 'Die Platform',
+      en: 'The Platform', fr: "La plateforme", hi: 'प्लेटफ़ॉर्म', mi: 'Te Paparanga', ga: 'An tArdán', gd: 'Am Plaicform', cy: 'Y Llwyfan', af: 'Die Platform',
     },
     story: { // "Notre Histoire"
-      en: 'Our Story', fr: 'Notre Histoire', mi: 'Tō Mātou Kōrero', ga: 'Ár Scéal', hi: 'हमारी कहानी', gd: 'Ar Sgeulachd', cy: 'Ein Stori', af: 'Ons Verhaal', },
+      en: 'Our Story', fr: "Notre Histoire", hi: 'हमारी कहानी', mi: 'Tō Mātou Kōrero', ga: 'Ár Scéal', gd: 'Ar Sgeulachd', cy: 'Ein Stori', af: 'Ons Verhaal', },
     search: { // "Nos solutions"
-      en: 'Our Solutions', fr: 'Nos solutions', mi: 'Ā Mātou Rongoā', ga: 'Ár Réitigh', hi: 'हमारे समाधान', gd: 'Ar Fuasglaidhean', cy: 'Ein Datrysiadau', af: 'Ons Oplossings', },
+      en: 'Our Solutions', fr: "Nos solutions", hi: 'हमारे समाधान', mi: 'Ā Mātou Rongoā', ga: 'Ár Réitigh', gd: 'Ar Fuasglaidhean', cy: 'Ein Datrysiadau', af: 'Ons Oplossings', },
     team: { // "Notre Équipe"
-      en: 'Our Team', fr: 'Notre Équipe', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', hi: 'हमारी टीम', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
+      en: 'Our Team', fr: "Notre Équipe", hi: 'हमारी टीम', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
   },
-  productPage: { // Contient les détails de la section team
+  productPage: {
     hero: {
-      title: { en: 'The Legacy of the Depths, The Intelligence of Tomorrow.', fr: 'L\'Héritage des Profondeurs, L\'Intelligence de Demain.' },
-      subtitle: { en: 'Kiwi-Ops: The AI and Web3 platform that transforms raw data from your TBMs into operational certainty.', fr: 'Kiwi-Ops : La plateforme d\'IA et de Web3 qui transforme les données brutes de vos tunneliers en certitude opérationnelle.' },
-      ctaButton: { en: 'Join the Beta Program', fr: 'Participez au Programme Bêta' },
+      title: {
+        en: 'The Legacy of the Depths, The Intelligence of Tomorrow.',
+        fr: 'L\'Héritage des Profondeurs, L\'Intelligence de Demain.',
+        hi: 'गहराइयों की विरासत, कल की बुद्धिमत्ता।',
+        mi: 'Te Tuku Iho o ngā Hohonu, Te Mātauranga o Āpōpō.',
+        ga: 'Oidhreacht na nDoimhneachtaí, Faisnéis an Lae Amárach.',
+        gd: 'Dualchas nan Doimhneachdan, Eòlas an Latha Màireach.',
+        cy: 'Etifeddiaeth y Dyfnderoedd, Deallusrwydd Yfory.',
+        af: 'Die Erfenis van die Dieptes, Die Intelligensie van Môre.',
+      },
+      subtitle: {
+        en: 'Kiwi-Ops: The AI and Web3 platform that transforms raw data from your TBMs into operational certainty.',
+        fr: 'Kiwi-Ops : La plateforme d\'IA et de Web3 qui transforme les données brutes de vos tunneliers en certitude opérationnelle.',
+        hi: 'कीवी-ऑप्स: एआई और वेब3 प्लेटफॉर्म जो आपके टीबीएम से कच्चे डेटा को परिचालन निश्चितता में बदलता है।',
+        mi: 'Kiwi-Ops: Te papanga AI me Web3 e huri ana i ngā raraunga mata mai i ō TBM ki te tino mōhiotanga whakahaere.',
+        ga: 'Kiwi-Ops: An t-ardán AI agus Web3 a athraíonn amhshonraí ó do TBManna go cinnteacht oibriúcháin.',
+        gd: 'Kiwi-Ops: Am plàtaform AI agus Web3 a dh’atharraicheas dàta amh bho na TBMan agad gu cinnteachd obrachaidh.',
+        cy: 'Kiwi-Ops: Y llwyfan AI a Web3 sy\'n trawsnewid data crai o\'ch TBMau yn sicrwydd gweithredol.',
+        af: 'Kiwi-Ops: Die KI en Web3 platform wat rou data van jou TBMs omskakel in operasionele sekerheid.',
+      },
+      ctaButton: {
+        en: 'Join the Beta Program',
+        fr: 'Participez au Programme Bêta',
+        hi: 'बीटा प्रोग्राम में शामिल हों',
+        mi: 'Hono atu ki te Hōtaka Beta',
+        ga: 'Glac Páirt sa Chlár Béite',
+        gd: 'Thig a-steach don Phrògram Beta',
+        cy: 'Ymunwch â\'r Rhaglen Beta',
+        af: 'Sluit aan by die Beta Program',
+      },
     },
-    // Le contenu des sections Challenge, Solution, Features, Search, Team, Story et CTA
-    // sera maintenant présenté sous forme de cartes dans la nouvelle section productCards.
-    // Leurs traductions spécifiques restent ici pour être utilisées par les cartes.
     challenge: {
-      title: { en: 'Every Meter Counts. Every Hour of Downtime Costs.', fr: 'Chaque Mètre Compte. Chaque Heure d\'Arrêt Coûte.' },
-      point1: { en: 'The nightmare of a stalled TBM: Millions lost in penalties and costs for a failure that could have been anticipated.', fr: 'Le cauchemar d\'un tunnelier à l\'arrêt : Des millions perdus en pénalités pour une panne qui aurait pu être anticipée.' },
-      point2: { en: 'Opacity that erodes trust: How to prove progress and ensure total transparency to stakeholders and citizens?', fr: 'L\'opacité qui érode la confiance : Comment garantir une transparence totale aux investisseurs et aux citoyens ?' },
-      point3: { en: 'The invisible risk: How to ensure maximum team safety in a constantly evolving underground environment?', fr: 'Le risque invisible : Comment assurer la sécurité maximale des équipes à des dizaines de mètres sous terre ?' },
+      title: {
+        en: 'Every Meter Counts. Every Hour of Downtime Costs.',
+        fr: 'Chaque Mètre Compte. Chaque Heure d\'Arrêt Coûte.',
+        hi: 'हर मीटर मायने रखता है। हर घंटे का डाउनटाइम महंगा होता है।',
+        mi: 'He mea nui ia mita. He utu nui ia haora o te wā kore mahi.',
+        ga: 'Tá gach Meadar Tábhachtach. Cosnaíonn Gach Uair an Chloig Gan Obair.',
+        gd: 'Tha gach Meatair Cudromach. Tha gach Uair a-thìde de Shìos-ùine a’ Cosg.',
+        cy: 'Mae Pob Mesurydd yn Cyfrif. Mae Pob Awr o Amser Segur yn Costio.',
+        af: 'Elke Meter Tel. Elke Uur Stilstand Kos Geld.',
+      },
+      point1: {
+        en: 'The nightmare of a stalled TBM: Millions lost in penalties and costs for a failure that could have been anticipated.',
+        fr: 'Le cauchemar d\'un tunnelier à l\'arrêt : Des millions perdus en pénalités pour une panne qui aurait pu être anticipée.',
+        hi: 'एक रुके हुए टीबीएम का दुःस्वप्न: एक ऐसी विफलता के लिए लाखों का नुकसान जो पहले से अनुमानित की जा सकती थी।',
+        mi: 'Te moemoeā o te TBM kua mutu: He miriona kua ngaro i roto i ngā whiu me ngā utu mō te korenga i taea te matapae.',
+        ga: 'An tromluí a bhaineann le TBM stoptha: Na milliúin caillte i bpionóis agus costais mar gheall ar theip a d\'fhéadfaí a thuar.',
+        gd: 'An trom-laighe a thig le TBM air stad: Milleanan air chall ann am peanasan agus cosgaisean airson fàilligeadh a dh’fhaodadh a bhith air a ro-innse.',
+        cy: 'Hunllef TBM sydd wedi stopio: Miliynau ar goll mewn cosbau a chostau am fethiant a allai fod wedi\'i ragweld.',
+        af: 'Die nagmerrie van \'n stilstaande TBM: Miljoene verloor in boetes en koste vir \'n mislukking wat voorkom kon word.',
+      },
+      point2: {
+        en: 'Opacity that erodes trust: How to prove progress and ensure total transparency to stakeholders and citizens?',
+        fr: 'L\'opacité qui érode la confiance : Comment garantir une transparence totale aux investisseurs et aux citoyens ?',
+        hi: 'अस्पष्टता जो विश्वास को खत्म करती है: हितधारकों और नागरिकों को प्रगति कैसे साबित करें और पूर्ण पारदर्शिता कैसे सुनिश्चित करें?',
+        mi: 'Te ngaro o te mārama e patu ana i te whakawhirinaki: Me pēhea te whakaatu i te ahunga whakamua me te whakarite i te mārama katoa ki ngā kaipupuri me ngā tāngata whenua?',
+        ga: 'Doiléire a chreimeann muinín: Conas dul chun cinn a chruthú agus trédhearcacht iomlán a chinntiú do pháirtithe leasmhara agus do shaoránaigh?',
+        gd: 'Neo-fhaicsinneachd a chriomaicheas earbsa: Ciamar a dhearbhas tu adhartas agus a nì thu cinnteach gu bheil follaiseachd iomlan do luchd-ùidh agus saoranaich?',
+        cy: 'Tryloywder sy\'n erydu ymddiriedaeth: Sut i brofi cynnydd a sicrhau tryloywder llawn i randdeiliaid a dinasyddion?',
+        af: 'Ondeursigtigheid wat vertroue erodeer: Hoe om vordering te bewys en totale deursigtigheid aan belanghebbendes en burgers te verseker?',
+      },
+      point3: {
+        en: 'The invisible risk: How to ensure maximum team safety in a constantly evolving underground environment?',
+        fr: 'Le risque invisible : Comment assurer la sécurité maximale des équipes à des dizaines de mètres sous terre ?',
+        hi: 'अदृश्य जोखिम: लगातार विकसित हो रहे भूमिगत वातावरण में टीम की अधिकतम सुरक्षा कैसे सुनिश्चित करें?',
+        mi: 'Te mōrearea kore e kitea: Me pēhea te whakarite i te tino haumaru o te tīma i roto i te taiao o raro e huri haere tonu ana?',
+        ga: 'An riosca dofheicthe: Conas an tsábháilteacht foirne uasta a chinntiú i dtimpeallacht faoi thalamh atá ag athrú go leanúnach?',
+        gd: 'An cunnart neo-fhaicsinneach: Ciamar a nì thu cinnteach gu bheil an sàbhailteachd sgioba as àirde ann an àrainneachd fon talamh a tha a’ sìor atharrachadh?',
+        cy: 'Y risg anweledig: Sut i sicrhau diogelwch tîm mwyaf posibl mewn amgylchedd tanddaearol sy\'n datblygu\'n gyson?',
+        af: 'Die onsigbare risiko: Hoe om maksimum spanveiligheid te verseker in \'n voortdurend veranderende ondergrondse omgewing?',
+      },
     },
-    solution: { // Cette section est utilisée pour le corps de la nouvelle page /platform
-      title: { en: 'We don’t give you data. We give you Control.', fr: 'Nous ne vous donnons pas des données. Nous vous offrons la Maîtrise.' },
-      pillar1Title: { en: 'Kiwi-Edge: Intelligence at the Frontline', fr: 'Kiwi-Edge : L\'Intelligence au Front' },
-      pillar1Text: { en: 'Our NVIDIA Jetson-powered device installs directly on your TBM, analyzing data in real-time for instant anomaly detection and predictive maintenance, even offline.', fr: 'Notre boîtier, équipé NVIDIA Jetson, s\'installe sur votre tunnelier pour une détection d\'anomalies et une maintenance prédictive instantanées, même sans connexion.' },
-      pillar2Title: { en: 'Kiwi-Cloud: The Strategic Vision', fr: 'Kiwi-Cloud : La Vision Stratégique' },
-      pillar2Text: { en: 'Relevant data is synced to our secure GCP cloud platform. Our advanced Vertex AI models compare fleet-wide performance and continuously refine predictions.', fr: 'Les données pertinentes sont synchronisées sur notre plateforme cloud (GCP). Nos modèles d\'IA (Vertex AI) comparent les performances de toute votre flotte.' },
-      pillar3Title: { en: 'Kiwi-Ledger: The Ledger of Trust', fr: 'Kiwi-Ledger : Le Registre de Confiance' },
-      pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
+    solution: {
+      title: {
+        en: 'We don’t give you data. We give you Control.',
+        fr: 'Nous ne vous donnons pas des données. Nous vous offrons la Maîtrise.',
+        hi: 'हम आपको डेटा नहीं देते। हम आपको नियंत्रण देते हैं।',
+        mi: 'Kare mātou e hoatu raraunga ki a koe. Ka hoatu e mātou te Mana ki a koe.',
+        ga: 'Ní thugaimid sonraí duit. Tugaimid Rialú duit.',
+        gd: 'Cha toir sinn dhut dàta. Bheir sinn dhut Smachd.',
+        cy: 'Nid ydym yn rhoi data i chi. Rydym yn rhoi Rheolaeth i chi.',
+        af: 'Ons gee jou nie data nie. Ons gee jou Beheer.',
+      },
+      pillar1Title: {
+        en: 'Kiwi-Edge: Intelligence at the Frontline',
+        fr: 'Kiwi-Edge : L\'Intelligence au Front',
+        hi: 'कीवी-एज: अग्रिम पंक्ति पर बुद्धिमत्ता',
+        mi: 'Kiwi-Edge: Te Mātauranga i te Rārangi Ope.',
+        ga: 'Kiwi-Edge: Faisnéis ag an Líne Tosaigh',
+        gd: 'Kiwi-Edge: Eòlas aig an Aghaidh',
+        cy: 'Kiwi-Edge: Deallusrwydd ar y Rheng Flaen',
+        af: 'Kiwi-Edge: Intelligensie aan die Voorkant',
+      },
+      pillar1Text: {
+        en: 'Our NVIDIA Jetson-powered device installs directly on your TBM, analyzing data in real-time for instant anomaly detection and predictive maintenance, even offline.',
+        fr: 'Notre boîtier, équipé NVIDIA Jetson, s\'installe sur votre tunnelier pour une détection d\'anomalies et une maintenance prédictive instantanées, même sans connexion.',
+        hi: 'हमारा एनवीडिया जेटसन-संचालित उपकरण आपके टीबीएम पर सीधे स्थापित होता है, जो वास्तविक समय में डेटा का विश्लेषण करता है ताकि तत्काल विसंगति का पता लगाया जा सके और भविष्य कहनेवाला रखरखाव किया जा सके, यहां तक कि ऑफ़लाइन भी।',
+        mi: 'Ka tāuta tika tō mātou pūrere NVIDIA Jetson ki runga i tō TBM, ka tātari i ngā raraunga i te wā tūturu mō te kitenga hē tere me te tiaki matapae, ahakoa kāore he hononga ipurangi.',
+        ga: 'Suiteálann ár bhfeiste atá faoi thiomáint ag NVIDIA Jetson go díreach ar do TBM, ag anailísiú sonraí i bhfíor-am le haghaidh braite neamhrialtachtaí láithreach agus cothabháil thuarthach, fiú as líne.',
+        gd: 'Bidh an t-inneal againn le cumhachd NVIDIA Jetson a’ stàladh gu dìreach air do TBM, a’ dèanamh anailis air dàta ann an àm fìor airson lorg neo-riaghailteachdan sa bhad agus cumail suas ro-innseach, eadhon far-loidhne.',
+        cy: 'Mae ein dyfais a bwerir gan NVIDIA Jetson yn gosod yn uniongyrchol ar eich TBM, gan ddadansoddi data mewn amser real ar gyfer canfod annormaleddau ar unwaith a chynnal a chadw rhagfynegol, hyd yn oed all-lein.',
+        af: 'Ons NVIDIA Jetson-aangedrewe toestel installeer direk op jou TBM, en ontleed data in reële tyd vir onmiddellike afwykingopsporing en voorspellende instandhouding, selfs vanlyn.',
+      },
+      pillar2Title: {
+        en: 'Kiwi-Cloud: The Strategic Vision',
+        fr: 'Kiwi-Cloud : La Vision Stratégique',
+        hi: 'कीवी-क्लाउड: रणनीतिक दृष्टि',
+        mi: 'Kiwi-Cloud: Te Tirohanga Rautaki.',
+        ga: 'Kiwi-Cloud: An Fís Straitéiseach',
+        gd: 'Kiwi-Cloud: An Lèirsinn Ro-innleachdail',
+        cy: 'Kiwi-Cloud: Y Weledigaeth Strategol',
+        af: 'Kiwi-Cloud: Die Strategiese Visie',
+      },
+      pillar2Text: {
+        en: 'Relevant data is synced to our secure GCP cloud platform. Our advanced Vertex AI models compare fleet-wide performance and continuously refine predictions.',
+        fr: 'Les données pertinentes sont synchronisées sur notre plateforme cloud (GCP). Nos modèles d\'IA (Vertex AI) comparent les performances de toute votre flotte.',
+        hi: 'प्रासंगिक डेटा हमारे सुरक्षित GCP क्लाउड प्लेटफॉर्म पर सिंक्रनाइज़ होता है। हमारे उन्नत वर्टेक्स एआई मॉडल बेड़े-व्यापी प्रदर्शन की तुलना करते हैं और लगातार भविष्यवाणियों को परिष्कृत करते हैं।',
+        mi: 'Ka tukutahia ngā raraunga whai take ki tō mātou papanga kapua GCP haumaru. Ka whakatauritehia e a mātou tauira Vertex AI te mahi o te katoa o te waka, ā, ka whakapai tonu i ngā matapae.',
+        ga: 'Déantar sonraí ábhartha a shioncronú lenár n-ardán scamall slán GCP. Déanann ár múnlaí ardfhorbartha Vertex AI comparáid idir feidhmíocht an chabhlaigh ar fad agus leanann siad ar aghaidh ag feabhsú tuar.',
+        gd: 'Bidh dàta buntainneach air a shioncronachadh ris an àrd-ùrlar sgòth GCP tèarainte againn. Bidh na modalan Vertex AI adhartach againn a’ dèanamh coimeas eadar coileanadh air feadh an cabhlaich agus a’ leantainn air adhart ag ath-leasachadh ro-innsean.',
+        cy: 'Mae data perthnasol yn cael ei gysoni i\'n platfform cwmwl GCP diogel. Mae ein modelau Vertex AI datblygedig yn cymharu perfformiad ar draws y fflyd ac yn mireinio rhagfynegiadau yn barhaus.',
+        af: 'Relevante data word gesinkroniseer met ons veilige GCP-wolkplatform. Ons gevorderde Vertex AI-modelle vergelyk vlootwye prestasie en verfyn voorspellings voortdurend.',
+      },
+      pillar3Title: {
+        en: 'Kiwi-Ledger: The Ledger of Trust',
+        fr: 'Kiwi-Ledger : Le Registre de Confiance',
+        hi: 'कीवी-लेजर: विश्वास का खाता',
+        mi: 'Kiwi-Ledger: Te Rehita Whakawhirinaki.',
+        ga: 'Kiwi-Ledger: Leabhar Iontaobhais',
+        gd: 'Kiwi-Ledger: An Leabhar-cunntais Earbsa',
+        cy: 'Kiwi-Ledger: Y Llyfr Ymddiriedaeth',
+        af: 'Kiwi-Ledger: Die Grootboek van Vertroue',
+      },
+      pillar3Text: {
+        en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.',
+        fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.',
+        hi: 'प्रत्येक प्रमुख घटना कीवी-एज द्वारा प्रमाणित होती है और एक वेब3 लेजर पर दर्ज की जाती है। यह आपकी अपरिवर्तनीय लॉगबुक है, आपकी परियोजना की प्रगति का अकाट्य प्रमाण।',
+        mi: 'Ka whakamanahia ia kaupapa matua e Kiwi-Edge, ka tuhia ki runga i te rehita Web3. Ko tō rārangi puka kore e taea te whakarereke, te tohu mārama o te ahunga whakamua o tō kaupapa.',
+        ga: 'Déanann Kiwi-Edge gach príomhimeacht a dheimhniú agus a thaifeadadh ar leabhar Web3. Is é do leabhar logála dho-athraithe é, an fhianaise dho-chiallaí ar dhul chun cinn do thionscadail.',
+        gd: 'Tha gach prìomh thachartas air a dhearbhadh le Kiwi-Edge agus air a chlàradh air leabhar-cunntais Web3. Is e seo an leabhar-latha neo-atharraichte agad, an dearbhadh do-sheachanta air adhartas do phròiseict.',
+        cy: 'Mae pob digwyddiad allweddol yn cael ei ardystio gan Kiwi-Edge ac wedi\'i gofnodi ar lyfr Web3. Eich loglyfr anffaeledig ydyw, y prawf diamheuol o gynnydd eich prosiect.',
+        af: 'Elke sleutelgebeurtenis word deur Kiwi-Edge gesertifiseer en op \'n Web3-grootboek aangeteken. Dit is jou onveranderlike logboek, die onweerlegbare bewys van jou projek se vordering.',
+      },
     },
     features: {
       title: {
         en: 'A Platform Designed for Performance and Simplicity',
         fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
-        hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़ॉर्म',
+        hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़orm',
         mi: 'He Paparanga i Hangaia mo te Mahi me te Maamaa',
         ga: 'Ardán Deartha le haghaidh Feidhmíochta agus Simplíochta',
         gd: 'Àrd-ùrlar air a dhealbhadh airson coileanadh agus sìmplidheachd',
         cy: 'Llwyfan Wedi\'i Ddylunio ar gyfer Perfformiad a Symlrwydd',
         af: 'N Platform Ontwerp vir Prestasie en Eenvoud',
       },
-      speedTitle: { en: 'Speed: From Data to Decision in Milliseconds', fr: 'Rapidité : De la Donnée à la Décision en Millisecondes' },
-      speedText: { en: 'Our Edge AI architecture processes critical information where it happens: directly on the machine, enabling a proactive approach.', fr: 'Notre architecture Edge AI traite les informations critiques là où elles se produisent. Passez d\'un mode réactif à un mode proactif.' },
-      securityTitle: { en: 'Security: Trust is Not an Option. It\'s a Guarantee.', fr: 'Sécurité : La Confiance n\'est pas une option. C\'est une garantie.' },
-      securityText: { en: 'With cryptographically signed data (Web3) and a state-of-the-art infrastructure (GCP), we ensure the integrity of your data and operations.', fr: 'Avec des données signées cryptographiquement (Web3) et une infrastructure de pointe (GCP), nous garantissons l\'intégrité de vos opérations.' },
-      integrationTitle: { en: 'Simple Integration: Designed for Your Reality, Not Ours.', fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.' },
-      integrationText: { en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.', fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".' },
+      speedTitle: {
+        en: 'Speed: From Data to Decision in Milliseconds',
+        fr: 'Rapidité : De la Donnée à la Décision en Millisecondes',
+        hi: 'गति: मिलीसेकंड में डेटा से निर्णय तक',
+        mi: 'Tere: Mai i te Raraunga ki te Whakatau i roto i ngā Millihēkona.',
+        ga: 'Luas: Ó Shonraí go Cinneadh i Milliseicindí',
+        gd: 'Luas: Bho Dàta gu Co-dhùnadh ann an Milliseconds',
+        cy: 'Cyflymder: O Ddata i Benderfyniad mewn Miliseiliadau',
+        af: 'Spoed: Van Data na Besluit in Millisekondes',
+      },
+      speedText: {
+        en: 'Our Edge AI architecture processes critical information where it happens: directly on the machine, enabling a proactive approach.',
+        fr: 'Notre architecture Edge AI traite les informations critiques là où elles se produisent. Passez d\'un mode réactif à un mode proactif.',
+        hi: 'हमारी एज एआई वास्तुकला महत्वपूर्ण जानकारी को वहीं संसाधित करती है जहां यह होता है: सीधे मशीन पर, एक सक्रिय दृष्टिकोण को सक्षम करती है।',
+        mi: 'Ka tukatukahia e tō mātou hoahoanga Edge AI ngā pārongo whakahirahira i te wāhi e puta ai: tika i runga i te mihini, ka taea he huarahi whakatika.',
+        ga: 'Próiseálann ár n-ailtireacht Edge AI faisnéis ríthábhachtach san áit a dtarlaíonn sé: go díreach ar an meaisín, ag cumasú cur chuige réamhghníomhach.',
+        gd: 'Bidh an ailtireachd Edge AI againn a’ giullachd fiosrachadh èiginneach far a bheil e a’ tachairt: gu dìreach air an inneal, a’ comasachadh dòigh-obrach for-ghnìomhach.',
+        cy: 'Mae ein penseiri AI Ymyl yn prosesu gwybodaeth hollbwysig lle mae\'n digwydd: yn uniongyrchol ar y peiriant, gan alluogi dull rhagweithiol.',
+        af: 'Ons Edge KI-argitektuur verwerk kritieke inligting waar dit plaasvind: direk op die masjien, wat \'n proaktiewe benadering moontlik maak.',
+      },
+      securityTitle: {
+        en: 'Security: Trust is Not an Option. It\'s a Guarantee.',
+        fr: 'Sécurité : La Confiance n\'est pas une option. C\'est une garantie.',
+        hi: 'सुरक्षा: विश्वास एक विकल्प नहीं है। यह एक गारंटी है।',
+        mi: 'Haumaru: Ehara te Whakawhirinaki i te Kōwhiringa. He Whakaū.',
+        ga: 'Slándáil: Ní Rogha é Iontaobhas. Is Ráthaíocht é.',
+        gd: 'Tèarainteachd: Chan e Roghainn a th’ ann an earbsa. Is e Gealltanas a th’ ann.',
+        cy: 'Diogelwch: Nid yw Ymddiriedaeth yn Opsiwn. Mae\'n Warant.',
+        af: 'Sekuriteit: Vertroue is Nie \'n Opsie Nie. Dit is \'n Waarborg.',
+      },
+      securityText: {
+        en: 'With cryptographically signed data (Web3) and a state-of-the-art infrastructure (GCP), we ensure the integrity of your data and operations.',
+        fr: 'Avec des données signées cryptographiquement (Web3) et une infrastructure de pointe (GCP), nous garantissons l\'intégrité de vos opérations.',
+        hi: 'क्रिप्टोग्राफिक रूप से हस्ताक्षरित डेटा (वेब3) और अत्याधुनिक इन्फ्रास्ट्रक्चर (GCP) के साथ, हम आपके डेटा और संचालन की अखंडता सुनिश्चित करते हैं।',
+        mi: 'Ki te raraunga kua hainatia ā-whakamuna (Web3) me te hanganga hou (GCP), ka whakarite mātou i te tika o ō raraunga me ō mahi.',
+        ga: 'Le sonraí sínithe go cripteagrafach (Web3) agus bonneagar úrscothach (GCP), cinntímid sláine do shonraí agus d\'oibríochtaí.',
+        gd: 'Le dàta air a shoidhnigeadh gu cripteagrafach (Web3) agus bun-structar ùr-nodha (GCP), nì sinn cinnteach gu bheil ionracas do dhàta agus do ghnìomhachd.',
+        cy: 'Gyda data wedi\'i lofnodi\'n cryptograffig (Web3) a seilwaith o\'r radd flaenaf (GCP), rydym yn sicrhau uniondeb eich data a\'ch gweithrediadau.',
+        af: 'Met kriptografies ondertekende data (Web3) en \'n moderne infrastruktuur (GCP), verseker ons die integriteit van jou data en operasies.',
+      },
+      integrationTitle: {
+        en: 'Simple Integration: Designed for Your Reality, Not Ours.',
+        fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.',
+        hi: 'सरल एकीकरण: आपकी वास्तविकता के लिए डिज़ाइन किया गया, हमारी नहीं।',
+        mi: 'Whakaurunga Ngāwari: I Hoahoatia mō Tō Ōritetanga, Ehara mō Tō Mātou.',
+        ga: 'Comhtháthú Simplí: Deartha Do Do Réaltacht, Ní dár gCuid Féin.',
+        gd: 'Amalachadh Sìmplidh: Air a Dhealbhadh Airson Do Fhìrinn, Chan e na h-Againne.',
+        cy: 'Integreiddio Syml: Wedi\'i Ddylunio ar gyfer Eich Realiti, Nid Ein Un Ni.',
+        af: 'Eenvoudige Integrasie: Ontwerp vir Jou Realiteit, Nie Ons S\'n Nie.',
+      },
+      integrationText: {
+        en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.',
+        fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".',
+        hi: 'हमारा कीवी-एज डिवाइस आपके मौजूदा सेंसर सिस्टम से गैर-घुसपैठ, प्लग एंड प्ले दृष्टिकोण में जुड़ने के लिए डिज़ाइन किया गया है।',
+        mi: 'I hoahoatia tō mātou pūrere Kiwi-Edge kia hono atu ki ō pūnaha pūoko o nāianei i roto i te huarahi kore-whakararuraru, "plug & play".',
+        ga: 'Tá ár bhfeiste Kiwi-Edge deartha chun nascadh le do chórais braiteora atá ann cheana féin ar bhealach neamh-ionrach, plug & play.',
+        gd: 'Tha an t-inneal Kiwi-Edge againn air a dhealbhadh gus ceangal ri na siostaman sensor a th’ agad mu thràth ann an dòigh neo-ionnsaigheach, plug & play.',
+        cy: 'Mae ein dyfais Kiwi-Edge wedi\'i dylunio i gysylltu â\'ch systemau synhwyrydd presennol mewn dull di-ymyrraeth, plug & play.',
+        af: 'Ons Kiwi-Edge-toestel is ontwerp om aan jou bestaande sensorsisteme te koppel met \'n nie-indringende, prop-en-speel benadering.',
+      },
     },
     search: { // Titre de la section "Smart Search" sur la page produit
       title: {
@@ -109,57 +286,178 @@ const allTranslations = {
         fr: 'Ne cherchez plus l\'information. Obtenez la réponse.',
         hi: 'जानकारी न खोजें। उत्तर प्राप्त करें।',
         mi: 'Kaua e rapu mōhiohio. Tikina te whakautu.',
-        ga: 'Ná lorg eolas. Faigh an freagra.',
+        ga: 'Ná cuardaigh faisnéis. Faigh an freagra.',
         gd: 'Na seall airson fiosrachadh. Faigh am freagairt.',
         cy: 'Peidiwch â chwilio am wybodaeth. Cael yr ateb.',
         af: 'Moenie inligting soek nie. Kry die antwoord.',
       },
-      subtitle: { en: 'Our Smart Search turns your archives into a 24/7 operational expert.', fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.' },
-      text: { en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.', fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.' },
-    },
-    story: { // Titre de la section "Our Story" sur la page produit
-      title: {
-        en: 'Our Story',
-        fr: 'Notre Histoire',
-        hi: 'हमारी कहानी',
-        mi: 'Tō mātou Kōrero',
-        ga: 'Ár Scéal',
-        gd: 'Ar Sgeulachd',
-        cy: 'Ein Stori',
-        af: 'Ons Verhaal',
+      subtitle: {
+        en: 'Our Smart Search turns your archives into a 24/7 operational expert.',
+        fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.',
+        hi: 'हमारी स्मार्ट खोज आपके अभिलेखागार को 24/7 परिचालन विशेषज्ञ में बदल देती है।',
+        mi: 'Ka huri a mātou Rapu Mātauranga i ō pūranga hei tohunga mahi 24/7.',
+        ga: 'Déanann ár gCuardach Cliste do chartlanna a thiontú ina shaineolaí oibriúcháin 24/7.',
+        gd: 'Bidh an Rannsachadh Smart againn ag atharrachadh nan tasglannan agad gu eòlaiche obrachaidh 24/7.',
+        cy: 'Mae ein Chwilio Clyfar yn troi eich archifau yn arbenigwr gweithredol 24/7.',
+        af: 'Ons Slim Soektog verander jou argiewe in \'n 24/7 operasionele kundige.',
       },
-      subtitle: { en: 'Born from a legacy. Focused on the future.', fr: 'Nés d\'un héritage. Tournés vers l\'avenir.' },
-      text: { // Texte complet de l'histoire (narratif)
-        en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders. We believe that under every meter of earth lies a cultural heritage, an educational opportunity, and a form of art that our technology can reveal. We transform raw data from TBMs into operational certainty, integrating the art of anticipation, the richness of operational culture, and the power of data-driven education, extending this intelligence from the depths to critical operations across Air, Land, and Sea.',
-        fr: 'Notre histoire ne commence pas avec du code, mais avec le son d\'une pioche dans la craie. Arras, 1917. L\'ingéniosité des sapeurs "Kiwis" était de rendre l\'invisible, visible. Aujourd\'hui, nous perpétuons cet héritage. Là où ils écoutaient la terre, nous appliquons l\'IA. Kiwi-Ops est le pont entre l\'héritage d\'hier et la technologie des bâtisseurs de demain. Nous croyons que sous chaque mètre de terre se cache un héritage culturel, une opportunité d\'éducation et une forme d\'art que notre technologie peut révéler. Nous transformons les données brutes des tunneliers en certitude opérationnelle, intégrant l\'art de l\'anticipation, la richesse de la culture opérationnelle et la puissance de l\'éducation par la donnée, étendant cette intelligence des profondeurs aux opérations critiques sur l\'Air, la Terre et la Mer.',
-        hi: 'हमारी कहानी कोड की एक पंक्ति से नहीं, बल्कि चाक में एक कुदाल की आवाज से शुरू होती है। अरास में, 1917 में, कीवी सुरंग बनाने वालों की सरलता अदृश्य को दृश्यमान बनाना था। आज, हम इस विरासत को आगे बढ़ाते हैं। जहां वे पृथ्वी को सुनते थे, हम एआई लागू करते हैं। कीवी-ऑप्स कल के सुरंग बनाने वालों की विरासत और कल के बिल्डरों की तकनीक के बीच एक सेतु है। हम मानते हैं कि पृथ्वी के हर मीटर के नीचे एक सांस्कृतिक विरासत, एक शैक्षिक अवसर, और कला का एक रूप छिपा है जिसे हमारी तकनीक प्रकट कर सकती है। हम टीबीएम से कच्चे डेटा को परिचालन निश्चितता में बदलते हैं, प्रत्याशा की कला, परिचालन संस्कृति की समृद्धि, और डेटा-संचालित शिक्षा की शक्ति को एकीकृत करते हैं, इस बुद्धिमत्ता को गहराई से लेकर वायु, भूमि और समुद्र में महत्वपूर्ण संचालन तक विस्तारित करते हैं।',
-        mi: 'Karekau tō mātou kōrero i tīmata i te rārangi waehere, engari ki te tangi a te toki i te tōtō. I Arras, 1917, ko te rawe o ngā kaikeri Kiwi he whakaputa i te mea huna kia kitea. I ēnei rā, kei te kawe tonu mātou i tēnei taonga tuku iho. I a rātou i whakarongo ki te whenua, ka whakamahi mātou i te AI. He piriti a Kiwi-Ops i waenganui i te taonga tuku iho o ngā kaikeri o mua, me te hangarau o ngā kaihanga o anamata. E whakapono ana mātou kei raro i ia mita o te whenua tētahi taonga tuku iho ahurea, tētahi whai wāhi mātauranga, me tētahi momo toi ka taea e tō mātou hangarau te whakaatu. Ka hurihia e mātou ngā raraunga mata mai i ngā TBM ki te tino mōhiotanga whakahaere, e whakauru ana i te toi o te tūponotanga, te taonga o te ahurea whakahaere, me te kaha o te mātauranga raraunga-akiaki, e toroa ana tēnei mātauranga mai i ngā hōhonutanga ki ngā mahi whakahirahira puta noa i te Hau, te Whenua, me te Moana.',
-        ga: 'Ní thosaíonn ár scéal le líne cóid, ach le fuaim phiocóide sa chailc. In Arras, 1917, ba é intleacht na dtairní Kiwí an rud dofheicthe a dhéanamh infheicthe. Inniu, leanann muid ar an oidhreacht seo. Nuair a d\'éist siad leis an talamh, cuirimid AI i bhfeididhm. Is é Kiwi-Ops an droichead idir oidhreacht thairní an lae inné agus teicneolaíocht thógálaithe an lae amárach. Creidimid go bhfuil oidhreacht chultúrtha, deis oideachais, agus foirm ealaíne ceilte faoi gach méadar talún ar féidir lenár dteicneolaíocht a nochtadh. Déanaimid amhshonraí ó TBManna a athrú go cinnteacht oibriúcháin, ag comhtháthú ealaín an réamhaistrithe, saibhreas an chultúir oibriúcháin, agus cumhacht an oideachais bunaithe ar shonraí, ag leathnú an intleacht seo ó na doimhneachdan gu gnìomhachdan èiginneach thar Adhair, Talmhainn, agus Muir.',
-        gd: 'Cha tòisich ar sgeulachd le sreath de chòd, ach le fuaim pickaxe ann an clach-aoil. Ann an Arras, 1917, b\' e innleachd nan tunail Kiwí an rud do-fhaicsinneach a dhèanamh ri fhaicinn. An-dè, tha sinn a\' leantainn air an dualchas seo. Far an robh iad ag èisteachd ris an talamh, cuiridh sinn an sàs AI. Tha Kiwi-Ops an drochaid eadar dualchas luchd-tunail an-dè agus teicneòlas luchd-togail an-màireach. Tha sinn a\' creidsinn gu bheil dualchas cultarach, cothrom foghlaim, agus cruth ealain falaichte fo gach meatair de thalamh as urrainn don teicneòlas againn fhoillseachadh. Bidh sinn ag atharrachadh dàta amh bho TBMan gu cinnteachd obrachaidh, a\' toirt a-steach ealain an dùil, beairteas cultar obrachaidh, agus cumhachd foghlam stèidhichte air dàta, a\' leudachadh an tuigse seo bho na doimhneachdan gu gnìomhachdan èiginneach thar Adhair, Talmhainn, agus Muir.',
-        cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf gelfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau critigol ar draws Awyr, Tir, a Môr.',
-        af: 'Ons storie begin nie met \'n reël kode nie, maar met die geluid van \'n pik in kryt. In Arras, 1917, was die vindingrykheid van die Kiwi-tonnelgrawers om die onsigbare sigbaar te maak. Vandag dra ons hierdie nalatenskap voort. Waar hulle na die aarde geluister het, pas ons KI toe. Kiwi-Ops is die brug tussen die nalatenskap van gister se tonnelgrawers en die tegnologie van môre se bouers. Ons glo dat onder elke meter aarde \'n kulturele erfenis, \'n opvoedkundige geleentheid, en \'n vorm van kuns lê wat ons tegnologie kan openbaar. Ons omskep rou data van TBMs in operasionele sekerheid, deur die kuns van afwagting, die rykdom van operasionele kultuur, en die krag van data-gedrewe onderwys te integreer, en hierdie intelligensie uit die dieptes uit te brei na kritieke operasies oor Lug, Land, en See.',
+      text: {
+        en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.',
+        fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.',
+        hi: 'प्राकृतिक भाषा में एक जटिल प्रश्न पूछें और सेकंड में एक तथ्यात्मक, स्रोत-आधारित उत्तर प्राप्त करें। हमारा A2A प्रोटोकॉल आपकी क्वेरी को सबसे अच्छे विशेषीकृत एआई मॉडल पर गतिशील रूप से रूट करता है ताकि सही जानकारी मिल सके, चाहे वह तकनीकी रिपोर्ट, रखरखाव लॉग या भूवैज्ञानिक सर्वेक्षण में हो।',
+        mi: 'Patai i tētahi pātai matatini i roto i te reo tūturu, ā, ka whiwhi whakautu pono, ā-puna i roto i ngā hēkona. Ka hono hāngai tō mātou tikanga A2A i tō pātai ki ngā tauira AI motuhake pai rawa atu hei kimi i ngā pārongo tika, ahakoa kei roto i ngā pūrongo hangarau, ngā rākau tiaki, ngā rangahau whenua rānei.',
+        ga: 'Cuir ceist chasta i dteanga nádúrtha agus faigh freagra fíorasach, foinseach i soicindí. Déanann ár bprótacal A2A do cheist a atreorú go dinimiciúil chuig na samhlacha AI speisialaithe is fearr chun an fhaisnéis cheart a aimsiú, bíodh sé i dtuarascálacha teicniúla, logaí cothabhála, nó suirbhéanna geolaíocha.',
+        gd: 'Faighnich ceist iom-fhillte ann an cànan nàdarra agus faigh freagairt fhìor, stòraichte ann an diogan. Bidh am protocol A2A againn a’ stiùireadh do cheist gu dinamach gu na modalan AI sònraichte as fheàrr gus am fiosrachadh ceart a lorg, ge bith a bheil e ann an aithisgean teicnigeach, logaichean cumail suas, no sgrùdaidhean geòlais.',
+        cy: 'Gofynnwch gwestiwn cymhleth mewn iaith naturiol a chewch ateb ffeithiol, wedi\'i ffynonellau mewn eiliadau. Mae ein protocol A2A yn llwybro eich ymholiad yn ddeinamig i\'r modelau AI arbenigol gorau i ddod o hyd i\'r wybodaeth gywir, p\'un a yw mewn adroddiadau technegol, logiau cynnal a chadw, neu arolygon daearegol.',
+        af: 'Vra \'n komplekse vraag in natuurlike taal en kry \'n feitelike, brongebaseerde antwoord binne sekondes. Ons A2A-protokol stuur jou navraag dinamies na die beste gespesialiseerde KI-modelle om die regte inligting te vind, of dit nou in tegniese verslae, instandhoudingslogboeke of geologiese opnames is.',
+      },
+    },
+    // Définitions pour les nouvelles sections "Core Components" et "Applications"
+    coreComponents: {
+      title: {
+        en: 'Kiwi-Ops Product Architecture: Powering Your Operations',
+        fr: 'Architecture Produit Kiwi-Ops : Propulsez Vos Opérations',
+        hi: 'कीवी-ऑप्स उत्पाद वास्तुकला: आपके संचालन को शक्ति प्रदान करना',
+        mi: 'Hoahoanga Hua Kiwi-Ops: Te Whakakaha i ō Mahi.',
+        ga: 'Ailtireacht Táirgí Kiwi-Ops: Ag Cumhachtú Do Oibríochtaí',
+        gd: 'Ailtireachd Bathar Kiwi-Ops: A’ toirt cumhachd do na h-obraichean agad',
+        cy: 'Pensaernïaeth Cynnyrch Kiwi-Ops: Pweru Eich Gweithrediadau',
+        af: 'Kiwi-Ops Produksargitektuur: Dryf Jou Operasies Aan',
+      },
+      intro: {
+        en: 'Kiwi-Ops unifies cutting-edge technologies to deliver unparalleled control and insight.',
+        fr: 'Kiwi-Ops unifie des technologies de pointe pour offrir un contrôle et une vision sans précédent.',
+        hi: 'कीवी-ऑप्स अद्वितीय नियंत्रण और अंतर्दृष्टि प्रदान करने के लिए अत्याधुनिक प्रौद्योगिकियों को एकीकृत करता है।',
+        mi: 'Ka whakakotahi a Kiwi-Ops i ngā hangarau hou kia puta ai te mana whakahaere me te māramatanga kore e rite.',
+        ga: 'Aontaíonn Kiwi-Ops teicneolaíochtaí ceannródaíocha chun rialú agus léargas gan sárú a sheachadadh.',
+        gd: 'Bidh Kiwi-Ops a’ tighinn còmhla ri teicneòlasan ùr-nodha gus smachd agus lèirsinn gun choimeas a lìbhrigeadh.',
+        cy: 'Mae Kiwi-Ops yn uno technolegau blaengar i ddarparu rheolaeth a mewnwelediad heb eu hail.',
+        af: 'Kiwi-Ops verenig toonaangewende tegnologieë om ongeëwenaarde beheer en insig te lewer.',
+      },
+      edgeTitle: {
+        en: 'Kiwi-Edge: Intelligent On-Site Processing',
+        fr: 'Kiwi-Edge : Traitement Intelligent sur Site',
+        hi: 'कीवी-एज: ऑन-साइट बुद्धिमान प्रसंस्करण',
+        mi: 'Kiwi-Edge: Te Tukatuka Mātauranga i runga i te Wāhi.',
+        ga: 'Kiwi-Edge: Próiseáil Chliste ar an Láthair',
+        gd: 'Kiwi-Edge: Giullachd Inntleachdail air an Làrach',
+        cy: 'Kiwi-Edge: Prosesu Deallus Ar-safle',
+        af: 'Kiwi-Edge: Intelligente Terreinverwerking',
+      },
+      edgeText: {
+        en: 'Our robust Edge AI device processes data directly at the source, ensuring immediate insights and decision-making capabilities, even in disconnected environments.',
+        fr: 'Notre dispositif Edge AI robuste traite les données directement à la source, assurant des informations et des capacités de prise de décision immédiates, même dans des environnements déconnectés.',
+        hi: 'हमारा मजबूत एज एआई डिवाइस सीधे स्रोत पर डेटा संसाधित करता है, जिससे डिस्कनेक्ट किए गए वातावरण में भी तत्काल अंतर्दृष्टि और निर्णय लेने की क्षमता सुनिश्चित होती है।',
+        mi: 'Ka tukatukahia e tō mātou pūrere Edge AI te raraunga tika i te pūtake, ka whakarite i ngā māramatanga inamata me ngā kaha whakatau, ahakoa i roto i ngā taiao kore hononga.',
+        ga: 'Próiseálann ár bhfeiste láidir Edge AI sonraí go díreach ag an bhfoinse, ag cinntiú léargais láithreacha agus cumais chinnteoireachta, fiú i dtimpeallachtaí scoite.',
+        gd: 'Bidh an t-inneal làidir Edge AI againn a’ giullachd dàta gu dìreach aig an stòr, a’ dèanamh cinnteach gu bheil lèirsinn sa bhad agus comasan co-dhùnaidh ann, eadhon ann an àrainneachdan gun cheangal.',
+        cy: 'Mae ein dyfais AI Ymyl gadarn yn prosesu data yn uniongyrchol wrth y ffynhonnell, gan sicrhau mewnwelediadau ar unwaith a galluoedd gwneud penderfyniadau, hyd yn oed mewn amgylcheddau datgysylltiedig.',
+        af: 'Ons robuuste Edge KI-toestel verwerk data direk by die bron, wat onmiddellike insigte en besluitnemingsvermoëns verseker, selfs in ontkoppelde omgewings.',
+      },
+      cloudTitle: {
+        en: 'Kiwi-Cloud: Centralized Strategic Intelligence',
+        fr: 'Kiwi-Cloud : Intelligence Stratégique Centralisée',
+        hi: 'कीवी-क्लाउड: केंद्रीकृत रणनीतिक बुद्धिमत्ता',
+        mi: 'Kiwi-Cloud: Te Mātauranga Rautaki Matua.',
+        ga: 'Kiwi-Cloud: Faisnéis Straitéiseach Láraithe',
+        gd: 'Kiwi-Cloud: Eòlas Ro-innleachdail Meadhanach',
+        cy: 'Kiwi-Cloud: Deallusrwydd Strategol Canolog',
+        af: 'Kiwi-Cloud: Gesentraliseerde Strategiese Intelligensie',
+      },
+      cloudText: {
+        en: 'Leveraging secure GCP infrastructure, Kiwi-Cloud aggregates and analyzes fleet-wide data, enabling advanced predictive analytics and global operational oversight.',
+        fr: 'S\'appuyant sur une infrastructure GCP sécurisée, Kiwi-Cloud agrège et analyse les données de l\'ensemble de la flotte, permettant des analyses prédictives avancées et une supervision opérationnelle globale.',
+        hi: 'सुरक्षित GCP इन्फ्रास्ट्रक्चर का लाभ उठाते हुए, कीवी-क्लाउड बेड़े-व्यापी डेटा को एकत्र और विश्लेषण करता है, जिससे उन्नत भविष्य कहनेवाला विश्लेषण और वैश्विक परिचालन निरीक्षण सक्षम होता है।',
+        mi: 'Ma te whakamahi i te hanganga GCP haumaru, ka kohia, ka tātarihia e Kiwi-Cloud ngā raraunga o te katoa o te waka, ka taea te tātari matapae matatau me te tirotiro mahi o te ao.',
+        ga: 'Ag baint leasa as bonneagar slán GCP, bailíonn agus anailísíonn Kiwi-Cloud sonraí ar fud an chabhlaigh, ag cur ar chumas anailísíocht thuarthach chun cinn agus maoirseacht oibriúcháin dhomhanda.',
+        gd: 'Le bhith a’ cleachdadh bun-structair tèarainte GCP, bidh Kiwi-Cloud a’ cruinneachadh agus a’ dèanamh anailis air dàta air feadh a’ chabhlaich, a’ comasachadh anailisean ro-innseach adhartach agus stiùireadh obrachaidh cruinneil.',
+        cy: 'Gan ddefnyddio seilwaith GCP diogel, mae Kiwi-Cloud yn casglu ac yn dadansoddi data ar draws y fflyd, gan alluogi dadansoddiadau rhagfynegol datblygedig a goruchwyliaeth weithredol fyd-eang.',
+        af: 'Deur veilige GCP-infrastruktuur te benut, aggregeer en ontleed Kiwi-Cloud vlootwye data, wat gevorderde voorspellende analise en wêreldwye operasionele toesig moontlik maak.',
+      },
+      ledgerTitle: {
+        en: 'Kiwi-Ledger: Immutable Data Integrity',
+        fr: 'Kiwi-Ledger : Intégrité des Données Immuable',
+        hi: 'कीवी-लेजर: अपरिवर्तनीय डेटा अखंडता',
+        mi: 'Kiwi-Ledger: Te Tika Raraunga Kore e Taea te Whakarereke.',
+        ga: 'Kiwi-Ledger: Sláine Sonraí Do-athraithe',
+        gd: 'Kiwi-Ledger: Ionracas Dàta Neo-atharraichte',
+        cy: 'Kiwi-Ledger: Integriti Data Anffaeledig',
+        af: 'Kiwi-Ledger: Onveranderlike Data-integriteit',
+      },
+      ledgerText: {
+        en: 'Built on Web3 technology, Kiwi-Ledger provides an unchangeable record of all critical operational data, guaranteeing transparency, auditability, and trust.',
+        fr: 'Basé sur la technologie Web3, Kiwi-Ledger fournit un enregistrement immuable de toutes les données opérationnelles critiques, garantissant la transparence, l\'auditabilité et la confiance.',
+        hi: 'वेब3 तकनीक पर निर्मित, कीवी-लेजर सभी महत्वपूर्ण परिचालन डेटा का एक अपरिवर्तनीय रिकॉर्ड प्रदान करता है, जो पारदर्शिता, ऑडिटेबिलिटी और विश्वास की गारंटी देता है।',
+        mi: 'He mea hanga i runga i te hangarau Web3, ka whakarato a Kiwi-Ledger i tētahi rēkooti kore e taea te whakarereke o ngā raraunga whakahaere whakahirahira katoa, ka whakamanahia te mārama, te arotake, me te whakawhirinaki.',
+        ga: 'Tógtha ar theicneolaíocht Web3, soláthraíonn Kiwi-Ledger taifead do-athraithe de gach sonraí oibriúcháin ríthábhachtacha, ag ráthú trédhearcachta, inathraitheachta, agus iontaoibhe.',
+        gd: 'Air a thogail air teicneòlas Web3, bidh Kiwi-Ledger a’ toirt seachad clàr neo-atharraichte de gach dàta obrachaidh èiginneach, a’ gealltainn follaiseachd, comas sgrùdaidh, agus earbsa.',
+        cy: 'Wedi\'i adeiladu ar dechnoleg Web3, mae Kiwi-Ledger yn darparu cofnod anffaeledig o\'r holl ddata gweithredol hollbwysig, gan warantu tryloywder, archwiliadwyedd, ac ymddiriedaeth.',
+        af: 'Gebou op Web3-tegnologie, bied Kiwi-Ledger \'n onveranderlike rekord van alle kritieke operasionele data, wat deursigtigheid, ouditeerbaarheid en vertroue waarborg.',
+      },
+    },
+    applications: {
+      title: {
+        en: 'Kiwi-Ops: Applications Across Critical Domains',
+        fr: 'Kiwi-Ops : Applications dans les Domaines Critiques',
+        hi: 'कीवी-ऑप्स: महत्वपूर्ण डोमेन में अनुप्रयोग',
+        mi: 'Kiwi-Ops: Ngā Tono puta noa i ngā Rohe Whakahirahira.',
+        ga: 'Kiwi-Ops: Feidhmchláir Thar Fearainn Chriticiúla',
+        gd: 'Kiwi-Ops: Iarrtasan Thar Raointean Èiginneach',
+        cy: 'Kiwi-Ops: Ceisiadau Ar Draws Parthau Critigol',
+        af: 'Kiwi-Ops: Toepassings Oor Kritieke Domeine',
+      },
+      subtitle: {
+        en: 'Extending intelligent capabilities to Air, Land, and Sea operations.',
+        fr: 'Étend les capacités intelligentes aux opérations aériennes, terrestres et maritimes.',
+        hi: 'वायु, भूमि और समुद्री संचालन तक बुद्धिमान क्षमताओं का विस्तार।',
+        mi: 'Te whakaroa i ngā kaha mātauranga ki ngā mahi Rererangi, Whenua, me te Moana.',
+        ga: 'Cumas cliste a leathnú chuig oibríochtaí Aeir, Talún, agus Mara.',
+        gd: 'A’ leudachadh chomasan tuigseach gu obraichean Adhair, Fearainn, is Mara.',
+        cy: 'Estyn galluoedd deallus i weithrediadau Awyr, Tir, a Môr.',
+        af: 'Die uitbreiding van intelligente vermoëns na Lug-, Land- en See-operasies.',
       },
     },
     finalCta: {
-      title: { en: 'Let\'s build the future of underground infrastructure together.', fr: 'Construisons ensemble le futur des infrastructures souterraines.' },
-      subtitle: { en: 'Our technology is in beta with selected partners. If you believe innovation is born from audacity, contact us.', fr: 'Notre technologie est en bêta avec des partenaires sélectionnés. Si vous croyez que l\'innovation naît de l\'audace, contactez-nous.' },
-      button: { en: 'Request a Strategic Demo', fr: 'Demander une démonstration stratégique' },
+      title: {
+        en: 'Let\'s build the future of underground infrastructure together.',
+        fr: 'Construisons ensemble le futur des infrastructures souterraines.',
+        hi: 'आइए मिलकर भूमिगत अवसंरचना का भविष्य बनाएं।',
+        mi: 'Me hanga ngātahi e tātou te anamata o ngā hanganga o raro.',
+        ga: 'Déanaimis todhchaí an bhonneagair faoi thalamh a thógáil le chéile.',
+        gd: 'Togaidh sinn ri teachd a’ bhun-structair fon talamh còmhla.',
+        cy: 'Gadewch i ni adeiladu dyfodol seilwaith tanddaearol gyda\'n gilydd.',
+        af: 'Kom ons bou saam aan die toekoms van ondergrondse infrastruktuur.',
+      },
+      subtitle: {
+        en: 'Our technology is in beta with selected partners. If you believe innovation is born from audacity, contact us.',
+        fr: 'Notre technologie est en bêta avec des partenaires sélectionnés. Si vous croyez que l\'innovation naît de l\'audace, contactez-nous.',
+        hi: 'हमारी तकनीक चयनित भागीदारों के साथ बीटा में है। यदि आप मानते हैं कि नवाचार दुस्साहस से पैदा होता है, तो हमसे संपर्क करें।',
+        mi: 'Kei te hōtaka beta tō mātou hangarau me ngā hoa mahi kua tohua. Ki te whakapono koe ka whānau te auahatanga i te maia, whakapā mai ki a mātou.',
+        ga: 'Tá ár dteicneolaíocht i béite le comhpháirtithe roghnaithe. Má chreideann tú go dtagann nuálaíocht as an misneach, déan teagmháil linn.',
+        gd: 'Tha an teicneòlas againn ann an deuchainn le com-pàirtichean taghte. Ma tha thu a’ creidsinn gu bheil ùr-ghnàthachadh air a bhreith bho dhànachd, cuir fios thugainn.',
+        cy: 'Mae ein technoleg mewn beta gyda phartneriaid dethol. Os ydych chi\'n credu bod arloesedd yn cael ei eni o feiddgarwch, cysylltwch â ni.',
+        af: 'Ons tegnologie is in beta met geselekteerde vennote. As jy glo innovasie word uit waagmoed gebore, kontak ons.',
+      },
+      button: {
+        en: 'Request a Strategic Demo',
+        fr: 'Demander une démonstration stratégique',
+        hi: 'एक रणनीतिक डेमो का अनुरोध करें',
+        mi: 'Tonoa he Whakaaturanga Rautaki',
+        ga: 'Iarr Taispeántas Straitéiseach',
+        gd: 'Iarr Demo Ro-innleachdail',
+        cy: 'Gofyn am Demo Strategol',
+        af: 'Versoek \'n Strategiese Demo',
+      },
     },
-    team: { // Titre de la section "Our Team" sur la page produit
-        title: { en: 'Our Team', fr: 'Notre Équipe' },
-        subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
-        member1Name: { en: 'Professor Alistair Finch', fr: 'Professeur Alistair Finch' }, // REMPLACER
-        member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
-        member1Bio: {
-            en: 'Visionary leader with 15 years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
-            fr: 'Leader visionnaire avec 15 ans d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
-        },
-        member2Name: { en: 'Dr. Kwame Nkrumah', fr: 'Dr. Kwame Nkrumah' }, // REMPLACER
-        member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
-        member2Bio: {
-            en: 'Tech wizard with a PhD in AI and 12 years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
-            fr: 'Génie technique avec un doctorat en IA et 12 ans en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
-        },
+    team: {
+        title: { en: 'Our Team', fr: 'Notre Équipe', hi: 'हमारी टीम', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span' },
+        subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.', hi: 'विशेषज्ञता और जुनून से प्रेरित नवाचार।', mi: 'Te auahatanga e akiakihia ana e te tohungatanga me te ngākau nui.', ga: 'Nuálaíocht á tiomáint ag saineolas agus paisean.', gd: 'Ùr-ghnàthachadh air a stiùireadh le eòlas agus dìoghras.', cy: 'Arloesedd a yrrir gan arbenigedd ac angerdd.', af: 'Innovasie gedryf deur kundigheid en passie.' },
+        member1Name: { en: 'Professor Alistair Finch', fr: 'Professeur Alistair Finch', hi: 'प्रोफेसर एलिस्टर फिंच', mi: 'Ahorangi Alistair Finch', ga: 'An tOllamh Alistair Finch', gd: 'An t-Ollamh Alistair Finch', cy: 'Yr Athro Alistair Finch', af: 'Professor Alistair Finch' },
+        member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur', hi: 'सीईओ और सह-संस्थापक', mi: 'Tumuaki & Kaiwhakarewa Tahi', ga: 'POF & Comhbhunaitheoir', gd: 'Ceannard & Co-stèidheadair', cy: 'Prif Swyddog Gweithredol a Chyd-sefydlydd', af: 'CEO en Mede-stigter' },
+        member1Bio: { en: 'Visionary leader with 15 years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', fr: 'Leader visionnaire avec 15 ans d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.', hi: 'भूमिगत इंजीनियरिंग और परियोजना प्रबंधन में 15 वर्षों के अनुभव के साथ दूरदर्शी नेता। कीवी-ऑप्स रणनीति और व्यवसाय विकास का नेतृत्व कर रहे हैं।', mi: 'He kaiārahi matakite me te 15 tau o te wheako i roto i te pūkaha o raro me te whakahaere kaupapa. E ārahi ana i te rautaki me te whanaketanga pakihi o Kiwi-Ops.', ga: 'Ceannaire físí le 15 bliana de thaithí i réimse na hinnealtóireachta faoi thalamh agus bainistíocht tionscadail. Ag treorú straitéis agus forbairt ghnó Kiwi-Ops.', gd: 'Ceannard lèirsinnach le 15 bliadhna de eòlas ann an innleadaireachd fon talamh agus riaghladh pròiseict. A’ stiùireadh ro-innleachd agus leasachadh gnìomhachas Kiwi-Ops.', cy: 'Arweinydd gweledigaethol gyda 15 mlynedd o brofiad mewn peirianneg tanddaearol a rheoli prosiectau. Yn arwain strategaeth a datblygiad busnes Kiwi-Ops.', af: 'Visioenêre leier met 15 jaar ondervinding in ondergrondse ingenieurswese en projekbestuur. Lei Kiwi-Ops se strategie en sake-ontwikkeling.' },
+        member2Name: { en: 'Dr. Kwame Nkrumah', fr: 'Dr. Kwame Nkrumah', hi: 'डॉ. क्वामे न्क्रूमा', mi: 'Takuta Kwame Nkrumah', ga: 'An Dr. Kwame Nkrumah', gd: 'An Dotair Kwame Nkrumah', cy: 'Dr. Kwame Nkrumah', af: 'Dr. Kwame Nkrumah' },
+        member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur', hi: 'सीटीओ और सह-संस्थापक', mi: 'Tumuaki Hangarau & Kaiwhakarewa Tahi', ga: 'CTO & Comhbhunaitheoir', gd: 'CTO & Co-stèidheadair', cy: 'Prif Swyddog Technoleg a Chyd-sefydlydd', af: 'CTO en Mede-stigter' },
+        member2Bio: { en: 'Tech wizard with a PhD in AI and 12 years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', fr: 'Génie technique avec un doctorat en IA et 12 ans en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.', hi: 'एआई में पीएचडी और सॉफ्टवेयर आर्किटेक्चर में 12 वर्षों के अनुभव के साथ तकनीकी विशेषज्ञ। कीवी-ऑप्स के एज एआई, क्लाउड और वेब3 समाधानों के पीछे नवाचार को बढ़ावा देते हैं।', mi: 'He tohunga hangarau me te PhD i roto i te AI me te 12 tau i roto i te hoahoanga pūmanawa. E akiaki ana i te auahatanga i muri i ngā otinga Edge AI, Cloud, me Web3 a Kiwi-Ops.', ga: 'Draíodóir teicneolaíochta le PhD san AI agus 12 bliana i gcomhpháirtíocht bogearraí. Ag tiomáint na nuálaíochta taobh thiar de réitigh Edge AI, Cloud, agus Web3 de chuid Kiwi-Ops.', gd: 'Bana-bhuidseach teicneòlas le PhD ann an AI agus 12 bliadhna ann an ailtireachd bathar-bog. A’ stiùireadh an ùr-ghnàthachaidh air cùl fhuasglaidhean Edge AI, Cloud, agus Web3 aig Kiwi-Ops.', cy: 'Dewin technegol gyda PhD mewn AI a 12 mlynedd mewn pensaernïaeth meddalwedd. Yn gyrru\'r arloesedd y tu ôl i ddatrysiadau AI Ymyl, Cwmwl, a Web3 Kiwi-Ops.', af: 'Tegnologiese towenaar met \'n PhD in KI en 12 jaar in sagteware-argitektuur. Dryf die innovasie agter Kiwi-Ops se Edge KI, Wolk, en Web3-oplossings aan.' },
     }
   },
   solutionsPage: { // Nouvelle section pour les traductions spécifiques de la page Solutions
@@ -169,7 +467,7 @@ const allTranslations = {
       hi: 'हमारे समाधान: हर वातावरण में महारत हासिल करना',
       mi: 'Ā Mātou Rongoā: Te Whakahaere i ia Taiao',
       ga: 'Ár Réitigh: Máistreacht ar Gach Timpeallacht',
-      gd: 'Ar Fuasglaidhean: Maighstireachd air gach Àrainneachd',
+      gd: 'Ar Fuasglaidhean: A’ Maighstireachd Gach Àrainneachd',
       cy: 'Ein Datrysiadau: Meistroli Pob Amgylchedd',
       af: 'Ons Oplossings: Beheers Elke Omgewing',
     },
@@ -177,9 +475,9 @@ const allTranslations = {
       en: 'Intelligent capabilities for Air, Land, and Sea operations.',
       fr: 'Capacités intelligentes pour les opérations aériennes, terrestres et maritimes.',
       hi: 'हवा, भूमि और समुद्री अभियानों के लिए बुद्धिमान क्षमताएं।',
-      mi: 'Ngā kaha mō ngā mahi Rererangi, Whenua, me te Moana.',
+      mi: 'Ngā kaha mātauranga mō ngā mahi Rererangi, Whenua, me te Moana.',
       ga: 'Cumas cliste d\'oibríochtaí Aeir, Talún, agus Mara.',
-      gd: 'Comasan inntleachdail airson gnìomhachasan Adhair, Talmhainn, agus Muir.',
+      gd: 'Comasan tuigseach airson obraichean Adhair, Fearainn, is Mara.',
       cy: 'Galluoedd deallus ar gyfer gweithrediadau Awyr, Tir, a Môr.',
       af: 'Intelligente vermoëns vir Lug-, Land- en See-operasies.',
     },
@@ -188,8 +486,8 @@ const allTranslations = {
       fr: 'Opérations Aériennes : Précision et Puissance Prédictive',
       hi: 'हवाई संचालन: सटीकता और पूर्वानुमान क्षमता',
       mi: 'Ngā Mahi Rererangi: Te Tino me te Mana Matapae',
-      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhachd Réamhaisnéise',
-      gd: 'Gnìomhachasan Adhair: Cruinneas et Cumhachd Ro-innse',
+      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhacht Thuarthach',
+      gd: 'Gnìomhachasan Adhair: Cruinneas agus Cumhachd Ro-innse',
       cy: 'Gweithrediadau Awyr: Cywirdeb a Phŵer Rhagfynegol',
       af: 'Lugoperasies: Presisie en Voorspellende Krag',
     },
@@ -199,7 +497,7 @@ const allTranslations = {
       hi: 'ड्रोन बेड़े प्रबंधन से लेकर जटिल हवाई प्रणालियों के पूर्वानुमानित रखरखाव तक, कीवी-ऑप्स आसमान में महत्वपूर्ण लाभ सुनिश्चित करता है।',
       mi: 'Mai i te whakahaere waka rererangi kore tangata ki te tiaki matapae o ngā pūnaha rererangi matatini, ka whakarite a Kiwi-Ops i te painga nui i te rangi.',
       ga: 'Ó bhainistíocht cabhlach drone go cothabháil thuarthach córas casta aerbheirthe, cinntíonn Kiwi-Ops buntáiste ríthábhachtach sna spéartha.',
-      gd: 'Bho rianachd cabhlach drone gu cumail suas ro-innseach siostaman adhair iom-fhillte, bidh Kiwi-Ops a\' dèanamh cinnteach gu bheil buannachd chudromach anns na speuran.',
+      gd: 'Bho rianachd cabhlach drone gu cumail suas ro-innseach siostaman adhair iom-fhillte, bidh Kiwi-Ops a’ dèanamh cinnteach gu bheil buannachd chudromach anns na speuran.',
       cy: 'O reolaeth fflyd dronau i gynnal a chadw rhagfynegol systemau awyr cymhleth, mae Kiwi-Ops yn sicrhau mantais hollbwysig yn yr awyr.',
       af: 'Van dreunvlootbestuur tot voorspellende instandhouding van komplekse lugstelsels, verseker Kiwi-Ops \'n kritieke voordeel in die lug.',
     },
@@ -208,9 +506,9 @@ const allTranslations = {
       fr: 'Opérations Terrestres : Intelligence de Terrain Révolutionnaire',
       hi: 'भूमि संचालन: अभूतपूर्व बुद्धिमत्ता',
       mi: 'Ngā Mahi Whenua: Te Mātauranga Whai Tikanga',
-      ga: 'Oibríochtaí Talún: Faisnéis Nuálach ar an Talamh',
-      gd: 'Gnìomhachasan Talmhainn: Inntleachd ùr-ghnàthach',
-      cy: 'Gweithrediadau Tir: Deallusrwydd Arloesol ar y Ddaear',
+      ga: 'Oibríochtaí Talún: Faisnéis Athfhionnachtála',
+      gd: 'Gnìomhachasan Fearainn: Eòlas Briseadh-talmhainn',
+      cy: 'Gweithrediadau Tir: Deallusrwydd Arloesol',
       af: 'Landoperasies: Grondverskuiwende Intelligensie',
     },
     landText: {
@@ -218,8 +516,8 @@ const allTranslations = {
       fr: 'Au-delà du percement de tunnels, nos solutions renforcent les forces terrestres avec la maintenance prédictive des véhicules, la reconnaissance avancée et l\'analyse environnementale en temps réel.',
       hi: 'सुरंग बनाने से परे, हमारे समाधान पूर्वानुमानित वाहन रखरखाव, उन्नत टोही और वास्तविक समय के पर्यावरणीय विश्लेषण के साथ स्थलीय सेनाओं को सशक्त बनाते हैं।',
       mi: 'I tua atu i te keri hūrori, ka whakamanahia e ā mātou rongoā ngā ope whenua ki te tiaki matapae waka, te torotoro matatau, me te tātari taiao wā-tūturu.',
-      ga: 'Thar na tairní, cuireann ár réitigh cumhacht ar fáil d\'fhórsaí talún le cothabháil thuarthach feithiclí, athmheasúnú chun cinn, agus anailís chomhshaoil fíor-ama.',
-      gd: 'Seachad air tunail, tha na fuasglaidhean againn a\' cur cumhachd aig feachdan talmhainn le cumail suas ro-innseach charbadan, ath-ghnìomhachd adhartach, agus anailis àrainneachdail ann an àm fìor.',
+      ga: 'Thar an tollánú, cumhachtaíonn ár réitigh fórsaí talún le cothabháil thuarthach feithiclí, taiscéalaíocht chun cinn, agus anailís chomhshaoil fíor-ama.',
+      gd: 'Nas fhaide na tolladh, bidh na fuasglaidhean againn a’ toirt cumhachd do fheachdan talmhainn le cumail suas ro-innseach charbadan, rannsachadh adhartach, agus anailis àrainneachdail ann an àm fìor.',
       cy: 'Y tu hwnt i dwneli, mae ein datrysiadau yn grymuso lluoedd daearol gyda chynnal a chadw cerbydau rhagfynegol, archwiliad uwch, a dadansoddiad amgylcheddol amser real.',
       af: 'Behalwe tonnelbou, bemagtig ons oplossings landmagte met voorspellende voertuigonderhoud, gevorderde verkenning, en intydse omgewingsanalise.',
     },
@@ -228,8 +526,8 @@ const allTranslations = {
       fr: 'Opérations Maritimes : Profondeurs de Données, Surface de Contrôle',
       hi: 'समुद्री संचालन: डेटा की गहराई, नियंत्रण की सतह',
       mi: 'Ngā Mahi Moana: Te Hōhonutanga o ngā Raraunga, Te Mata o te Mana Whakahaere',
-      ga: 'Oibríochtaí Mara: Doimhneachtaí Sonraí, Dromchla Rialaithe',
-      gd: 'Gnìomhachasan Muir: Doimhneachd Dàta, Uachdar Smachd',
+      ga: 'Oibríochtaí Muirí: Doimhneachtaí Sonraí, Dromchla Rialaithe',
+      gd: 'Gnìomhachasan Mara: Doimhneachd Dàta, Uachdar Smachd',
       cy: 'Gweithrediadau Môr: Dyfnder Data, Wyneb Rheolaeth',
       af: 'See-operasies: Dieptes van Data, Oppervlak van Beheer',
     },
@@ -239,18 +537,18 @@ const allTranslations = {
       hi: 'पानी के नीचे की निगरानी से लेकर नौसेना बेड़े के अनुकूलन तक, कीवी-ऑप्स समुद्री डोमेन के लिए अद्वितीय स्थितिजन्य जागरूकता और परिचालन दक्षता प्रदान करता है।',
       mi: 'Mai i te aroturuki i raro i te wai ki te whakatikatika waka moana, ka whakarato a Kiwi-Ops i te mohiotanga ā-horahanga kore e rite, me te whai hua whakahaere mō ngā wāhanga moana.',
       ga: 'Ó fhaireachán fomhuirí go barrfheabhsú cabhlach cabhlaigh, cuireann Kiwi-Ops feasacht staide gan samhail agus éifeachtúlacht oibriúcháin ar fáil do réimsí muirí.',
-      gd: 'Bho sgrùdadh fo-mhuir gu optimization cabhlach cabhlaich, bidh Kiwi-Ops a\' toirt seachad tuigse staide gun choimeas agus èifeachdas obrachaidh airson raointean mara.',
+      gd: 'Bho sgrùdadh fo-mhuir gu optimization cabhlach cabhlaich, bidh Kiwi-Ops a’ toirt seachad mothachadh suidheachadh gun choimeas agus èifeachdas obrachaidh airson raointean mara.',
       cy: 'O fonitro is-wyneb i optimeiddio fflyd llyngesol, mae Kiwi-Ops yn darparu ymwybyddiaeth sefyllfaol a effeithlonrwydd gweithredol heb ei hail ar gyfer meysydd morwrol.',
       af: 'Van onderwatermonitering tot vlootoptimisering, bied Kiwi-Ops ongeëwenaarde situasionele bewustheid en operasionele doeltreffendheid vir maritieme gebiede.',
     },
   },
-  platformPage: { // Nouvelle section pour les traductions spécifiques de la page Platform
+  platform: { // Nouvelle section pour les traductions spécifiques de la page Platform
     title: {
       en: 'The Kiwi-Ops Platform: Your Operational Command Center',
       fr: 'La Plateforme Kiwi-Ops : Votre Centre de Commande Opérationnel',
       hi: 'कीवी-ऑप्स प्लेटफ़ॉर्म: आपका परिचालन कमान केंद्र',
       mi: 'Te Paparanga Kiwi-Ops: Tō Pokapū Whakahaere Mahi',
-      ga: 'Ardán Kiwi-Ops: Ionad Ordú Oibríochta',
+      ga: 'Ardán Kiwi-Ops: Do Lárionad Ordaithe Oibriúcháin',
       gd: 'Àrd-ùrlar Kiwi-Ops: An t-Ionad Smachd Obrachaidh agad',
       cy: 'Llwyfan Kiwi-Ops: Eich Canolfan Rheoli Gweithredol',
       af: 'Die Kiwi-Ops Platform: Jou Operasionele Beheer Sentrum',
@@ -260,10 +558,10 @@ const allTranslations = {
       fr: 'Unifiant l\'IA Edge, le Cloud Sécurisé et la Confiance Web3 pour un Contrôle Inédit.',
       hi: 'अभूतपूर्व नियंत्रण के लिए एज एआई, सुरक्षित क्लाउड और वेब3 ट्रस्ट को एकीकृत करना।',
       mi: 'Te Whakakotahi i te AI Whakamutunga, te Kapua Haumaru, me te Whakawhirinaki Web3 mo te Mana Kore-mua.',
-      ga: 'AI Imeall, Cloud Slán, agus Iontaobhas Web3 a Aontú le haghaidh Rialú Gan Réamhshampla.',
-      gd: 'Aonachadh AI Iomall, Cloud Tèarainte, agus Urras Web3 airson Smachd Gun Coimeas.',
+      ga: 'Ag Aontú AI Imeall, Scamaill Shláin, agus Iontaobhais Web3 le haghaidh Rialú Gan Réamhshampla.',
+      gd: 'A’ tighinn còmhla ri AI Iomall, Sgòth Tèarainte, agus Earbsa Web3 airson Smachd Gun choimeas.',
       cy: 'Uno AI Ymyl, Cwmwl Diogel, ac Ymddiriedaeth Web3 ar gyfer Rheolaeth Ddigyffelyb.',
-      af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongekende Beheer.',
+      af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongecedented Beheer.',
     },
     // Les traductions pour les piliers (Kiwi-Edge, Kiwi-Cloud, Kiwi-Ledger) sont déjà dans productPage.solution
   },
@@ -284,7 +582,7 @@ const allTranslations = {
       hi: 'कीवी-ऑप्स का ए2ए प्रोटोकॉल आपकी प्रश्नों को सबसे प्रासंगिक विशेषज्ञता से जोड़ता है।',
       mi: 'Ko te kawa A2A a Kiwi-Ops e hono ana i ō patai ki te tohungatanga tino tika.',
       ga: 'Ceanglaíonn prótacal A2A Kiwi-Ops do cheisteanna leis an saineolas is ábhartha.',
-      gd: 'Ceangailidh protocol A2A Kiwi-Ops na ceistean agad ris an eòlas as buntainniche.',
+      gd: 'Bidh protocol A2A Kiwi-Ops a’ ceangal do cheistean ris an eòlas as buntainniche.',
       cy: 'Mae protocol A2A Kiwi-Ops yn cysylltu eich ymholiadau â\'r arbenigedd mwyaf perthnasol.',
       af: 'Kiwi-Ops se A2A-protokol verbind jou navrae met die mees relevante kundigheid.',
     },
@@ -303,8 +601,8 @@ const allTranslations = {
       fr: 'Spécialisé dans l\'analyse des données souterraines et la prédiction des défis géologiques pour la construction et la défense.',
       hi: 'भूमिगत डेटा का विश्लेषण करने और निर्माण और रक्षा के लिए भूवैज्ञानिक चुनौतियों का अनुमान लगाने में विशेषज्ञ।',
       mi: 'He tohunga ki te tātari raraunga o raro me te matapae i ngā wero mātaiao whenua mō te hanga me te tiaki.',
-      ga: 'Speisialaithe i hanailís sonraí fomhuirí agus i dtuar dúshláin gheolaíocha le haghaidh tógála agus cosanta.',
-      gd: 'Sònraichte ann a bhith a\' dèanamh anailis air dàta fo-thalamh agus a\' ro-innse dùbhlain geòlais airson togail agus dìon.',
+      ga: 'Speisialaithe in anailís a dhéanamh ar shonraí faoi thalamh agus dúshláin gheolaíocha a thuar do thógáil agus cosaint.',
+      gd: 'Sònraichte ann a bhith a’ dèanamh anailis air dàta fon talamh agus a’ ro-innse dhùbhlain geòlais airson togail agus dìon.',
       cy: 'Arbenigol mewn dadansoddi data tanddaearol a rhagfynegi heriau geolegol ar gyfer adeiladu ac amddiffyn.',
       af: 'Gespesialiseerd in die ontleding van ondergrondse data en die voorspelling van geologiese uitdagings vir konstruksie en verdediging.',
     },
@@ -366,7 +664,7 @@ const allTranslations = {
       ga: 'Cinntíonn sé inrianaitheacht dhochlaíoch imeachtaí criticiúla agus fíorú sláine sonraí trí Kiwi-Ledger le haghaidh an t-iontaobhas agus an chuntasacht is airde.',
       gd: 'Bheir e cinnteachd do shlighe-rùrachd thachartasan èiginneach agus dearbhadh ionracas dàta tro Kiwi-Ledger airson earbsa agus cunntachalachd as àirde.',
       cy: 'Sicrhau olrhain digwyddiadau critigol yn anwadal a gwirio integriti data trwy\'r Kiwi-Ledger ar gyfer ymddiriedaeth ac atebolrwydd llwyr.',
-      af: 'Verseker onveranderlike naspeurbaarheid van kritieke gebeurtenisse en data-integriteitsverifikasie via die Kiwi-Ledger vir uiterste vertroue en aanspreeklikheid.',
+      af: 'Verseker onveranderlike naspeurbaarheid van kritieke gebeurtenisse en data-integriteitsverifikasie via die Kiwi-Ledger vir uiterste vertroue en aansprakelijkheid.',
     },
   },
   platform: { // Nouvelle section pour les traductions spécifiques de la page Platform
@@ -375,7 +673,7 @@ const allTranslations = {
       fr: 'La Plateforme Kiwi-Ops : Votre Centre de Commande Opérationnel',
       hi: 'कीवी-ऑप्स प्लेटफ़ॉर्म: आपका परिचालन कमान केंद्र',
       mi: 'Te Paparanga Kiwi-Ops: Tō Pokapū Whakahaere Mahi',
-      ga: 'Ardán Kiwi-Ops: Ionad Ordú Oibríochta',
+      ga: 'Ardán Kiwi-Ops: Do Lárionad Ordaithe Oibriúcháin',
       gd: 'Àrd-ùrlar Kiwi-Ops: An t-Ionad Smachd Obrachaidh agad',
       cy: 'Llwyfan Kiwi-Ops: Eich Canolfan Rheoli Gweithredol',
       af: 'Die Kiwi-Ops Platform: Jou Operasionele Beheer Sentrum',
@@ -385,10 +683,10 @@ const allTranslations = {
       fr: 'Unifiant l\'IA Edge, le Cloud Sécurisé et la Confiance Web3 pour un Contrôle Inédit.',
       hi: 'अभूतपूर्व नियंत्रण के लिए एज एआई, सुरक्षित क्लाउड और वेब3 ट्रस्ट को एकीकृत करना।',
       mi: 'Te Whakakotahi i te AI Whakamutunga, te Kapua Haumaru, me te Whakawhirinaki Web3 mo te Mana Kore-mua.',
-      ga: 'AI Imeall, Cloud Slán, agus Iontaobhas Web3 a Aontú le haghaidh Rialú Gan Réamhshampla.',
-      gd: 'Aonachadh AI Iomall, Cloud Tèarainte, agus Urras Web3 airson Smachd Gun Coimeas.',
+      ga: 'Ag Aontú AI Imeall, Scamaill Shláin, agus Iontaobhais Web3 le haghaidh Rialú Gan Réamhshampla.',
+      gd: 'A’ tighinn còmhla ri AI Iomall, Sgòth Tèarainte, agus Earbsa Web3 airson Smachd Gun choimeas.',
       cy: 'Uno AI Ymyl, Cwmwl Diogel, ac Ymddiriedaeth Web3 ar gyfer Rheolaeth Ddigyffelyb.',
-      af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongekende Beheer.',
+      af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongecedented Beheer.',
     },
     // Les traductions pour les piliers (Kiwi-Edge, Kiwi-Cloud, Kiwi-Ledger) sont déjà dans productPage.solution
   },
@@ -427,7 +725,7 @@ const allTranslations = {
       en: 'Download on the App Store',
       fr: 'Télécharger sur l\'App Store',
       hi: 'ऐप स्टोर से डाउनलोड करें',
-      mi: 'Tikiake i te App Store',
+      mi: 'Tikiake i the App Store',
       ga: 'Íoslódáil ón App Store',
       gd: 'Luchdaich sìos air an App Store',
       cy: 'Lawrlwytho ar yr App Store',
@@ -459,31 +757,29 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
   return result?.[language] || result?.en || keyPath;
 }
 // --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
- // Utilisez './page.module.css' pour les styles de cette page
 
 export default function ProductPage() {
   const { theme } = useTheme();
   const { language } = useLanguage();
-  const [menuOpen, setMenuOpen] = useState(false); // État pour le menu mobile de la navbar
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Fonctions utilitaires pour obtenir les traductions
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
   const tProduct = (key: string) => getTranslation('productPage', key, language);
   const tProductSolution = (key: string) => getTranslation('productPage', `solution.${key}`, language);
-  const tInstall = (key: string) => getTranslation('installPage', key, language); // Pour le bouton d'installation
+  const tProductCoreComponents = (key: string) => getTranslation('productPage', `coreComponents.${key}`, language);
+  const tProductApplications = (key: string) => getTranslation('productPage', `applications.${key}`, language);
+  const tSolutionsPage = (key: string) => getTranslation('solutionsPage', key, language); // Pour réutiliser les traductions d'applications
+  const tInstall = (key: string) => getTranslation('installPage', key, language);
 
-  // Cette fonction gère le clic sur le bouton "Install App" de la navbar
-  const handleNavbarInstallClick = () => {
-    // Redirige vers la page /install
-    window.location.href = '/install'; // Ou utilisez useRouter si vous l'importez
+  const handleInstallClick = () => {
+    window.location.href = '/install';
   };
-
 
   return (
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
-      {/* Navbar (intégrée directement) */}
+      {/* Navbar */}
       <nav className={styles.navbar}>
-        <div className={styles.navLogo}><Link href="/">Kiwi-Ops</Link></div>
+        <div className={styles.navLogo}>Kiwi-Ops</div>
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
            {/* Lien 1: Nos Produits -> /product */}
@@ -502,7 +798,7 @@ export default function ProductPage() {
            <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
         {/* Le label 'installAppLabel' est un label générique, donc getLoginNavTranslation est approprié ici */}
-        <button className={styles.installButton} onClick={handleNavbarInstallClick} aria-label={tInstall('installAppLabel')}><FaDownload /></button>
+        <button className={styles.installButton} onClick={handleInstallClick} aria-label={tInstall('installAppLabel')}><FaDownload /></button>
       </nav>
 
       {/* --- SECTION 1: HERO --- */}
@@ -522,7 +818,7 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* --- SECTION 3: THE SOLUTION (Pillars) - Ce contenu a été déplacé vers /platform, mais vous pouvez le garder comme un aperçu ici --- */}
+      {/* --- SECTION 3: THE SOLUTION (Pillars) - Aperçu de haut niveau --- */}
       <section className={`${styles.section} ${styles.lightBackground} ${styles.solutionSection}`} id="solution-section">
         <h2 className={styles.sectionTitle}>{tProductSolution('title')}</h2>
         <div className={styles.pillarsGrid}>
@@ -537,6 +833,26 @@ export default function ProductPage() {
           <div className={styles.pillarCard}>
             <h3>{tProductSolution('pillar3Title')}</h3>
             <p>{tProductSolution('pillar3Text')}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* --- NOUVELLE SECTION: ARCHITECTURE DU PRODUIT KIWI-OPS (Remplace "Notre Équipe") --- */}
+      <section className={`${styles.section} ${styles.darkBackground} ${styles.coreComponentsSection}`} id="core-components-section">
+        <h2 className={styles.sectionTitle}>{tProductCoreComponents('title')}</h2>
+        <p className={styles.subtitle}>{tProductCoreComponents('intro')}</p>
+        <div className={styles.componentsGrid}>
+          <div className={styles.componentCard}>
+            <h3>{tProductCoreComponents('edgeTitle')}</h3>
+            <p>{tProductCoreComponents('edgeText')}</p>
+          </div>
+          <div className={styles.componentCard}>
+            <h3>{tProductCoreComponents('cloudTitle')}</h3>
+            <p>{tProductCoreComponents('cloudText')}</p>
+          </div>
+          <div className={styles.componentCard}>
+            <h3>{tProductCoreComponents('ledgerTitle')}</h3>
+            <p>{tProductCoreComponents('ledgerText')}</p>
           </div>
         </div>
       </section>
@@ -567,56 +883,23 @@ export default function ProductPage() {
         <p className={styles.sectionText}>{tProduct('search.text')}</p>
       </section>
 
-      {/* --- SECTION ÉQUIPE (intégrée directement ici) --- */}
-      <section className={`${styles.section} ${styles.teamSection}`} id="team-section">
-        <h2 className={styles.sectionTitle}>{tProduct('team.title')}</h2>
-        <p className={styles.subtitle}>{tProduct('team.subtitle')}</p>
-        {/* AFFICHAGE DES MEMBRES DE L'ÉQUIPE (contenu de TeamSection intégré directement) */}
-        <div className={styles.teamGrid}>
-          {/* Membre de l'équipe 1 */}
-          <div className={styles.teamMemberCard}>
-            <Image
-              src="/avatars/team-member-1.png" // Chemin vers votre première image
-              alt={tProduct('team.member1Name')}
-              width={150} // Ajustez la taille selon votre design
-              height={150} // Ajustez la taille selon votre design
-              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
-            />
-            <h3>{tProduct('team.member1Name')}</h3>
-            <p className={styles.teamMemberTitle}>{tProduct('team.member1Title')}</p>
-            <p>{tProduct('team.member1Bio')}</p>
+      {/* --- NOUVELLE SECTION: APPLICATIONS DU PRODUIT KIWI-OPS (Remplace "Notre Histoire") --- */}
+      <section className={`${styles.section} ${styles.lightBackground} ${styles.applicationsSection}`} id="applications-section">
+        <h2 className={styles.sectionTitle}>{tProductApplications('title')}</h2>
+        <p className={styles.subtitle}>{tProductApplications('subtitle')}</p>
+        <div className={styles.applicationsGrid}>
+          <div className={styles.applicationCard}>
+            <h3>{tSolutionsPage('airTitle')}</h3>
+            <p>{tSolutionsPage('airText')}</p>
           </div>
-
-          {/* Membre de l'équipe 2 */}
-          <div className={styles.teamMemberCard}>
-            <Image
-              src="/avatars/team-member-2.png" // Chemin vers votre deuxième image
-              alt={tProduct('team.member2Name')}
-              width={150} // Ajustez la taille selon votre design
-              height={150} // Ajustez la taille selon votre design
-              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
-            />
-            <h3>{tProduct('team.member2Name')}</h3>
-            <p className={styles.teamMemberTitle}>{tProduct('team.member2Title')}</p>
-            <p>{tProduct('team.member2Bio')}</p>
+          <div className={styles.applicationCard}>
+            <h3>{tSolutionsPage('landTitle')}</h3>
+            <p>{tSolutionsPage('landText')}</p>
           </div>
-
-          {/* Ajoutez d'autres membres ici en dupliquant le bloc 'teamMemberCard' si nécessaire */}
-        </div>
-      </section>
-
-
-      {/* --- SECTION 6: OUR STORY --- */}
-      <section className={`${styles.section} ${styles.storySection}`} id="story-section">
-        <div className={styles.storyContainer}>
-            <div className={styles.storyImage}>
-                <Image src="/images/story-montage.jpg" alt={tProduct('story.title')} width={600} height={400} style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.storyText}>
-                <h2 className={styles.sectionTitle}>{tProduct('story.title')}</h2>
-                <h3>{tProduct('story.subtitle')}</h3>
-                <p>{tProduct('story.text')}</p>
-            </div>
+          <div className={styles.applicationCard}>
+            <h3>{tSolutionsPage('seaTitle')}</h3>
+            <p>{tSolutionsPage('seaText')}</p>
+          </div>
         </div>
       </section>
 
