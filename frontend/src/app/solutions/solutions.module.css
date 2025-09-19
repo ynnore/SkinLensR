@@ -1,6 +1,3 @@
-/* src/app/solutions/page.module.css */
-
-
 .pageContainer {
   min-height: 100vh;
   display: flex;
@@ -15,7 +12,7 @@
   color: var(--text-color-primary-dark);
 }
 
-/* --- Styles pour la barre de navigation (à adapter depuis votre page.module.css principal) --- */
+/* --- Styles pour la barre de navigation --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -27,6 +24,8 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .darkMode .navbar {
@@ -64,6 +63,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .navLinks a:hover {
@@ -74,7 +74,7 @@
 }
 
 .menuToggle {
-  display: none; /* Cache par défaut sur desktop */
+  display: none;
   background: none;
   border: none;
   font-size: 1.5rem;
@@ -87,13 +87,14 @@
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.3rem; /* Légèrement arrondi */
+  border-radius: 0.3rem;
   cursor: pointer;
   font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 .darkMode .installButton {
   background-color: var(--button-background-color-dark);
@@ -101,28 +102,89 @@
 
 .installButton:hover {
   background-color: var(--button-background-color-hover-light);
+  transform: translateY(-2px);
 }
 .darkMode .installButton:hover {
   background-color: var(--button-background-color-hover-dark);
 }
 
-/* --- Styles pour la page Solutions --- */
+/* Responsive Design pour la Navbar */
+@media (max-width: 768px) {
+  .navLinks {
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 999;
+  }
+  .darkMode .navLinks {
+      background-color: var(--navbar-background-color-dark);
+  }
+  .navLinks.open {
+    display: flex;
+  }
+  .navLinks li {
+    margin-left: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  .darkMode .navLinks li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .navLinks a {
+    padding: 1rem 1.5rem;
+    display: block;
+    width: 100%;
+  }
+  .menuToggle {
+    display: block;
+  }
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+}
+
+
+/* --- Styles généraux pour les sections --- */
 .section {
   padding: 80px 40px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+.sectionTitle {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  color: var(--heading-color-light);
+}
+.darkMode .sectionTitle {
+  color: var(--heading-color-dark);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: var(--text-color-secondary-light);
+  margin-bottom: 60px;
+  line-height: 1.5;
+}
+.darkMode .subtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+/* --- Styles pour la Hero Section Solutions --- */
 .heroSolutionsSection {
   padding-top: 120px;
   padding-bottom: 80px;
-  background: linear-gradient(45deg, #007bff, #0056b3); /* Dégradé de bleu */
+  background: linear-gradient(45deg, #007bff, #0056b3);
   color: white;
   text-align: center;
 }
 
 .darkMode .heroSolutionsSection {
-  background: linear-gradient(45deg, #343a40, #212529); /* Dégradé sombre */
+  background: linear-gradient(45deg, #343a40, #212529);
 }
 
 .heroSolutionsSection .sectionTitle {
@@ -138,6 +200,8 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+
+/* --- Styles pour la Section Catégorie de Solutions (Air, Terre, Mer) --- */
 .solutionCategorySection {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -153,6 +217,11 @@
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #e0e0e0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 450px;
 }
 
 .darkMode .solutionCard {
@@ -182,15 +251,346 @@
   font-size: 1.1rem;
   line-height: 1.6;
   color: var(--text-color-primary-light);
+  flex-grow: 1;
+  margin-bottom: 25px;
 }
 .darkMode .solutionCard p {
   color: var(--text-color-primary-dark);
 }
 
-/* Responsive Design */
+.solutionCard img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.3rem;
+  margin-top: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* --- Styles pour la Section Générale des Cas d'Utilisation (Air, Land, Sea avec listes) --- */
+.useCasesSection {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  text-align: center;
+  background-color: var(--background-color-light);
+}
+.darkMode .useCasesSection {
+  background-color: var(--background-color-dark);
+}
+
+.useCaseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-top: 60px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.useCaseCard {
+  background: var(--card-background-light);
+  padding: 30px;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-light);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+.darkMode .useCaseCard {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-color: #495057;
+}
+
+.useCaseCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.darkMode .useCaseCard:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.useCaseCard h3 {
+  font-size: 1.6rem;
+  color: var(--accent-color-light);
+  margin-bottom: 15px;
+  text-align: center;
+}
+.darkMode .useCaseCard h3 {
+  color: var(--accent-color-dark);
+}
+
+.useCaseCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.useCaseCard li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-color-primary-light);
+  position: relative;
+  padding-left: 25px;
+}
+.darkMode .useCaseCard li {
+  color: var(--text-color-primary-dark);
+}
+
+.useCaseCard li::before {
+  content: '✓';
+  color: var(--accent-color-light);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+}
+.darkMode .useCaseCard li::before {
+  color: var(--accent-color-dark);
+}
+
+/* --- Styles pour la nouvelle section des Use Cases par pays --- */
+.countryUseCasesSection {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  background-color: var(--background-color-light);
+  text-align: center;
+}
+.darkMode .countryUseCasesSection {
+  background-color: var(--background-color-dark);
+}
+
+.countryUseCasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 50px;
+  margin-top: 60px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.countryUseCaseCard {
+  background: var(--card-background-light);
+  padding: 30px;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-light);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+.darkMode .countryUseCaseCard {
+  background: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-color: #495057;
+}
+
+.countryUseCaseCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.darkMode .countryUseCaseCard:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+}
+
+.useCaseImageContainer {
+  flex-shrink: 0;
+}
+
+.useCaseImage {
+  border-radius: 0.3rem;
+  object-fit: cover;
+  /* Next/Image gère les dimensions via les props width/height,
+     mais s'assurer que max-width est 100% pour la responsivité */
+  max-width: 100%;
+  height: auto; /* Important pour maintenir le ratio sur de petites tailles d'écran */
+}
+
+.useCaseContent {
+  flex-grow: 1;
+}
+
+.countryUseCaseCard h3 {
+  font-size: 1.4rem;
+  color: var(--accent-color-light);
+  margin-bottom: 10px;
+}
+.darkMode .countryUseCaseCard h3 {
+  color: var(--accent-color-dark);
+}
+
+.countryUseCaseCard p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-color-primary-light);
+}
+.darkMode .countryUseCaseCard p {
+  color: var(--text-color-primary-dark);
+}
+
+/* --- CTA Styles (section-level and final CTA) --- */
+.ctaContainer {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: 2.8rem;
+  margin-bottom: 15px;
+  color: var(--heading-color-light);
+}
+.darkMode .ctaTitle {
+  color: var(--heading-color-dark);
+}
+
+.ctaSubtitle {
+  font-size: 1.3rem;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .ctaSubtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--button-background-color-light);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.darkMode .ctaButton {
+  background-color: var(--button-background-color-dark);
+}
+
+.ctaButton:hover {
+  background-color: var(--button-background-color-hover-light);
+  transform: translateY(-2px);
+}
+.darkMode .ctaButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+.finalCta {
+  background-color: var(--card-background-light);
+  padding: 80px 40px;
+  margin-top: 80px;
+  box-shadow: var(--shadow-light);
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
+}
+.darkMode .finalCta {
+  background-color: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-color: #495057;
+}
+
+/* --- Styles pour le Footer --- */
+.footer {
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  padding: 40px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.darkMode .footer {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.footerContent {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footerContent h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: var(--heading-color-light);
+}
+.darkMode .footerContent h3 {
+  color: var(--heading-color-dark);
+}
+
+.footerContent h4 {
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  color: var(--accent-color-light);
+}
+.darkMode .footerContent h4 {
+  color: var(--accent-color-dark);
+}
+
+.footerContent p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .footerContent p {
+  color: var(--text-color-primary-dark);
+}
+
+.footerContent ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerContent ul li {
+  margin-bottom: 8px;
+}
+
+.footerContent ul li a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footerContent ul li a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .footerContent ul li a:hover {
+  color: var(--accent-color-dark);
+}
+
+.footerContact a {
+    color: inherit;
+    text-decoration: none;
+}
+.footerContact a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design pour toutes les sections */
 @media (max-width: 992px) {
   .section {
     padding: 60px 30px;
+  }
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
   }
   .heroSolutionsSection .sectionTitle {
     font-size: 3rem;
@@ -198,48 +598,55 @@
   .heroSolutionsSection .subtitle {
     font-size: 1.4rem;
   }
-  .solutionCard h2 {
-    font-size: 1.7rem;
+  .solutionCategorySection {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+  }
+  .solutionCard {
+      min-height: 400px;
+  }
+  .useCaseGrid {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+  }
+  .countryUseCasesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+  .countryUseCaseCard {
+    flex-direction: column;
+    text-align: center;
+  }
+  /* Correction ici: Laissez Next/Image gérer les dimensions avec max-width: 100% */
+  .useCaseImage {
+    max-width: 100%; /* S'assure que l'image ne déborde pas */
+    height: auto; /* Maintient le ratio */
+    margin-bottom: 15px;
+  }
+  .countryUseCaseCard h3 {
+    font-size: 1.3rem;
+  }
+  .countryUseCaseCard p {
+    font-size: 0.9rem;
+  }
+  .ctaTitle {
+    font-size: 2.2rem;
+  }
+  .ctaSubtitle {
+    font-size: 1.1rem;
   }
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0.8rem 1rem;
-  }
-  .navLinks {
-    flex-direction: column;
-    position: absolute;
-    top: 58px; /* Ajustez selon la hauteur de votre navbar */
-    left: 0;
-    width: 100%;
-    background-color: var(--navbar-background-color-light);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-  }
-  .darkMode .navLinks {
-      background-color: var(--navbar-background-color-dark);
-  }
-  .navLinks.open {
-    display: flex;
-  }
-  .navLinks li {
-    margin-left: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  .darkMode .navLinks li {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .navLinks a {
-    padding: 1rem 1.5rem;
-    display: block;
-  }
-  .menuToggle {
-    display: block;
-  }
-
   .section {
     padding: 40px 15px;
+  }
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
   }
   .heroSolutionsSection .sectionTitle {
     font-size: 2.5rem;
@@ -247,16 +654,64 @@
   .heroSolutionsSection .subtitle {
     font-size: 1.2rem;
   }
-  .solutionCard h2 {
-    font-size: 1.5rem;
+  .solutionCategorySection {
+    grid-template-columns: 1fr;
+  }
+  .solutionCard {
+      min-height: auto;
+  }
+  .useCaseGrid {
+      grid-template-columns: 1fr;
+  }
+  .countryUseCasesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .countryUseCaseCard {
+    padding: 20px;
+  }
+  .ctaTitle {
+    font-size: 1.8rem;
+  }
+  .ctaSubtitle {
+    font-size: 1rem;
+  }
+  .finalCta {
+      padding: 60px 20px;
+  }
+  .footerContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .footerBrand, .footerNav, .footerLegal, .footerContact {
+    text-align: center;
+  }
+  .footerContent h3, .footerContent h4 {
+      margin-bottom: 10px;
+  }
+  .footerContent ul {
+      margin-bottom: 20px;
+  }
+  .footerContact p {
+      margin-bottom: 5px;
   }
 }
 
 @media (max-width: 480px) {
-  .heroSolutionsSection .sectionTitle {
-    font-size: 2rem;
+  .sectionTitle {
+    font-size: 1.8rem;
   }
-  .heroSolutionsSection .subtitle {
+  .subtitle {
     font-size: 1rem;
+  }
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+  .ctaSubtitle {
+    font-size: 0.9rem;
+  }
+  .ctaButton {
+      padding: 0.8rem 1.8rem;
+      font-size: 1rem;
   }
 }

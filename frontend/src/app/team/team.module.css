@@ -1,7 +1,6 @@
+/* src/app/team/page.module.css */
 
-/* src/app/team/team.module.css */
-
-
+/* Variables CSS (définissez-les dans un globals.css ou ici pour les modes clair/sombre) */
 
 .pageContainer {
   min-height: 100vh;

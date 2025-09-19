@@ -7,9 +7,10 @@ import { FaBars, FaDownload } from 'react-icons/fa'; // Import des icônes pour 
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-// import styles from './page.module.css'; // <-- C'EST CETTE LIGNE QUI DOIT ÊTRE UNIQUE !
+import styles from './product.module.css'; // Utilisez './page.module.css' pour les styles de cette page
 
 // --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
+// ATTENTION: Cet objet DOIT être identique dans TOUS les fichiers .tsx utilisant les traductions.
 const allTranslations = {
   header: {
     missionStatement: {
@@ -44,7 +45,9 @@ const allTranslations = {
     chatButton: { en: 'Get Started', fr: 'Démarrer' },
     chatTitle: { en: "Chat with AI", fr: "Chat avec l'IA" },
     chatInputPlaceholder: { en: 'Write your message here...', fr: 'Écrivez votre message ici...' },
-    installAppLabel: { en: 'Install App', fr: "Installer l'Application" },
+    installAppLabel: {
+      en: 'Install App', fr: "Installer l'Application", hi: 'ऐप इंस्टॉल करें', mi: 'Tāuta Taupānga', ga: 'Suiteáil Aip', gd: 'Stàlaich App', cy: 'Gosod Ap', af: 'Installeer Toep',
+    },
     product: { // "Nos Produits"
       en: 'Our Products', fr: 'Nos Produits', mi: 'Ā Mātou Hua', ga: 'Ár dTáirgí', hi: 'हमारे उत्पाद', gd: 'Ar Bathar', cy: 'Ein Cynhyrchion', af: 'Ons Produkte',
     },
@@ -64,6 +67,9 @@ const allTranslations = {
       subtitle: { en: 'Kiwi-Ops: The AI and Web3 platform that transforms raw data from your TBMs into operational certainty.', fr: 'Kiwi-Ops : La plateforme d\'IA et de Web3 qui transforme les données brutes de vos tunneliers en certitude opérationnelle.' },
       ctaButton: { en: 'Join the Beta Program', fr: 'Participez au Programme Bêta' },
     },
+    // Le contenu des sections Challenge, Solution, Features, Search, Team, Story et CTA
+    // sera maintenant présenté sous forme de cartes dans la nouvelle section productCards.
+    // Leurs traductions spécifiques restent ici pour être utilisées par les cartes.
     challenge: {
       title: { en: 'Every Meter Counts. Every Hour of Downtime Costs.', fr: 'Chaque Mètre Compte. Chaque Heure d\'Arrêt Coûte.' },
       point1: { en: 'The nightmare of a stalled TBM: Millions lost in penalties and costs for a failure that could have been anticipated.', fr: 'Le cauchemar d\'un tunnelier à l\'arrêt : Des millions perdus en pénalités pour une panne qui aurait pu être anticipée.' },
@@ -80,7 +86,7 @@ const allTranslations = {
       pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
     },
     features: {
-      title: { // Titre de la section "Features" sur la page produit
+      title: {
         en: 'A Platform Designed for Performance and Simplicity',
         fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
         hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़ॉर्म',
@@ -142,13 +148,13 @@ const allTranslations = {
     team: { // Titre de la section "Our Team" sur la page produit
         title: { en: 'Our Team', fr: 'Notre Équipe' },
         subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
-        member1Name: { en: 'Professor Alistair Finch', fr: 'Professeur Alistair Finch' }, // REMPLACER avec le vrai nom
+        member1Name: { en: 'Professor Alistair Finch', fr: 'Professeur Alistair Finch' }, // REMPLACER
         member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
         member1Bio: {
             en: 'Visionary leader with 15 years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
             fr: 'Leader visionnaire avec 15 ans d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
         },
-        member2Name: { en: 'Dr. Kwame Nkrumah', fr: 'Dr. Kwame Nkrumah' }, // REMPLACER avec le vrai nom
+        member2Name: { en: 'Dr. Kwame Nkrumah', fr: 'Dr. Kwame Nkrumah' }, // REMPLACER
         member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
         member2Bio: {
             en: 'Tech wizard with a PhD in AI and 12 years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
@@ -182,7 +188,7 @@ const allTranslations = {
       fr: 'Opérations Aériennes : Précision et Puissance Prédictive',
       hi: 'हवाई संचालन: सटीकता और पूर्वानुमान क्षमता',
       mi: 'Ngā Mahi Rererangi: Te Tino me te Mana Matapae',
-      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhacht Réamhaisnéise',
+      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhachd Réamhaisnéise',
       gd: 'Gnìomhachasan Adhair: Cruinneas et Cumhachd Ro-innse',
       cy: 'Gweithrediadau Awyr: Cywirdeb a Phŵer Rhagfynegol',
       af: 'Lugoperasies: Presisie en Voorspellende Krag',
@@ -261,6 +267,186 @@ const allTranslations = {
     },
     // Les traductions pour les piliers (Kiwi-Edge, Kiwi-Cloud, Kiwi-Ledger) sont déjà dans productPage.solution
   },
+  aiAgents: { // Nouvelle section pour les agents AI, pour la page Solutions
+    sectionTitle: {
+      en: 'Meet Our Specialized AI Agents',
+      fr: 'Rencontrez nos Agents d\'Intelligence Spécialisée',
+      hi: 'हमारे विशेष एआई एजेंटों से मिलें',
+      mi: 'Tutaki ki ō Mātou Kaihoko AI Whai Whakaritenga',
+      ga: 'Buail le hÁr nGníomhairí AI Speisialaithe',
+      gd: 'Coinnich ris na h-Àidseantan AI Sònraichte againn',
+      cy: 'Cwrdd â\'n Hasianwyr AI Arbenigol',
+      af: 'Ontmoet Ons Gespesialiseerde KI Agente',
+    },
+    sectionSubtitle: {
+      en: 'Kiwi-Ops\' A2A protocol connects your queries to the most relevant expertise.',
+      fr: 'Le protocole A2A de Kiwi-Ops connecte vos requêtes à l\'expertise la plus pertinente.',
+      hi: 'कीवी-ऑप्स का ए2ए प्रोटोकॉल आपकी प्रश्नों को सबसे प्रासंगिक विशेषज्ञता से जोड़ता है।',
+      mi: 'Ko te kawa A2A a Kiwi-Ops e hono ana i ō patai ki te tohungatanga tino tika.',
+      ga: 'Ceanglaíonn prótacal A2A Kiwi-Ops do cheisteanna leis an saineolas is ábhartha.',
+      gd: 'Ceangailidh protocol A2A Kiwi-Ops na ceistean agad ris an eòlas as buntainniche.',
+      cy: 'Mae protocol A2A Kiwi-Ops yn cysylltu eich ymholiadau â\'r arbenigedd mwyaf perthnasol.',
+      af: 'Kiwi-Ops se A2A-protokol verbind jou navrae met die mees relevante kundigheid.',
+    },
+    geoAgentTitle: {
+      en: 'Geological Analysis Agent',
+      fr: 'Agent d\'Analyse Géologique',
+      hi: 'भूवैज्ञानिक विश्लेषण एजेंट',
+      mi: 'Kaihoko Tātari Mātaiao Whenua',
+      ga: 'Gníomhaire Anailíse Geolaíche',
+      gd: 'Àidseant Anailis Geòlais',
+      cy: 'Asiant Dadansoddi Geolegol',
+      af: 'Geologiese Analise Agent',
+    },
+    geoAgentText: {
+      en: 'Specialized in analyzing subterranean data and predicting geological challenges for construction and defense.',
+      fr: 'Spécialisé dans l\'analyse des données souterraines et la prédiction des défis géologiques pour la construction et la défense.',
+      hi: 'भूमिगत डेटा का विश्लेषण करने और निर्माण और रक्षा के लिए भूवैज्ञानिक चुनौतियों का अनुमान लगाने में विशेषज्ञ।',
+      mi: 'He tohunga ki te tātari raraunga o raro me te matapae i ngā wero mātaiao whenua mō te hanga me te tiaki.',
+      ga: 'Speisialaithe i hanailís sonraí fomhuirí agus i dtuar dúshláin gheolaíocha le haghaidh tógála agus cosanta.',
+      gd: 'Sònraichte ann a bhith a\' dèanamh anailis air dàta fo-thalamh agus a\' ro-innse dùbhlain geòlais airson togail agus dìon.',
+      cy: 'Arbenigol mewn dadansoddi data tanddaearol a rhagfynegi heriau geolegol ar gyfer adeiladu ac amddiffyn.',
+      af: 'Gespesialiseerd in die ontleding van ondergrondse data en die voorspelling van geologiese uitdagings vir konstruksie en verdediging.',
+    },
+    predMaintAgentTitle: {
+      en: 'Predictive Maintenance Agent',
+      fr: 'Agent de Maintenance Prédictive',
+      hi: 'पूर्वानुमानित रखरखाव एजेंट',
+      mi: 'Kaihoko Tiaki Matapae',
+      ga: 'Gníomhaire Cothabhála Tuarthach',
+      gd: 'Àidseant Cumail Suas Ro-innseach',
+      cy: 'Asiant Cynnal a Chadw Rhagfynegol',
+      af: 'Voorspellende Instandhouding Agent',
+    },
+    predMaintAgentText: {
+      en: 'Detects real-time anomalies and anticipates failures for TBMs, land vehicles, and air/sea systems.',
+      fr: 'Détecte les anomalies en temps réel et anticipe les pannes pour les tunneliers, véhicules terrestres, et systèmes aériens/maritimes.',
+      hi: 'टीबीएम, भूमि वाहनों और हवाई/समुद्री प्रणालियों के लिए वास्तविक समय में विसंगतियों का पता लगाता है और विफलताओं का अनुमान लगाता है।',
+      mi: 'Ka kitea ngā hē i te wā tūturu, ā, ka matapae i ngā hē mō ngā TBM, waka whenua, me ngā pūnaha hau/moana.',
+      ga: 'Braitheann sé aimhrialtachtaí fíor-ama agus tuartar teipeanna do TBManna, feithiclí talún, agus córais aeir/mara.',
+      gd: 'Lorgaidh e neo-riaghailtean ann an àm fìor agus ro-innsear fàilligean airson TBMan, carbadan talmhainn, agus siostaman adhair/mara.',
+      cy: 'Canfod annormaleddau amser real a rhagweld methiannau ar gyfer TBMau, cerbydau tir, a systemau awyr/môr.',
+      af: 'Bespeur intydse afwykings en voorsien mislukkings vir TBMs, landvoertuie en lug-/see-stelsels.',
+    },
+    tactIntAgentTitle: {
+      en: 'Tactical Intelligence Agent',
+      fr: 'Agent de Renseignement Tactique',
+      hi: 'सामरिक खुफिया एजेंट',
+      mi: 'Kaihoko Mōhiohio Whai Tikanga',
+      ga: 'Gníomhaire Faisnéise Tactúla',
+      gd: 'Àidseant Fiosrachaidh innleachdail',
+      cy: 'Asiant Cudd-wybodaeth Tactegol',
+      af: 'Taktiese Intelligensie Agent',
+    },
+    tactIntAgentText: {
+      en: 'Provides advanced situational awareness and environmental analysis for real-time strategic decision-making in any domain.',
+      fr: 'Fournit une connaissance situationnelle avancée et des analyses environnementales pour la prise de décision stratégique en temps réel dans n\'importe quel domaine.',
+      hi: 'किसी भी डोमेन में वास्तविक समय में रणनीतिक निर्णय लेने के लिए उन्नत स्थितिजन्य जागरूकता और पर्यावरणीय विश्लेषण प्रदान करता है।',
+      mi: 'Ka whakarato i te mōhiotanga ā-horahanga matatau me te tātari taiao mō te whakatau rautaki wā-tūturu i roto i tētahi rohe.',
+      ga: 'Soláthraíonn sé feasacht staide chun cinn agus anailís chomhshaoil le haghaidh cinnteoireachta straitéisí fíor-ama in aon réimse.',
+      gd: 'Bheir e seachad tuigse staide adhartach agus anailis àrainneachdail airson co-dhùnaidhean ro-innleachdail ann an àm fìor ann an raon sam bith.',
+      cy: 'Darparu ymwybyddiaeth sefyllfaol uwch a dadansoddiad amgylcheddol ar gyfer gwneud penderfyniadau strategol amser real mewn unrhyw faes.',
+      af: 'Verskaf gevorderde situasionele bewustheid en omgewingsanalise vir intydse strategiese besluitneming in enige domein.',
+    },
+    web3CompAgentTitle: {
+      en: 'Web3 Compliance & Data Integrity Agent',
+      fr: 'Agent de Conformité Web3 et d\'Intégrité des Données',
+      hi: 'वेब3 अनुपालन और डेटा अखंडता एजेंट',
+      mi: 'Kaihoko Whakatutukitanga Web3 me te Tino Raraunga',
+      ga: 'Gníomhaire Comhlíonta Web3 & Sláine Sonraí',
+      gd: 'Àidseant Co-chòrdachd Web3 & Ionracas Dàta',
+      cy: 'Asiant Cydymffurfiaeth Web3 ac Integriti Data',
+      af: 'Web3 Nakoming en Data-integriteit Agent',
+    },
+    web3CompAgentText: {
+      en: 'Ensures immutable traceability of critical events and data integrity verification via the Kiwi-Ledger for utmost trust and accountability.',
+      fr: 'Assure la traçabilité immuable des événements critiques et la vérification de l\'intégrité des données via le Kiwi-Ledger pour une confiance et une responsabilité maximales.',
+      hi: 'अत्यधिक विश्वास और जवाबदेही के लिए कीवी-लेजर के माध्यम से महत्वपूर्ण घटनाओं की अपरिवर्तनीय पता लगाने की क्षमता और डेटा अखंडता सत्यापन सुनिश्चित करता है।',
+      mi: 'Ka whakarite i te tino mōhiotanga kore e taea te whakarereke o ngā huihuinga whakahirahira me te whakaurunga raraunga mā te Kiwi-Ledger mō te tino whakawhirinaki me te kawenga takohanga.',
+      ga: 'Cinntíonn sé inrianaitheacht dhochlaíoch imeachtaí criticiúla agus fíorú sláine sonraí trí Kiwi-Ledger le haghaidh an t-iontaobhas agus an chuntasacht is airde.',
+      gd: 'Bheir e cinnteachd do shlighe-rùrachd thachartasan èiginneach agus dearbhadh ionracas dàta tro Kiwi-Ledger airson earbsa agus cunntachalachd as àirde.',
+      cy: 'Sicrhau olrhain digwyddiadau critigol yn anwadal a gwirio integriti data trwy\'r Kiwi-Ledger ar gyfer ymddiriedaeth ac atebolrwydd llwyr.',
+      af: 'Verseker onveranderlike naspeurbaarheid van kritieke gebeurtenisse en data-integriteitsverifikasie via die Kiwi-Ledger vir uiterste vertroue en aanspreeklikheid.',
+    },
+  },
+  platform: { // Nouvelle section pour les traductions spécifiques de la page Platform
+    title: {
+      en: 'The Kiwi-Ops Platform: Your Operational Command Center',
+      fr: 'La Plateforme Kiwi-Ops : Votre Centre de Commande Opérationnel',
+      hi: 'कीवी-ऑप्स प्लेटफ़ॉर्म: आपका परिचालन कमान केंद्र',
+      mi: 'Te Paparanga Kiwi-Ops: Tō Pokapū Whakahaere Mahi',
+      ga: 'Ardán Kiwi-Ops: Ionad Ordú Oibríochta',
+      gd: 'Àrd-ùrlar Kiwi-Ops: An t-Ionad Smachd Obrachaidh agad',
+      cy: 'Llwyfan Kiwi-Ops: Eich Canolfan Rheoli Gweithredol',
+      af: 'Die Kiwi-Ops Platform: Jou Operasionele Beheer Sentrum',
+    },
+    subtitle: {
+      en: 'Unifying Edge AI, Secure Cloud, and Web3 Trust for Unprecedented Control.',
+      fr: 'Unifiant l\'IA Edge, le Cloud Sécurisé et la Confiance Web3 pour un Contrôle Inédit.',
+      hi: 'अभूतपूर्व नियंत्रण के लिए एज एआई, सुरक्षित क्लाउड और वेब3 ट्रस्ट को एकीकृत करना।',
+      mi: 'Te Whakakotahi i te AI Whakamutunga, te Kapua Haumaru, me te Whakawhirinaki Web3 mo te Mana Kore-mua.',
+      ga: 'AI Imeall, Cloud Slán, agus Iontaobhas Web3 a Aontú le haghaidh Rialú Gan Réamhshampla.',
+      gd: 'Aonachadh AI Iomall, Cloud Tèarainte, agus Urras Web3 airson Smachd Gun Coimeas.',
+      cy: 'Uno AI Ymyl, Cwmwl Diogel, ac Ymddiriedaeth Web3 ar gyfer Rheolaeth Ddigyffelyb.',
+      af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongekende Beheer.',
+    },
+    // Les traductions pour les piliers (Kiwi-Edge, Kiwi-Cloud, Kiwi-Ledger) sont déjà dans productPage.solution
+  },
+  installPage: { // Nouvelle section pour les traductions de la page d'installation
+    title: {
+      en: 'Download Kiwi-Ops',
+      fr: 'Téléchargez Kiwi-Ops',
+      hi: 'कीवी-ऑप्स डाउनलोड करें',
+      mi: 'Tikiake i a Kiwi-Ops',
+      ga: 'Íoslódáil Kiwi-Ops',
+      gd: 'Luchdaich sìos Kiwi-Ops',
+      cy: 'Lawrlwytho Kiwi-Ops',
+      af: 'Laai Kiwi-Ops af',
+    },
+    subtitle: {
+      en: 'Get the full power of operational intelligence on your device.',
+      fr: 'Profitez de toute la puissance de l\'intelligence opérationnelle sur votre appareil.',
+      hi: 'अपने डिवाइस पर परिचालन बुद्धिमत्ता की पूरी शक्ति प्राप्त करें।',
+      mi: 'Tikina te mana katoa o te mātauranga whakahaere ki tō pūrere.',
+      ga: 'Faigh lánchumhacht na faisnéise oibríochtúla ar do ghléas.',
+      gd: 'Faigh làn chumhachd fiosrachaidh obrachaidh air an uidheam agad.',
+      cy: 'Cael holl rym deallusrwydd gweithredol ar eich dyfais.',
+      af: 'Kry die volle krag van operasionele intelligensie op jou toestel.',
+    },
+    googlePlay: {
+      en: 'Get it on Google Play',
+      fr: 'Disponible sur Google Play',
+      hi: 'Google Play पर प्राप्त करें',
+      mi: 'Tikina i te Google Play',
+      ga: 'Faigh é ar Google Play',
+      gd: 'Faigh e air Google Play',
+      cy: 'Cael ef ar Google Play',
+      af: 'Kry dit op Google Play',
+    },
+    appStore: {
+      en: 'Download on the App Store',
+      fr: 'Télécharger sur l\'App Store',
+      hi: 'ऐप स्टोर से डाउनलोड करें',
+      mi: 'Tikiake i te App Store',
+      ga: 'Íoslódáil ón App Store',
+      gd: 'Luchdaich sìos air an App Store',
+      cy: 'Lawrlwytho ar yr App Store',
+      af: 'Laai af op die App Store',
+    },
+    qrCodeText: {
+      en: 'Scan to Download for All Platforms',
+      fr: 'Scannez pour télécharger sur toutes les plateformes',
+      hi: 'सभी प्लेटफॉर्म के लिए डाउनलोड करने के लिए स्कैन करें',
+      mi: 'Matawai ki te Tikiake mō ngā Paparanga Katoa',
+      ga: 'Scan chun Íoslódáil do Gach Ardán',
+      gd: 'Sgan airson Luchdadh sìos airson a h-uile Àrd-ùrlar',
+      cy: 'Sganiwch i Lawrlwytho ar gyfer Pob Llwyfan',
+      af: 'Skandeer om af te laai vir Alle Platforms',
+    },
+    googlePlayLink: 'https://play.google.com/store/apps/details?id=your.app.id', // Remplacez par le vrai lien
+    appStoreLink: 'https://apps.apple.com/us/app/your-app-id/id1234567890', // Remplacez par le vrai lien
+    qrCodeImage: '/images/kiwi-ops-qrcode.png', // Chemin vers votre QR code image
+  },
 };
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
@@ -273,8 +459,7 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
   return result?.[language] || result?.en || keyPath;
 }
 // --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
-
-import styles from './product.module.css'; // <--- MODIFIÉ : utilise 'product.module.css' pour les styles de cette page
+ // Utilisez './page.module.css' pour les styles de cette page
 
 export default function ProductPage() {
   const { theme } = useTheme();
@@ -284,7 +469,14 @@ export default function ProductPage() {
   // Fonctions utilitaires pour obtenir les traductions
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
   const tProduct = (key: string) => getTranslation('productPage', key, language);
-  const tProductSolution = (key: string) => getTranslation('productPage', `solution.${key}`, language); // Pour les piliers de solution
+  const tProductSolution = (key: string) => getTranslation('productPage', `solution.${key}`, language);
+  const tInstall = (key: string) => getTranslation('installPage', key, language); // Pour le bouton d'installation
+
+  // Cette fonction gère le clic sur le bouton "Install App" de la navbar
+  const handleNavbarInstallClick = () => {
+    // Redirige vers la page /install
+    window.location.href = '/install'; // Ou utilisez useRouter si vous l'importez
+  };
 
 
   return (
@@ -310,7 +502,7 @@ export default function ProductPage() {
            <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
         {/* Le label 'installAppLabel' est un label générique, donc getLoginNavTranslation est approprié ici */}
-        <button className={styles.installButton} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
+        <button className={styles.installButton} onClick={handleNavbarInstallClick} aria-label={tInstall('installAppLabel')}><FaDownload /></button>
       </nav>
 
       {/* --- SECTION 1: HERO --- */}
@@ -331,7 +523,6 @@ export default function ProductPage() {
       </section>
 
       {/* --- SECTION 3: THE SOLUTION (Pillars) - Ce contenu a été déplacé vers /platform, mais vous pouvez le garder comme un aperçu ici --- */}
-      {/* J'ai réintégré le contenu ici en me basant sur votre demande. Décidez si vous le voulez ou non. */}
       <section className={`${styles.section} ${styles.lightBackground} ${styles.solutionSection}`} id="solution-section">
         <h2 className={styles.sectionTitle}>{tProductSolution('title')}</h2>
         <div className={styles.pillarsGrid}>

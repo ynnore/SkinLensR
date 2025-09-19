@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Peut être utilisé pour des images spécifiques à la page Solutions
+import Image from 'next/image';
 import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-import styles from './solutions.module.css'; // Utilise './page.module.css' pour les styles de cette page
+import { LanguageCode } from '@/types';
+import styles from './solutions.module.css';
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation ---
 const allTranslations = {
   header: {
     missionStatement: {
@@ -32,21 +32,20 @@ const allTranslations = {
       'en-AU': "Beta", 'en-NZ': "Beta", 'en-CA': "Beta", 'fr-CA': "Bêta", 'en-ZA': "Beta", af: "Beta",
     }
   },
-  chat: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  chat: {
     welcomeMessage: { en: "Hello! I'm A.L.A.N...", fr: "Bonjour ! Je suis l'Agent L.I.O.N..." },
     thinking: { en: 'Agent is thinking...', fr: "Agent L.I.O.N. réfléchit..." },
     placeholder: { en: 'Type your message...', fr: 'Tapez votre message...' },
     militaryPackages: { en: 'Military Packages', fr: 'Paquetages Militaires' },
   },
-  loginPage: { // Traduction des labels de navigation
+  loginPage: {
     title: { en: 'Building in the shadows. Emerging for tomorrow.', fr: "Construire dans l’ombre. Émerger pour demain." },
     subtitle: { en: 'Kiwi-Ops. Intelligence that adapts to you', fr: "Kiwi-Ops. L’intelligence qui s’adapte à vous" },
     chatButton: { en: 'Get Started', fr: 'Démarrer' },
     chatTitle: { en: 'Chat with AI', fr: "Chat avec l'IA" },
     chatInputPlaceholder: { en: 'Write your message here...', fr: 'Écrivez votre message ici...' },
     installAppLabel: { en: 'Install App', fr: "Installer l'Application" },
-    // --- TRADUCTIONS MISES À JOUR POUR LA BARRE DE NAVIGATION ---
-    product: { // "Nos Produits"
+    product: {
       en: 'Our Products',
       fr: 'Nos Produits',
       mi: 'Ā Mātou Hua',
@@ -56,7 +55,7 @@ const allTranslations = {
       cy: 'Ein Cynhyrchion',
       af: 'Ons Produkte',
     },
-    features: { // "La plateforme"
+    features: {
       en: 'The Platform',
       fr: 'La plateforme',
       mi: 'Te Paparanga',
@@ -66,7 +65,7 @@ const allTranslations = {
       cy: 'Y Llwyfan',
       af: 'Die Platform',
     },
-    story: { // "Notre Histoire"
+    story: {
       en: 'Our Story',
       fr: 'Notre Histoire',
       mi: 'Tō Mātou Kōrero',
@@ -76,7 +75,7 @@ const allTranslations = {
       cy: 'Ein Stori',
       af: 'Ons Verhaal',
     },
-    search: { // "Nos solutions" (pour la nav, ici ce sera le libellé pour la page Solutions)
+    search: {
       en: 'Our Solutions',
       fr: 'Nos solutions',
       mi: 'Ā Mātou Rongoā',
@@ -86,7 +85,7 @@ const allTranslations = {
       cy: 'Ein Datrysiadau',
       af: 'Ons Oplossings',
     },
-    team: { // "Notre Équipe"
+    team: {
       en: 'Our Team',
       fr: 'Notre Équipe',
       mi: 'Tō Mātou Kapa',
@@ -96,7 +95,6 @@ const allTranslations = {
       cy: 'Ein Tîm',
       af: 'Ons Span',
     },
-    // --- FIN NOUVELLES TRADUCTIONS POUR LA BARRE DE NAVIGATION ---
   },
   productPage: {
     hero: {
@@ -120,7 +118,7 @@ const allTranslations = {
       pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
     },
     features: {
-      title: { // Titre de la section "Features" sur la page produit
+      title: {
         en: 'A Platform Designed for Performance and Simplicity',
         fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
         hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़ॉर्म',
@@ -137,7 +135,7 @@ const allTranslations = {
       integrationTitle: { en: 'Simple Integration: Designed for Your Reality, Not Ours.', fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.' },
       integrationText: { en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.', fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".' },
     },
-    search: { // Titre de la section "Smart Search" sur la page produit
+    search: {
       title: {
         en: 'Don\'t look for information. Get the answer.',
         fr: 'Ne cherchez plus l\'information. Obtenez la réponse.',
@@ -151,7 +149,7 @@ const allTranslations = {
       subtitle: { en: 'Our Smart Search turns your archives into a 24/7 operational expert.', fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.' },
       text: { en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.', fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.' },
     },
-    story: { // Titre de la section "Our Story" sur la page produit
+    story: {
       title: {
         en: 'Our Story',
         fr: 'Notre Histoire',
@@ -163,15 +161,15 @@ const allTranslations = {
         af: 'Ons Verhaal',
       },
       subtitle: { en: 'Born from a legacy. Focused on the future.', fr: 'Nés d\'un héritage. Tournés vers l\'avenir.' },
-      text: { // Texte complet de l'histoire (narratif)
+      text: {
         en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders. We believe that under every meter of earth lies a cultural heritage, an educational opportunity, and a form of art that our technology can reveal. We transform raw data from TBMs into operational certainty, integrating the art of anticipation, the richness of operational culture, and the power of data-driven education, extending this intelligence from the depths to critical operations across Air, Land, and Sea.',
         fr: 'Notre histoire ne commence pas avec du code, mais avec le son d\'une pioche dans la craie. Arras, 1917. L\'ingéniosité des sapeurs "Kiwis" était de rendre l\'invisible, visible. Aujourd\'hui, nous perpétuons cet héritage. Là où ils écoutaient la terre, nous appliquons l\'IA. Kiwi-Ops est le pont entre l\'héritage d\'hier et la technologie des bâtisseurs de demain. Nous croyons que sous chaque mètre de terre se cache un héritage culturel, une opportunité d\'éducation et une forme d\'art que notre technologie peut révéler. Nous transformons les données brutes des tunneliers en certitude opérationnelle, intégrant l\'art de l\'anticipation, la richesse de la culture opérationnelle et la puissance de l\'éducation par la donnée, étendant cette intelligence des profondeurs aux opérations critiques sur l\'Air, la Terre et la Mer.',
         hi: 'हमारी कहानी कोड की एक पंक्ति से नहीं, बल्कि चाक में एक कुदाल की आवाज से शुरू होती है। अरास में, 1917 में, कीवी सुरंग बनाने वालों की सरलता अदृश्य को दृश्यमान बनाना था। आज, हम इस विरासत को आगे बढ़ाते हैं। जहां वे पृथ्वी को सुनते थे, हम एआई लागू करते हैं। कीवी-ऑप्स कल के सुरंग बनाने वालों की विरासत और कल के बिल्डरों की तकनीक के बीच एक सेतु है। हम मानते हैं कि पृथ्वी के हर मीटर के नीचे एक सांस्कृतिक विरासत, एक शैक्षिक अवसर, और कला का एक रूप छिपा है जिसे हमारी तकनीक प्रकट कर सकती है। हम टीबीएम से कच्चे डेटा को परिचालन निश्चितता में बदलते हैं, प्रत्याशा की कला, परिचालन संस्कृति की समृद्धि, और डेटा-संचालित शिक्षा की शक्ति को एकीकृत करते हैं, इस बुद्धिमत्ता को गहराई से लेकर वायु, भूमि और समुद्र में महत्वपूर्ण संचालन तक विस्तारित करते हैं।',
         mi: 'Karekau tō mātou kōrero i tīmata i te rārangi waehere, engari ki te tangi a te toki i te tōtō. I Arras, 1917, ko te rawe o ngā kaikeri Kiwi he whakaputa i te mea huna kia kitea. I ēnei rā, kei te kawe tonu mātou i tēnei taonga tuku iho. I a rātou i whakarongo ki te whenua, ka whakamahi mātou i te AI. He piriti a Kiwi-Ops i waenganui i te taonga tuku iho o ngā kaikeri o mua, me te hangarau o ngā kaihanga o anamata. E whakapono ana mātou kei raro i ia mita o te whenua tētahi taonga tuku iho ahurea, tētahi whai wāhi mātauranga, me tētahi momo toi ka taea e tō mātou hangarau te whakaatu. Ka hurihia e mātou ngā raraunga mata mai i ngā TBM ki te tino mōhiotanga whakahaere, e whakauru ana i te toi o te tūponotanga, te taonga o te ahurea whakahaere, me te kaha o te mātauranga raraunga-akiaki, e toroa ana tēnei mātauranga mai i ngā hōhonutanga ki ngā mahi whakahirahira puta noa i te Hau, te Whenua, me te Moana.',
         ga: 'Ní thosaíonn ár scéal le líne cóid, ach le fuaim phiocóide sa chailc. In Arras, 1917, ba é intleacht na dtairní Kiwí an rud dofheicthe a dhéanamh infheicthe. Inniu, leanann muid ar an oidhreacht seo. Nuair a d\'éist siad leis an talamh, cuirimid AI i bhfeididhm. Is é Kiwi-Ops an droichead idir oidhreacht thairní an lae inné agus teicneolaíocht thógálaithe an lae amárach. Creidimid go bhfuil oidhreacht chultúrtha, deis oideachais, agus foirm ealaíne ceilte faoi gach méadar talún ar féidir lenár dteicneolaíocht a nochtadh. Déanaimid amhshonraí ó TBManna a athrú go cinnteacht oibriúcháin, ag comhtháthú ealaín an réamhaistrithe, saibhreas an chultúir oibriúcháin, agus cumhacht an oideachais bunaithe ar shonraí, ag leathnú an intleacht seo ó na doimhneachtaí go hoibríochtaí criticiúla trasna Aer, Talún, agus Mara.',
         gd: 'Cha tòisich ar sgeulachd le sreath de chòd, ach le fuaim pickaxe ann an clach-aoil. Ann an Arras, 1917, b\' e innleachd nan tunail Kiwí an rud do-fhaicsinneach a dhèanamh ri fhaicinn. An-dè, tha sinn a\' leantainn air an dualchas seo. Far an robh iad ag èisteachd ris an talamh, cuiridh sinn an sàs AI. Tha Kiwi-Ops an drochaid eadar dualchas luchd-tunail an-dè agus teicneòlas luchd-togail an-màireach. Tha sinn a\' creidsinn gu bheil dualchas cultarach, cothrom foghlaim, agus cruth ealain falaichte fo gach meatair de thalamh as urrainn don teicneòlas againn fhoillseachadh. Bidh sinn ag atharrachadh dàta amh bho TBMan gu cinnteachd obrachaidh, a\' toirt a-steach ealain an dùil, beairteas cultar obrachaidh, agus cumhachd foghlam stèidhichte air dàta, a\' leudachadh an tuigse seo bho na doimhneachdan gu gnìomhachdan èiginneach thar Adhair, Talmhainn, agus Muir.',
-        cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf gelfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau critigol ar draws Awyr, Tir, a Môr.',
-        af: 'Ons storie begin nie met \'n reël kode nie, maar met die geluid van \'n pik in kryt. In Arras, 1917, was die vindingrykheid van die Kiwi-tonnelgrawers om die onsigbare sigbaar te maak. Vandag dra ons hierdie nalatenskap voort. Waar hulle na die aarde geluister het, pas ons KI toe. Kiwi-Ops is die brug tussen die nalatenskap van gister se tonnelgrawers en die tegnologie van môre se bouers. Ons glo dat onder elke meter aarde \'n kulturele erfenis, \'n opvoedkundige geleentheid, en \'n vorm van kuns lê wat ons tegnologie kan openbaar. Ons omskep rou data van TBMs in operasionele sekerheid, deur die kuns van afwagting, die rykdom van operasionele kultuur, en die krag van data-gedrewe onderwys te integreer, en hierdie intelligensie uit die dieptes uit te brei na kritieke operasies oor Lug, Land, en See.',
+        cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf celfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau critigol ar draws Awyr, Tir, a Môr.',
+        af: 'Ons storie begin nie met \'n reël kode nie, but met die geluid van \'n pik in kryt. In Arras, 1917, was die vindingrykheid van die Kiwi-tonnelgrawers om die onsigbare sigbaar te maak. Vandag dra ons hierdie nalatenskap voort. Waar hulle na die aarde geluister het, pas ons KI toe. Kiwi-Ops is die brug tussen die nalatenskap van gister se tonnelgrawers en die tegnologie van môre se bouers. Ons glo dat onder elke meter aarde \'n kulturele erfenis, \'n opvoedkundige geleentheid, en \'n vorm van kuns lê wat ons tegnologie kan openbaar. Ons omskep rou data van TBMs in operasionele sekerheid, deur die kuns van afwagting, die rykdom van operasionele kultuur, en die krag van data-gedrewe onderwys te integreer, en hierdie intelligensie uit die dieptes uit te brei na kritieke operasies oor Lug, Land, en See.',
       },
     },
     finalCta: {
@@ -182,21 +180,21 @@ const allTranslations = {
     team: {
         title: { en: 'Our Team', fr: 'Notre Équipe' },
         subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
-        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' }, // REMPLACER
+        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' },
         member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
         member1Bio: {
-            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
-            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
+            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.',
+            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.'
         },
-        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' }, // REMPLACER
+        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' },
         member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
         member2Bio: {
-            en: 'Tech wizard with a PhD in AI and Y years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
-            fr: 'Génie technique avec un doctorat en IA et Y années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
+            en: 'Tech wizard with a PhD in AI and Y years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.',
+            fr: 'Génie technique avec un doctorat en IA et Y années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.'
         },
     }
   },
-  solutionsPage: { // Nouvelle section pour les traductions spécifiques de la page Solutions
+  solutionsPage: {
     title: {
       en: 'Our Solutions: Mastering Every Environment',
       fr: 'Nos Solutions : Maîtriser Chaque Environnement',
@@ -222,7 +220,7 @@ const allTranslations = {
       fr: 'Opérations Aériennes : Précision et Puissance Prédictive',
       hi: 'हवाई संचालन: सटीकता और पूर्वानुमान क्षमता',
       mi: 'Ngā Mahi Rererangi: Te Tino me te Mana Matapae',
-      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhacht Réamhaisnéise',
+      ga: 'Oibríochtaí Aeir: Cruinneas agus Cumhachd Réamhaisnéise',
       gd: 'Gnìomhachasan Adhair: Cruinneas agus Cumhachd Ro-innse',
       cy: 'Gweithrediadau Awyr: Cywirdeb a Phŵer Rhagfynegiadol',
       af: 'Lugoperasies: Presisie en Voorspellende Krag',
@@ -277,15 +275,202 @@ const allTranslations = {
       cy: 'O fonitro is-wyneb i optimeiddio fflyd llyngesol, mae Kiwi-Ops yn darparu ymwybyddiaeth sefyllfaol a effeithlonrwydd gweithredol heb ei hail ar gyfer meysydd morwrol.',
       af: 'Van onderwatermonitering tot vlootoptimisering, bied Kiwi-Ops ongeëwenaarde situasionele bewustheid en operasionele doeltreffendheid vir maritieme gebiede.',
     },
+    operationalUseCasesTitle: {
+      en: 'General Operational Use Cases',
+      fr: 'Cas d\'Utilisation Opérationnels Généraux',
+      mi: 'Ngā Take Whakamahi Mahi Whānui',
+      ga: 'Cásanna Úsáide Oibriúla Ginearálta',
+      hi: 'सामान्य परिचालन उपयोग के मामले',
+      gd: 'Cùisean Cleachdaidh Obrachaidh Coitcheann',
+      cy: 'Achosion Defnydd Gweithredol Cyffredinol',
+      af: 'Algemene Operasionele Gebruiksgevalle',
+    },
+    operationalUseCasesAirTitle: {
+      en: 'Air Operations',
+      fr: 'Opérations Aériennes',
+    },
+    operationalUseCasesAirList: {
+      en: [
+        'Real-time drone mission optimization',
+        'Predictive maintenance for aeronautical systems',
+      ],
+      fr: [
+        'Optimisation des missions de drones en temps réel',
+        'Prévention des pannes sur les systèmes aéronautiques',
+      ],
+    },
+    operationalUseCasesLandTitle: {
+      en: 'Land Operations',
+      fr: 'Opérations Terrestres',
+    },
+    operationalUseCasesLandList: {
+      en: [
+        'Surveillance and security for underground works',
+        'Reduced downtime through predictive maintenance',
+      ],
+      fr: [
+        'Surveillance et sécurité lors de travaux souterrains',
+        'Réduction des temps d’arrêt grâce à la maintenance prédictive',
+      ],
+    },
+    operationalUseCasesSeaTitle: {
+      en: 'Sea Operations',
+      fr: 'Opérations Maritimes',
+    },
+    operationalUseCasesSeaList: {
+      en: [
+        'Precise tracking of vessels and maritime fleets',
+        'Analysis and interpretation of underwater data for safety and efficiency',
+      ],
+      fr: [
+        'Suivi précis des navires et flottes maritimes',
+        'Analyse et interprétation de données sous-marines pour sécurité et efficacité',
+      ],
+    },
+    countryUseCasesSectionTitle: {
+      en: 'Global Impact: Solutions Tailored for Every Region',
+      fr: 'Impact Global : Des Solutions Adaptées à Chaque Région',
+      mi: 'Whakaawe Ao: Ngā Rongoā Motuhake mō ia Rohe',
+      ga: 'Tionchar Domhanda: Réitigh Saincheaptha do Gach Réigiún',
+      hi: 'वैश्विक प्रभाव: हर क्षेत्र के लिए अनुरूप समाधान',
+      gd: 'Buaidh Cruinne: Fuasglaidhean air an dèanamh gu h-àraidh do Gach Roinn',
+      cy: 'Effaith Byd-eang: Atebion Wedi\'u Teilwra ar gyfer Pob Rhanbarth',
+      af: 'Globale Impak: Oplossings Aangepas vir Elke Streek',
+    },
+    countryUseCasesSectionSubtitle: {
+      en: 'Kiwi-Ops delivers advanced intelligence capabilities designed to meet the unique challenges of diverse operational contexts across the globe.',
+      fr: 'Kiwi-Ops fournit des capacités d\'intelligence avancées conçues pour relever les défis uniques des divers contextes opérationnels à travers le monde.',
+      mi: 'Ka tukuna e Kiwi-Ops ngā kaha mōhiohio matatau i hangaia hei whakatutuki i ngā wero motuhake o ngā horopaki whakahaere rerekē puta noa i te ao.',
+      ga: 'Soláthraíonn Kiwi-Ops cumais faisnéise chun cinn atá deartha chun freastal ar dhúshláin uathúla comhthéacsanna oibriúcháin éagsúla ar fud an domhain.',
+      hi: 'कीवी-ऑप्स उन्नत खुफिया क्षमताएं प्रदान करता है जो दुनिया भर में विविध परिचालन संदर्भों की अनूठी चुनौतियों का सामना करने के लिए डिज़ाइन की गई हैं।',
+      gd: 'Tha Kiwi-Ops a\' lìbhrigeadh comasan fiosrachaidh adhartach air an dealbhadh gus coinneachadh ri dùbhlachdan sònraichte co-theacsan obrachaidh eadar-dhealaichte air feadh na cruinne.',
+      cy: 'Mae ein harbenigwyr ar gael i ddangos i chi sut y gall Kiwi-Ops drawsnewid eich gweithrediadau.',
+      af: 'Kiwi-Ops lewer gevorderde intelligensie-vermoëns wat ontwerp is om aan die unieke uitdagings van diverse operasionele kontekste wêreldwyd te voldoen.',
+    },
+    ctaButtonExperts: {
+      en: 'Contact Our Experts',
+      fr: 'Contacter nos experts',
+      mi: 'Whakapā atu ki Ō Mātou Mātanga',
+      ga: 'Déan Teagmháil le hÁr nGairmithe',
+      hi: 'हमारे विशेषज्ञों से संपर्क करें',
+      gd: 'Cuir Fios gu na h-Eòlaichean againn',
+      cy: 'Cysylltwch â\'n Harbenigwyr',
+      af: 'Kontak Ons Kundiges',
+    },
+    ctaTitle: {
+      en: 'Ready to take action?',
+      fr: 'Prêt à passer à l’action ?',
+      mi: 'Kua rite ki te mahi?',
+      ga: 'Réidh le gníomhú?',
+      hi: 'कार्रवाई करने के लिए तैयार हैं?',
+      gd: 'Deiseil airson a dhol an gnìomh?',
+      cy: 'Yn barod i weithredu?',
+      af: 'Gereed om op te tree?',
+    },
+    ctaSubtitle: {
+      en: 'Our experts are available to show you how Kiwi-Ops can transform your operations.',
+      fr: 'Nos experts sont disponibles pour vous montrer comment Kiwi-Ops peut transformer vos opérations.',
+      mi: 'E wātea ana ā mātou mātanga ki te whakaatu ki a koe me pēhea te Kiwi-Ops e huri ai i āu mahi.',
+      ga: 'Tá ár saineolaithe ar fáil chun a thaispeáint duit conas is féidir le Kiwi-Ops do chuid oibríochtaí a athrú.',
+      hi: 'हमारे विशेषज्ञ आपको यह दिखाने के लिए उपलब्ध हैं कि कैसे कीवी-ऑप्स आपके संचालन को बदल सकता है।',
+      gd: 'Tha na h-eòlaichean againn rim faighinn gus sealltainn dhut mar as urrainn do Kiwi-Ops na gnìomhachasan agad atharrachadh.',
+      cy: 'Mae ein harbenigwyr ar gael i ddangos i chi sut y gall Kiwi-Ops drawsnewid eich gweithrediadau.',
+      af: 'Ons kundiges is beskikbaar om jou te wys hoe Kiwi-Ops jou bedrywighede kan transformeer.',
+    },
+    useCasesByCountry: {
+      france: {
+        title: { en: 'France: Securing Critical Infrastructure', fr: 'France : Sécurisation des Infrastructures Critiques' },
+        description: { en: 'Kiwi-Ops enhances predictive maintenance for complex defense systems and urban surveillance, providing unparalleled precision for national security operations, ensuring resilience and rapid response in critical French infrastructures.', fr: 'Kiwi-Ops renforce la maintenance prédictive des systèmes de défense complexes et la surveillance urbaine, offrant une précision inégalée pour les opérations de sécurité nationale, garantissant résilience et réponse rapide dans les infrastructures critiques françaises.' },
+        image: '/images/use-case-france.jpg'
+      },
+      uk: {
+        title: { en: 'United Kingdom: Advancing Naval Intelligence', fr: 'Royaume-Uni : Avancées en Intelligence Navale' },
+        description: { en: 'Supporting the Royal Navy with real-time subsurface data analysis for enhanced fleet optimization and maritime domain awareness, crucial for strategic missions in the UK waters.', fr: 'Soutien à la Royal Navy avec l\'analyse de données sous-marines en temps réel pour une optimisation accrue de la flotte et une meilleure connaissance du domaine maritime, essentielle pour les missions stratégiques dans les eaux britanniques.' },
+        image: '/images/use-case-uk.jpg'
+      },
+      canada: {
+        title: { en: 'Canada: Arctic Operations and Resource Management', fr: 'Canada : Opérations Arctiques et Gestion des Ressources' },
+        description: { en: 'Providing critical environmental analysis and logistical support for remote Arctic operations and responsible resource exploration, vital for northern sovereignty and Canadian territories.', fr: 'Fourniture d\'analyses environnementales critiques et de support logistique pour les opérations arctiques éloignées et l\'exploration responsable des ressources, vital pour la souveraineté du nord et les territoires canadiens.' },
+        image: '/images/use-case-canada.jpg'
+      },
+      southAfrica: {
+        title: { en: 'South Africa: Enhancing Land Border Security', fr: 'Afrique du Sud : Renforcement de la Sécurité des Frontières Terrestres' },
+        description: { en: 'Deploying advanced reconnaissance and predictive analytics for challenging land environments, improving border surveillance and protection against illicit activities effectively across South Africa.', fr: 'Déploiement de reconnaissance avancée et d\'analyses prédictives pour les environnements terrestres difficiles, améliorant la surveillance et la protection des frontières contre les activités illicites en Afrique du Sud.' },
+        image: '/images/use-case-south-africa.jpg'
+      },
+      india: {
+        title: { en: 'India: Modernizing Defense Capabilities', fr: 'Inde : Modernisation des Capacités de Défense' },
+        description: { en: 'Empowering Indian forces with AI-driven insights for aerial mission planning, ground vehicle maintenance, and strategic maritime intelligence to ensure regional stability and national defense.', fr: 'Renforcement des forces indiennes avec des informations basées sur l\'AI pour la planification de missions aériennes, la maintenance de véhicules terrestres et l\'intelligence maritime stratégique afin d\'assurer la stabilité régionale et la défense nationale.' },
+        image: '/images/use-case-india.jpg'
+      },
+      australia: {
+        title: { en: 'Australia: Coastal Surveillance and Marine Protection', fr: 'Australie : Surveillance Côtière et Protection Marine' },
+        description: { en: 'Delivering comprehensive monitoring solutions for extensive coastlines, protecting marine ecosystems and strategic waterways, enhancing environmental stewardship across Australia\'s vast maritime zones.', fr: 'Fourniture de solutions de surveillance complètes pour les vastes côtes, protégeant les écosystèmes marins et les voies navigables stratégiques, renforçant la gestion environnementale à travers les vastes zones maritimes australiennes.' },
+        image: '/images/use-case-australia.jpg'
+      },
+      newZealand: {
+        title: { en: 'New Zealand: Innovative Environmental Monitoring', fr: 'Nouvelle-Zélande : Surveillance Environnementale Innovante' },
+        description: { en: 'Utilizing drone data for ecological surveys, volcanic activity monitoring, and safeguarding unique natural heritage across land and sea, ensuring long-term conservation of New Zealand\'s distinct ecosystems.', fr: 'Utilisation des données de drones pour les études écologiques, la surveillance de l\'activité volcanique et la protection du patrimoine naturel unique à travers terre et mer, garantissant une conservation à long terme des écosystèmes distincts de la Nouvelle-Zélande.' },
+        image: '/images/use-case-new-zealand.jpg'
+      }
+    }
+  },
+  footer: {
+    copyright: {
+      en: '© {currentYear} Kiwi-Ops. All rights reserved.',
+      fr: '© {currentYear} Kiwi-Ops. Tous droits réservés.',
+      mi: '© {currentYear} Kiwi-Ops. Ka whai mana katoa.',
+      ga: '© {currentYear} Kiwi-Ops. Gach ceart ar cosaint.',
+      hi: '© {currentYear} कीवी-ऑप्स। सर्वाधिकार सुरक्षित।',
+      gd: '© {currentYear} Kiwi-Ops. Gach còir glèidhte.',
+      cy: '© {currentYear} Kiwi-Ops. Cedwir pob hawl.',
+      af: '© {currentYear} Kiwi-Ops. Alle regte voorbehou.',
+    },
+    privacyPolicy: {
+      en: 'Privacy Policy',
+      fr: 'Politique de Confidentialité',
+      mi: 'Kaupapahere Tūmataiti',
+      ga: 'Polasaí Príobháideachais',
+      hi: 'गोपनीयता नीति',
+      gd: 'Poileasaidh Prìobhaideachd',
+      cy: 'Polisi Preifatrwydd',
+      af: 'Privaatheidsbeleid',
+    },
+    termsOfService: {
+      en: 'Terms of Service',
+      fr: 'Conditions d\'Utilisation',
+      mi: 'Ngā Tikanga o te Ratonga',
+      ga: 'Téarmaí Seirbhíse',
+      hi: 'सेवा की शर्तें',
+      gd: 'Cumhachan Seirbheis',
+      cy: 'Telerau Gwasanaeth',
+      af: 'Diensbepalings',
+    },
+    contactUs: {
+        en: 'Contact Us',
+        fr: 'Nous Contacter',
+        mi: 'Whakapā Mai',
+        ga: 'Déan Teagmháil Linn',
+        hi: 'हमसे संपर्क करें',
+        gd: 'Cuir Fios Thugainn',
+        cy: 'Cysylltwch â Ni',
+        af: 'Kontak Ons',
+    }
   },
 };
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
   const keys = keyPath.split('.');
   let result = (allTranslations as any)[section];
-  for (const theKey of keys) { // Renommé 'key' en 'theKey' pour éviter les conflits
+  for (const theKey of keys) {
     if (result === undefined || result === null) return keyPath;
     result = result?.[theKey];
+  }
+  if (keyPath.includes('copyright')) {
+    return (result?.[language] || result?.en || keyPath).replace('{currentYear}', new Date().getFullYear().toString());
+  }
+  if (Array.isArray(result?.[language])) {
+      return (result?.[language] || result?.en || [keyPath]).join('\n');
   }
   return result?.[language] || result?.en || keyPath;
 }
@@ -297,14 +482,18 @@ export default function SolutionsPage() {
   const { language } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Fonction utilitaire pour obtenir les traductions des labels de navigation généraux (loginPage)
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
-  // Fonction utilitaire pour obtenir les traductions spécifiques de la page Solutions
   const tSolutions = (key: string) => getTranslation('solutionsPage', key, language);
+  const tFooter = (key: string) => getTranslation('footer', key, language);
+
+  const getOperationalUseCaseList = (key: string) => {
+    const listString = tSolutions(key);
+    return typeof listString === 'string' ? listString.split('\n').map((item: string) => item.trim()) : [];
+  };
 
   return (
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
-      {/* Navbar (cohérente avec les autres pages) */}
+      {/* Navbar */}
       <nav className={styles.navbar}>
         <div className={styles.navLogo}><Link href="/">Kiwi-Ops</Link></div>
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
@@ -313,41 +502,144 @@ export default function SolutionsPage() {
            <li><Link href="/product#features-section">{getLoginNavTranslation('features')}</Link></li>
            <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
            <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
-           <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li> {/* Lien vers cette page Solutions */}
+           <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
         <button className={styles.installButton} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
       </nav>
 
-      {/* Contenu de la page Solutions */}
+      {/* Hero Section */}
       <section className={`${styles.section} ${styles.heroSolutionsSection}`} id="solutions-hero">
         <h1 className={styles.sectionTitle}>{tSolutions('title')}</h1>
         <p className={styles.subtitle}>{tSolutions('subtitle')}</p>
       </section>
 
+      {/* Operational Categories Section (Air, Land, Sea cards with images at the bottom) */}
       <section className={`${styles.section} ${styles.solutionCategorySection}`}>
         <div className={styles.solutionCard}>
-          <h2>{tSolutions('airTitle')}</h2>
-          <p>{tSolutions('airText')}</p>
-          {/* Optionnel: Ajouter une image ou une icône */}
-          {/* <Image src="/images/solution-air.jpg" alt="Air Operations" width={300} height={200} /> */}
+            <h2>{tSolutions('airTitle')}</h2>
+            <p>{tSolutions('airText')}</p>
+            <img src="/images/solution-air.jpg" alt="Air Operations" width={300} height={200} />
         </div>
 
         <div className={styles.solutionCard}>
-          <h2>{tSolutions('landTitle')}</h2>
-          <p>{tSolutions('landText')}</p>
-          {/* Optionnel: Ajouter une image ou une icône */}
-          {/* <Image src="/images/solution-land.jpg" alt="Land Operations" width={300} height={200} /> */}
+            <h2>{tSolutions('landTitle')}</h2>
+            <p>{tSolutions('landText')}</p>
+            <img src="/images/solution-land.jpg" alt="Land Operations" width={300} height={200} />
         </div>
 
         <div className={styles.solutionCard}>
-          <h2>{tSolutions('seaTitle')}</h2>
-          <p>{tSolutions('seaText')}</p>
-          {/* Optionnel: Ajouter une image ou une icône */}
-          {/* <Image src="/images/solution-sea.jpg" alt="Sea Operations" width={300} height={200} /> */}
+            <h2>{tSolutions('seaTitle')}</h2>
+            <p>{tSolutions('seaText')}</p>
+            <img src="/images/solution-sea.jpg" alt="Sea Operations" width={300} height={200} />
         </div>
       </section>
 
-      {/* Vous pouvez ajouter un footer ici si vous en avez un */}
+      {/* General Use Cases Section (Air, Land, Sea with bullet points) */}
+      <section className={`${styles.section} ${styles.useCasesSection}`}>
+        <h2 className={styles.sectionTitle}>{tSolutions('operationalUseCasesTitle')}</h2>
+
+        <div className={styles.useCaseGrid}>
+          <div className={styles.useCaseCard}>
+            <h3>{tSolutions('operationalUseCasesAirTitle')}</h3>
+            <ul>
+              {getOperationalUseCaseList('operationalUseCasesAirList').map((item: string, index: number) => (
+                <li key={`air-uc-${index}`}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.useCaseCard}>
+            <h3>{tSolutions('operationalUseCasesLandTitle')}</h3>
+            <ul>
+              {getOperationalUseCaseList('operationalUseCasesLandList').map((item: string, index: number) => (
+                <li key={`land-uc-${index}`}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.useCaseCard}>
+            <h3>{tSolutions('operationalUseCasesSeaTitle')}</h3>
+            <ul>
+              {getOperationalUseCaseList('operationalUseCasesSeaList').map((item: string, index: number) => (
+                <li key={`sea-uc-${index}`}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+
+      {/* Country Specific Use Cases Section */}
+      <section className={`${styles.section} ${styles.countryUseCasesSection}`}>
+        <h2 className={styles.sectionTitle}>{tSolutions('countryUseCasesSectionTitle')}</h2>
+        <p className={styles.subtitle}>{tSolutions('countryUseCasesSectionSubtitle')}</p>
+
+        <div className={styles.countryUseCasesGrid}>
+          {Object.entries(allTranslations.solutionsPage.useCasesByCountry).map(([countryKey, countryData]) => (
+            <div key={countryKey} className={styles.countryUseCaseCard}>
+              <div className={styles.useCaseImageContainer}>
+                <Image
+                  src={countryData.image}
+                  alt={countryData.title[language] || countryData.title.en}
+                  width={200}
+                  height={120}
+                  className={styles.useCaseImage}
+                />
+              </div>
+              <div className={styles.useCaseContent}>
+                <h3>{countryData.title[language] || countryData.title.en}</h3>
+                <p>{countryData.description[language] || countryData.description.en}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={`${styles.ctaContainer} ${styles.sectionCta}`}>
+          <Link href="/contact" className={styles.ctaButton}>{tSolutions('ctaButtonExperts')}</Link>
+        </div>
+      </section>
+
+      {/* Final Call To Action */}
+      <div className={`${styles.section} ${styles.ctaContainer} ${styles.finalCta}`}>
+        <h2 className={styles.ctaTitle}>{tSolutions('ctaTitle')}</h2>
+        <p className={styles.ctaSubtitle}>
+          {tSolutions('ctaSubtitle')}
+        </p>
+        <Link href="mailto:contact@kiwi-ops.com" className={styles.ctaButton}>
+          {tSolutions('ctaButtonExperts')}
+        </Link>
+      </div>
+
+
+      {/* FOOTER */}
+      <footer className={`${styles.footer}`}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerBrand}>
+            <h3>Kiwi-Ops</h3>
+            <p>{tFooter('copyright')}</p>
+          </div>
+          <div className={styles.footerNav}>
+            <h4>{getLoginNavTranslation('search')}</h4>
+            <ul>
+              <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
+              <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
+              <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
+              <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerLegal}>
+            <h4>Legal</h4>
+            <ul>
+              <li><Link href="/privacy">{tFooter('privacyPolicy')}</Link></li>
+              <li><Link href="/terms">{tFooter('termsOfService')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerContact}>
+            <h4>{tFooter('contactUs')}</h4>
+            <p>Email: <a href="mailto:info@kiwi-ops.com">info@kiwi-ops.com</a></p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

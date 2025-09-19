@@ -1,4 +1,3 @@
-// src/app/team/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -8,6 +7,7 @@ import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
+import styles from './team.module.css'; // Utilisez './page.module.css' pour les styles de cette page
 
 // --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
 // ATTENTION: Cet objet DOIT être identique dans TOUS les fichiers .tsx utilisant les traductions.
@@ -20,7 +20,7 @@ const allTranslations = {
       ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bbrisfidh an dromchla amárach.",
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
       gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misneachd togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
-      cy: "Wedi'u hysbrydoli gan Dwnelwyr Wellington yn Arras, ein cenhadaeth yw adeiladu yn y cysgodion yr hyn, yfory, a fydd yn torri trwy'r wyneb.",
+      cy: "Wedi'u hysbrydoli gan Dwnelwyr Wellington yn Arras, ein cenhadaeth yw adeiladu yn y cysgodion yr hyn, yfory, a fydd yn torri trwy'y wyneb.",
       'en-AU': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       'en-NZ': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       'en-CA': "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
@@ -45,19 +45,14 @@ const allTranslations = {
     chatButton: { en: 'Get Started', fr: 'Démarrer' },
     chatTitle: { en: "Chat with AI", fr: "Chat avec l'IA" },
     chatInputPlaceholder: { en: 'Write your message here...', fr: 'Écrivez votre message ici...' },
-    installAppLabel: { en: 'Install App', fr: "Installer l'Application" },
-    product: { // "Nos Produits"
-      en: 'Our Products', fr: 'Nos Produits', mi: 'Ā Mātou Hua', ga: 'Ár dTáirgí', hi: 'हमारे उत्पाद', gd: 'Ar Bathar', cy: 'Ein Cynhyrchion', af: 'Ons Produkte',
+    installAppLabel: {
+      en: 'Install App', fr: "Installer l'Application", hi: 'ऐप इंस्टॉल करें', mi: 'Tāuta Taupānga', ga: 'Suiteáil Aip', gd: 'Stàlaich App', cy: 'Gosod Ap', af: 'Installeer Toep',
     },
-    features: { // "La plateforme"
-      en: 'The Platform', fr: 'La plateforme', mi: 'Te Paparanga', ga: 'An tArdán', hi: 'प्लेटफ़ॉर्म', gd: 'Am Plaicform', cy: 'Y Llwyfan', af: 'Die Platform',
-    },
-    story: { // "Notre Histoire"
-      en: 'Our Story', fr: 'Notre Histoire', mi: 'Tō Mātou Kōrero', ga: 'Ár Scéal', hi: 'हमारी कहानी', gd: 'Ar Sgeulachd', cy: 'Ein Stori', af: 'Ons Verhaal', },
-    search: { // "Nos solutions"
-      en: 'Our Solutions', fr: 'Nos solutions', mi: 'Ā Mātou Rongoā', ga: 'Ár Réitigh', hi: 'हमारे समाधान', gd: 'Ar Fuasglaidhean', cy: 'Ein Datrysiadau', af: 'Ons Oplossings', },
-    team: { // "Notre Équipe"
-      en: 'Our Team', fr: 'Notre Équipe', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', hi: 'हमारी टीम', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
+    product: { en: 'Our Products', fr: 'Nos Produits', mi: 'Ā Mātou Hua', ga: 'Ár dTáirgí', hi: 'हमारे उत्पाद', gd: 'Ar Bathar', cy: 'Ein Cynhyrchion', af: 'Ons Produkte', },
+    features: { en: 'The Platform', fr: 'La plateforme', mi: 'Te Paparanga', ga: 'An tArdán', hi: 'प्लेटफ़ॉर्म', gd: 'Am Plaicform', cy: 'Y Llwyfan', af: 'Die Platform', },
+    story: { en: 'Our Story', fr: 'Notre Histoire', mi: 'Tō Mātou Kōrero', ga: 'Ár Scéal', hi: 'हमारी कहानी', gd: 'Ar Sgeulachd', cy: 'Ein Stori', af: 'Ons Verhaal', },
+    search: { en: 'Our Solutions', fr: 'Nos solutions', mi: 'Ā Mātou Rongoā', ga: 'Ár Réitigh', hi: 'हमारे समाधान', gd: 'Ar Fuasglaidhean', cy: 'Ein Datrysiadau', af: 'Ons Oplossings', },
+    team: { en: 'Our Team', fr: 'Notre Équipe', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', hi: 'हमारी टीम', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
   },
   productPage: { // Contient les détails de la section team
     hero: { title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, ctaButton: {en: '', fr: ''} },
@@ -103,6 +98,13 @@ const allTranslations = {
             en: 'Tech wizard with a PhD in AI and 12 years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
             fr: 'Génie technique avec un doctorat en IA et 12 ans en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
         },
+        // --- NOUVEAU MEMBRE DE L'ÉQUIPE ---
+        member3Name: { en: 'Elara Vance', fr: 'Elara Vance' }, // Exemple de troisième membre
+        member3Title: { en: 'Lead AI Scientist', fr: 'Scientifique IA Principale' },
+        member3Bio: {
+            en: 'Pioneering AI research to develop cutting-edge predictive models and intelligent agent protocols for diverse operational challenges.',
+            fr: 'Dirige la recherche en IA pour développer des modèles prédictifs de pointe et des protocoles d\'agents intelligents pour divers défis opérationnels.'
+        },
     }
   },
   solutionsPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
@@ -113,6 +115,16 @@ const allTranslations = {
   },
   platformPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
     title: {en: '', fr: ''}, subtitle: {en: '', fr: ''},
+  },
+  aiAgents: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+    sectionTitle: {en: '', fr: ''}, sectionSubtitle: {en: '', fr: ''},
+    geoAgentTitle: {en: '', fr: ''}, geoAgentText: {en: '', fr: ''},
+    predMaintAgentTitle: {en: '', fr: ''}, predMaintAgentText: {en: '', fr: ''},
+    tactIntAgentTitle: {en: '', fr: ''}, tactIntAgentText: {en: '', fr: ''},
+    web3CompAgentTitle: {en: '', fr: ''}, web3CompAgentText: {en: '', fr: ''},
+  },
+  installPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+    title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, googlePlay: {en: '', fr: ''}, appStore: {en: '', fr: ''}, qrCodeText: {en: '', fr: ''}, googlePlayLink: '', appStoreLink: '', qrCodeImage: '',
   },
 };
 
@@ -127,7 +139,7 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
 }
 // --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
 
-import styles from './team.module.css'; // <--- CORRIGÉ : utilise 'team.module.css' pour les styles de cette page
+ // Utilisez './page.module.css' pour les styles de cette page
 
 
 export default function TeamPage() {
@@ -202,7 +214,20 @@ export default function TeamPage() {
             <p>{tTeam('member2Bio')}</p>
           </div>
 
-          {/* Ajoutez d'autres membres ici en dupliquant le bloc 'teamMemberCard' si nécessaire */}
+          {/* Membre de l'équipe 3 (AJOUTÉ ICI) */}
+          <div className={styles.teamMemberCard}>
+            <Image
+              src="/avatars/team-member-3.png" // Chemin vers votre troisième image (à créer !)
+              alt={tTeam('member3Name')}
+              width={150} // Ajustez la taille selon votre design
+              height={150} // Ajustez la taille selon votre design
+              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
+            />
+            <h3>{tTeam('member3Name')}</h3>
+            <p className={styles.teamMemberTitle}>{tTeam('member3Title')}</p>
+            <p>{tTeam('member3Bio')}</p>
+          </div>
+
         </div>
       </section>
 
