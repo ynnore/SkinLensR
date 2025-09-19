@@ -61,6 +61,7 @@ const allTranslations = {
     team: { // "Notre Équipe"
       en: 'Our Team', fr: "Notre Équipe", hi: 'हमारी टीम', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
   },
+  
   productPage: {
     hero: {
       title: {
@@ -667,7 +668,7 @@ const allTranslations = {
       af: 'Verseker onveranderlike naspeurbaarheid van kritieke gebeurtenisse en data-integriteitsverifikasie via die Kiwi-Ledger vir uiterste vertroue en aansprakelijkheid.',
     },
   },
-  platform: { // Nouvelle section pour les traductions spécifiques de la page Platform
+  platformPAGE: { // Nouvelle section pour les traductions spécifiques de la page Platform
     title: {
       en: 'The Kiwi-Ops Platform: Your Operational Command Center',
       fr: 'La Plateforme Kiwi-Ops : Votre Centre de Commande Opérationnel',

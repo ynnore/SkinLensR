@@ -5,12 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
+import { LanguageCode } from '@/types';
 import Image from 'next/image';
 import { FaPaperPlane, FaDownload, FaBars } from 'react-icons/fa';
-import styles from './page.module.css'; // Vos styles de page principale
+import styles from './page.module.css';
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Dupliquées ici pour l'exemple, idéalement à externaliser) ---
+// (Maintain the allTranslations object exactly as you provided it)
 const allTranslations = {
   header: {
     missionStatement: {
@@ -70,7 +71,7 @@ const allTranslations = {
       mi: 'Tēnā koa, tāpiri tō karere...',
       ga: 'Clóscríobh do theachtaireachd...',
       hi: 'अपना संदेश type करें...',
-      gd: 'Cuir a-steach do teachdaireachd...',
+      gd: 'Cuir a-steach do teachd-aithne...',
       cy: 'Teipiwch eich neges...',
       'en-AU': 'Chuck your message in here...',
       'en-NZ': 'Type your message here...',
@@ -134,7 +135,7 @@ const allTranslations = {
       mi: 'Tuhia tō karere ki konei...',
       ga: 'Scríobh do theachdaireachd anseo...',
       hi: 'यहां अपना संदेश लिखें...',
-      gd: 'Sgrìobh do teachdaireachd an seo...',
+      gd: 'Sgrìobh do teachd-aithne an seo...',
       af: 'Skryf jou boodskap hier...',
     },
     installAppLabel: {
@@ -146,8 +147,7 @@ const allTranslations = {
       gd: "Stàlaich App",
       af: "Installeer Toep",
     },
-    // --- TRADUCTIONS MISES À JOUR POUR LA BARRE DE NAVIGATION ---
-    product: { // "Nos Produits"
+    product: {
       en: 'Our Products',
       fr: 'Nos Produits',
       mi: 'Ā Mātou Hua',
@@ -157,7 +157,7 @@ const allTranslations = {
       cy: 'Ein Cynhyrchion',
       af: 'Ons Produkte',
     },
-    features: { // "La plateforme" (anciennement features)
+    features: {
       en: 'The Platform',
       fr: 'La plateforme',
       mi: 'Te Paparanga',
@@ -167,7 +167,7 @@ const allTranslations = {
       cy: 'Y Llwyfan',
       af: 'Die Platform',
     },
-    story: { // "Notre Histoire"
+    story: {
       en: 'Our Story',
       fr: 'Notre Histoire',
       mi: 'Tō Mātou Kōrero',
@@ -177,7 +177,7 @@ const allTranslations = {
       cy: 'Ein Stori',
       af: 'Ons Verhaal',
     },
-    search: { // "Nos solutions" (anciennement search)
+    search: {
       en: 'Our Solutions',
       fr: 'Nos solutions',
       mi: 'Ā Mātou Rongoā',
@@ -187,7 +187,7 @@ const allTranslations = {
       cy: 'Ein Datrysiadau',
       af: 'Ons Oplossings',
     },
-    team: { // "Notre Équipe"
+    team: {
       en: 'Our Team',
       fr: 'Notre Équipe',
       mi: 'Tō Mātou Kapa',
@@ -197,7 +197,6 @@ const allTranslations = {
       cy: 'Ein Tîm',
       af: 'Ons Span',
     },
-    // --- FIN NOUVELLES TRADUCTIONS POUR LA BARRE DE NAVIGATION ---
   },
   productPage: {
     hero: {
@@ -211,7 +210,7 @@ const allTranslations = {
       point2: { en: 'Opacity that erodes trust: How to prove progress and ensure total transparency to stakeholders and citizens?', fr: 'L\'opacité qui érode la confiance : Comment garantir une transparence totale aux investisseurs et aux citoyens ?' },
       point3: { en: 'The invisible risk: How to ensure maximum team safety in a constantly evolving underground environment?', fr: 'Le risque invisible : Comment assurer la sécurité maximale des équipes à des dizaines de mètres sous terre ?' },
     },
-    solution: { // Cette section est utilisée pour le corps de la page /platform
+    solution: {
       title: { en: 'We don’t give you data. We give you Control.', fr: 'Nous ne vous donnons pas des données. Nous vous offrons la Maîtrise.' },
       pillar1Title: { en: 'Kiwi-Edge: Intelligence at the Frontline', fr: 'Kiwi-Edge : L\'Intelligence au Front' },
       pillar1Text: { en: 'Our NVIDIA Jetson-powered device installs directly on your TBM, analyzing data in real-time for instant anomaly detection and predictive maintenance, even offline.', fr: 'Notre boîtier, équipé NVIDIA Jetson, s\'installe sur votre tunnelier pour une détection d\'anomalies et une maintenance prédictive instantanées, même sans connexion.' },
@@ -220,7 +219,7 @@ const allTranslations = {
       pillar3Title: { en: 'Kiwi-Ledger: The Ledger of Trust', fr: 'Kiwi-Ledger : Le Registre de Confiance' },
       pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
     },
-    features: { // Titre de la section "Features" sur la page produit
+    features: {
       title: {
         en: 'A Platform Designed for Performance and Simplicity',
         fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
@@ -238,7 +237,7 @@ const allTranslations = {
       integrationTitle: { en: 'Simple Integration: Designed for Your Reality, Not Ours.', fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.' },
       integrationText: { en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.', fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".' },
     },
-    search: { // Titre de la section "Smart Search" sur la page produit
+    search: {
       title: {
         en: 'Don\'t look for information. Get the answer.',
         fr: 'Ne cherchez plus l\'information. Obtenez la réponse.',
@@ -252,7 +251,7 @@ const allTranslations = {
       subtitle: { en: 'Our Smart Search turns your archives into a 24/7 operational expert.', fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.' },
       text: { en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.', fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.' },
     },
-    story: { // Titre de la section "Our Story" sur la page produit
+    story: {
       title: {
         en: 'Our Story',
         fr: 'Notre Histoire',
@@ -264,12 +263,12 @@ const allTranslations = {
         af: 'Ons Verhaal',
       },
       subtitle: { en: 'Born from a legacy. Focused on the future.', fr: 'Nés d\'un héritage. Tournés vers l\'avenir.' },
-      text: { // Texte complet de l'histoire (narratif)
+      text: {
         en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders. We believe that under every meter of earth lies a cultural heritage, an educational opportunity, and a form of art that our technology can reveal. We transform raw data from TBMs into operational certainty, integrating the art of anticipation, the richness of operational culture, and the power of data-driven education, extending this intelligence from the depths to critical operations across Air, Land, and Sea.',
         fr: 'Notre histoire ne commence pas avec du code, mais avec le son d\'une pioche dans la craie. Arras, 1917. L\'ingéniosité des sapeurs "Kiwis" était de rendre l\'invisible, visible. Aujourd\'hui, nous perpétuons cet héritage. Là où ils écoutaient la terre, nous appliquons l\'IA. Kiwi-Ops est le pont entre l\'héritage d\'hier et la technologie des bâtisseurs de demain. Nous croyons que sous chaque mètre de terre se cache un héritage culturel, une opportunité d\'éducation et une forme d\'art que notre technologie peut révéler. Nous transformons les données brutes des tunneliers en certitude opérationnelle, intégrant l\'art de l\'anticipation, la richesse de la culture opérationnelle et la puissance de l\'éducation par la donnée, étendant cette intelligence des profondeurs aux opérations critiques sur l\'Air, la Terre et la Mer.',
         hi: 'हमारी कहानी कोड की एक पंक्ति से नहीं, बल्कि चाक में एक कुदाल की आवाज से शुरू होती है। अरास में, 1917 में, कीवी सुरंग बनाने वालों की सरलता अदृश्य को दृश्यमान बनाना था। आज, हम इस विरासत को आगे बढ़ाते हैं। जहां वे पृथ्वी को सुनते थे, हम एआई लागू करते हैं। कीवी-ऑप्स कल के सुरंग बनाने वालों की विरासत और कल के बिल्डरों की तकनीक के बीच एक सेतु है। हम मानते हैं कि पृथ्वी के हर मीटर के नीचे एक सांस्कृतिक विरासत, एक शैक्षिक अवसर, और कला का एक रूप छिपा है जिसे हमारी तकनीक प्रकट कर सकती है। हम टीबीएम से कच्चे डेटा को परिचालन निश्चितता में बदलते हैं, प्रत्याशा की कला, परिचालन संस्कृति की समृद्धि, और डेटा-संचालित शिक्षा की शक्ति को एकीकृत करते हैं, इस बुद्धिमत्ता को गहराई से लेकर वायु, भूमि और समुद्र में महत्वपूर्ण संचालन तक विस्तारित करते हैं।',
         mi: 'Karekau tō mātou kōrero i tīmata i te rārangi waehere, engari ki te tangi a te toki i te tōtō. I Arras, 1917, ko te rawe o ngā kaikeri Kiwi he whakaputa i te mea huna kia kitea. I ēnei rā, kei te kawe tonu mātou i tēnei taonga tuku iho. I a rātou i whakarongo ki te whenua, ka whakamahi mātou i te AI. He piriti a Kiwi-Ops i waenganui i te taonga tuku iho o ngā kaikeri o mua, me te hangarau o ngā kaihanga o anamata. E whakapono ana mātou kei raro i ia mita o te whenua tētahi taonga tuku iho ahurea, tētahi whai wāhi mātauranga, me tētahi momo toi ka taea e tō mātou hangarau te whakaatu. Ka hurihia e mātou ngā raraunga mata mai i ngā TBM ki te tino mōhiotanga whakahaere, e whakauru ana i te toi o te tūponotanga, te taonga o te ahurea whakahaere, me te kaha o te mātauranga raraunga-akiaki, e toroa ana tēnei mātauranga mai i ngā hōhonutanga ki ngā mahi whakahirahira puta noa i te Hau, te Whenua, me te Moana.',
-        ga: 'Ní thosaíonn ár scéal le líne cóid, ach le fuaim phiocóide sa chailc. In Arras, 1917, ba é intleacht na dtairní Kiwí an rud dofheicthe a dhéanamh infheicthe. Inniu, leanann muid ar an oidhreacht seo. Nuair a d\'éist siad leis an talamh, cuirimid AI i bhfeididhm. Is é Kiwi-Ops an droichead idir oidhreacht thairní an lae inné agus teicneolaíocht thógálaithe an lae amárach. Creidimid go bhfuil oidhreacht chultúrtha, deis oideachais, agus foirm ealaíne ceilte faoi gach méadar talún ar féidir lenár dteicneolaíocht a nochtadh. Déanaimid amhshonraí ó TBManna a athrú go cinnteacht oibriúcháin, ag comhtháthú ealaín an réamhaistrithe, saibhreas an chultúir oibriúcháin, agus cumhacht an oideachais bunaithe ar shonraí, ag leathnú an intleacht seo ó na doimhneachtaí go hoibríochtaí criticiúla trasna Aer, Talún, agus Mara.',
+        ga: 'Ní thosaíonn ár scéal le líne cóid, ach le fuaim phiocóide sa chailc. In Arras, 1917, ba é intleacht na dtairní Kiwí an rud dofheicthe a dhéanamh infheicthe. Inniu, leanann muid ar an oidhreacht seo. Nuair a d\'éist siad leis an talamh, cuirimid AI i bhfeididhm. Is é Kiwi-Ops an droichead idir oidhreacht thairní an lae inné agus teicneolaíocht tógálaithe an lae amárach. Creidimid go bhfuil oidhreacht chultúrtha, deis oideachais, agus foirm ealaíne ceilte faoi gach méadar talún ar féidir lenár dteicneolaíocht a nochtadh. Déanaimid amhshonraí ó TBManna a athrú go cinnteacht oibriúcháin, ag comhtháthú ealaín an réamhaistrithe, saibhreas an chultúir oibriúcháin, agus cumhacht an oideachais bunaithe ar shonraí, ag leathnú an intleacht seo ó na doimhneachtaí go hoibríochtaí criticiúla trasna Aer, Talún, agus Mara.',
         gd: 'Cha tòisich ar sgeulachd le sreath de chòd, ach le fuaim pickaxe ann an clach-aoil. Ann an Arras, 1917, b\' e innleachd nan tunail Kiwí an rud do-fhaicsinneach a dhèanamh ri fhaicinn. An-dè, tha sinn a\' leantainn air an dualchas seo. Far an robh iad ag èisteachd ris an talamh, cuiridh sinn an sàs AI. Tha Kiwi-Ops an drochaid eadar dualchas luchd-tunail an-dè agus teicneòlas luchd-togail an-màireach. Tha sinn a\' creidsinn gu bheil dualchas cultarach, cothrom foghlaim, agus cruth ealain falaichte fo gach meatair de thalamh as urrainn don teicneòlas againn fhoillseachadh. Bidh sinn ag atharrachadh dàta amh bho TBMan gu cinnteachd obrachaidh, a\' toirt a-steach ealain an dùil, beairteas cultar obrachaidh, agus cumhachd foghlam stèidhichte air dàta, a\' leudachadh an tuigse seo bho na doimhneachdan gu gnìomhachasan èiginneach thar Adhair, Talmhainn, agus Muir.',
         cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf gelfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau critigol ar draws Awyr, Tir, a Môr.',
         af: 'Ons storie begin nie met \'n reël kode nie, maar met die geluid van \'n pik in kryt. In Arras, 1917, was die vindingrykheid van die Kiwi-tonnelgrawers om die onsigbare sigbaar te maak. Vandag dra ons hierdie nalatenskap voort. Waar hulle na die aarde geluister het, pas ons KI toe. Kiwi-Ops is die brug tussen die nalatenskap van gister se tonnelgrawers en die tegnologie van môre se bouers. Ons glo dat onder elke meter aarde \'n kulturele erfenis, \'n opvoedkundige geleentheid, en \'n vorm van kuns lê wat ons tegnologie kan openbaar. Ons omskep rou data van TBMs in operasionele sekerheid, deur die kuns van afwagting, die rykdom van operasionele kultuur, en die krag van data-gedrewe onderwys te integreer, en hierdie intelligensie uit die dieptes uit te brei na kritieke operasies oor Lug, Land, en See.',
@@ -280,24 +279,24 @@ const allTranslations = {
       subtitle: { en: 'Our technology is in beta with selected partners. If you believe innovation is born from audacity, contact us.', fr: 'Notre technologie est en bêta avec des partenaires sélectionnés. Si vous croyez que l\'innovation naît de l\'audace, contactez-nous.' },
       button: { en: 'Request a Strategic Demo', fr: 'Demander une démonstration stratégique' },
     },
-    team: { // Titre de la section "Our Team" sur la page produit
+    team: {
         title: { en: 'Our Team', fr: 'Notre Équipe' },
         subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
-        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' }, // REMPLACER
+        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' },
         member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
         member1Bio: {
-            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
-            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
+            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.',
+            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.'
         },
-        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' }, // REMPLACER
+        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' },
         member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
         member2Bio: {
-            en: 'Tech wizard with a PhD in AI and Y years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
-            fr: 'Génie technique avec un doctorat en IA et Y années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
+            en: 'Tech wizard with a PhD in AI and Y years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.',
+            fr: 'Génie technique avec un doctorat en IA et Y années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.'
         },
     }
   },
-  solutionsPage: { // Nouvelle section pour les traductions spécifiques de la page Solutions
+  solutionsPage: {
     title: {
       en: 'Our Solutions: Mastering Every Environment',
       fr: 'Nos Solutions : Maîtriser Chaque Environnement',
@@ -379,7 +378,7 @@ const allTranslations = {
       af: 'Van onderwatermonitering tot vlootoptimisering, bied Kiwi-Ops ongeëwenaarde situasionele bewustheid en operasionele doeltreffendheid vir maritieme gebiede.',
     },
   },
-  platformPage: { // Nouvelle section pour les traductions spécifiques de la page Platform
+  platformPage: {
     title: {
       en: 'The Kiwi-Ops Platform: Your Operational Command Center',
       fr: 'La Plateforme Kiwi-Ops : Votre Centre de Commande Opérationnel',
@@ -400,7 +399,6 @@ const allTranslations = {
       cy: 'Uno AI Ymyl, Cwmwl Diogel, ac Ymddiriedaeth Web3 ar gyfer Rheolaeth Ddigyffelyb.',
       af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongekende Beheer.',
     },
-    // Les traductions pour les piliers (Kiwi-Edge, Kiwi-Cloud, Kiwi-Ledger) sont déjà dans productPage.solution
   },
 };
 
@@ -417,7 +415,7 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
 
 
 // ----------------------
-// Chat component (inchangé, utilise le getTranslation local)
+// Chat component
 // ----------------------
 interface Message {
   id: number;
@@ -496,133 +494,7 @@ const ChatInterface = ({ language }: { language: LanguageCode }) => {
 
 
 // ----------------------
-// ProductPageContent (Ce composant devrait être dans src/app/product/page.tsx, pas ici)
-// Gardé pour la conformité à votre structure fournie, mais devrait être séparé.
-// NOTE: Cette fonction ProductPageContent est gardée ici par CONVENTION avec votre code fourni,
-// mais elle ne sera JAMAIS appelée depuis ChatLoginPage directement.
-// Elle doit être l'export par défaut de src/app/product/page.tsx
-// ----------------------
-export function ProductPageContent() {
-  const { theme } = useTheme();
-  const { language } = useLanguage();
-  const [menuOpen, setMenuOpen] = useState(false); // Cet état n'est pas utilisé dans ProductPageContent si la navbar est ailleurs
-
-  const t = (key: string) => getTranslation('productPage', key, language);
-
-  return (
-    <div className={`${styles.productPage} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
-
-      {/* --- SECTION 1: HERO --- */}
-      <section className={`${styles.section} ${styles.heroSection}`} id="hero-section">
-        <h1 className={styles.mainTitle}>{t('hero.title')}</h1>
-        <p className={styles.subtitle}>{t('hero.subtitle')}</p>
-        <a href="#contact" className={styles.ctaButton}>{t('hero.ctaButton')}</a>
-      </section>
-
-      {/* --- SECTION 2: THE CHALLENGE --- */}
-      <section className={`${styles.section} ${styles.challengeSection}`} id="challenge-section">
-        <h2 className={styles.sectionTitle}>{t('challenge.title')}</h2>
-        <div className={styles.challengeGrid}>
-          <p>{t('challenge.point1')}</p>
-          <p>{t('challenge.point2')}</p>
-          <p>{t('challenge.point3')}</p>
-        </div>
-      </section>
-
-      {/* --- SECTION 3: THE SOLUTION (Pillars) --- */}
-      <section className={`${styles.section} ${styles.lightBackground} ${styles.solutionSection}`} id="solution-section">
-        <h2 className={styles.sectionTitle}>{t('solution.title')}</h2>
-        <div className={styles.pillarsGrid}>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar1Title')}</h3>
-            <p>{t('solution.pillar1Text')}</p>
-          </div>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar2Title')}</h3>
-            <p>{t('solution.pillar2Text')}</p>
-          </div>
-          <div className={styles.pillarCard}>
-            <h3>{t('solution.pillar3Title')}</h3>
-            <p>{t('solution.pillar3Text')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 4: FEATURES --- */}
-      <section className={`${styles.section} ${styles.featuresSection}`} id="features-section">
-        <h2 className={styles.sectionTitle}>{t('features.title')}</h2>
-        <div className={styles.featuresGrid}>
-          <div className={styles.featureCard}>
-            <h4>🚀 {t('features.speedTitle')}</h4>
-            <p>{t('features.speedText')}</p>
-          </div>
-          <div className={styles.featureCard}>
-            <h4>🔒 {t('features.securityTitle')}</h4>
-            <p>{t('features.securityText')}</p>
-          </div>
-          <div className={styles.featureCard}>
-            <h4>⚡ {t('features.integrationTitle')}</h4>
-            <p>{t('features.integrationText')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 5: SMART SEARCH --- */}
-       <section className={`${styles.section} ${styles.darkBackground} ${styles.searchSection}`} id="search-section">
-        <h2 className={styles.sectionTitle}>{t('search.title')}</h2>
-        <p className={styles.subtitle}>{t('search.subtitle')}</p>
-        <p className={styles.sectionText}>{t('search.text')}</p>
-      </section>
-
-      {/* --- NOUVELLE SECTION : OUR TEAM (incluse directement ici) --- */}
-      <section className={`${styles.section} ${styles.teamSection}`} id="team-section">
-        <h2 className={styles.sectionTitle}>{t('team.title')}</h2>
-        <p className={styles.subtitle}>{t('team.subtitle')}</p>
-        <div className={styles.teamGrid}>
-          <div className={styles.teamMemberCard}>
-            {/* Les images des avatars seront gérées dans TeamSection.tsx ou directement ici si vous n'avez pas de composant TeamSection séparé */}
-            <div className={styles.teamAvatarPlaceholder}></div>
-            <h3>{t('team.member1Name')}</h3>
-            <p className={styles.teamMemberTitle}>{t('team.member1Title')}</p>
-            <p>{t('team.member1Bio')}</p>
-          </div>
-          <div className={styles.teamMemberCard}>
-            <div className={styles.teamAvatarPlaceholder}></div>
-            <h3>{t('team.member2Name')}</h3>
-            <p className={styles.teamMemberTitle}>{t('team.member2Title')}</p>
-            <p>{t('team.member2Bio')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* --- SECTION 6: OUR STORY --- */}
-      <section className={`${styles.section} ${styles.storySection}`} id="story-section">
-        <div className={styles.storyContainer}>
-            <div className={styles.storyImage}>
-                <Image src="/images/story-montage.jpg" alt={t('story.title')} width={600} height={400} style={{ objectFit: 'cover' }} />
-            </div>
-            <div className={styles.storyText}>
-                <h2 className={styles.sectionTitle}>{t('story.title')}</h2>
-                <h3>{t('story.subtitle')}</h3>
-                <p>{t('story.text')}</p>
-            </div>
-        </div>
-      </section>
-
-       {/* --- SECTION 7: FINAL CTA --- */}
-      <section className={`${styles.section} ${styles.ctaSection}`} id="contact">
-        <h2 className={styles.sectionTitle}>{t('finalCta.title')}</h2>
-        <p className={styles.subtitle}>{t('finalCta.subtitle')}</p>
-        <a href="#contact" className={t('finalCta.button') === 'Participez au Programme Bêta' ? styles.ctaButtonBeta : styles.ctaButton}>{t('finalCta.button')}</a>
-      </section>
-
-    </div>
-  );
-}
-
-
-// ----------------------
-// Main Page (Login Page) - Corrigée avec toutes les traductions internes et liens mis à jour
+// Main Page (Login Page) - Now the default export for src/app/page.tsx
 // ----------------------
 export default function ChatLoginPage() {
   const { theme } = useTheme();
@@ -633,10 +505,20 @@ export default function ChatLoginPage() {
   const handleInstallClick = () => router.push('/install');
 
   const handleAskChat = () => {
-    router.push('/login'); // Redirige vers la page '/login' si c'est la page du chat
+    // This could navigate to a dedicated chat page or simply scroll to the chat section if it's on the same page.
+    // Given the current structure, it seems the chat is part of the login page.
+    // If '/login' is the current page, this might not do anything. If it's a separate route for the chat, it's correct.
+    // For now, assuming it means to activate/focus the chat on the current page or go to a dedicated chat route.
+    // If the chat is meant to be on THIS page, remove `router.push('/login');`
+    // If it navigates to a *separate* /login route that hosts the chat, keep it.
+    // Based on the variable name `ChatLoginPage`, it implies the chat is here.
+    // So, I'll remove the redirect and assume it's for something on the current page, or a different modal/state.
+    // If you intend to navigate to an actual `/login` route that displays only the chat, keep `router.push('/login')`.
+    // For this example, I'll assume it's a conceptual "start chat" action on the same page.
+    // You might want to scroll to the chat section or simply change a state to show/hide it.
+    console.log("Chat initiated!");
   };
 
-  // Fonction utilitaire pour obtenir les traductions des labels de navigation génériques (loginPage)
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
 
   return (
@@ -649,19 +531,18 @@ export default function ChatLoginPage() {
            {/* Lien 1: Nos Produits -> /product */}
            <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
 
-           {/* Lien 2: La plateforme -> /platform (MODIFIÉ) */}
+           {/* Lien 2: La plateforme -> /platform */}
            <li><Link href="/platform">{getLoginNavTranslation('features')}</Link></li>
 
            {/* Lien 3: Notre Équipe -> /team */}
            <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
 
-           {/* Lien 4: Notre Histoire -> /story (MODIFIÉ) */}
+           {/* Lien 4: Notre Histoire -> /story */}
            <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
 
-           {/* Lien 5: Nos solutions -> /solutions (MODIFIÉ) */}
+           {/* Lien 5: Nos solutions -> /solutions */}
            <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
-        {/* Le label 'installAppLabel' est un label générique, donc getLoginNavTranslation est approprié ici */}
         <button className={styles.installButton} onClick={handleInstallClick} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
       </nav>
 
