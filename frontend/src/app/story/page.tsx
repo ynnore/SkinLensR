@@ -2,21 +2,21 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Utilisé pour l'image de fond ou d'autres images si nécessaire
-import { FaBars, FaDownload } from 'react-icons/fa'; // Import des icônes pour la navbar
+import Image from 'next/image';
+import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-import styles from './story.module.css'; // <--- CORRIGÉ : utilise le CSS de cette page
+import { LanguageCode } from '@/types';
+import styles from './story.module.css';
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Assurez-vous que cet objet est identique partout) ---
 const allTranslations = {
   header: {
     missionStatement: {
       en: "Inspired by the Wellington Tunnelers of Arras, our mission is to build in the shadows what will, tomorrow, break through to the surface.",
       fr: "Inspirés des tunneliers de Wellington à Arras, notre mission est de bâtir dans l’ombre ce qui, demain, percera la surface.",
       mi: "He mea whakahihiri mai i ngā kaikeri o raro o Te Whanganui-a-Tara ki Arras, ko tā mātou kaupapa he hanga i roto i te atarangi i ngā mea ka puta ki te mata āpōpopo.",
-      ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bhrisfidh an dromchla amárach.",
+      ga: "Ar an taobh istigh de tholláin Wellington in Arras, is é ár misean tógáil sa scáth a bbrisfidh an dromchla amárach.",
       hi: "एरास में वेलिंगटन टनलर्स से प्रेरित होकर, हमारा मिशन छाया में वह निर्माण करना है जो कल सतह को भेद देगा।",
       gd: "Air a bhrosnachadh le Tunnelairean Wellington ann an Arras, is e ar misneachd togail anns an dubhar na nì, a-màireach, briseadh tro uachdar.",
       cy: "Wedi'u hysbrydoli gan Dwnelwyr Wellington yn Arras, ein cenhadaeth yw adeiladu yn y cysgodion yr hyn, yfory, a fydd yn torri trwy'r wyneb.",
@@ -118,7 +118,7 @@ const allTranslations = {
       pillar3Text: { en: 'Every key event is certified by Kiwi-Edge and recorded on a Web3 ledger. It’s your immutable logbook, the irrefutable proof of your project’s progress.', fr: 'Chaque événement clé est certifié par le Kiwi-Edge et inscrit sur un registre Web3. C\'est votre journal de bord immuable et la preuve irréfutable de l\'avancement.' },
     },
     features: {
-      title: { // Titre de la section "Features" sur la page produit (non la nav)
+      title: {
         en: 'A Platform Designed for Performance and Simplicity',
         fr: 'Une Plateforme Conçue pour la Performance et la Simplicité',
         hi: 'प्रदर्शन और सरलता के लिए डिज़ाइन किया गया एक प्लेटफ़ॉर्म',
@@ -135,7 +135,7 @@ const allTranslations = {
       integrationTitle: { en: 'Simple Integration: Designed for Your Reality, Not Ours.', fr: 'Intégration Simple : Conçu pour votre Réalité, pas pour la nôtre.' },
       integrationText: { en: 'Our Kiwi-Edge device is designed to connect to your existing sensor systems in a non-intrusive, plug & play approach.', fr: 'Notre boîtier Kiwi-Edge est conçu pour se connecter à vos systèmes de capteurs existants, via une approche non-intrusive et "plug & play".' },
     },
-    search: { // Titre de la section "Smart Search" sur la page produit
+    search: {
       title: {
         en: 'Don\'t look for information. Get the answer.',
         fr: 'Ne cherchez plus l\'information. Obtenez la réponse.',
@@ -149,7 +149,7 @@ const allTranslations = {
       subtitle: { en: 'Our Smart Search turns your archives into a 24/7 operational expert.', fr: 'Notre Recherche Intelligente transforme vos archives en un expert opérationnel disponible 24/7.' },
       text: { en: 'Ask a complex question in natural language and get a factual, sourced answer in seconds. Our A2A protocol dynamically routes your query to the best specialized AI models to find the right information, whether it\'s in technical reports, maintenance logs, or geological surveys.', fr: 'Posez une question complexe en langage naturel et obtenez une réponse factuelle et sourcée en secondes. Notre protocole A2A route dynamiquement votre requête vers les meilleurs modèles d\'IA spécialisés pour trouver l\'information, qu\'elle soit dans des rapports techniques, des logs ou des études géologiques.' },
     },
-    story: { // Titre de la section "Our Story" sur la page produit
+    story: {
       title: {
         en: 'Our Story',
         fr: 'Notre Histoire',
@@ -161,14 +161,14 @@ const allTranslations = {
         af: 'Ons Verhaal',
       },
       subtitle: { en: 'Born from a legacy. Focused on the future.', fr: 'Nés d\'un héritage. Tournés vers l\'avenir.' },
-      text: { // Texte complet de l'histoire, incluant la mention de l'art, culture, éducation
-        en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders. We believe that under every meter of earth lies a cultural heritage, an educational opportunity, and a form of art that our technology can reveal. We transform raw data from TBMs into operational certainty, integrating the art of anticipation, the richness of operational culture, and the power of data-driven education, extending this intelligence from the depths to critical operations across Air, Land, and Sea.',
+      text: {
+        en: 'Our story doesn\'t start with a line of code, but with the sound of a pickaxe in chalk. In Arras, 1917, the ingenuity of the Kiwi tunnellers was to make the invisible, visible. Today, we carry on this legacy. Where they listened to the earth, we apply AI. Kiwi-Ops is the bridge between the heritage of yesterday\'s tunnellers and the technology of tomorrow\'s builders. We believe that under every meter of earth lies a cultural heritage, an, and a form of art that our technology can reveal. We transform raw data from TBMs into operational certainty, integrating the art of anticipation, the richness of operational culture, and the power of data-driven education, extending this intelligence from the depths to critical operations across Air, Land, and Sea.',
         fr: 'Notre histoire ne commence pas avec du code, mais avec le son d\'une pioche dans la craie. Arras, 1917. L\'ingéniosité des sapeurs "Kiwis" était de rendre l\'invisible, visible. Aujourd\'hui, nous perpétuons cet héritage. Là où ils écoutaient la terre, nous appliquons l\'IA. Kiwi-Ops est le pont entre l\'héritage d\'hier et la technologie des bâtisseurs de demain. Nous croyons que sous chaque mètre de terre se cache un héritage culturel, une opportunité d\'éducation et une forme d\'art que notre technologie peut révéler. Nous transformons les données brutes des tunneliers en certitude opérationnelle, intégrant l\'art de l\'anticipation, la richesse de la culture opérationnelle et la puissance de l\'éducation par la donnée, étendant cette intelligence des profondeurs aux opérations critiques sur l\'Air, la Terre et la Mer.',
         hi: 'हमारी कहानी कोड की एक पंक्ति से नहीं, बल्कि चाक में एक कुदाल की आवाज से शुरू होती है। अरास में, 1917 में, कीवी सुरंग बनाने वालों की सरलता अदृश्य को दृश्यमान बनाना था। आज, हम इस विरासत को आगे बढ़ाते हैं। जहां वे पृथ्वी को सुनते थे, हम एआई लागू करते हैं। कीवी-ऑप्स कल के सुरंग बनाने वालों की विरासत और कल के बिल्डरों की तकनीक के बीच एक सेतु है। हम मानते हैं कि पृथ्वी के हर मीटर के नीचे एक सांस्कृतिक विरासत, एक शैक्षिक अवसर, और कला का एक रूप छिपा है जिसे हमारी तकनीक प्रकट कर सकती है। हम टीबीएम से कच्चे डेटा को परिचालन निश्चितता में बदलते हैं, प्रत्याशा की कला, परिचालन संस्कृति की समृद्धि, और डेटा-संचालित शिक्षा की शक्ति को एकीकृत करते हैं, इस बुद्धिमत्ता को गहराई से लेकर वायु, भूमि और समुद्र में महत्वपूर्ण संचालन तक विस्तारित करते हैं।',
         mi: 'Karekau tō mātou kōrero i tīmata i te rārangi waehere, engari ki te tangi a te toki i te tōtō. I Arras, 1917, ko te rawe o ngā kaikeri Kiwi he whakaputa i te mea huna kia kitea. I ēnei rā, kei te kawe tonu mātou i tēnei taonga tuku iho. I a rātou i whakarongo ki te whenua, ka whakamahi mātou i te AI. He piriti a Kiwi-Ops i waenganui i te taonga tuku iho o ngā kaikeri o mua, me te hangarau o ngā kaihanga o anamata. E whakapono ana mātou kei raro i ia mita o te whenua tētahi taonga tuku iho ahurea, tētahi whai wāhi mātauranga, me tētahi momo toi ka taea e tō mātou hangarau te whakaatu. Ka hurihia e mātou ngā raraunga mata mai i ngā TBM ki te tino mōhiotanga whakahaere, e whakauru ana i te toi o te tūponotanga, te taonga o te ahurea whakahaere, me te kaha o te mātauranga raraunga-akiaki, e toroa ana tēnei mātauranga mai i ngā hōhonutanga ki ngā mahi whakahirahira puta noa i te Hau, te Whenua, me te Moana.',
         ga: 'Ní thosaíonn ár scéal le líne cóid, ach le fuaim phiocóide sa chailc. In Arras, 1917, ba é intleacht na dtairní Kiwí an rud dofheicthe a dhéanamh infheicthe. Inniu, leanann muid ar an oidhreacht seo. Nuair a d\'éist siad leis an talamh, cuirimid AI i bhfeididhm. Is é Kiwi-Ops an droichead idir oidhreacht thairní an lae inné agus teicneolaíocht thógálaithe an lae amárach. Creidimid go bhfuil oidhreacht chultúrtha, deis oideachais, agus foirm ealaíne ceilte faoi gach méadar talún ar féidir lenár dteicneolaíocht a nochtadh. Déanaimid amhshonraí ó TBManna a athrú go cinnteacht oibriúcháin, ag comhtháthú ealaín an réamhaistrithe, saibhreas an chultúir oibriúcháin, agus cumhacht an oideachais bunaithe ar shonraí, ag leathnú an intleacht seo ó na doimhneachtaí go hoibríochtaí criticiúla trasna Aer, Talún, agus Mara.',
-        gd: 'Cha tòisich ar sgeulachd le sreath de chòd, ach le fuaim pickaxe ann an clach-aoil. Ann an Arras, 1917, b\' e innleachd nan tunail Kiwí an rud do-fhaicsinneach a dhèanamh ri fhaicinn. An-diugh, tha sinn a\' leantainn air an dualchas seo. Far an robh iad ag èisteachd ris an talamh, cuiridh sinn an sàs AI. Tha Kiwi-Ops an drochaid eadar dualchas luchd-tunail an-dè agus teicneòlas luchd-togail an-màireach. Tha sinn a\' creidsinn gu bheil dualchas cultarach, cothrom foghlaim, agus cruth ealain falaichte fo gach meatair de thalamh as urrainn don teicneòlas againn fhoillseachadh. Bidh sinn ag atharrachadh dàta amh bho TBMan gu cinnteachd obrachaidh, a\' toirt a-steach ealain an dùil, beairteas cultar obrachaidh, agus cumhachd foghlam stèidhichte air dàta, a\' leudachadh an tuigse seo bho na doimhneachdan gu gnìomhachdan èiginneach thar Adhair, Talmhainn, agus Muir.',
-        cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf gelfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau critigol ar draws Awyr, Tir, a Môr.',
+        gd: 'Cha tòisich ar sgeulachd le sreath de chòd, ach le fuaim pickaxe ann an clach-aoil. Ann an Arras, 1917, b\' e innleachd nan tunail Kiwí an rud do-fhaicsinneach a dhèanamh ri fhaicinn. An-diugh, tha sinn a\' leantainn air an dualchas seo. Far an robh iad ag èisteachd ris an talamh, cuiridh sinn an sàs AI. Tha Kiwi-Ops an drochaid eadar dualchas luchd-tunail an-dè agus teicneòlas luchd-togail an-màireach. Tha sinn a\' creidsinn gu bheil dualchas cultarach, cothrom foghlaim, agus cruth ealain falaichte fo gach meatair de thalamh as urrainn don teicneòlas againn fhoillseachadh. Bidh sinn ag atharrachadh dàta amh bho TBMan gu cinnteachd obrachaidh, a\' toirt a-steach ealain an dùil, beairteas cultar obrachaidh, agus cumhachd foghlam stèidhichte air dàta, a\' leudachadh an tuigse seo bho na doimhneachdan gu gnìomhachasan èiginneach thar Adhair, Talmhainn, agus Muir.',
+        cy: 'Nid gyda llinell o god y dechreuodd ein stori, ond gyda sŵn picell mewn sialc. Yn Arras, 1917, dyfeisgarwch y twneli Kiwï oedd gwneud y ddirgelwch yn weladwy. Heddiw, rydym yn parhau â\'r etifeddiaeth hon. Lle y gwrandawent ar y ddaear, rydym yn defnyddio AI. Mae Kiwi-Ops yn bont rhwng etifeddiaeth twneli ddoe a thechnoleg adeiladwyr yfory. Credwn fod etifeddiaeth ddiwylliannol, cyfle addysgol, a ffurf gelfyddydol wedi\'u cuddio o dan bob metr o ddaear y gall ein technoleg eu datgelu. Rydym yn trawsnewid data crai o DBMau yn sicrwydd gweithredol, gan integreiddio celf ragweld, cyfoeth diwylliant gweithredol, a phŵer addysg a yrrir gan ddata, gan ymestyn y deallusrwydd hwn o\'r dyfnder i weithrediadau criticiol ar draws Awyr, Tir, a Môr.',
         af: 'Ons storie begin nie met \'n reël kode nie, maar met die geluid van \'n pik in kryt. In Arras, 1917, was die vindingrykheid van die Kiwi-tonnelgrawers om die onsigbare sigbaar te maak. Vandag dra ons hierdie nalatenskap voort. Waar hulle na die aarde geluister het, pas ons KI toe. Kiwi-Ops is die brug tussen die nalatenskap van gister se tonnelgrawers en die tegnologie van môre se bouers. Ons glo dat onder elke meter aarde \'n kulturele erfenis, \'n opvoedkundige geleentheid, en \'n vorm van kuns lê wat ons tegnologie kan openbaar. Ons omskep rou data van TBMs in operasionele sekerheid, deur die kuns van afwagting, die rykdom van operasionele kultuur, en die krag van data-gedrewe onderwys te integreer, en hierdie intelligensie uit die dieptes uit te brei na kritieke operasies oor Lug, Land, en See.',
       },
     },
@@ -180,19 +180,47 @@ const allTranslations = {
     team: {
         title: { en: 'Our Team', fr: 'Notre Équipe' },
         subtitle: { en: 'Innovation driven by expertise and passion.', fr: 'L\'innovation portée par l\'expertise et la passion.' },
-        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' }, // REMPLACER avec le vrai nom
+        member1Name: { en: '[Your Name]', fr: '[Votre Nom]' },
         member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
         member1Bio: {
-            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
-            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
+            en: 'Visionary leader with X years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.',
+            fr: 'Leader visionnaire avec X années d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.'
         },
-        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' }, // REMPLACER avec le vrai nom
+        member2Name: { en: '[Co-founder/CTO Name]', fr: '[Nom du Co-fondateur/CTO]' },
         member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
         member2Bio: {
-            en: 'Tech wizard with a PhD in AI and X years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER X
-            fr: 'Génie technique avec un doctorat en IA et X années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER X
+            en: 'Tech wizard with a PhD in AI and X years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.',
+            fr: 'Génie technique avec un doctorat en IA et X années en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.'
         },
     }
+  },
+  solutionsPage: {
+    title: {en: '', fr: ''}, subtitle: {en: '', fr: ''},
+    airTitle: {en: '', fr: ''}, airText: {en: '', fr: ''},
+    landTitle: {en: '', fr: ''}, landText: {en: '', fr: ''},
+    seaTitle: {en: '', fr: ''}, seaText: {en: '', fr: ''},
+    ctaTitle: {en: 'Ready to Transform Your Operations?', fr: 'Prêt à Transformer Vos Opérations ?'},
+    ctaSubtitle: {en: 'Contact our experts to discuss your specific needs and discover how Kiwi-Ops can empower your team.', fr: 'Contactez nos experts pour discuter de vos besoins spécifiques et découvrez comment Kiwi-Ops peut renforcer votre équipe.'},
+    ctaButtonExperts: {en: 'Talk to an Expert', fr: 'Parlez à un Expert'},
+  },
+  platformPage: {
+    title: {en: '', fr: ''}, subtitle: {en: '', fr: ''},
+  },
+  aiAgents: {
+    sectionTitle: {en: '', fr: ''}, sectionSubtitle: {en: '', fr: ''},
+    geoAgentTitle: {en: '', fr: ''}, geoAgentText: {en: '', fr: ''},
+    predMaintAgentTitle: {en: '', fr: ''}, predMaintAgentText: {en: '', fr: ''},
+    tactIntAgentTitle: {en: '', fr: ''}, tactIntAgentText: {en: '', fr: ''},
+    web3CompAgentTitle: {en: '', fr: ''}, web3CompAgentText: {en: '', fr: ''},
+  },
+  installPage: {
+    title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, googlePlay: {en: '', fr: ''}, appStore: {en: '', fr: ''}, qrCodeText: {en: '', fr: ''}, googlePlayLink: '', appStoreLink: '', qrCodeImage: '',
+  },
+  footer: { // Nouvelle section pour les traductions du pied de page
+    copyright: {en: '© 2024 Kiwi-Ops. All rights reserved.', fr: '© 2024 Kiwi-Ops. Tous droits réservés.'},
+    privacyPolicy: {en: 'Privacy Policy', fr: 'Politique de Confidentialité'},
+    termsOfService: {en: 'Terms of Service', fr: 'Conditions Générales d\'Utilisation'},
+    contactUs: {en: 'Contact Us', fr: 'Nous Contacter'},
   },
 };
 
@@ -209,12 +237,14 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
 
 
 export default function StoryPage() {
-  const { theme } = useTheme(); // Utilisation du thème
+  const { theme } = useTheme();
   const { language } = useLanguage();
-  const [menuOpen, setMenuOpen] = useState(false); // Pour la navbar
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
   const tProduct = (key: string) => getTranslation('productPage', key, language); // Pour les titres de section de productPage
+  const tSolutions = (key: string) => getTranslation('solutionsPage', key, language); // Pour le CTA final
+  const tFooter = (key: string) => getTranslation('footer', key, language); // Pour le pied de page
 
   return (
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
@@ -224,10 +254,10 @@ export default function StoryPage() {
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
            <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
-           <li><Link href="/product#features-section">{getLoginNavTranslation('features')}</Link></li>
+           <li><Link href="/platform">{getLoginNavTranslation('features')}</Link></li>
            <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
            <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li> {/* Lien vers cette page */}
-           <li><Link href="/product#search-section">{getLoginNavTranslation('search')}</Link></li>
+           <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
         <button className={styles.installButton} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
       </nav>
@@ -252,7 +282,46 @@ export default function StoryPage() {
         </div>
       </section>
 
-      {/* Vous pouvez ajouter un footer ici si vous en avez un */}
+      {/* Final Call To Action (identique à celui des autres pages) */}
+      <section className={`${styles.section} ${styles.ctaContainer} ${styles.finalCta}`}>
+        <h2 className={styles.ctaTitle}>{tSolutions('ctaTitle')}</h2>
+        <p className={styles.ctaSubtitle}>
+          {tSolutions('ctaSubtitle')}
+        </p>
+        <Link href="mailto:contact@kiwi-ops.com" className={styles.ctaButton}>
+          {tSolutions('ctaButtonExperts')}
+        </Link>
+      </section>
+
+      {/* FOOTER (identique à celui des autres pages) */}
+      <footer className={`${styles.footer}`}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerBrand}>
+            <h3>Kiwi-Ops</h3>
+            <p>{tFooter('copyright')}</p>
+          </div>
+          <div className={styles.footerNav}>
+            <h4>{getLoginNavTranslation('search')}</h4> {/* "Nos solutions" */}
+            <ul>
+              <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
+              <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
+              <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
+              <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerLegal}>
+            <h4>Legal</h4>
+            <ul>
+              <li><Link href="/privacy">{tFooter('privacyPolicy')}</Link></li>
+              <li><Link href="/terms">{tFooter('termsOfService')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerContact}>
+            <h4>{tFooter('contactUs')}</h4>
+            <p>Email: <a href="mailto:info@kiwi-ops.com">info@kiwi-ops.com</a></p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

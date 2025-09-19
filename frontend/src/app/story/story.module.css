@@ -1,12 +1,10 @@
-/* Variables CSS (définissez-les dans un globals.css ou ici pour les modes clair/sombre) */
-
 .pageContainer {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Important pour que le footer reste en bas */
   background-color: var(--background-color-light);
   color: var(--text-color-primary-light);
-  font-family: Arial, sans-serif; /* Ou votre police préférée */
+  font-family: Arial, sans-serif;
 }
 
 .darkMode .pageContainer {
@@ -14,7 +12,7 @@
   color: var(--text-color-primary-dark);
 }
 
-/* --- Styles pour la barre de navigation (à adapter depuis votre page.module.css principal) --- */
+/* --- Styles pour la barre de navigation --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -22,25 +20,27 @@
   padding: 1rem 2rem;
   background-color: var(--navbar-background-color-light);
   color: var(--navbar-text-color-light);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-light);
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .darkMode .navbar {
   background-color: var(--navbar-background-color-dark);
   color: var(--navbar-text-color-dark);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-dark);
 }
 
 .navLogo {
   font-weight: bold;
   font-size: 1.5rem;
-  color: var(--heading-color-light);
+  color: var(--navbar-text-color-light);
 }
 .darkMode .navLogo {
-  color: var(--heading-color-dark);
+  color: var(--navbar-text-color-dark);
 }
 .navLogo a {
   color: inherit;
@@ -63,6 +63,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  white-space: nowrap;
 }
 
 .navLinks a:hover {
@@ -86,13 +87,14 @@
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 0.3rem;
   cursor: pointer;
   font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 .darkMode .installButton {
   background-color: var(--button-background-color-dark);
@@ -105,120 +107,18 @@
   background-color: var(--button-background-color-hover-dark);
 }
 
-/* --- Styles pour la section Histoire --- */
-.section {
-  padding: 80px 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.storySection {
-  padding-top: 100px;
-  padding-bottom: 100px;
-  text-align: center;
-}
-
-.storyContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 50px;
-    margin-top: 50px;
-    text-align: left;
-}
-
-.storyImage {
-    flex: 1;
-    min-width: 300px;
-    max-width: 50%;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow-light);
-}
-.darkMode .storyImage {
-    box-shadow: var(--shadow-dark);
-}
-
-.storyImage img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-}
-
-.storyText {
-    flex: 1;
-}
-
-.sectionTitle {
-  font-size: 3.5rem;
-  margin-bottom: 25px;
-  color: var(--heading-color-light);
-  text-align: left; /* Aligné à gauche dans le bloc de texte */
-}
-.darkMode .sectionTitle {
-  color: var(--heading-color-dark);
-}
-
-.subtitle {
-  font-size: 1.4rem;
-  color: var(--accent-color-light); /* Couleur d'accentuation pour le sous-titre */
-  margin-bottom: 30px;
-  line-height: 1.5;
-  text-align: left; /* Aligné à gauche dans le bloc de texte */
-  font-weight: 600;
-}
-.darkMode .subtitle {
-  color: var(--accent-color-dark);
-}
-
-.storyText p {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    color: var(--text-color-primary-light);
-    text-align: left;
-}
-.darkMode .storyText p {
-    color: var(--text-color-primary-dark);
-}
-
-
-/* Responsive Design pour la page Story */
-@media (max-width: 992px) {
-  .section {
-    padding: 60px 30px;
-  }
-  .sectionTitle {
-    font-size: 2.8rem;
-  }
-  .subtitle {
-    font-size: 1.2rem;
-  }
-  .storyContainer {
-    flex-direction: column;
-    text-align: center;
-  }
-  .storyImage, .storyText {
-    max-width: 100%;
-  }
-  .sectionTitle, .subtitle, .storyText p {
-      text-align: center; /* Centrer le texte en mode colonne */
-  }
-}
-
+/* Responsive Design pour la Navbar */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 0.8rem 1rem;
-  }
   .navLinks {
     flex-direction: column;
     position: absolute;
-    top: 58px; /* Ajustez selon la hauteur de votre navbar */
+    top: 64px; /* Ajustez selon la hauteur réelle de votre navbar */
     left: 0;
     width: 100%;
     background-color: var(--navbar-background-color-light);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
+    z-index: 999;
   }
   .darkMode .navLinks {
       background-color: var(--navbar-background-color-dark);
@@ -236,19 +136,330 @@
   .navLinks a {
     padding: 1rem 1.5rem;
     display: block;
+    width: 100%;
   }
   .menuToggle {
     display: block;
   }
+  .navbar {
+    padding: 0.8rem 1rem;
+  }
+}
 
+/* --- Styles pour les sections générales --- */
+.section {
+  padding: 80px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-grow: 1; /* Permet à la section de prendre l'espace disponible */
+}
+
+.sectionTitle {
+  font-size: 3.5rem;
+  margin-bottom: 25px;
+  color: var(--heading-color-light);
+  text-align: center;
+}
+.darkMode .sectionTitle {
+  color: var(--heading-color-dark);
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  color: var(--text-color-secondary-light);
+  margin-bottom: 60px;
+  line-height: 1.5;
+  padding: 0 20px;
+  text-align: center;
+}
+.darkMode .subtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+/* Styles spécifiques à la section Story */
+.storySection {
+  padding-top: 100px;
+  padding-bottom: 80px;
+}
+
+.storyContainer {
+  display: flex;
+  flex-direction: row; /* Par défaut côte à côte */
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.storyImage {
+  flex: 1;
+  min-width: 300px; /* Taille minimale pour l'image */
+  max-width: 50%;
+  border-radius: 12px;
+  overflow: hidden; /* Assure que l'image respecte les coins arrondis */
+  box-shadow: var(--shadow-light);
+}
+.darkMode .storyImage {
+  box-shadow: var(--shadow-dark);
+}
+
+.storyImage img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+.storyText {
+  flex: 1;
+  min-width: 300px; /* Taille minimale pour le texte */
+  max-width: 50%;
+  text-align: left;
+}
+
+.storyText h1.sectionTitle { /* Spécificité pour le titre de la section */
+  text-align: left;
+  margin-top: 0;
+}
+.storyText h3.subtitle { /* Spécificité pour le sous-titre de la section */
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.storyText p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .storyText p {
+  color: var(--text-color-secondary-dark);
+}
+
+/* Responsive pour la section Story */
+@media (max-width: 992px) {
+  .storyContainer {
+    flex-direction: column; /* Empile l'image et le texte en colonne */
+    text-align: center;
+  }
+  .storyImage, .storyText {
+    max-width: 100%; /* Prend toute la largeur */
+    min-width: unset;
+  }
+  .storyText h1.sectionTitle, .storyText h3.subtitle {
+    text-align: center; /* Centre le texte en mode colonne */
+  }
+}
+
+
+/* --- Styles pour le CTA final --- */
+.ctaContainer {
+  text-align: center;
+  padding: 80px 40px;
+  background-color: var(--background-color-light);
+}
+.darkMode .ctaContainer {
+  background-color: var(--background-color-dark);
+}
+
+.finalCta {
+  background-color: var(--card-background-light);
+  box-shadow: var(--shadow-light);
+  border-top: 1px solid #e0e0e0;
+  padding: 60px 40px;
+}
+.darkMode .finalCta {
+  background-color: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-top-color: #495057;
+}
+
+.ctaTitle {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  color: var(--heading-color-light);
+}
+.darkMode .ctaTitle {
+  color: var(--heading-color-dark);
+}
+
+.ctaSubtitle {
+  font-size: 1.3rem;
+  color: var(--text-color-secondary-light);
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+.darkMode .ctaSubtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--accent-color-light);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.darkMode .ctaButton {
+  background-color: var(--accent-color-dark);
+}
+
+.ctaButton:hover {
+  background-color: var(--button-background-color-hover-light);
+  transform: translateY(-2px);
+}
+.darkMode .ctaButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+
+/* --- Styles pour le Footer --- */
+.footer {
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  padding: 40px 20px;
+  margin-top: auto; /* Pousse le footer vers le bas dans un conteneur flex-column */
+  box-shadow: var(--shadow-light);
+  border-top: 1px solid #e0e0e0;
+}
+.darkMode .footer {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: var(--shadow-dark);
+  border-top-color: #495057;
+}
+
+.footerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footerBrand,
+.footerNav,
+.footerLegal,
+.footerContact {
+  flex: 1;
+  min-width: 180px;
+}
+
+.footerBrand h3,
+.footerNav h4,
+.footerLegal h4,
+.footerContact h4 {
+  color: var(--heading-color-light);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+.darkMode .footerBrand h3,
+.darkMode .footerNav h4,
+.darkMode .footerLegal h4,
+.darkMode .footerContact h4 {
+  color: var(--heading-color-dark);
+}
+
+.footerBrand p,
+.footerNav ul,
+.footerLegal ul,
+.footerContact p {
+  font-size: 0.95rem;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .footerBrand p,
+.darkMode .footerNav ul,
+.darkMode .footerLegal ul,
+.darkMode .footerContact p {
+  color: var(--text-color-secondary-dark);
+}
+
+.footerNav ul,
+.footerLegal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerNav li,
+.footerLegal li {
+  margin-bottom: 8px;
+}
+
+.footerNav a,
+.footerLegal a,
+.footerContact a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerNav a:hover,
+.footerLegal a:hover,
+.footerContact a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .footerNav a:hover,
+.darkMode .footerLegal a:hover,
+.darkMode .footerContact a:hover {
+  color: var(--accent-color-dark);
+}
+
+/* Responsive Design général */
+@media (max-width: 992px) {
+  .section {
+    padding: 60px 30px;
+  }
+  .sectionTitle {
+    font-size: 2.8rem;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+  }
+  .ctaTitle {
+    font-size: 2.2rem;
+  }
+  .ctaSubtitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .section {
     padding: 40px 15px;
   }
   .sectionTitle {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   .subtitle {
     font-size: 1.1rem;
+  }
+  .ctaTitle {
+    font-size: 1.8rem;
+  }
+  .ctaSubtitle {
+    font-size: 1rem;
+  }
+  .footerContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footerBrand,
+  .footerNav,
+  .footerLegal,
+  .footerContact {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 30px;
   }
 }
 
@@ -257,6 +468,13 @@
     font-size: 1.8rem;
   }
   .subtitle {
+    font-size: 1rem;
+  }
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+  .ctaButton {
+    padding: 12px 25px;
     font-size: 1rem;
   }
 }

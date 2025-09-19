@@ -1,11 +1,7 @@
-/* src/app/team/page.module.css */
-
-/* Variables CSS (définissez-les dans un globals.css ou ici pour les modes clair/sombre) */
-
 .pageContainer {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Important pour que le footer reste en bas */
   background-color: var(--background-color-light);
   color: var(--text-color-primary-light);
   font-family: Arial, sans-serif;
@@ -16,7 +12,7 @@
   color: var(--text-color-primary-dark);
 }
 
-/* --- Styles pour la barre de navigation (intégrés ici pour la version "en dur") --- */
+/* --- Styles pour la barre de navigation --- */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -155,12 +151,15 @@
   padding: 80px 40px;
   max-width: 1200px;
   margin: 0 auto;
+  /* La section devrait idéalement prendre l'espace restant pour pousser le footer */
+  /* flex-grow: 1; pourrait être appliqué à teamContentSection si le contenu est court */
 }
 
 .teamContentSection {
-  padding-top: 100px; /* Espace sous la navbar */
+  padding-top: 100px;
   padding-bottom: 100px;
   text-align: center;
+  flex-grow: 1; /* Permet à cette section de prendre l'espace disponible */
 }
 
 .sectionTitle {
@@ -177,6 +176,7 @@
   color: var(--text-color-secondary-light);
   margin-bottom: 60px;
   line-height: 1.5;
+  padding: 0 20px; /* Ajoute un padding horizontal pour le texte du sous-titre */
 }
 .darkMode .subtitle {
   color: var(--text-color-secondary-dark);
@@ -187,9 +187,10 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
   margin-top: 50px;
-  max-width: 1000px; /* Légèrement réduit pour les cartes */
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  justify-items: center; /* Centre les éléments dans la grille */
 }
 
 .teamMemberCard {
@@ -200,6 +201,9 @@
   text-align: center;
   transition: transform 0.3s ease;
   border: 1px solid #e0e0e0;
+  display: flex; /* Utilise flexbox pour aligner le contenu des cartes */
+  flex-direction: column;
+  align-items: center; /* Centre le contenu horizontalement dans la carte */
 }
 .darkMode .teamMemberCard {
   background: var(--card-background-dark);
@@ -210,11 +214,14 @@
   transform: translateY(-5px);
 }
 
-.teamAvatar { /* Style pour les images d'avatars réelles */
-  border-radius: 50%; /* Pour rendre l'image ronde */
-  object-fit: cover; /* Pour s'assurer que l'image remplit le cercle sans déformation */
-  margin: 0 auto 20px; /* Centrer et espacer */
-  border: 4px solid var(--accent-color-light); /* Exemple de bordure */
+.teamAvatar {
+  width: 150px;   /* Taille explicite pour l'avatar */
+  height: 150px;  /* Taille explicite pour l'avatar */
+  border-radius: 50%;
+  object-fit: cover;
+  display: block; /* Important pour que margin: auto fonctionne pour le centrage */
+  margin: 0 auto 20px;
+  border: 4px solid var(--accent-color-light);
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 .darkMode .teamAvatar {
@@ -244,13 +251,176 @@
   color: var(--text-color-secondary-light);
   line-height: 1.6;
   font-size: 0.95rem;
+  flex-grow: 1; /* Permet au texte bio de prendre l'espace disponible pour une hauteur de carte uniforme */
 }
 .darkMode .teamMemberCard p {
   color: var(--text-color-secondary-dark);
 }
 
 
-/* Responsive Design pour la page Team */
+/* --- Styles pour le CTA final --- */
+.ctaContainer {
+  text-align: center;
+  padding: 80px 40px; /* Cohérent avec les autres sections */
+  background-color: var(--background-color-light); /* Couleur de fond par défaut */
+}
+.darkMode .ctaContainer {
+  background-color: var(--background-color-dark);
+}
+
+.finalCta {
+  background-color: var(--card-background-light); /* Utilise la couleur de fond des cartes pour un contraste léger */
+  box-shadow: var(--shadow-light);
+  border-top: 1px solid #e0e0e0;
+  padding: 60px 40px; /* Un peu moins de padding que les sections principales */
+}
+.darkMode .finalCta {
+  background-color: var(--card-background-dark);
+  box-shadow: var(--shadow-dark);
+  border-top-color: #495057;
+}
+
+.ctaTitle {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  color: var(--heading-color-light);
+}
+.darkMode .ctaTitle {
+  color: var(--heading-color-dark);
+}
+
+.ctaSubtitle {
+  font-size: 1.3rem;
+  color: var(--text-color-secondary-light);
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+.darkMode .ctaSubtitle {
+  color: var(--text-color-secondary-dark);
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: var(--accent-color-light);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.darkMode .ctaButton {
+  background-color: var(--accent-color-dark);
+}
+
+.ctaButton:hover {
+  background-color: var(--button-background-color-hover-light);
+  transform: translateY(-2px);
+}
+.darkMode .ctaButton:hover {
+  background-color: var(--button-background-color-hover-dark);
+}
+
+
+/* --- Styles pour le Footer --- */
+.footer {
+  background-color: var(--navbar-background-color-light);
+  color: var(--navbar-text-color-light);
+  padding: 40px 20px;
+  margin-top: auto; /* Pousse le footer vers le bas dans un conteneur flex-column */
+  box-shadow: var(--shadow-light);
+  border-top: 1px solid #e0e0e0;
+}
+.darkMode .footer {
+  background-color: var(--navbar-background-color-dark);
+  color: var(--navbar-text-color-dark);
+  box-shadow: var(--shadow-dark);
+  border-top-color: #495057;
+}
+
+.footerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footerBrand,
+.footerNav,
+.footerLegal,
+.footerContact {
+  flex: 1;
+  min-width: 180px;
+}
+
+.footerBrand h3,
+.footerNav h4,
+.footerLegal h4,
+.footerContact h4 {
+  color: var(--heading-color-light);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+.darkMode .footerBrand h3,
+.darkMode .footerNav h4,
+.darkMode .footerLegal h4,
+.darkMode .footerContact h4 {
+  color: var(--heading-color-dark);
+}
+
+.footerBrand p,
+.footerNav ul,
+.footerLegal ul,
+.footerContact p {
+  font-size: 0.95rem;
+  color: var(--text-color-secondary-light);
+}
+.darkMode .footerBrand p,
+.darkMode .footerNav ul,
+.darkMode .footerLegal ul,
+.darkMode .footerContact p {
+  color: var(--text-color-secondary-dark);
+}
+
+.footerNav ul,
+.footerLegal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerNav li,
+.footerLegal li {
+  margin-bottom: 8px;
+}
+
+.footerNav a,
+.footerLegal a,
+.footerContact a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerNav a:hover,
+.footerLegal a:hover,
+.footerContact a:hover {
+  color: var(--accent-color-light);
+}
+.darkMode .footerNav a:hover,
+.darkMode .footerLegal a:hover,
+.darkMode .footerContact a:hover {
+  color: var(--accent-color-dark);
+}
+
+/* Responsive Design */
 @media (max-width: 992px) {
   .section {
     padding: 60px 30px;
@@ -263,6 +433,12 @@
   }
   .teamGrid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .ctaTitle {
+    font-size: 2.2rem;
+  }
+  .ctaSubtitle {
+    font-size: 1.1rem;
   }
 }
 
@@ -279,6 +455,25 @@
   .teamGrid {
     grid-template-columns: 1fr; /* Une colonne en mobile */
   }
+  .ctaTitle {
+    font-size: 1.8rem;
+  }
+  .ctaSubtitle {
+    font-size: 1rem;
+  }
+  .footerContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footerBrand,
+  .footerNav,
+  .footerLegal,
+  .footerContact {
+    min-width: unset;
+    width: 100%;
+    margin-bottom: 30px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -286,6 +481,13 @@
     font-size: 1.8rem;
   }
   .subtitle {
+    font-size: 1rem;
+  }
+  .ctaTitle {
+    font-size: 1.5rem;
+  }
+  .ctaButton {
+    padding: 12px 25px;
     font-size: 1rem;
   }
 }

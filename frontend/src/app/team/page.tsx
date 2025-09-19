@@ -2,15 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // Pour les avatars des membres de l'équipe
+import Image from 'next/image';
 import { FaBars, FaDownload } from 'react-icons/fa';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { LanguageCode } from '@/types'; // Assurez-vous que LanguageCode est correctement importé ou défini
-import styles from './team.module.css'; // Utilisez './page.module.css' pour les styles de cette page
+import { LanguageCode } from '@/types';
+import styles from './team.module.css';
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Intégrées directement dans ce fichier) ---
-// ATTENTION: Cet objet DOIT être identique dans TOUS les fichiers .tsx utilisant les traductions.
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Assurez-vous que cet objet est identique partout) ---
 const allTranslations = {
   header: {
     missionStatement: {
@@ -54,7 +53,7 @@ const allTranslations = {
     search: { en: 'Our Solutions', fr: 'Nos solutions', mi: 'Ā Mātou Rongoā', ga: 'Ár Réitigh', hi: 'हमारे समाधान', gd: 'Ar Fuasglaidhean', cy: 'Ein Datrysiadau', af: 'Ons Oplossings', },
     team: { en: 'Our Team', fr: 'Notre Équipe', mi: 'Tō Mātou Kapa', ga: 'Ár bhFoireann', hi: 'हमारी टीम', gd: 'Ar Sgioba', cy: 'Ein Tîm', af: 'Ons Span', },
   },
-  productPage: { // Contient les détails de la section team
+  productPage: {
     hero: { title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, ctaButton: {en: '', fr: ''} },
     challenge: { title: {en: '', fr: ''}, point1: {en: '', fr: ''}, point2: {en: '', fr: ''}, point3: {en: '', fr: ''} },
     solution: {
@@ -68,63 +67,71 @@ const allTranslations = {
     finalCta: { title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, button: {en: '', fr: ''} },
     team: {
         title: {
-          en: 'Our Team: The Architects of Mastery',
-          fr: 'Notre Équipe : Les Architectes de la Maîtrise',
-          mi: 'Tō Mātou Kapa: Ngā Kaihoahoa o te Mana Whakahaere',
-          ga: 'Ár bhFoireann: Ailtirí na Máistreachta',
-          hi: 'हमारी टीम: महारत के वास्तुकार',
-          gd: 'Ar Sgioba: Ailtirich na Maighstireachd',
-          cy: 'Ein Tîm: Penseiri Meistrolaeth',
-          af: 'Ons Span: Die Argitekte van Meesterskap',
+          en: 'Our Team: Diverse Expertise, Proven Execution',
+          fr: 'Notre Équipe : L\'expertise diversifiée et les capacités d\'exécution avérées',
+          mi: 'Tō Mātou Kapa: Ngā Toi Rerekē, Te Whakatinanatanga Kua Whakaatuhia',
+          ga: 'Ár bhFoireann: Saineolas Éagsúil, Feidhmiú Cruthaithe',
+          hi: 'हमारी टीम: विविध विशेषज्ञता, सिद्ध निष्पादन',
+          gd: 'Ar Sgioba: Eòlas Eadar-dhealaichte, Coileanadh Dearbhte',
+          cy: 'Ein Tîm: Arbenigedd Amrywiol, Gweithrediad Profedig',
+          af: 'Ons Span: Diverse Kundigheid, Bewese Uitvoering',
         },
         subtitle: {
-          en: 'Innovation driven by expertise and passion for groundbreaking operations.',
-          fr: 'L\'innovation portée par l\'expertise et la passion pour des opérations révolutionnaires.',
-          mi: 'Ko te auahatanga e akiakihia ana e te tohungatanga me te ngākau nui ki ngā mahi whakahou.',
-          ga: 'Nuálaíocht á tiomáint ag saineolas agus paisean do ghníomhaíochtaí ceannródaíocha.',
-          gd: 'Ùr-ghnàthachadh air a stiùireadh le eòlas agus dìoghras airson gnìomhachasan ùra.',
-          cy: 'Arloesedd a yrrir gan arbenigedd a chariad at weithrediadau arloesol.',
-          af: 'Innovasie gedryf deur kundigheid en passie vir baanbrekende operasies.',
+          en: 'Our team\'s diversified expertise and proven execution capabilities are particularly suited not only to build and scale Kiwi-ops, but also to thrive and contribute to the Google ecosystem.',
+          fr: 'L\'expertise diversifiée et les capacités d\'exécution avérées de notre équipe sont particulièrement adaptées non seulement pour construire et faire évoluer Kiwi-ops, mais aussi pour prospérer et contribuer à l\'écosystème Google.',
+          mi: 'Ko ngā toi rerekē o tō mātou kapa me ngā kaha whakatinanatanga kua whakaatuhia e tika ana kia hanga, kia whakanui i a Kiwi-ops, engari kia tūhura, kia whai wāhi hoki ki te pūnaha rauwiringa kaiao a Google.',
+          ga: 'Tá saineolas éagsúil ár bhfoireann agus cumais fheidhmithe cruthaithe oiriúnach go háirithe ní amháin chun Kiwi-ops a thógáil agus a scála, ach freisin chun rath a chur air agus cur leis an éiceachóras Google.',
+          gd: 'Tha eòlas eadar-dhealaichte ar sgioba agus comasan coileanaidh dearbhte gu sònraichte iomchaidh chan ann a-mhàin airson Kiwi-ops a thogail agus a leudachadh, ach cuideachd airson soirbheachadh agus cur ris an eag-shiostam Google.',
+          cy: 'Mae arbenigedd amrywiol a galluoedd gweithredu profedig ein tîm yn arbennig o addas nid yn unig i adeiladu a graddio Kiwi-ops, ond hefyd i ffynnu a chyfrannu at ecosystem Google.',
+          af: 'Ons span se gediversifiseerde kundigheid en bewese uitvoeringsvermoëns is veral geskik om nie net Kiwi-ops te bou en te skaal nie, maar ook om te floreer en by te dra tot die Google-ekosisteem.',
         },
-        member1Name: { en: 'Professor Alistair Finch', fr: 'Professeur Alistair Finch' }, // REMPLACER avec le vrai nom
-        member1Title: { en: 'CEO & Co-founder', fr: 'CEO & Co-fondateur' },
+        member1Name: { en: 'Agent Harry', fr: 'Agent Harry' },
+        member1Title: { en: 'CEO & CPO', fr: 'CEO & CPO' },
         member1Bio: {
-            en: 'Visionary leader with 15 years of experience in underground engineering and project management. Spearheading Kiwi-Ops strategy and business development.', // REMPLACER X
-            fr: 'Leader visionnaire avec 15 ans d\'expérience en ingénierie souterraine et gestion de projet. Il dirige la stratégie et le développement commercial de Kiwi-Ops.' // REMPLACER X
+            en: 'A customer-focused CEO/CPO combining technical expertise and strategic vision to transform market insights into innovative products that delight users.',
+            fr: 'Un CEO/CPO axé sur le client combinant expertise technique et vision stratégique pour transformer les insights du marché en produits innovants qui ravissent les utilisateurs.'
         },
-        member2Name: { en: 'Dr. Kwame Nkrumah', fr: 'Dr. Kwame Nkrumah' }, // REMPLACER avec le vrai nom
-        member2Title: { en: 'CTO & Co-founder', fr: 'CTO & Co-fondateur' },
+        member2Name: { en: 'Agent Loréne', fr: 'Agent Loréne' },
+        member2Title: { en: 'Advisor (General Manager)', fr: 'Conseillère (Directrice Générale)' },
         member2Bio: {
-            en: 'Tech wizard with a PhD in AI and 12 years in software architecture. Drives the innovation behind Kiwi-Ops\' Edge AI, Cloud, and Web3 solutions.', // REMPLACER Y
-            fr: 'Génie technique avec un doctorat en IA et 12 ans en architecture logicielle. Il est le moteur de l\'innovation derrière les solutions Edge AI, Cloud et Web3 de Kiwi-Ops.' // REMPLACER Y
+            en: 'Dedicated to fostering innovation through effective talent management and organizational growth, optimizing processes for innovative businesses.',
+            fr: 'Dédiée à la promotion de l\'innovation par une gestion efficace des talents et une croissance organisationnelle, optimisant les processus pour les entreprises innovantes. - Moneypenny, Directrice Générale'
         },
-        // --- NOUVEAU MEMBRE DE L'ÉQUIPE ---
-        member3Name: { en: 'Elara Vance', fr: 'Elara Vance' }, // Exemple de troisième membre
-        member3Title: { en: 'Lead AI Scientist', fr: 'Scientifique IA Principale' },
+        member3Name: { en: 'Agent Fire', fr: 'Agent Fire' },
+        member3Title: { en: 'CTO', fr: 'CTO' },
         member3Bio: {
-            en: 'Pioneering AI research to develop cutting-edge predictive models and intelligent agent protocols for diverse operational challenges.',
-            fr: 'Dirige la recherche en IA pour développer des modèles prédictifs de pointe et des protocoles d\'agents intelligents pour divers défis opérationnels.'
+            en: 'Passionate about innovation and efficiency, a certified architect developing CRM solutions to optimize processes and enhance customer satisfaction.',
+            fr: 'Passionné par l\'innovation et l\'efficacité, architecte certifié développant des solutions CRM pour optimiser les processus et améliorer la satisfaction client.'
         },
     }
   },
-  solutionsPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  solutionsPage: {
     title: {en: '', fr: ''}, subtitle: {en: '', fr: ''},
     airTitle: {en: '', fr: ''}, airText: {en: '', fr: ''},
     landTitle: {en: '', fr: ''}, landText: {en: '', fr: ''},
     seaTitle: {en: '', fr: ''}, seaText: {en: '', fr: ''},
+    ctaTitle: {en: 'Ready to Transform Your Operations?', fr: 'Prêt à Transformer Vos Opérations ?'},
+    ctaSubtitle: {en: 'Contact our experts to discuss your specific needs and discover how Kiwi-Ops can empower your team.', fr: 'Contactez nos experts pour discuter de vos besoins spécifiques et découvrez comment Kiwi-Ops peut renforcer votre équipe.'},
+    ctaButtonExperts: {en: 'Talk to an Expert', fr: 'Parlez à un Expert'},
   },
-  platformPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  platformPage: {
     title: {en: '', fr: ''}, subtitle: {en: '', fr: ''},
   },
-  aiAgents: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  aiAgents: {
     sectionTitle: {en: '', fr: ''}, sectionSubtitle: {en: '', fr: ''},
     geoAgentTitle: {en: '', fr: ''}, geoAgentText: {en: '', fr: ''},
     predMaintAgentTitle: {en: '', fr: ''}, predMaintAgentText: {en: '', fr: ''},
     tactIntAgentTitle: {en: '', fr: ''}, tactIntAgentText: {en: '', fr: ''},
     web3CompAgentTitle: {en: '', fr: ''}, web3CompAgentText: {en: '', fr: ''},
   },
-  installPage: { // Minimal pour éviter les erreurs si la structure s'attend à la présence de ces clés
+  installPage: {
     title: {en: '', fr: ''}, subtitle: {en: '', fr: ''}, googlePlay: {en: '', fr: ''}, appStore: {en: '', fr: ''}, qrCodeText: {en: '', fr: ''}, googlePlayLink: '', appStoreLink: '', qrCodeImage: '',
+  },
+  footer: {
+    copyright: {en: '© 2024 Kiwi-Ops. All rights reserved.', fr: '© 2024 Kiwi-Ops. Tous droits réservés.'},
+    privacyPolicy: {en: 'Privacy Policy', fr: 'Politique de Confidentialité'},
+    termsOfService: {en: 'Terms of Service', fr: 'Conditions Générales d\'Utilisation'},
+    contactUs: {en: 'Contact Us', fr: 'Nous Contacter'},
   },
 };
 
@@ -139,43 +146,29 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
 }
 // --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
 
- // Utilisez './page.module.css' pour les styles de cette page
-
-
 export default function TeamPage() {
   const { theme } = useTheme();
   const { language } = useLanguage();
-  const [menuOpen, setMenuOpen] = useState(false); // État pour le menu mobile de la navbar
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Fonction utilitaire pour obtenir les traductions des labels de navigation
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
-  // Fonction utilitaire pour obtenir les traductions spécifiques de la page Team (issues de productPage.team)
   const tTeam = (key: string) => getTranslation('productPage', `team.${key}`, language);
-
+  const tSolutions = (key: string) => getTranslation('solutionsPage', key, language); // Utilisé pour le CTA final
+  const tFooter = (key: string) => getTranslation('footer', key, language);
 
   return (
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
-      {/* Navbar (intégrée directement) */}
+      {/* Navbar */}
       <nav className={styles.navbar}>
         <div className={styles.navLogo}><Link href="/">Kiwi-Ops</Link></div>
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
-           {/* Lien 1: Nos Produits -> /product */}
            <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
-
-           {/* Lien 2: La plateforme -> /platform */}
            <li><Link href="/platform">{getLoginNavTranslation('features')}</Link></li>
-
-           {/* Lien 3: Notre Équipe -> /team */}
            <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
-
-           {/* Lien 4: Notre Histoire -> /story */}
            <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
-
-           {/* Lien 5: Nos solutions -> /solutions */}
            <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
-        {/* Le label 'installAppLabel' est un label générique, donc getLoginNavTranslation est approprié ici */}
         <button className={styles.installButton} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
       </nav>
 
@@ -184,54 +177,92 @@ export default function TeamPage() {
         <h1 className={styles.sectionTitle}>{tTeam('title')}</h1>
         <p className={styles.subtitle}>{tTeam('subtitle')}</p>
 
-        {/* AFFICHAGE DES MEMBRES DE L'ÉQUIPE (contenu de TeamSection intégré directement) */}
+        {/* AFFICHAGE DES MEMBRES DE L'ÉQUIPE */}
         <div className={styles.teamGrid}>
-          {/* Membre de l'équipe 1 */}
+          {/* Membre de l'équipe 1: Agent Harry */}
           <div className={styles.teamMemberCard}>
             <Image
-              src="/avatars/team-member-1.png" // Chemin vers votre première image
+              src="/avatars/agent-harry.png"
               alt={tTeam('member1Name')}
-              width={150} // Ajustez la taille selon votre design
-              height={150} // Ajustez la taille selon votre design
-              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
+              width={150}
+              height={150}
+              className={styles.teamAvatar}
             />
             <h3>{tTeam('member1Name')}</h3>
             <p className={styles.teamMemberTitle}>{tTeam('member1Title')}</p>
             <p>{tTeam('member1Bio')}</p>
           </div>
 
-          {/* Membre de l'équipe 2 */}
+          {/* Membre de l'équipe 2: Agent Loréne */}
           <div className={styles.teamMemberCard}>
             <Image
-              src="/avatars/team-member-2.png" // Chemin vers votre deuxième image
+              src="/avatars/agent-lorene.png"
               alt={tTeam('member2Name')}
-              width={150} // Ajustez la taille selon votre design
-              height={150} // Ajustez la taille selon votre design
-              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
+              width={150}
+              height={150}
+              className={styles.teamAvatar}
             />
             <h3>{tTeam('member2Name')}</h3>
             <p className={styles.teamMemberTitle}>{tTeam('member2Title')}</p>
             <p>{tTeam('member2Bio')}</p>
           </div>
 
-          {/* Membre de l'équipe 3 (AJOUTÉ ICI) */}
+          {/* Membre de l'équipe 3: Agent Fire */}
           <div className={styles.teamMemberCard}>
             <Image
-              src="/avatars/team-member-3.png" // Chemin vers votre troisième image (à créer !)
+              src="/avatars/agent-fire.png"
               alt={tTeam('member3Name')}
-              width={150} // Ajustez la taille selon votre design
-              height={150} // Ajustez la taille selon votre design
-              className={styles.teamAvatar} // Assurez-vous d'avoir ce style pour le cercle, etc.
+              width={150}
+              height={150}
+              className={styles.teamAvatar}
             />
             <h3>{tTeam('member3Name')}</h3>
             <p className={styles.teamMemberTitle}>{tTeam('member3Title')}</p>
             <p>{tTeam('member3Bio')}</p>
           </div>
-
         </div>
       </section>
 
-      {/* Vous pouvez ajouter un footer ici si vous en avez un */}
+      {/* Final Call To Action */}
+      <section className={`${styles.section} ${styles.ctaContainer} ${styles.finalCta}`}>
+        <h2 className={styles.ctaTitle}>{tSolutions('ctaTitle')}</h2>
+        <p className={styles.ctaSubtitle}>
+          {tSolutions('ctaSubtitle')}
+        </p>
+        <Link href="mailto:contact@kiwi-ops.com" className={styles.ctaButton}>
+          {tSolutions('ctaButtonExperts')}
+        </Link>
+      </section>
+
+      {/* FOOTER */}
+      <footer className={`${styles.footer}`}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerBrand}>
+            <h3>Kiwi-Ops</h3>
+            <p>{tFooter('copyright')}</p>
+          </div>
+          <div className={styles.footerNav}>
+            <h4>{getLoginNavTranslation('search')}</h4> {/* "Nos solutions" */}
+            <ul>
+              <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
+              <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
+              <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
+              <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerLegal}>
+            <h4>Legal</h4>
+            <ul>
+              <li><Link href="/privacy">{tFooter('privacyPolicy')}</Link></li>
+              <li><Link href="/terms">{tFooter('termsOfService')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerContact}>
+            <h4>{tFooter('contactUs')}</h4>
+            <p>Email: <a href="mailto:info@kiwi-ops.com">info@kiwi-ops.com</a></p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
