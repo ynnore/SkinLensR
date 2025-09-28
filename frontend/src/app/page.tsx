@@ -10,8 +10,7 @@ import Image from 'next/image';
 import { FaPaperPlane, FaDownload, FaBars } from 'react-icons/fa';
 import styles from './page.module.css';
 
-// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation (Dupliquées ici pour l'exemple, idéalement à externaliser) ---
-// (Maintain the allTranslations object exactly as you provided it)
+// --- DÉBUT DES TRADUCTIONS ET FONCTION getTranslation ---
 const allTranslations = {
   header: {
     missionStatement: {
@@ -373,8 +372,8 @@ const allTranslations = {
       hi: 'पानी के नीचे की निगरानी से लेकर नौसेना बेड़े के अनुकूलन तक, कीवी-ऑप्स समुद्री डोमेन के लिए अद्वितीय स्थितिजन्य जागरूकता और परिचालन दक्षता प्रदान करता है।',
       mi: 'Mai i te aroturuki i raro i te wai ki te whakatikatika waka moana, ka whakarato a Kiwi-Ops i te mohiotanga ā-horahanga kore e rite, me te whai hua whakahaere mō ngā wāhanga moana.',
       ga: 'Ó fhaireachán fomhuirí go barrfheabhsú cabhlach cabhlaigh, cuireann Kiwi-Ops feasacht staide gan samhail agus éifeachtúlacht oibriúcháin ar fáil do réimsí muirí.',
-      gd: 'Bho sgrùdadh fo-mhuir gu optimization cabhlach cabhlaich, bidh Kiwi-Ops a\' toirt seachad tuigse staide gun choimeas agus èifeachdas obrachaidh airson raointean mara.',
-      cy: 'O fonitro is-wyneb i optimeiddio fflyd llyngesol, mae Kiwi-Ops yn darparu ymwybyddiaeth sefyllfaol a effeithlonrwydd gweithredol heb ei hail ar gyfer meysydd morwrol.',
+      gd: 'Bho sgrùadh fo-mhuir gu optimization cabhlach cabhlaich, bidh Kiwi-Ops a\' toirt seachad tuigse staide gun choimeas agus èifeachdas obrachaidh airson raointean mara.',
+      cy: 'O fonitro is-wyneb i optimeiddio fflyd llyngesol, mae Kiwi-Ops yn darparu ymwybyddiaeth sefyllfaol a effithlonrwydd gweithredol heb ei hail ar gyfer meysydd morwrol.',
       af: 'Van onderwatermonitering tot vlootoptimisering, bied Kiwi-Ops ongeëwenaarde situasionele bewustheid en operasionele doeltreffendheid vir maritieme gebiede.',
     },
   },
@@ -400,6 +399,25 @@ const allTranslations = {
       af: 'Rand KI, Veilige Wolk, en Web3 Vertroue Verenigde vir Ongekende Beheer.',
     },
   },
+  // CORRECTION : Ajout de la section 'footer' qui manquait
+  footer: {
+    copyright: {
+      en: '© 2025 Kiwi-Ops. All rights reserved.',
+      fr: '© 2025 Kiwi-Ops. Tous droits réservés.',
+    },
+    privacyPolicy: {
+      en: 'Privacy Policy',
+      fr: 'Politique de confidentialité',
+    },
+    termsOfService: {
+      en: 'Terms of Service',
+      fr: 'Conditions d\'utilisation',
+    },
+    contactUs: {
+      en: 'Contact Us',
+      fr: 'Nous Contacter',
+    }
+  }
 };
 
 function getTranslation(section: keyof typeof allTranslations, keyPath: string, language: LanguageCode): string {
@@ -411,7 +429,7 @@ function getTranslation(section: keyof typeof allTranslations, keyPath: string, 
   }
   return result?.[language] || result?.en || keyPath;
 }
-// --- FIN DES TRADUCTIONS ET FONCTION getTranslation ---
+// --- FIN DES TRADUCTIONS ---
 
 
 // ----------------------
@@ -445,13 +463,13 @@ const ChatInterface = ({ language }: { language: LanguageCode }) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
-    const newUserMessage: Message = { id: messages.length + 1, sender: 'user', text: inputMessage, avatar: '/avatars/avatar-user.png'};
+    const newUserMessage: Message = { id: Date.now(), sender: 'user', text: inputMessage, avatar: '/avatars/avatar-user.png'};
     setMessages(prev => [...prev, newUserMessage]);
     setInputMessage('');
 
     setTimeout(() => {
       const aiResponse: Message = {
-        id: messages.length + 2,
+        id: Date.now() + 1,
         sender: 'ai',
         text: getTranslation('chat', 'thinking', language),
         avatar: '/avatars/avatar-ai.png',
@@ -494,7 +512,7 @@ const ChatInterface = ({ language }: { language: LanguageCode }) => {
 
 
 // ----------------------
-// Main Page (Login Page) - Now the default export for src/app/page.tsx
+// Main Page Component
 // ----------------------
 export default function ChatLoginPage() {
   const { theme } = useTheme();
@@ -505,42 +523,25 @@ export default function ChatLoginPage() {
   const handleInstallClick = () => router.push('/install');
 
   const handleAskChat = () => {
-    // This could navigate to a dedicated chat page or simply scroll to the chat section if it's on the same page.
-    // Given the current structure, it seems the chat is part of the login page.
-    // If '/login' is the current page, this might not do anything. If it's a separate route for the chat, it's correct.
-    // For now, assuming it means to activate/focus the chat on the current page or go to a dedicated chat route.
-    // If the chat is meant to be on THIS page, remove `router.push('/login');`
-    // If it navigates to a *separate* /login route that hosts the chat, keep it.
-    // Based on the variable name `ChatLoginPage`, it implies the chat is here.
-    // So, I'll remove the redirect and assume it's for something on the current page, or a different modal/state.
-    // If you intend to navigate to an actual `/login` route that displays only the chat, keep `router.push('/login')`.
-    // For this example, I'll assume it's a conceptual "start chat" action on the same page.
-    // You might want to scroll to the chat section or simply change a state to show/hide it.
     console.log("Chat initiated!");
   };
 
   const getLoginNavTranslation = (key: string) => getTranslation('loginPage', key, language);
+  const getFinalCtaTranslation = (key: string) => getTranslation('productPage', `finalCta.${key}`, language);
+  const getFooterTranslation = (key: string) => getTranslation('footer', key, language);
 
   return (
+    // CORRECTION : Le div principal englobe maintenant toute la page, y compris le footer
     <div className={`${styles.pageContainer} ${theme === 'dark' ? styles.darkMode : styles.lightMode}`}>
       {/* Navbar */}
       <nav className={styles.navbar}>
         <div className={styles.navLogo}>Kiwi-Ops</div>
         <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}><FaBars /></button>
         <ul className={`${styles.navLinks} ${menuOpen ? styles.open : ''}`}>
-           {/* Lien 1: Nos Produits -> /product */}
            <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
-
-           {/* Lien 2: La plateforme -> /platform */}
            <li><Link href="/platform">{getLoginNavTranslation('features')}</Link></li>
-
-           {/* Lien 3: Notre Équipe -> /team */}
            <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
-
-           {/* Lien 4: Notre Histoire -> /story */}
            <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
-
-           {/* Lien 5: Nos solutions -> /solutions */}
            <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
         </ul>
         <button className={styles.installButton} onClick={handleInstallClick} aria-label={getLoginNavTranslation('installAppLabel')}><FaDownload /></button>
@@ -565,6 +566,55 @@ export default function ChatLoginPage() {
           <ChatInterface language={language} />
         </div>
       </div>
-    </div>
+      
+      {/* CORRECTION : Les blocs suivants sont maintenant à l'intérieur du return principal */}
+      
+      {/* Final Call To Action */}
+      <div className={`${styles.section} ${styles.ctaContainer} ${styles.finalCta}`}>
+        {/* CORRECTION : Remplacement de `tSolutions` par la fonction correcte */}
+        <h2 className={styles.ctaTitle}>{getFinalCtaTranslation('title')}</h2>
+        <p className={styles.ctaSubtitle}>
+          {getFinalCtaTranslation('subtitle')}
+        </p>
+        {/* CORRECTION : Utilisation d'une balise <a> pour mailto: */}
+        <a href="mailto:contact@kiwi-ops.com" className={styles.ctaButton}>
+          {getFinalCtaTranslation('button')}
+        </a>
+      </div>
+
+
+      {/* FOOTER */}
+      <footer className={styles.footer}>
+        <div className={styles.footerContent}>
+          <div className={styles.footerBrand}>
+            <h3>Kiwi-Ops</h3>
+            {/* CORRECTION : Remplacement de `tFooter` par la fonction correcte */}
+            <p>{getFooterTranslation('copyright')}</p>
+          </div>
+          <div className={styles.footerNav}>
+            <h4>{getLoginNavTranslation('search')}</h4>
+            <ul>
+              <li><Link href="/product">{getLoginNavTranslation('product')}</Link></li>
+              <li><Link href="/team">{getLoginNavTranslation('team')}</Link></li>
+              <li><Link href="/story">{getLoginNavTranslation('story')}</Link></li>
+              <li><Link href="/solutions">{getLoginNavTranslation('search')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerLegal}>
+            <h4>Legal</h4>
+            <ul>
+              {/* CORRECTION : Remplacement de `tFooter` par la fonction correcte */}
+              <li><Link href="/privacy">{getFooterTranslation('privacyPolicy')}</Link></li>
+              <li><Link href="/terms">{getFooterTranslation('termsOfService')}</Link></li>
+            </ul>
+          </div>
+          <div className={styles.footerContact}>
+            {/* CORRECTION : Remplacement de `tFooter` par la fonction correcte */}
+            <h4>{getFooterTranslation('contactUs')}</h4>
+            <p>Email: <a href="mailto:info@kiwi-ops.com">info@kiwi-ops.com</a></p>
+          </div>
+        </div>
+      </footer>
+    </div> // CORRECTION : Fin du div principal
   );
 }
