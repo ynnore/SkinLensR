@@ -281,14 +281,12 @@ const ChatInterface: React.FC = () => {
   };
 
   // Endpoints candidates for API request (try fallback)
-  const getCandidateEndpoints = (): string[] => {
-    const base = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
-    if (!base) return ['/scan/scan/generate', '/scan/generate'];
-    return [
-      `${base}/scan/scan/generate`,
-      `${base}/scan/generate`,
-      `${base}/scan`,
-    ];
+  // Endpoints candidates for API request (MODIFIED FOR NIM DEMO)
+ const getCandidateEndpoints = (): string[] => {
+    // CORRECTION 1: Forçage de l'endpoint pour bypasser le problème de cache/env
+    const forcedBase = "http://localhost:8000";
+    console.log(`Using forced API endpoint: ${forcedBase}/chat/nim`);
+    return [`${forcedBase}/chat/nim`];
   };
 
   // Send user message, fetch assistant response, update chat
@@ -296,13 +294,20 @@ const ChatInterface: React.FC = () => {
     if (!inputValue.trim() || isLoading) return;
     playSound(sounds.current.send);
 
-    const newMessage: Message = { role: 'user', content: inputValue.trim() };
+    // CORRECTION 2: Construction explicite du corps de la requête pour éviter le 400 Bad Request
+    const messageContent = inputValue.trim();
+    const newMessage: Message = { role: 'user', content: messageContent };
+    
+    // Assurer que le corps est bien formé pour éviter le 400 Bad Request
+    const requestBody = JSON.stringify({ question: messageContent });
+    console.log("Request Body sent to FastAPI:", requestBody); 
+    
     setMessages(prev => [...prev, newMessage]);
     setInputValue('');
     setIsLoading(true);
 
     const endpoints = getCandidateEndpoints();
-    const token = getAuthToken();
+    // const token = getAuthToken(); // On n'a plus besoin du token pour cette démo
 
     let lastError: any = null;
     const controller = new AbortController();
@@ -315,20 +320,15 @@ const ChatInterface: React.FC = () => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              // ### MODIFICATION ICI ###
+              // La ligne qui ajoutait le token a été supprimée
             },
-            body: JSON.stringify({ prompt: newMessage.content, mode: 'text', query: newMessage.content }),
+           body: requestBody, // Utilisation du body construit
             signal: controller.signal,
           });
 
-          if (res.status === 401) {
-            setMessages(prev => [
-              ...prev,
-              { role: 'assistant', content: "Unauthorized (401). Please login or provide a valid token." }
-            ]);
-            setIsLoading(false);
-            return;
-          }
+          // On enlève la gestion du 401 car on ne s'attend plus à cette erreur
+          // if (res.status === 401) { ... }
 
           if (res.status === 404) {
             lastError = new Error(`404 Not Found at ${url}`);
@@ -341,7 +341,8 @@ const ChatInterface: React.FC = () => {
           }
 
           const data = await res.json().catch(() => ({}));
-          const reply = data?.response_text || data?.response || data?.result || data?.message || String(data);
+          // On cible directement la clé "response" que notre backend renvoie
+          const reply = data?.response || "Désolé, je n'ai pas compris la réponse.";
           setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
           clearTimeout(timeout);
           setIsLoading(false);
@@ -352,11 +353,9 @@ const ChatInterface: React.FC = () => {
             lastError = new Error('Request timed out');
             break;
           }
-          // continue to try next endpoint
         }
       }
 
-      // none succeeded
       throw lastError ?? new Error('No endpoint succeeded');
     } catch (err: any) {
       console.error('Send error:', err);

@@ -1,6 +1,8 @@
 # ===================================================================
 # IMPORTS ET CONFIGURATION INITIALE
 # ===================================================================
+
+from app.routers import chat
 from dotenv import load_dotenv
 load_dotenv()  # charge automatiquement le .env
 
@@ -143,9 +145,14 @@ def _format_context(docs: List[str], metas: List[Dict[str, Any]], max_chars: int
 # ===================================================================
 # MIDDLEWARE CORS
 # ===================================================================
+    
+# ===================================================================
+# MIDDLEWARE CORS
+# ===================================================================
 CORS_ORIGINS = os.environ.get(
     "CORS_ORIGINS",
-    "http://localhost:3000,http://127.0.0.1:8000,https://www.kiwi-ops.com,https://kiwi-ops.com"
+    # AJOUTER L'ADRESSE IP LOCALE ET L'ADRESSE LOCALHOST/127.0.0.1 DU FRONTEND
+    "http://localhost:3000,http://127.0.0.1:3000,http://192.168.1.146:3000,http://192.168.1.24:3000,http://127.0.0.1:8000,https://www.kiwi-ops.com,https://kiwi-ops.com"
 ).split(",")
 
 app.add_middleware(
@@ -164,13 +171,16 @@ app.include_router(users_router, prefix="/users", tags=["users"])
 app.include_router(legal_documents_router, prefix="/legal-documents", tags=["legal-documents"])
 app.include_router(progress_router, prefix="/progress", tags=["progress"])
 app.include_router(scan_router, prefix="/scan", tags=["scan"])
-app.include_router(chat_router, prefix="/chat", tags=["chat"])
+app.include_router(chat.router, prefix="/chat", tags=["chat"]) 
 app.include_router(agent_router, prefix="/agent", tags=["agent"])
 app.include_router(huggingface_api.router, prefix="/huggingface", tags=["huggingface"])
 app.include_router(oauth_router, prefix="/auth/oauth", tags=["oauth"])
 app.include_router(protected.router)
 app.include_router(google_auth.router, prefix="/auth")
 app.include_router(bitcoin_rpc.router, prefix="/api")
+
+
+
 # ===================================================================
 # ROUTES DE DÉBOGAGE / RACINE
 # ===================================================================

@@ -33,10 +33,10 @@ class AuthUrlResponse(BaseModel):
     url: str
 
 router = APIRouter(
-    prefix="/auth", # Le préfixe /auth sera appliqué à toutes les routes de ce fichier s'il est inclus dans main.py avec ce préfixe
-    tags=["Authentication - Google"]
+     # Enlève le préfixe ici, car il est déjà dans main.py
+     # prefix="/chat", 
+     tags=["Chat API"],
 )
-
 # --- Fonctions d'aide pour Google OAuth ---
 
 # Cette fonction devra être appelée pour obtenir le flux et l'URL d'autorisation
