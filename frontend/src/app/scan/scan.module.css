@@ -1,29 +1,28 @@
-/* src/app/scan/scan.module.css */
-
 /* ========================================================
    CONTENEUR PRINCIPAL ET LAYOUT
    ======================================================== */
-
 .chatContainer {
   width: 100%;
   max-width: 1100px;
   
-  /* Comportement de la hauteur : limité sur grand écran, flexible sur mobile */
   height: 90vh;
   max-height: 900px;
-  min-height: 100%; /* S'assure qu'il remplit l'espace sur mobile */
+  min-height: 100%;
 
-  /* Mise en page FLEXBOX VERTICALE : la clé de la solution */
   display: flex;
   flex-direction: column;
   
-  background-color: var(--bg-sidebar-color); /* Assurez-vous que ces variables sont définies dans globals.css */
+  /* --- MODIFICATION ICI : UTILISER --bg-sidebar --- */
+background-color: var(--bg-sidebar);  /* Corrected from --bg-sidebar-color */
+  
   border: 1px solid var(--border-color-global);
   border-radius: 12px;
   box-shadow: 0 8px 24px var(--shadow-color-global);
   overflow: hidden;
   margin: 0 auto;
+  position: relative; /* Garder ceci pour les modals */
 }
+
 
 /* ========================================================
    HEADER DU CHAT
@@ -155,291 +154,29 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.75rem; /* Espace entre les boutons d'action et la barre de saisie */
+  /* margin-bottom: 0.75rem; Éliminé car les boutons sont à côté de l'input */
+  flex-wrap: wrap; /* Permet aux boutons de passer à la ligne sur de petits écrans */
+  justify-content: flex-start; /* Aligne les boutons à gauche */
 }
 
-.iconButton {
-  background: none;
-  border: none;
-  color: var(--text-secondary-color);
-  cursor: pointer;
-  padding: 0;
-  font-size: 1.2rem;
-  border-radius: 6px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  transition: background-color 0.2s;
-}
-
-.iconButton:hover {
-  background-color: var(--hover-bg-color);
-}
-
-.sendButton {
-  background: none;
-  border: none;
-  color: var(--text-secondary-color);
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  font-size: 1.5rem;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  flex-shrink: 0;
-}
-
-.sendButton:hover {
-  background-color: var(--hover-bg-color);
-}
-
-.sendButton:disabled {
-  color: var(--border-color-global);
-  cursor: not-allowed;
-  background: none;
-}
-
-/* ========================================================
-   MENU DÉROULANT DU BOUTON COEUR
-   ======================================================== */
-
-.heartButtonContainer {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown {
-  position: absolute;
-  bottom: calc(100% + 8px); 
-  left: 50%;
-  transform: translateX(-50%);
-  width: 250px; 
-  z-index: 1500;
-  background-color: var(--bg-sidebar-color);
-  border: 1px solid var(--border-color-global);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px var(--shadow-color-global);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: fadeIn 0.2s ease-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
-  to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-.menuList {
-  list-style: none;
-  padding: 0.5rem;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.menuItem {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.5rem 0.75rem;
-  color: var(--text-primary-color);
-  text-decoration: none;
-  font-size: 0.9rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.menuItem:hover {
-  background-color: var(--hover-bg-color);
-}
-
-/* ========================================================
-   RESPONSIVE (MEDIA QUERIES)
-   ======================================================== */
-
-@media (max-width: 768px) {
-  /* Le layout de page principal n'est plus pertinent ici, mais on garde la modif du chat */
-
-  .chatContainer {
-    width: 100%;
-    height: 100%;
-    max-height: none; /* On enlève la limite de hauteur sur mobile */
-    border-radius: 0;
-    max-width: 100%;
-    margin: 0;
-  }
-
-  .pageHeader { padding: 0.5rem 1rem; }
-  .messagesArea { padding: 1rem; }
-  .pageFooter { padding: 0.5rem 1rem; }
-}
-/* src/app/scan/scan.module.css */
-
-/* ========================================================
-   CONTENEUR PRINCIPAL ET LAYOUT
-   ======================================================== */
-
-.chatContainer {
-  width: 100%;
-  max-width: 1100px;
-  
-  /* Comportement de la hauteur : limité sur grand écran, flexible sur mobile */
-  height: 90vh;
-  max-height: 900px;
-  min-height: 100%; /* S'assure qu'il remplit l'espace sur mobile */
-
-  /* Mise en page FLEXBOX VERTICALE : la clé de la solution */
-  display: flex;
-  flex-direction: column;
-  
-  background-color: var(--bg-sidebar-color); /* Assurez-vous que ces variables sont définies dans globals.css */
-  border: 1px solid var(--border-color-global);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px var(--shadow-color-global);
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-/* ========================================================
-   HEADER DU CHAT
-   ======================================================== */
-
-.pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  border-bottom: 1px solid var(--border-color-global);
-  flex-shrink: 0; /* Empêche le header de se compresser */
-  z-index: 500;
-}
-
-.headerLeft, .headerRight {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.headerLeft span {
-  font-size: 0.9rem;
-  color: var(--text-secondary-color);
-}
-
-/* ========================================================
-   ZONE DES MESSAGES
-   ======================================================== */
-
-.messagesArea {
-  /* Prend tout l'espace vertical restant */
-  flex-grow: 1;
-  /* Active le défilement vertical uniquement pour cette zone */
-  overflow-y: auto;
-
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  border-radius: 50%;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 1px solid var(--border-color-global);
-}
-
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.messageContent {
-  padding: 10px 15px;
-  border-radius: 18px;
-  font-size: 0.95rem;
-  line-height: 1.4;
-  word-wrap: break-word;
-  margin: 0;
-}
-
-.assistantMessage {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  max-width: 85%;
-  align-self: flex-start;
-}
-
-.assistantMessage .messageContent {
-  background-color: var(--color-background-secondary-global);
-  color: var(--text-primary-color);
-}
-
-.userMessage {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  max-width: 85%;
-  align-self: flex-end;
-  flex-direction: row-reverse; /* Met l'avatar à droite */
-}
-
-.userMessage .messageContent {
-  background-color: var(--color-accent-blue-global);
-  color: white;
-}
-
-
-/* ========================================================
-   FOOTER DU CHAT (ZONE DE SAISIE)
-   ======================================================== */
-
+/* Modification pour que les boutons d'action soient sur la même ligne que l'input */
 .pageFooter {
-  /* Empêche le footer de se compresser quand le clavier apparaît */
-  flex-shrink: 0;
-
+  display: flex;
+  flex-direction: column; /* Garde la structure de base si d'autres éléments s'ajoutent */
+  gap: 1rem; /* Espace entre les boutons d'action et l'input */
   padding: 1rem 1.5rem;
   border-top: 1px solid var(--border-color-global);
+  flex-shrink: 0;
 }
 
-.inputWrapper {
+/* Conteneur pour l'input et les actions de droite */
+.inputAndActions {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: var(--bg-main-color);
-  border: 1px solid var(--border-color-global);
-  border-radius: 8px;
-  padding: 0.5rem;
+  width: 100%; /* S'assure qu'il prend toute la largeur */
 }
 
-.inputWrapper input {
-  flex-grow: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  padding: 0.5rem;
-  color: var(--text-primary-color);
-  font-size: 1rem;
-}
-
-.footerActionsLeft {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem; /* Espace entre les boutons d'action et la barre de saisie */
-}
 
 .iconButton {
   background: none;
@@ -455,6 +192,7 @@
   width: 40px;
   height: 40px;
   transition: background-color 0.2s;
+  flex-shrink: 0; /* Important pour que les boutons ne soient pas compressés */
 }
 
 .iconButton:hover {
@@ -488,7 +226,7 @@
 }
 
 /* ========================================================
-   MENU DÉROULANT DU BOUTON COEUR
+   MENU DÉROULANT DU BOUTON COEUR (Si utilisé)
    ======================================================== */
 
 .heartButtonContainer {
@@ -545,6 +283,76 @@
 }
 
 /* ========================================================
+   MODALS DE CRÉATION
+   ======================================================== */
+.modalOverlay {
+  position: absolute; /* ou fixed si le chatContainer n'est pas toute la fenêtre */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Assure que le modal est au-dessus du reste */
+  animation: fadeInModal 0.3s ease-out;
+}
+
+.modalContent {
+  background-color: var(--bg-sidebar-color); /* Utilise la couleur de fond de l'app */
+  color: var(--text-primary-color);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  position: relative; /* Pour le bouton de fermeture */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modalContent h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: var(--color-accent-blue-global);
+}
+
+.modalContent p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.closeModalButton {
+  background: none;
+  border: none;
+  color: var(--text-secondary-color);
+  cursor: pointer;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.closeModalButton:hover {
+  background-color: var(--hover-bg-color);
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ========================================================
    RESPONSIVE (MEDIA QUERIES)
    ======================================================== */
 
@@ -562,5 +370,19 @@
 
   .pageHeader { padding: 0.5rem 1rem; }
   .messagesArea { padding: 1rem; }
-  .pageFooter { padding: 0.5rem 1rem; }
+  .pageFooter { 
+    padding: 0.5rem 1rem; 
+    flex-direction: column; /* Assure que les actions et l'input se superposent bien */
+  }
+
+  .footerActionsLeft {
+    width: 100%;
+    justify-content: center; /* Centre les boutons sur mobile */
+    margin-bottom: 1rem; /* Plus d'espace sous les boutons */
+  }
+
+  .inputAndActions {
+    flex-wrap: wrap; /* Permet à l'input et au bouton d'envoi de s'adapter */
+    justify-content: center;
+  }
 }

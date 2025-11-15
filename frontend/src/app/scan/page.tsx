@@ -5,7 +5,8 @@ import styles from './scan.module.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-import { FaPlus, FaHeart } from "react-icons/fa";
+// --- NOUVEAUX IMPORTS D'ICÔNES ---
+import { FaPlus, FaHeart, FaImage, FaVideo, FaMusic, FaUserCircle, FaTimes } from "react-icons/fa";
 import { VscArrowUp } from "react-icons/vsc";
 
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -140,6 +141,14 @@ const allTranslations = {
       cy: 'Pecynnau Milwrol',
       'en-AU': 'Military Packages', 'en-NZ': 'Military Packages', 'en-CA': 'Military Packages', 'fr-CA': 'Paquetages Militaires', 'en-ZA': 'Militêre Pakkette', af: 'Militêre Pakkette',
     },
+    // --- NOUVELLES TRADUCTIONS POUR LES LABELS DES MODALS ---
+    modals: {
+      mata: { en: 'MĀTA (Image)', fr: 'MĀTA (Image)', mi: 'MĀTA (Whakaahua)', ga: 'MĀTA (Íomhá)' },
+      korero: { en: 'KŌRERO (Video)', fr: 'KŌRERO (Vidéo)', mi: 'KŌRERO (Ataata)', ga: 'KŌRERO (Físeán)' },
+      waiata: { en: 'WAIATA (Music)', fr: 'WAIATA (Musique)', mi: 'WAIATA (Waiata)', ga: 'WAIATA (Ceol)' },
+      tuahu: { en: 'TŪĀHU (Avatar)', fr: 'TŪĀHU (Avatar)', mi: 'TŪĀHU (Whakaahua)', ga: 'TŪĀHU (Avatar)' },
+      close: { en: 'Close', fr: 'Fermer', mi: 'Katua', ga: 'Dún' },
+    },
   },
 };
 
@@ -191,6 +200,13 @@ const ChatInterface: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isAmbianceMuted, setIsAmbianceMuted] = useState(true);
+
+  // --- NOUVEAUX STATES POUR LA GESTION DES MODALS DE CRÉATION ---
+  const [showMataModal, setShowMataModal] = useState(false);
+  const [showKoreroModal, setShowKoreroModal] = useState(false);
+  const [showWaiataModal, setShowWaiataModal] = useState(false);
+  const [showTuahuModal, setShowTuahuModal] = useState(false);
+
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const muteButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -253,8 +269,12 @@ const ChatInterface: React.FC = () => {
 
   // Auto scroll chat to bottom on new messages or loading state
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+    // --- SCROLL UNIQUEMENT SI AUCUN MODAL N'EST OUVERT ---
+    if (!showMataModal && !showKoreroModal && !showWaiataModal && !showTuahuModal) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, isLoading, showMataModal, showKoreroModal, showWaiataModal, showTuahuModal]);
+
 
   // Utility to play sounds safely
   const playSound = (sound?: HTMLAudioElement) => {
@@ -383,12 +403,14 @@ const ChatInterface: React.FC = () => {
     return <img src={src} alt={role === 'user' ? 'User avatar' : `${currentAgent.name} avatar`} className={styles.avatarImage} />;
   };
 
-  // Styles based on theme
-  const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff';
+// Styles based on theme
+// const backgroundColor = theme === 'dark' ? '#1f2937' : '#ffffff'; // Plus nécessaire pour le background du container
   const textColor = theme === 'dark' ? '#E0E0E0' : 'black';
 
   return (
-    <div className={styles.chatContainer} style={{ background: backgroundColor, color: textColor }}>
+    // MODIFICATION CLÉ : Supprimez 'background: backgroundColor' du style inline.
+    // La couleur de fond sera désormais gérée par la règle .chatContainer de scan.module.css
+    <div className={styles.chatContainer} style={{ color: textColor }}>
       <header className={styles.pageHeader}>
         <div className={styles.headerLeft}>
           <span>{getTranslation('header', 'missionStatement', language)}</span>
@@ -406,6 +428,7 @@ const ChatInterface: React.FC = () => {
         </div>
       </header>
 
+      {/* ZONE DES MESSAGES (Toujours visible) */}
       <div className={styles.messagesArea} role="log" aria-live="polite" aria-relevant="additions">
         {messages.map((msg, idx) => (
           <div key={idx} className={msg.role === 'user' ? styles.userMessage : styles.assistantMessage}>
@@ -424,6 +447,7 @@ const ChatInterface: React.FC = () => {
         <div ref={messagesEndRef} />
       </div>
 
+      {/* FOOTER DU CHAT AVEC LES NOUVEAUX BOUTONS DE CRÉATION */}
       <footer className={styles.pageFooter}>
         <div className={styles.footerActionsLeft}>
           <button className={styles.iconButton} onClick={handleHeartClick} aria-label={getTranslation('chat', 'militaryPackages', language)}>
@@ -435,6 +459,20 @@ const ChatInterface: React.FC = () => {
               <FaPlus />
             </button>
           </Link>
+
+          {/* --- NOUVEAUX BOUTONS DE CRÉATION --- */}
+          <button className={styles.iconButton} onClick={() => { playSound(sounds.current.click); setShowMataModal(true); }} aria-label={getTranslation('chat', 'modals.mata', language)} title={getTranslation('chat', 'modals.mata', language)}>
+            <FaImage />
+          </button>
+          <button className={styles.iconButton} onClick={() => { playSound(sounds.current.click); setShowKoreroModal(true); }} aria-label={getTranslation('chat', 'modals.korero', language)} title={getTranslation('chat', 'modals.korero', language)}>
+            <FaVideo />
+          </button>
+          <button className={styles.iconButton} onClick={() => { playSound(sounds.current.click); setShowWaiataModal(true); }} aria-label={getTranslation('chat', 'modals.waiata', language)} title={getTranslation('chat', 'modals.waiata', language)}>
+            <FaMusic />
+          </button>
+          <button className={styles.iconButton} onClick={() => { playSound(sounds.current.click); setShowTuahuModal(true); }} aria-label={getTranslation('chat', 'modals.tuahu', language)} title={getTranslation('chat', 'modals.tuahu', language)}>
+            <FaUserCircle />
+          </button>
         </div>
 
         <div className={styles.inputWrapper}>
@@ -450,13 +488,13 @@ const ChatInterface: React.FC = () => {
               color: theme === 'dark' ? '#E0E0E0' : 'black',
               borderColor: theme === 'dark' ? '#444444' : '#CCCCCC',
             }}
-            disabled={isLoading}
+            disabled={isLoading || showMataModal || showKoreroModal || showWaiataModal || showTuahuModal} // Désactiver l'input si un modal est ouvert
             autoComplete="off"
           />
           <button
             className={styles.sendButton}
             onClick={handleSendMessage}
-            disabled={isLoading || !inputValue.trim()}
+            disabled={isLoading || !inputValue.trim() || showMataModal || showKoreroModal || showWaiataModal || showTuahuModal} // Désactiver l'envoi si un modal est ouvert
             aria-label="Send message"
             title="Send message"
             type="button"
@@ -465,6 +503,44 @@ const ChatInterface: React.FC = () => {
           </button>
         </div>
       </footer>
+
+      {/* --- MODALS DE CRÉATION (S'AFFICHERONT PAR-DESSUS LE CHAT) --- */}
+      {showMataModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>{getTranslation('chat', 'modals.mata', language)}</h3>
+            <p>Interface de génération d'images ici, bientôt connectée à Imagen.</p>
+            <button className={styles.closeModalButton} onClick={() => setShowMataModal(false)}><FaTimes /> {getTranslation('chat', 'modals.close', language)}</button>
+          </div>
+        </div>
+      )}
+      {showKoreroModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>{getTranslation('chat', 'modals.korero', language)}</h3>
+            <p>Interface de génération vidéo ici, bientôt connectée à Veo 3.</p>
+            <button className={styles.closeModalButton} onClick={() => setShowKoreroModal(false)}><FaTimes /> {getTranslation('chat', 'modals.close', language)}</button>
+          </div>
+        </div>
+      )}
+      {showWaiataModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>{getTranslation('chat', 'modals.waiata', language)}</h3>
+            <p>Interface de génération musicale ici, bientôt connectée à ElevenLabs Music.</p>
+            <button className={styles.closeModalButton} onClick={() => setShowWaiataModal(false)}><FaTimes /> {getTranslation('chat', 'modals.close', language)}</button>
+          </div>
+        </div>
+      )}
+      {showTuahuModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>{getTranslation('chat', 'modals.tuahu', language)}</h3>
+            <p>Interface de construction d'Agent et d'Avatar ici, fusionnant Imagen et Veo 3.</p>
+            <button className={styles.closeModalButton} onClick={() => setShowTuahuModal(false)}><FaTimes /> {getTranslation('chat', 'modals.close', language)}</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

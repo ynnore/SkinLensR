@@ -1,57 +1,3 @@
-:root {
-  /* Variables de mise en page */
-  --sidebar-width-open: 260px; /* Largeur de la sidebar quand ouverte */
-  --sidebar-width-closed: 60px; /* Largeur de la sidebar quand fermée (seulement les icônes) */
-  --transition-speed: 0.3s;
-
-  /* --- Définitions de couleurs pour le thème Clair --- */
-  --clr-light-bg-sidebar: #ffffff;
-  --clr-light-bg-main: #f9fafb;
-  --clr-light-text-primary: #111827;
-  --clr-light-text-secondary: #6b7280;
-  --clr-light-border: #e5e7eb;
-  --clr-light-hover-bg: #f3f4f6;
-
-  /* --- Définitions de couleurs pour le thème Sombre --- */
-  --clr-dark-bg-sidebar: #1f2937;
-  --clr-dark-bg-main:#1f2937;
-  --clr-dark-text-primary: #f9fafb;
-  --clr-dark-text-secondary: #9ca3af;
-  --clr-dark-border: #374151;
-  --clr-dark-hover-bg: #374151;
-}
-
-/* ========================================================
-   APPLICATION DES THÈMES
-   ======================================================== */
-
-/* Par défaut, ou quand la classe .light est présente sur <html> */
-html, html.light {
-  --bg-sidebar: var(--clr-light-bg-sidebar);
-  --bg-main: var(--clr-light-bg-main);
-  --text-primary: var(--clr-light-text-primary);
-  --text-secondary: var(--clr-light-text-secondary);
-  --border-color: var(--clr-light-border);
-  --hover-bg: var(--clr-light-hover-bg);
-  --icon-color: var(--clr-light-text-secondary);
-}
-
-/* Quand <html> a la classe .dark, on utilise les couleurs sombres */
-html.dark {
-  --bg-sidebar: var(--clr-dark-bg-sidebar);
-  --bg-main: var(--clr-dark-bg-main);
-  --text-primary: var(--clr-dark-text-primary);
-  --text-secondary: var(--clr-dark-text-secondary);
-  --border-color: var(--clr-dark-border);
-  --hover-bg: var(--clr-dark-hover-bg);
-  --icon-color: var(--clr-dark-text-secondary);
-}
-
-/* ========================================================
-   STYLES DE BASE GLOBAUX
-   ======================================================== */
-
-      
 /* Fichier : src/app/globals.css */
 
 /* Styles globaux de base pour le corps de la page */
@@ -65,49 +11,68 @@ body {
   overflow-x: hidden; /* Empêche le défilement horizontal indésirable */
 }
 
-/* Les variables par défaut (thème clair) sont définies sur :root */
-:root {
-  --page-bg: #ffffff; /* Couleur de fond de la page en thème clair */
-  --sidebar-bg: #f8f9fa; /* Light grey */
-  --text-color: #212529; /* Dark text */
-  --icon-color: #495057;
-  --nav-link-color: #495057;
-  --nav-link-hover-color: #212529;
-  --active-link-color: #212529;
-  --hover-bg: rgba(0, 0, 0, 0.05);
-  --active-link-bg: rgba(0, 0, 0, 0.1);
-  --primary-color: #ff0000; /* Blue */
-  --primary-dark-color: #b30000;
-  --border-color: rgba(0, 0, 0, 0.1);
-  --dropdown-bg: #ffffff;
+/* ========================================================
+   VARIABLES GLOBALES ET THÈMES CONSOLIDÉS
+   ======================================================== */
 
-  /* Variables pour la sidebar (neutres ou par défaut) */
-  --sidebar-width-open: 250px;
-  --sidebar-width-closed: 80px;
+/* Définitions par défaut (Thème Clair) pour tous les éléments */
+/* Ces variables sont utilisées par défaut, ou si html n'a pas la classe 'dark' */
+:root {
+  /* Variables de mise en page */
+  --sidebar-width-open: 260px;
+  --sidebar-width-closed: 60px;
   --transition-speed: 0.3s;
+
+  /* Couleurs pour le Thème Clair */
+  --bg-page: #ffffff;             /* Fond général de la page */
+  --bg-sidebar: #ffffff;          /* Fond de la sidebar et du chat en mode clair */
+  --bg-main: #f9fafb;             /* Fond du contenu principal (si différent) */
+  --text-primary: #111827;         /* Texte principal */
+  --text-secondary: #6b7280;       /* Texte secondaire */
+  --border-color-global: #e5e7eb;  /* Couleur des bordures */
+  --hover-bg: #f3f4f6;             /* Couleur de fond au survol */
+  --icon-color: #6b7280;          /* Couleur des icônes */
+  --nav-link-color: #495057;      /* Couleur des liens de navigation */
+  --nav-link-hover-color: #212529;/* Couleur des liens de nav au survol */
+  --active-link-color: #212529;   /* Couleur du lien actif */
+  --active-link-bg: rgba(0, 0, 0, 0.1); /* Fond du lien actif */
+  --primary-color: #ff0000;       /* Couleur primaire */
+  --primary-dark-color: #b30000;  /* Couleur primaire foncée */
+  --dropdown-bg: #ffffff;         /* Fond des menus déroulants */
+
+  /* Couleurs spécifiques utilisées dans scan.module.css */
+  --color-accent-blue-global: #3a7afe; /* Pour les messages utilisateur par exemple */
+  --color-background-secondary-global: #f3f4f6; /* Pour les messages assistant en mode clair */
 }
 
-/* Le thème sombre est appliqué via la classe 'dark' sur l'élément HTML */
+/* Thème Sombre : Appliqué quand <html> a la classe 'dark' */
 html.dark {
-  --page-bg: #1a1a2e; /* Couleur de fond de la page en thème sombre */
-  --sidebar-bg: #1a1a2e; /* Dark blue/grey */
-  --text-color: #ecf0f1; /* Light grey */
-  --icon-color: #bdc3c7; /* Medium grey */
+  /* Couleurs pour le Thème Sombre */
+  --bg-page: #1a1a2e;             /* Fond général de la page en mode sombre */
+  --bg-sidebar: #1a1a2e;          /* <-- COULEUR CIBLE POUR SIDEBAR ET CHAT */
+  --bg-main: #1f2937;             /* Fond du contenu principal (si différent du chat) */
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --border-color-global: #374151;
+  --hover-bg: #374151;
+  --icon-color: #9ca3af;
   --nav-link-color: #bdc3c7;
   --nav-link-hover-color: #ecf0f1;
   --active-link-color: #ecf0f1;
-  --hover-bg: rgba(255, 255, 255, 0.1);
   --active-link-bg: rgba(255, 255, 255, 0.2);
-  --primary-color: hsl(0, 94%, 52%); /* Blue */
-  --primary-dark-color: #b92929; /* Darker blue */
-  --border-color: rgba(255, 255, 255, 0.1);
-  --dropdown-bg: #34495e; /* Darker grey than sidebar */
+  --primary-color: hsl(0, 94%, 52%);
+  --primary-dark-color: #b92929;
+  --dropdown-bg: #34495e;
+
+  /* Couleurs spécifiques utilisées dans scan.module.css (mode sombre) */
+  --color-accent-blue-global: #3a7afe; /* Les bleus restent souvent les mêmes */
+  --color-background-secondary-global: #2A3447; /* Pour les messages assistant en mode sombre */
 }
 
 /* Le corps prend les couleurs de page appropriées */
 body {
-  background-color: var(--page-bg);
-  color: var(--text-color);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -126,14 +91,9 @@ button {
   color: inherit;
 }
 
-  /* Variables globales */
-:root {
-  --sidebar-width-open: 260px;
-  --sidebar-width-closed: 60px; /* ou 0px si tu veux sidebar cachée */
-  --transition-speed: 0.3s;
-}
-
-/* === CONTENU PRINCIPAL (desktop) === */
+/* ========================================================
+   CONTENU PRINCIPAL ET SIDEBAR LAYOUT (si utilisé)
+   ======================================================== */
 .mainContent {
   margin-left: var(--sidebar-width-open);
   width: calc(100% - var(--sidebar-width-open));
@@ -141,32 +101,22 @@ button {
   transition: margin-left var(--transition-speed) ease, width var(--transition-speed) ease;
 }
 
-/* Sidebar fermée : adapte la largeur du contenu principal */
 .mainContent.sidebarClosed {
   margin-left: var(--sidebar-width-closed);
   width: calc(100% - var(--sidebar-width-closed));
 }
 
-/* === MOBILE : toujours plein écran === */
 @media (max-width: 768px) {
   .mainContent {
     margin-left: 0;
     width: 100%;
-    padding: 10px; /* modifie à ta convenance */
+    padding: 10px;
   }
 }
 
-/* SIDEBAR ESCAMOTÉE */
-.sidebar.closed {
-  transform: translateX(-100%);
-  width: 0;
-  padding: 0;
-  overflow: hidden;
+/* Assurez-vous que votre composant sidebar utilise bien `var(--bg-sidebar)` */
+.sidebar { /* Si vous avez une classe .sidebar pour votre sidebar */
+  background-color: var(--bg-sidebar); 
+  color: var(--text-primary);
+  /* autres styles de sidebar */
 }
-
-/* Si tu utilises CSS pur, sépare la règle imbriquée comme ça : */
-.mainContent.sidebarClosed {
-  margin-left: var(--sidebar-width-closed);
-  width: calc(100% - var(--sidebar-width-closed));
-}
-  
